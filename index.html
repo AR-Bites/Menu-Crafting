@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Menu Builder</title>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .rtl {
+            direction: rtl;
+            font-family: 'Noto Sans Arabic', sans-serif;
+        }
+        
+        .template-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .template-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .menu-item {
+            transition: all 0.2s ease;
+        }
+        
+        .menu-item:hover {
+            background-color: #f8fafc;
+            transform: scale(1.02);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+        
+        .btn-secondary:hover {
+            background: #f9fafb;
+            border-color: #9ca3af;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.2s ease;
+        }
+        
+        .input-field:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .color-scheme-indigo { --primary: #667eea; --secondary: #764ba2; }
+        .color-scheme-emerald { --primary: #10b981; --secondary: #059669; }
+        .color-scheme-amber { --primary: #f59e0b; --secondary: #d97706; }
+        .color-scheme-rose { --primary: #f43f5e; --secondary: #e11d48; }
+        
+        model-viewer {
+            width: 100%;
+            height: 200px;
+            background-color: #f3f4f6;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // Translations
+        const translations = {
+            en: {
+                title: "Restaurant Menu Builder",
+                subtitle: "Create beautiful, multilingual digital menus",
+                selectTemplate: "Select Template",
+                modern: "Modern",
+                elegant: "Elegant",
+                casual: "Casual",
+                premium: "Premium",
+                modernDesc: "Clean and contemporary design",
+                elegantDesc: "Sophisticated fine dining style",
+                casualDesc: "Friendly family restaurant design",
+                premiumDesc: "Luxurious premium experience",
+                useTemplate: "Use Template",
+                menuEditor: "Menu Editor",
+                addSection: "Add Section",
+                addItem: "Add Item",
+                editItem: "Edit Item",
+                itemName: "Item Name",
+                itemNameAr: "Item Name (Arabic)",
+                description: "Description",
+                descriptionAr: "Description (Arabic)",
+                price: "Price",
+                image: "Image",
+                model3d: "3D Model",
+                spicy: "Spicy",
+                vegetarian: "Vegetarian",
+                save: "Save",
+                cancel: "Cancel",
+                preview: "Preview",
+                publish: "Publish",
+                share: "Share",
+                qrCode: "QR Code",
+                desktop: "Desktop",
+                mobile: "Mobile",
+                restaurantName: "Restaurant Name",
+                tagline: "Tagline",
+                sections: "Sections",
+                noSections: "No sections added yet",
+                uploadImage: "Upload Image",
+                upload3d: "Upload 3D Model",
+                colorScheme: "Color Scheme",
+                fontFamily: "Font Family",
+                spacing: "Spacing",
+                published: "Menu Published!",
+                shareLink: "Share this link with your customers:",
+                copyLink: "Copy Link",
+                linkCopied: "Link copied!",
+                sectionName: "Section Name",
+                sectionNameAr: "Section Name (Arabic)",
+                sectionDesc: "Section Description",
+                sectionDescAr: "Section Description (Arabic)",
+            },
+            ar: {
+                title: "منشئ قوائم المطاعم",
+                subtitle: "إنشاء قوائم رقمية جميلة ومتعددة اللغات",
+                selectTemplate: "اختر القالب",
+                modern: "عصري",
+                elegant: "أنيق",
+                casual: "عادي",
+                premium: "فاخر",
+                modernDesc: "تصميم نظيف ومعاصر",
+                elegantDesc: "أسلوب راقي للمطاعم الفاخرة",
+                casualDesc: "تصميم ودود للمطاعم العائلية",
+                premiumDesc: "تجربة فاخرة ومميزة",
+                useTemplate: "استخدم القالب",
+                menuEditor: "محرر القائمة",
+                addSection: "إضافة قسم",
+                addItem: "إضافة عنصر",
+                editItem: "تعديل العنصر",
+                itemName: "اسم العنصر",
+                itemNameAr: "اسم العنصر (عربي)",
+                description: "الوصف",
+                descriptionAr: "الوصف (عربي)",
+                price: "السعر",
+                image: "الصورة",
+                model3d: "نموذج ثلاثي الأبعاد",
+                spicy: "حار",
+                vegetarian: "نباتي",
+                save: "حفظ",
+                cancel: "إلغاء",
+                preview: "معاينة",
+                publish: "نشر",
+                share: "مشاركة",
+                qrCode: "رمز الاستجابة السريعة",
+                desktop: "سطح المكتب",
+                mobile: "جوال",
+                restaurantName: "اسم المطعم",
+                tagline: "شعار المطعم",
+                sections: "الأقسام",
+                noSections: "لم يتم إضافة أقسام بعد",
+                uploadImage: "تحميل صورة",
+                upload3d: "تحميل نموذج ثلاثي الأبعاد",
+                colorScheme: "نظام الألوان",
+                fontFamily: "نوع الخط",
+                spacing: "التباعد",
+                published: "تم نشر القائمة!",
+                shareLink: "شارك هذا الرابط مع عملائك:",
+                copyLink: "نسخ الرابط",
+                linkCopied: "تم نسخ الرابط!",
+                sectionName: "اسم القسم",
+                sectionNameAr: "اسم القسم (عربي)",
+                sectionDesc: "وصف القسم",
+                sectionDescAr: "وصف القسم (عربي)",
+            }
+        };
+
+        // Context for language
+        const LanguageContext = React.createContext();
+
+        function LanguageProvider({ children }) {
+            const [language, setLanguage] = useState('en');
+            const isRTL = language === 'ar';
+            
+            const t = (key) => {
+                return translations[language][key] || key;
+            };
+            
+            const toggleLanguage = () => {
+                setLanguage(prev => prev === 'en' ? 'ar' : 'en');
+            };
+            
+            return React.createElement(LanguageContext.Provider, {
+                value: { language, isRTL, t, toggleLanguage }
+            }, children);
+        }
+
+        function useLanguage() {
+            return React.useContext(LanguageContext);
+        }
+
+        // Templates
+        const templates = [
+            {
+                id: 'modern',
+                name: 'Modern',
+                description: 'Clean and contemporary design',
+                colorScheme: 'indigo',
+                fontFamily: 'inter',
+                category: 'modern'
+            },
+            {
+                id: 'elegant',
+                name: 'Elegant',
+                description: 'Sophisticated fine dining style',
+                colorScheme: 'rose',
+                fontFamily: 'serif',
+                category: 'elegant'
+            },
+            {
+                id: 'casual',
+                name: 'Casual',
+                description: 'Friendly family restaurant design',
+                colorScheme: 'emerald',
+                fontFamily: 'sans',
+                category: 'casual'
+            },
+            {
+                id: 'premium',
+                name: 'Premium',
+                description: 'Luxurious premium experience',
+                colorScheme: 'amber',
+                fontFamily: 'serif',
+                category: 'premium'
+            }
+        ];
+
+        // File Upload Component
+        function FileUpload({ accept, onUpload, currentFile, label, type }) {
+            const fileInputRef = useRef(null);
+            const [preview, setPreview] = useState(currentFile || null);
+
+            const handleFileSelect = (event) => {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const result = e.target.result;
+                    setPreview(result);
+                    onUpload(result);
+                };
+                reader.readAsDataURL(file);
+            };
+
+            const renderPreview = () => {
+                if (!preview) return null;
+
+                if (type === '3d' && preview.includes('data:')) {
+                    return React.createElement('div', {
+                        className: 'mt-2 p-4 bg-gray-100 rounded text-center text-sm text-gray-600'
+                    }, '3D Model uploaded (Preview not available in demo)');
+                } else if (type === 'image' && preview.includes('data:')) {
+                    return React.createElement('img', {
+                        src: preview,
+                        alt: 'Preview',
+                        className: 'mt-2 w-full h-32 object-cover rounded border'
+                    });
+                }
+                return null;
+            };
+
+            return React.createElement('div', { className: 'space-y-2' }, [
+                React.createElement('label', { key: 'label', className: 'block text-sm font-medium' }, label),
+                React.createElement('div', { key: 'input-container', className: 'flex gap-2' }, [
+                    React.createElement('input', {
+                        key: 'input',
+                        ref: fileInputRef,
+                        type: 'file',
+                        accept: accept,
+                        onChange: handleFileSelect,
+                        className: 'hidden'
+                    }),
+                    React.createElement('button', {
+                        key: 'button',
+                        type: 'button',
+                        className: 'btn btn-secondary',
+                        onClick: () => fileInputRef.current?.click()
+                    }, 'Choose File'),
+                    preview && React.createElement('button', {
+                        key: 'remove',
+                        type: 'button',
+                        className: 'btn btn-secondary',
+                        onClick: () => {
+                            setPreview(null);
+                            onUpload('');
+                        }
+                    }, 'Remove')
+                ]),
+                renderPreview()
+            ]);
+        }
+
+        // Template Selection Component
+        function TemplateSelection({ onSelectTemplate }) {
+            const { t, isRTL } = useLanguage();
+
+            return React.createElement('div', {
+                className: `min-h-screen p-8 ${isRTL ? 'rtl' : ''}`,
+                dir: isRTL ? 'rtl' : 'ltr'
+            }, [
+                React.createElement('div', { key: 'header', className: 'text-center mb-12' }, [
+                    React.createElement('h1', {
+                        key: 'title',
+                        className: 'text-5xl font-bold text-white mb-4'
+                    }, t('title')),
+                    React.createElement('p', {
+                        key: 'subtitle',
+                        className: 'text-xl text-white opacity-90'
+                    }, t('subtitle'))
+                ]),
+                React.createElement('div', {
+                    key: 'templates',
+                    className: 'max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'
+                }, templates.map(template => 
+                    React.createElement('div', {
+                        key: template.id,
+                        className: 'template-card bg-white rounded-2xl p-6 shadow-xl'
+                    }, [
+                        React.createElement('div', {
+                            key: 'preview',
+                            className: `h-48 rounded-lg mb-4 bg-gradient-to-br ${
+                                template.colorScheme === 'indigo' ? 'from-indigo-400 to-purple-600' :
+                                template.colorScheme === 'emerald' ? 'from-emerald-400 to-teal-600' :
+                                template.colorScheme === 'amber' ? 'from-amber-400 to-orange-600' :
+                                'from-rose-400 to-pink-600'
+                            } flex items-center justify-center text-white font-bold text-lg`
+                        }, t(template.name.toLowerCase())),
+                        React.createElement('h3', {
+                            key: 'name',
+                            className: 'text-xl font-bold mb-2'
+                        }, t(template.name.toLowerCase())),
+                        React.createElement('p', {
+                            key: 'desc',
+                            className: 'text-gray-600 mb-4'
+                        }, t(template.name.toLowerCase() + 'Desc')),
+                        React.createElement('button', {
+                            key: 'button',
+                            className: 'btn btn-primary w-full',
+                            onClick: () => onSelectTemplate(template)
+                        }, t('useTemplate'))
+                    ])
+                ))
+            ]);
+        }
+
+        // Item Edit Modal
+        function ItemEditModal({ isOpen, onClose, onSave, item }) {
+            const { t, isRTL } = useLanguage();
+            const [formData, setFormData] = useState({
+                name: '',
+                nameAr: '',
+                description: '',
+                descriptionAr: '',
+                price: '',
+                image: '',
+                model3d: '',
+                isSpicy: false,
+                isVegetarian: false
+            });
+
+            useEffect(() => {
+                if (item) {
+                    setFormData(item);
+                } else {
+                    setFormData({
+                        name: '',
+                        nameAr: '',
+                        description: '',
+                        descriptionAr: '',
+                        price: '',
+                        image: '',
+                        model3d: '',
+                        isSpicy: false,
+                        isVegetarian: false
+                    });
+                }
+            }, [item, isOpen]);
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                onSave(formData);
+                onClose();
+            };
+
+            if (!isOpen) return null;
+
+            return React.createElement('div', { className: 'modal' },
+                React.createElement('div', {
+                    className: `modal-content ${isRTL ? 'rtl' : ''}`,
+                    dir: isRTL ? 'rtl' : 'ltr'
+                }, [
+                    React.createElement('h2', {
+                        key: 'title',
+                        className: 'text-xl font-bold mb-4'
+                    }, item ? t('editItem') : t('addItem')),
+                    React.createElement('form', {
+                        key: 'form',
+                        onSubmit: handleSubmit,
+                        className: 'space-y-4'
+                    }, [
+                        React.createElement('div', { key: 'name-row', className: 'grid grid-cols-2 gap-4' }, [
+                            React.createElement('div', { key: 'name' }, [
+                                React.createElement('label', {
+                                    key: 'label',
+                                    className: 'block text-sm font-medium mb-1'
+                                }, t('itemName')),
+                                React.createElement('input', {
+                                    key: 'input',
+                                    type: 'text',
+                                    className: 'input-field',
+                                    value: formData.name,
+                                    onChange: (e) => setFormData({...formData, name: e.target.value}),
+                                    required: true
+                                })
+                            ]),
+                            React.createElement('div', { key: 'nameAr' }, [
+                                React.createElement('label', {
+                                    key: 'label',
+                                    className: 'block text-sm font-medium mb-1'
+                                }, t('itemNameAr')),
+                                React.createElement('input', {
+                                    key: 'input',
+                                    type: 'text',
+                                    className: 'input-field',
+                                    value: formData.nameAr,
+                                    onChange: (e) => setFormData({...formData, nameAr: e.target.value}),
+                                    dir: 'rtl'
+                                })
+                            ])
+                        ]),
+                        React.createElement('div', { key: 'desc-row', className: 'grid grid-cols-2 gap-4' }, [
+                            React.createElement('div', { key: 'desc' }, [
+                                React.createElement('label', {
+                                    key: 'label',
+                                    className: 'block text-sm font-medium mb-1'
+                                }, t('description')),
+                                React.createElement('textarea', {
+                                    key: 'input',
+                                    className: 'input-field',
+                                    rows: 3,
+                                    value: formData.description,
+                                    onChange: (e) => setFormData({...formData, description: e.target.value})
+                                })
+                            ]),
+                            React.createElement('div', { key: 'descAr' }, [
+                                React.createElement('label', {
+                                    key: 'label',
+                                    className: 'block text-sm font-medium mb-1'
+                                }, t('descriptionAr')),
+                                React.createElement('textarea', {
+                                    key: 'input',
+                                    className: 'input-field',
+                                    rows: 3,
+                                    value: formData.descriptionAr,
+                                    onChange: (e) => setFormData({...formData, descriptionAr: e.target.value}),
+                                    dir: 'rtl'
+                                })
+                            ])
+                        ]),
+                        React.createElement('div', { key: 'price' }, [
+                            React.createElement('label', {
+                                key: 'label',
+                                className: 'block text-sm font-medium mb-1'
+                            }, t('price')),
+                            React.createElement('input', {
+                                key: 'input',
+                                type: 'number',
+                                step: '0.01',
+                                className: 'input-field',
+                                value: formData.price,
+                                onChange: (e) => setFormData({...formData, price: e.target.value}),
+                                required: true
+                            })
+                        ]),
+                        React.createElement(FileUpload, {
+                            key: 'image-upload',
+                            type: 'image',
+                            accept: 'image/*',
+                            label: t('image'),
+                            currentFile: formData.image,
+                            onUpload: (url) => setFormData({...formData, image: url})
+                        }),
+                        React.createElement(FileUpload, {
+                            key: '3d-upload',
+                            type: '3d',
+                            accept: '.glb,.gltf',
+                            label: t('model3d'),
+                            currentFile: formData.model3d,
+                            onUpload: (url) => setFormData({...formData, model3d: url})
+                        }),
+                        React.createElement('div', { key: 'checkboxes', className: 'flex gap-4' }, [
+                            React.createElement('label', { key: 'spicy', className: 'flex items-center' }, [
+                                React.createElement('input', {
+                                    key: 'input',
+                                    type: 'checkbox',
+                                    checked: formData.isSpicy,
+                                    onChange: (e) => setFormData({...formData, isSpicy: e.target.checked}),
+                                    className: 'mr-2'
+                                }),
+                                t('spicy')
+                            ]),
+                            React.createElement('label', { key: 'vegetarian', className: 'flex items-center' }, [
+                                React.createElement('input', {
+                                    key: 'input',
+                                    type: 'checkbox',
+                                    checked: formData.isVegetarian,
+                                    onChange: (e) => setFormData({...formData, isVegetarian: e.target.checked}),
+                                    className: 'mr-2'
+                                }),
+                                t('vegetarian')
+                            ])
+                        ]),
+                        React.createElement('div', { key: 'buttons', className: 'flex gap-2 pt-4' }, [
+                            React.createElement('button', {
+                                key: 'save',
+                                type: 'submit',
+                                className: 'btn btn-primary flex-1'
+                            }, t('save')),
+                            React.createElement('button', {
+                                key: 'cancel',
+                                type: 'button',
+                                className: 'btn btn-secondary flex-1',
+                                onClick: onClose
+                            }, t('cancel'))
+                        ])
+                    ])
+                ])
+            );
+        }
+
+        // Section Edit Modal
+        function SectionEditModal({ isOpen, onClose, onSave, section }) {
+            const { t, isRTL } = useLanguage();
+            const [formData, setFormData] = useState({
+                name: '',
+                nameAr: '',
+                description: '',
+                descriptionAr: ''
+            });
+
+            useEffect(() => {
+                if (section) {
+                    setFormData(section);
+                } else {
+                    setFormData({
+                        name: '',
+                        nameAr: '',
+                        description: '',
+                        descriptionAr: ''
+                    });
+                }
+            }, [section, isOpen]);
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                onSave(formData);
+                onClose();
+            };
+
+            if (!isOpen) return null;
+
+            return React.createElement('div', { className: 'modal' },
+                React.createElement('div', {
+                    className: `modal-content ${isRTL ? 'rtl' : ''}`,
+                    dir: isRTL ? 'rtl' : 'ltr'
+                }, [
+                    React.createElement('h2', {
+                        key: 'title',
+                        className: 'text-xl font-bold mb-4'
+                    }, section ? 'Edit Section' : t('addSection')),
+                    React.createElement('form', {
+                        key: 'form',
+                        onSubmit: handleSubmit,
+                        className: 'space-y-4'
+                    }, [
+                        React.createElement('div', { key: 'name-row', className: 'grid grid-cols-2 gap-4' }, [
+                            React.createElement('div', { key: 'name' }, [
+                                React.createElement('label', {
+                                    key: 'label',
+                                    className: 'block text-sm font-medium mb-1'
+                                }, t('sectionName')),
+                                React.createElement('input', {
+                                    key: 'input',
+                                    type: 'text',
+                                    className: 'input-field',
+                                    value: formData.name,
+                                    onChange: (e) => setFormData({...formData, name: e.target.value}),
+                                    required: true
+                                })
+                            ]),
+                            React.createElement('div', { key: 'nameAr' }, [
+                                React.createElement('label', {
+                                    key: 'label',
+                                    className: 'block text-sm font-medium mb-1'
+                                }, t('sectionNameAr')),
+                                React.createElement('input', {
+                                    key: 'input',
+                                    type: 'text',
+                                    className: 'input-field',
+                                    value: formData.nameAr,
+                                    onChange: (e) => setFormData({...formData, nameAr: e.target.value}),
+                                    dir: 'rtl'
+                                })
+                            ])
+                        ]),
+                        React.createElement('div', { key: 'desc-row', className: 'grid grid-cols-2 gap-4' }, [
+                            React.createElement('div', { key: 'desc' }, [
+                                React.createElement('label', {
+                                    key: 'label',
+                                    className: 'block text-sm font-medium mb-1'
+                                }, t('sectionDesc')),
+                                React.createElement('textarea', {
+                                    key: 'input',
+                                    className: 'input-field',
+                                    rows: 3,
+                                    value: formData.description,
+                                    onChange: (e) => setFormData({...formData, description: e.target.value})
+                                })
+                            ]),
+                            React.createElement('div', { key: 'descAr' }, [
+                                React.createElement('label', {
+                                    key: 'label',
+                                    className: 'block text-sm font-medium mb-1'
+                                }, t('sectionDescAr')),
+                                React.createElement('textarea', {
+                                    key: 'input',
+                                    className: 'input-field',
+                                    rows: 3,
+                                    value: formData.descriptionAr,
+                                    onChange: (e) => setFormData({...formData, descriptionAr: e.target.value}),
+                                    dir: 'rtl'
+                                })
+                            ])
+                        ]),
+                        React.createElement('div', { key: 'buttons', className: 'flex gap-2 pt-4' }, [
+                            React.createElement('button', {
+                                key: 'save',
+                                type: 'submit',
+                                className: 'btn btn-primary flex-1'
+                            }, t('save')),
+                            React.createElement('button', {
+                                key: 'cancel',
+                                type: 'button',
+                                className: 'btn btn-secondary flex-1',
+                                onClick: onClose
+                            }, t('cancel'))
+                        ])
+                    ])
+                ])
+            );
+        }
+
+        // Menu Preview Component
+        function MenuPreview({ menu, sections, isDesktop, language }) {
+            const { t } = useLanguage();
+            
+            const renderMenuItem = (item) => {
+                return React.createElement('div', {
+                    key: item.id,
+                    className: 'menu-item p-4 border-b border-gray-100 flex justify-between items-start'
+                }, [
+                    React.createElement('div', { key: 'content', className: 'flex-1' }, [
+                        React.createElement('div', { key: 'header', className: 'flex items-center gap-2 mb-2' }, [
+                            React.createElement('h4', {
+                                key: 'name',
+                                className: 'font-semibold text-gray-800'
+                            }, language === 'ar' && item.nameAr ? item.nameAr : item.name),
+                            item.isSpicy && React.createElement('span', {
+                                key: 'spicy',
+                                className: 'text-red-500 text-sm'
+                            }, '🌶️'),
+                            item.isVegetarian && React.createElement('span', {
+                                key: 'veg',
+                                className: 'text-green-500 text-sm'
+                            }, '🌱')
+                        ]),
+                        (language === 'ar' && item.descriptionAr || item.description) && React.createElement('p', {
+                            key: 'desc',
+                            className: 'text-gray-600 text-sm mb-2'
+                        }, language === 'ar' && item.descriptionAr ? item.descriptionAr : item.description),
+                        (item.image || item.model3d) && React.createElement('div', {
+                            key: 'media',
+                            className: 'mb-2'
+                        }, [
+                            item.model3d ? React.createElement('div', {
+                                key: '3d',
+                                className: 'text-sm text-blue-600 bg-blue-50 px-2 py-1 rounded'
+                            }, '🎮 3D Model Available') :
+                            item.image ? React.createElement('img', {
+                                key: 'img',
+                                src: item.image,
+                                alt: item.name,
+                                className: 'w-16 h-16 object-cover rounded'
+                            }) : null
+                        ])
+                    ]),
+                    React.createElement('div', {
+                        key: 'price',
+                        className: 'font-bold text-lg text-gray-800'
+                    }, `$${item.price}`)
+                ]);
+            };
+
+            return React.createElement('div', {
+                className: `${isDesktop ? 'max-w-4xl' : 'max-w-sm'} mx-auto bg-white rounded-lg shadow-lg overflow-hidden`,
+                style: { fontFamily: menu.fontFamily === 'serif' ? 'serif' : menu.fontFamily === 'sans' ? 'sans-serif' : 'Inter' }
+            }, [
+                React.createElement('div', {
+                    key: 'header',
+                    className: `p-6 text-white bg-gradient-to-r ${
+                        menu.colorScheme === 'indigo' ? 'from-indigo-500 to-purple-600' :
+                        menu.colorScheme === 'emerald' ? 'from-emerald-500 to-teal-600' :
+                        menu.colorScheme === 'amber' ? 'from-amber-500 to-orange-600' :
+                        'from-rose-500 to-pink-600'
+                    }`
+                }, [
+                    React.createElement('h1', {
+                        key: 'name',
+                        className: 'text-3xl font-bold mb-2'
+                    }, menu.restaurantName || t('restaurantName')),
+                    menu.tagline && React.createElement('p', {
+                        key: 'tagline',
+                        className: 'opacity-90'
+                    }, menu.tagline)
+                ]),
+                React.createElement('div', { key: 'content', className: 'p-6' },
+                    sections.length > 0 ? sections.map(section => 
+                        React.createElement('div', { key: section.id, className: 'mb-8' }, [
+                            React.createElement('h2', {
+                                key: 'title',
+                                className: 'text-2xl font-bold text-gray-800 mb-4 border-b-2 border-gray-200 pb-2'
+                            }, language === 'ar' && section.nameAr ? section.nameAr : section.name),
+                            section.description && React.createElement('p', {
+                                key: 'desc',
+                                className: 'text-gray-600 mb-4'
+                            }, language === 'ar' && section.descriptionAr ? section.descriptionAr : section.description),
+                            React.createElement('div', { key: 'items' },
+                                section.items.map(renderMenuItem)
+                            )
+                        ])
+                    ) : React.createElement('div', {
+                        key: 'empty',
+                        className: 'text-center text-gray-500 py-8'
+                    }, t('noSections'))
+                )
+            ]);
+        }
+
+        // Share Modal
+        function ShareModal({ isOpen, onClose, menu }) {
+            const { t, isRTL } = useLanguage();
+            const [qrCodeUrl, setQrCodeUrl] = useState('');
+            const [shareUrl] = useState(`https://menu.app/${menu.restaurantName?.toLowerCase().replace(/\s+/g, '-') || 'my-restaurant'}`);
+
+            useEffect(() => {
+                if (isOpen && typeof QRCode !== 'undefined') {
+                    QRCode.toDataURL(shareUrl)
+                        .then(url => setQrCodeUrl(url))
+                        .catch(err => console.error(err));
+                }
+            }, [isOpen, shareUrl]);
+
+            const copyToClipboard = () => {
+                navigator.clipboard.writeText(shareUrl);
+                alert(t('linkCopied'));
+            };
+
+            if (!isOpen) return null;
+
+            return React.createElement('div', { className: 'modal' },
+                React.createElement('div', {
+                    className: `modal-content text-center ${isRTL ? 'rtl' : ''}`,
+                    dir: isRTL ? 'rtl' : 'ltr'
+                }, [
+                    React.createElement('h2', {
+                        key: 'title',
+                        className: 'text-2xl font-bold mb-4 text-green-600'
+                    }, t('published')),
+                    React.createElement('p', {
+                        key: 'subtitle',
+                        className: 'mb-4'
+                    }, t('shareLink')),
+                    React.createElement('div', {
+                        key: 'url-container',
+                        className: 'bg-gray-100 p-3 rounded mb-4 flex gap-2'
+                    }, [
+                        React.createElement('input', {
+                            key: 'url',
+                            type: 'text',
+                            value: shareUrl,
+                            readOnly: true,
+                            className: 'flex-1 bg-transparent outline-none'
+                        }),
+                        React.createElement('button', {
+                            key: 'copy',
+                            className: 'btn btn-primary',
+                            onClick: copyToClipboard
+                        }, t('copyLink'))
+                    ]),
+                    qrCodeUrl && React.createElement('div', { key: 'qr', className: 'mb-4' }, [
+                        React.createElement('h3', {
+                            key: 'qr-title',
+                            className: 'font-semibold mb-2'
+                        }, t('qrCode')),
+                        React.createElement('img', {
+                            key: 'qr-img',
+                            src: qrCodeUrl,
+                            alt: 'QR Code',
+                            className: 'mx-auto w-48 h-48'
+                        })
+                    ]),
+                    React.createElement('button', {
+                        key: 'close',
+                        className: 'btn btn-secondary',
+                        onClick: onClose
+                    }, t('cancel'))
+                ])
+            );
+        }
+
+        // Menu Editor Component
+        function MenuEditor({ template, onBack }) {
+            const { t, isRTL, language } = useLanguage();
+            const [menu, setMenu] = useState({
+                restaurantName: '',
+                tagline: '',
+                colorScheme: template.colorScheme,
+                fontFamily: template.fontFamily
+            });
+            const [sections, setSections] = useState([]);
+            const [isDesktop, setIsDesktop] = useState(true);
+            const [editingItem, setEditingItem] = useState(null);
+            const [editingSection, setEditingSection] = useState(null);
+            const [showItemModal, setShowItemModal] = useState(false);
+            const [showSectionModal, setShowSectionModal] = useState(false);
+            const [showShareModal, setShowShareModal] = useState(false);
+            const [currentSectionId, setCurrentSectionId] = useState(null);
+
+            const addSection = (sectionData) => {
+                const newSection = {
+                    id: Date.now(),
+                    ...sectionData,
+                    items: []
+                };
+                setSections([...sections, newSection]);
+            };
+
+            const editSection = (sectionData) => {
+                setSections(sections.map(s => s.id === editingSection.id ? {...s, ...sectionData} : s));
+                setEditingSection(null);
+            };
+
+            const deleteSection = (sectionId) => {
+                setSections(sections.filter(s => s.id !== sectionId));
+            };
+
+            const addItem = (itemData) => {
+                const newItem = {
+                    id: Date.now(),
+                    ...itemData
+                };
+                setSections(sections.map(s => 
+                    s.id === currentSectionId 
+                        ? {...s, items: [...s.items, newItem]}
+                        : s
+                ));
+            };
+
+            const editItem = (itemData) => {
+                setSections(sections.map(s => ({
+                    ...s,
+                    items: s.items.map(i => i.id === editingItem.id ? {...i, ...itemData} : i)
+                })));
+                setEditingItem(null);
+            };
+
+            const deleteItem = (sectionId, itemId) => {
+                setSections(sections.map(s => 
+                    s.id === sectionId 
+                        ? {...s, items: s.items.filter(i => i.id !== itemId)}
+                        : s
+                ));
+            };
+
+            return React.createElement('div', {
+                className: `min-h-screen bg-gray-50 ${isRTL ? 'rtl' : ''}`,
+                dir: isRTL ? 'rtl' : 'ltr'
+            }, [
+                // Header
+                React.createElement('div', {
+                    key: 'header',
+                    className: 'bg-white shadow-sm border-b px-6 py-4'
+                }, [
+                    React.createElement('div', {
+                        key: 'header-content',
+                        className: 'flex items-center justify-between max-w-7xl mx-auto'
+                    }, [
+                        React.createElement('div', { key: 'left', className: 'flex items-center gap-4' }, [
+                            React.createElement('button', {
+                                key: 'back',
+                                className: 'btn btn-secondary',
+                                onClick: onBack
+                            }, '← Back'),
+                            React.createElement('h1', {
+                                key: 'title',
+                                className: 'text-2xl font-bold'
+                            }, t('menuEditor'))
+                        ]),
+                        React.createElement('div', { key: 'right', className: 'flex items-center gap-4' }, [
+                            React.createElement('div', { key: 'view-toggle', className: 'flex bg-gray-100 rounded-lg p-1' }, [
+                                React.createElement('button', {
+                                    key: 'desktop',
+                                    className: `px-3 py-1 rounded ${isDesktop ? 'bg-white shadow' : ''}`,
+                                    onClick: () => setIsDesktop(true)
+                                }, t('desktop')),
+                                React.createElement('button', {
+                                    key: 'mobile',
+                                    className: `px-3 py-1 rounded ${!isDesktop ? 'bg-white shadow' : ''}`,
+                                    onClick: () => setIsDesktop(false)
+                                }, t('mobile'))
+                            ]),
+                            React.createElement('button', {
+                                key: 'publish',
+                                className: 'btn btn-primary',
+                                onClick: () => setShowShareModal(true)
+                            }, t('publish'))
+                        ])
+                    ])
+                ]),
+
+                // Main Content
+                React.createElement('div', { key: 'main', className: 'flex max-w-7xl mx-auto' }, [
+                    // Sidebar
+                    React.createElement('div', {
+                        key: 'sidebar',
+                        className: 'w-80 bg-white shadow-lg border-r p-6 h-screen overflow-y-auto'
+                    }, [
+                        // Restaurant Info
+                        React.createElement('div', { key: 'restaurant-info', className: 'mb-6' }, [
+                            React.createElement('h2', {
+                                key: 'title',
+                                className: 'font-bold text-lg mb-4'
+                            }, 'Restaurant Info'),
+                            React.createElement('div', { key: 'fields', className: 'space-y-3' }, [
+                                React.createElement('div', { key: 'name' }, [
+                                    React.createElement('label', {
+                                        key: 'label',
+                                        className: 'block text-sm font-medium mb-1'
+                                    }, t('restaurantName')),
+                                    React.createElement('input', {
+                                        key: 'input',
+                                        type: 'text',
+                                        className: 'input-field',
+                                        value: menu.restaurantName,
+                                        onChange: (e) => setMenu({...menu, restaurantName: e.target.value})
+                                    })
+                                ]),
+                                React.createElement('div', { key: 'tagline' }, [
+                                    React.createElement('label', {
+                                        key: 'label',
+                                        className: 'block text-sm font-medium mb-1'
+                                    }, t('tagline')),
+                                    React.createElement('input', {
+                                        key: 'input',
+                                        type: 'text',
+                                        className: 'input-field',
+                                        value: menu.tagline,
+                                        onChange: (e) => setMenu({...menu, tagline: e.target.value})
+                                    })
+                                ])
+                            ])
+                        ]),
+
+                        // Design Settings
+                        React.createElement('div', { key: 'design', className: 'mb-6' }, [
+                            React.createElement('h2', {
+                                key: 'title',
+                                className: 'font-bold text-lg mb-4'
+                            }, 'Design'),
+                            React.createElement('div', { key: 'fields', className: 'space-y-3' }, [
+                                React.createElement('div', { key: 'color' }, [
+                                    React.createElement('label', {
+                                        key: 'label',
+                                        className: 'block text-sm font-medium mb-1'
+                                    }, t('colorScheme')),
+                                    React.createElement('select', {
+                                        key: 'select',
+                                        className: 'input-field',
+                                        value: menu.colorScheme,
+                                        onChange: (e) => setMenu({...menu, colorScheme: e.target.value})
+                                    }, [
+                                        React.createElement('option', { key: 'indigo', value: 'indigo' }, 'Indigo'),
+                                        React.createElement('option', { key: 'emerald', value: 'emerald' }, 'Emerald'),
+                                        React.createElement('option', { key: 'amber', value: 'amber' }, 'Amber'),
+                                        React.createElement('option', { key: 'rose', value: 'rose' }, 'Rose')
+                                    ])
+                                ]),
+                                React.createElement('div', { key: 'font' }, [
+                                    React.createElement('label', {
+                                        key: 'label',
+                                        className: 'block text-sm font-medium mb-1'
+                                    }, t('fontFamily')),
+                                    React.createElement('select', {
+                                        key: 'select',
+                                        className: 'input-field',
+                                        value: menu.fontFamily,
+                                        onChange: (e) => setMenu({...menu, fontFamily: e.target.value})
+                                    }, [
+                                        React.createElement('option', { key: 'inter', value: 'inter' }, 'Inter'),
+                                        React.createElement('option', { key: 'serif', value: 'serif' }, 'Serif'),
+                                        React.createElement('option', { key: 'sans', value: 'sans' }, 'Sans-serif')
+                                    ])
+                                ])
+                            ])
+                        ]),
+
+                        // Sections
+                        React.createElement('div', { key: 'sections' }, [
+                            React.createElement('div', {
+                                key: 'header',
+                                className: 'flex items-center justify-between mb-4'
+                            }, [
+                                React.createElement('h2', {
+                                    key: 'title',
+                                    className: 'font-bold text-lg'
+                                }, t('sections')),
+                                React.createElement('button', {
+                                    key: 'add',
+                                    className: 'btn btn-primary text-sm',
+                                    onClick: () => {
+                                        setEditingSection(null);
+                                        setShowSectionModal(true);
+                                    }
+                                }, t('addSection'))
+                            ]),
+                            React.createElement('div', { key: 'list', className: 'space-y-2' },
+                                sections.map(section => 
+                                    React.createElement('div', {
+                                        key: section.id,
+                                        className: 'border rounded-lg p-3 bg-gray-50'
+                                    }, [
+                                        React.createElement('div', {
+                                            key: 'header',
+                                            className: 'flex items-center justify-between mb-2'
+                                        }, [
+                                            React.createElement('h3', {
+                                                key: 'name',
+                                                className: 'font-medium'
+                                            }, section.name),
+                                            React.createElement('div', { key: 'actions', className: 'flex gap-1' }, [
+                                                React.createElement('button', {
+                                                    key: 'edit',
+                                                    className: 'text-blue-600 text-sm',
+                                                    onClick: () => {
+                                                        setEditingSection(section);
+                                                        setShowSectionModal(true);
+                                                    }
+                                                }, 'Edit'),
+                                                React.createElement('button', {
+                                                    key: 'delete',
+                                                    className: 'text-red-600 text-sm',
+                                                    onClick: () => deleteSection(section.id)
+                                                }, 'Delete')
+                                            ])
+                                        ]),
+                                        React.createElement('div', { key: 'items', className: 'space-y-1' }, [
+                                            ...section.items.map(item => 
+                                                React.createElement('div', {
+                                                    key: item.id,
+                                                    className: 'flex items-center justify-between text-sm bg-white p-2 rounded'
+                                                }, [
+                                                    React.createElement('span', { key: 'name' }, item.name),
+                                                    React.createElement('div', { key: 'actions', className: 'flex gap-1' }, [
+                                                        React.createElement('button', {
+                                                            key: 'edit',
+                                                            className: 'text-blue-600',
+                                                            onClick: () => {
+                                                                setEditingItem(item);
+                                                                setShowItemModal(true);
+                                                            }
+                                                        }, 'Edit'),
+                                                        React.createElement('button', {
+                                                            key: 'delete',
+                                                            className: 'text-red-600',
+                                                            onClick: () => deleteItem(section.id, item.id)
+                                                        }, 'Del')
+                                                    ])
+                                                ])
+                                            ),
+                                            React.createElement('button', {
+                                                key: 'add-item',
+                                                className: 'w-full text-left text-sm text-blue-600 p-2 hover:bg-white rounded',
+                                                onClick: () => {
+                                                    setCurrentSectionId(section.id);
+                                                    setEditingItem(null);
+                                                    setShowItemModal(true);
+                                                }
+                                            }, `+ ${t('addItem')}`)
+                                        ])
+                                    ])
+                                )
+                            )
+                        ])
+                    ]),
+
+                    // Preview Area
+                    React.createElement('div', {
+                        key: 'preview',
+                        className: 'flex-1 p-6 overflow-y-auto'
+                    }, [
+                        React.createElement(MenuPreview, {
+                            key: 'preview-component',
+                            menu: menu,
+                            sections: sections,
+                            isDesktop: isDesktop,
+                            language: language
+                        })
+                    ])
+                ]),
+
+                // Modals
+                React.createElement(ItemEditModal, {
+                    key: 'item-modal',
+                    isOpen: showItemModal,
+                    onClose: () => setShowItemModal(false),
+                    onSave: editingItem ? editItem : addItem,
+                    item: editingItem
+                }),
+                React.createElement(SectionEditModal, {
+                    key: 'section-modal',
+                    isOpen: showSectionModal,
+                    onClose: () => setShowSectionModal(false),
+                    onSave: editingSection ? editSection : addSection,
+                    section: editingSection
+                }),
+                React.createElement(ShareModal, {
+                    key: 'share-modal',
+                    isOpen: showShareModal,
+                    onClose: () => setShowShareModal(false),
+                    menu: menu
+                })
+            ]);
+        }
+
+        // Main App Component
+        function App() {
+            const { toggleLanguage, language, isRTL } = useLanguage();
+            const [currentStep, setCurrentStep] = useState('template');
+            const [selectedTemplate, setSelectedTemplate] = useState(null);
+
+            const handleSelectTemplate = (template) => {
+                setSelectedTemplate(template);
+                setCurrentStep('editor');
+            };
+
+            return React.createElement('div', { className: 'min-h-screen' }, [
+                // Language Toggle
+                React.createElement('div', {
+                    key: 'lang-toggle',
+                    className: 'fixed top-4 right-4 z-50'
+                }, [
+                    React.createElement('button', {
+                        key: 'toggle',
+                        className: 'btn btn-secondary',
+                        onClick: toggleLanguage
+                    }, language === 'en' ? 'العربية' : 'English')
+                ]),
+
+                // Main Content
+                React.createElement('div', { key: 'content' },
+                    currentStep === 'template' 
+                        ? React.createElement(TemplateSelection, {
+                            onSelectTemplate: handleSelectTemplate
+                        })
+                        : React.createElement(MenuEditor, {
+                            template: selectedTemplate,
+                            onBack: () => setCurrentStep('template')
+                        })
+                )
+            ]);
+        }
+
+        // Root App with Language Provider
+        function RootApp() {
+            return React.createElement(LanguageProvider, null,
+                React.createElement(App)
+            );
+        }
+
+        // Render the app
+        ReactDOM.render(React.createElement(RootApp), document.getElementById('root'));
+    </script>
+</body>
+</html>
