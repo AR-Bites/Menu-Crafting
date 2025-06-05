@@ -4131,7 +4131,13 @@
                         }, [
                             React.createElement('div', {
                                 key: 'view-toggle',
-                                className: 'view-toggle'
+                                style: {
+                                    display: 'flex',
+                                    gap: '8px',
+                                    background: 'rgba(255, 255, 255, 0.1)',
+                                    borderRadius: '12px',
+                                    padding: '4px'
+                                }
                             }, [
                                 ['desktop', '💻', 'Desktop'],
                                 ['tablet', '📱', 'Tablet'], 
@@ -4139,35 +4145,50 @@
                             ].map(([mode, icon, label]) => 
                                 React.createElement('button', {
                                     key: mode,
-                                    className: `view-toggle-btn ${viewMode === mode ? 'active' : ''}`,
                                     onClick: () => handleViewModeChange(mode),
                                     disabled: isViewSwitching,
                                     'aria-label': `Switch to ${label}`,
                                     'data-mode': mode,
                                     type: 'button',
                                     style: {
-                                        display: 'flex',
+                                        display: 'flex !important',
                                         alignItems: 'center',
-                                        gap: '8px',
-                                        minWidth: '120px',
-                                        justifyContent: 'center'
+                                        justifyContent: 'center',
+                                        gap: '6px',
+                                        padding: '10px 16px',
+                                        border: 'none',
+                                        borderRadius: '8px',
+                                        background: viewMode === mode ? 'white' : 'rgba(255, 255, 255, 0.1)',
+                                        color: viewMode === mode ? '#1e293b' : 'rgba(255, 255, 255, 0.9)',
+                                        cursor: 'pointer',
+                                        fontSize: '13px',
+                                        fontWeight: '600',
+                                        minWidth: '100px',
+                                        transition: 'all 0.2s ease',
+                                        opacity: isViewSwitching ? '0.6' : '1'
                                     }
                                 }, [
                                     React.createElement('span', { 
-                                        key: 'icon', 
-                                        className: 'view-icon',
+                                        key: 'icon',
                                         style: {
-                                            display: 'block',
-                                            fontSize: '18px'
+                                            display: 'inline-block !important',
+                                            fontSize: '16px',
+                                            lineHeight: '1',
+                                            opacity: '1 !important',
+                                            visibility: 'visible !important'
                                         }
                                     }, icon),
                                     React.createElement('span', { 
-                                        key: 'label', 
-                                        className: 'view-label',
+                                        key: 'label',
                                         style: {
-                                            display: 'block',
+                                            display: 'inline-block !important',
                                             fontWeight: '600',
-                                            fontSize: '14px'
+                                            fontSize: '13px',
+                                            lineHeight: '1',
+                                            opacity: '1 !important',
+                                            visibility: 'visible !important',
+                                            whiteSpace: 'nowrap',
+                                            color: 'inherit'
                                         }
                                     }, label)
                                 ])
