@@ -4025,14 +4025,14 @@
             const { t, isRTL, language } = useLanguage();
             const { addToast } = useToast();
             
-            // State management
+            // State management - Initialize with template settings
             const [menu, setMenu] = useState({
-                restaurantName: '',
-                tagline: '',
-                colorScheme: template.colorScheme,
-                fontFamily: template.fontFamily,
-                headerStyle: template.headerStyle,
-                spacing: template.spacing
+                restaurantName: template.name || '',
+                tagline: template.tagline || '',
+                colorScheme: template.colorScheme || 'indigo',
+                fontFamily: template.fontFamily || 'inter',
+                headerStyle: template.headerStyle || 'gradient',
+                spacing: template.spacing || 3
             });
             
             const [sections, setSections] = useState([]);
@@ -4056,13 +4056,28 @@
                 const savedMenu = storage.load('currentMenu');
                 const savedSections = storage.load('currentSections', []);
                 
-                if (savedMenu) {
+                // Only load saved data if no template is provided (existing menu)
+                if (savedMenu && !template.colorScheme) {
                     setMenu(prev => ({ ...prev, ...savedMenu }));
+                } else if (template.colorScheme) {
+                    // Force template settings when template is selected
+                    setMenu(prev => ({
+                        ...prev,
+                        colorScheme: template.colorScheme,
+                        fontFamily: template.fontFamily,
+                        headerStyle: template.headerStyle,
+                        spacing: template.spacing,
+                        restaurantName: template.name || prev.restaurantName,
+                        tagline: template.tagline || prev.tagline
+                    }));
                 }
-                if (savedSections.length > 0) {
+                
+                if (savedSections.length > 0 && !template.sections) {
                     setSections(savedSections);
+                } else if (template.sections) {
+                    setSections(template.sections);
                 }
-            }, []);
+            }, [template]);
 
             // Auto-save functionality
             useEffect(() => {
