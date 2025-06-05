@@ -7,16 +7,16 @@
     <meta name="description" content="Create stunning restaurant menus with drag-and-drop interface, 3D models, multilingual support, and QR code generation. Perfect for modern restaurants.">
     
     <!-- External Dependencies -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Arabic:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
-        
-        /* Tailwind CSS Reset and Utilities */
-        *,::before,::after{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::before,::after{--tw-content:''}html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,"Menlo","Monaco","Consolas","Liberation Mono","Courier New",monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,[type='button'],[type='reset'],[type='submit']{-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type='search']{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dl,dd,h1,h2,h3,h4,h5,h6,hr,figure,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}ol,ul,menu{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}button,[role="button"]{cursor:pointer}:disabled{cursor:default}img,svg,video,canvas,audio,iframe,embed,object{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]{display:none}
-        
-        /* Tailwind Utilities */
-        .absolute{position:absolute}.relative{position:relative}.fixed{position:fixed}.inset-0{top:0px;right:0px;bottom:0px;left:0px}.inset-2{top:0.5rem;right:0.5rem;bottom:0.5rem;left:0.5rem}.top-0{top:0px}.right-0{right:0px}.bottom-0{bottom:0px}.left-0{left:0px}.top-4{top:1rem}.right-4{right:1rem}.bottom-4{bottom:1rem}.left-4{left:1rem}.top-8{top:2rem}.right-8{right:2rem}.z-0{z-index:0}.z-10{z-index:10}.z-50{z-index:50}.block{display:block}.inline-block{display:inline-block}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.w-full{width:100%}.w-16{width:4rem}.w-64{width:16rem}.h-full{height:100%}.h-16{height:4rem}.h-64{height:16rem}.h-80{height:20rem}.h-px{height:1px}.min-h-screen{min-height:100vh}.max-w-md{max-width:28rem}.max-w-2xl{max-width:42rem}.max-w-4xl{max-width:56rem}.max-w-5xl{max-width:64rem}.max-w-7xl{max-width:80rem}.flex-1{flex:1 1 0%}.grow{flex-grow:1}.shrink-0{flex-shrink:0}.grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}.grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid-cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}.flex-col{flex-direction:column}.items-start{align-items:flex-start}.items-end{align-items:flex-end}.items-center{align-items:center}.items-baseline{align-items:baseline}.justify-start{justify-content:flex-start}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-2{gap:0.5rem}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.gap-8{gap:2rem}.space-y-2>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem*calc(1-var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem*var(--tw-space-y-reverse))}.space-y-3>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem*calc(1-var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem*var(--tw-space-y-reverse))}.space-y-4>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem*calc(1-var(--tw-space-y-reverse)));margin-bottom:calc(1rem*var(--tw-space-y-reverse))}.space-y-6>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.5rem*calc(1-var(--tw-space-y-reverse)));margin-bottom:calc(1.5rem*var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.overflow-x-hidden{overflow-x:hidden}.rounded{border-radius:0.25rem}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.rounded-2xl{border-radius:1rem}.rounded-full{border-radius:9999px}.border{border-width:1px}.border-2{border-width:2px}.border-t{border-top-width:1px}.border-b{border-bottom-width:1px}.border-dotted{border-style:dotted}.border-gray-200{--tw-border-opacity:1;border-color:rgb(229 231 235/var(--tw-border-opacity))}.border-gray-300{--tw-border-opacity:1;border-color:rgb(209 213 219/var(--tw-border-opacity))}.border-blue-200{--tw-border-opacity:1;border-color:rgb(191 219 254/var(--tw-border-opacity))}.border-red-500{--tw-border-opacity:1;border-color:rgb(239 68 68/var(--tw-border-opacity))}.border-amber-300{--tw-border-opacity:1;border-color:rgb(252 211 77/var(--tw-border-opacity))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255/var(--tw-bg-opacity))}.bg-gray-50{--tw-bg-opacity:1;background-color:rgb(249 250 251/var(--tw-bg-opacity))}.bg-gray-100{--tw-bg-opacity:1;background-color:rgb(243 244 246/var(--tw-bg-opacity))}.bg-gray-800{--tw-bg-opacity:1;background-color:rgb(31 41 55/var(--tw-bg-opacity))}.bg-blue-50{--tw-bg-opacity:1;background-color:rgb(239 246 255/var(--tw-bg-opacity))}.bg-red-500{--tw-bg-opacity:1;background-color:rgb(239 68 68/var(--tw-bg-opacity))}.bg-green-500{--tw-bg-opacity:1;background-color:rgb(34 197 94/var(--tw-bg-opacity))}.bg-blue-500{--tw-bg-opacity:1;background-color:rgb(59 130 246/var(--tw-bg-opacity))}.bg-opacity-10{--tw-bg-opacity:0.1}.bg-opacity-20{--tw-bg-opacity:0.2}.bg-opacity-50{--tw-bg-opacity:0.5}.bg-opacity-75{--tw-bg-opacity:0.75}.p-2{padding:0.5rem}.p-3{padding:0.75rem}.p-4{padding:1rem}.p-6{padding:1.5rem}.p-8{padding:2rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.px-8{padding-left:2rem;padding-right:2rem}.px-12{padding-left:3rem;padding-right:3rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.pt-2{padding-top:0.5rem}.pr-2{padding-right:0.5rem}.pb-1{padding-bottom:0.25rem}.pb-4{padding-bottom:1rem}.pl-2{padding-left:0.5rem}.m-0{margin:0}.mx-auto{margin-left:auto;margin-right:auto}.mx-2{margin-left:0.5rem;margin-right:0.5rem}.my-2{margin-top:0.5rem;margin-bottom:0.5rem}.mt-1{margin-top:0.25rem}.mt-2{margin-top:0.5rem}.mt-3{margin-top:0.75rem}.mt-4{margin-top:1rem}.mt-6{margin-top:1.5rem}.mt-8{margin-top:2rem}.mr-2{margin-right:0.5rem}.mb-1{margin-bottom:0.25rem}.mb-2{margin-bottom:0.5rem}.mb-3{margin-bottom:0.75rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.mb-12{margin-bottom:3rem}.mb-16{margin-bottom:4rem}.ml-2{margin-left:0.5rem}.text-left{text-align:left}.text-center{text-align:center}.text-right{text-align:right}.text-xs{font-size:0.75rem;line-height:1rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-base{font-size:1rem;line-height:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-5xl{font-size:3rem;line-height:1}.text-6xl{font-size:3.75rem;line-height:1}.text-7xl{font-size:4.5rem;line-height:1}.text-8xl{font-size:6rem;line-height:1}.font-light{font-weight:300}.font-normal{font-weight:400}.font-medium{font-weight:500}.font-semibold{font-weight:600}.font-bold{font-weight:700}.font-black{font-weight:900}.font-mono{font-family:ui-monospace,SFMono-Regular,"Menlo","Monaco","Consolas","Liberation Mono","Courier New",monospace}.italic{font-style:italic}.lowercase{text-transform:lowercase}.tracking-wide{letter-spacing:0.025em}.tracking-wider{letter-spacing:0.05em}.leading-tight{line-height:1.25}.leading-relaxed{line-height:1.625}.text-white{--tw-text-opacity:1;color:rgb(255 255 255/var(--tw-text-opacity))}.text-gray-400{--tw-text-opacity:1;color:rgb(156 163 175/var(--tw-text-opacity))}.text-gray-500{--tw-text-opacity:1;color:rgb(107 114 128/var(--tw-text-opacity))}.text-gray-600{--tw-text-opacity:1;color:rgb(75 85 99/var(--tw-text-opacity))}.text-gray-700{--tw-text-opacity:1;color:rgb(55 65 81/var(--tw-text-opacity))}.text-gray-800{--tw-text-opacity:1;color:rgb(31 41 55/var(--tw-text-opacity))}.text-red-500{--tw-text-opacity:1;color:rgb(239 68 68/var(--tw-text-opacity))}.opacity-80{opacity:0.8}.opacity-90{opacity:0.9}.shadow{--tw-shadow:0 1px 3px 0 rgb(0 0 0 / 0.1),0 1px 2px -1px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color),0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color),0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-xl{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color),0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.ring-4{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(4px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow,0 0 #0000)}.ring-white{--tw-ring-color:#fff}.ring-opacity-50{--tw-ring-opacity:0.5}.backdrop-filter{backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.backdrop-blur{--tw-backdrop-blur:blur(8px)}.backdrop-blur-sm{--tw-backdrop-blur:blur(4px)}.backdrop-blur-md{--tw-backdrop-blur:blur(12px)}.backdrop-blur-lg{--tw-backdrop-blur:blur(16px)}.backdrop-blur-xl{--tw-backdrop-blur:blur(24px)}.transition{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(0.4,0,0.2,1);transition-duration:150ms}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4,0,0.2,1);transition-duration:150ms}.duration-150{transition-duration:150ms}.duration-300{transition-duration:300ms}.ease-in-out{transition-timing-function:cubic-bezier(0.4,0,0.2,1)}.transform{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.scale-105{--tw-scale-x:1.05;--tw-scale-y:1.05;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.hover\:bg-gray-50:hover{--tw-bg-opacity:1;background-color:rgb(249 250 251/var(--tw-bg-opacity))}.hover\:bg-gray-600:hover{--tw-bg-opacity:1;background-color:rgb(75 85 99/var(--tw-bg-opacity))}.hover\:shadow-lg:hover{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color),0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.hover\:shadow-xl:hover{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color),0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.hover\:scale-105:hover{--tw-scale-x:1.05;--tw-scale-y:1.05;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow,0 0 #0000)}.focus\:ring-blue-500:focus{--tw-ring-color:#3b82f6}.disabled\:opacity-50:disabled{opacity:0.5}.disabled\:cursor-not-allowed:disabled{cursor:not-allowed}@media (min-width: 640px){.sm\:text-4xl{font-size:2.25rem;line-height:2.5rem}.sm\:text-5xl{font-size:3rem;line-height:1}}@media (min-width: 768px){.md\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.md\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.md\:text-3xl{font-size:1.875rem;line-height:2.25rem}.md\:text-5xl{font-size:3rem;line-height:1}.md\:text-6xl{font-size:3.75rem;line-height:1}.md\:text-7xl{font-size:4.5rem;line-height:1}}@media (min-width: 1024px){.lg\:grid-cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}.lg\:text-6xl{font-size:3.75rem;line-height:1}}@media (min-width: 1280px){.xl\:text-7xl{font-size:4.5rem;line-height:1}}
         
         * {
             margin: 0;
@@ -1787,21 +1787,21 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
             max-width: 1200px;
-            margin: 0 auto 4rem auto;
+            margin: 0 auto 4rem;
             padding: 0 2rem;
         }
 
         .feature-showcase-card {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.12);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 2rem;
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
             text-align: center;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            animation: slideUpSteps 0.8s ease-out forwards;
+            transform: translateY(30px);
             opacity: 0;
-            transform: translateY(50px);
+            animation: slideUpFeature 0.8s ease-out forwards;
         }
 
         .feature-showcase-card:nth-child(1) { animation-delay: 0.2s; }
@@ -1809,110 +1809,6 @@
         .feature-showcase-card:nth-child(3) { animation-delay: 0.6s; }
 
         .feature-showcase-card:hover {
-            transform: translateY(-10px) scale(1.05);
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .feature-icon-showcase {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
-        }
-
-        .feature-title-showcase {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 1rem;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .feature-desc-showcase {
-            color: rgba(255, 255, 255, 0.9);
-            line-height: 1.6;
-            font-size: 1rem;
-        }
-
-        @keyframes titlePulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-        }
-
-        @keyframes iconFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* Template Selection Enhanced Styles */
-        .template-selected {
-            transform: scale(1.05) !important;
-            box-shadow: 0 0 0 4px #00f5ff, 0 20px 40px rgba(0, 245, 255, 0.3) !important;
-            border: 2px solid #00f5ff !important;
-            position: relative;
-            z-index: 10;
-        }
-
-        .template-selected::after {
-            content: "✓ SELECTED";
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            background: #00f5ff;
-            color: #000;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            animation: selectedPulse 1s ease-in-out infinite;
-        }
-
-        @keyframes selectedPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        /* Input Field Fix - No Focus Loss */
-        .input-field {
-            transition: none !important;
-            outline: none !important;
-        }
-
-        .input-field:focus {
-            border-color: #3b82f6 !important;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
-        }
-
-        /* Device Toggle Enhanced */
-        .device-toggle {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            color: white;
-            font-size: 0.875rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .device-toggle:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .device-toggle.active {
-            background: #3b82f6;
-            border-color: #3b82f6;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-        }
-
-        .device-toggle-icon {
-            font-size: 1.25rem;
-        }
             transform: translateY(-10px) scale(1.03);
             background: rgba(255, 255, 255, 0.18);
             box-shadow: 0 25px 60px rgba(0,0,0,0.2);
@@ -2068,382 +1964,23 @@
     </style>
 </head>
 <body>
-    <!-- Language Toggle -->
-    <button class="language-toggle" id="languageToggle">
-        🇺🇸 English
-    </button>
+    <div id="root"></div>
 
-    <!-- Landing Screen -->
-    <div class="screen active" id="landingScreen">
-        <div class="container">
-            <div class="landing-hero">
-                <div class="hero-icon">🍽️</div>
-                <h1 class="hero-title" data-i18n="title">Restaurant Menu Builder</h1>
-                <p class="hero-subtitle" data-i18n="subtitle">Create stunning digital menus with drag-and-drop interface, 3D models, multilingual support, and QR code generation. Perfect for modern restaurants.</p>
-                
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <span class="feature-icon">🎨</span>
-                        <h3 class="feature-title" data-i18n="feature1Title">Beautiful Templates</h3>
-                        <p class="feature-description" data-i18n="feature1Desc">Choose from professionally designed templates that match your restaurant style perfectly</p>
-                    </div>
-                    <div class="feature-card">
-                        <span class="feature-icon">🌍</span>
-                        <h3 class="feature-title" data-i18n="feature2Title">Multilingual Support</h3>
-                        <p class="feature-description" data-i18n="feature2Desc">Full Arabic and English support with automatic RTL/LTR layout switching</p>
-                    </div>
-                    <div class="feature-card">
-                        <span class="feature-icon">📱</span>
-                        <h3 class="feature-title" data-i18n="feature3Title">Mobile Optimized</h3>
-                        <p class="feature-description" data-i18n="feature3Desc">Perfect experience on all devices with responsive design and QR code generation</p>
-                    </div>
-                </div>
-                
-                <button class="cta-button" id="startButton">
-                    <span data-i18n="getStarted">Start Crafting Your Menu</span>
-                    <span class="cta-arrow">→</span>
-                </button>
-            </div>
-        </div>
-    </div>
+    <script type="text/babel">
+        const { useState, useEffect, useRef, useCallback, useMemo } = React;
 
-    <!-- Template Selection Screen -->
-    <div class="screen" id="templateScreen">
-        <div class="container">
-            <div class="template-section">
-                <h2 class="section-title" data-i18n="selectTemplate">Choose Your Perfect Template</h2>
-                
-                <div class="device-toggles">
-                    <button class="device-toggle active" data-device="mobile">
-                        <span class="device-icon">📱</span>
-                        <span data-i18n="mobileView">Mobile View</span>
-                    </button>
-                    <button class="device-toggle" data-device="tablet">
-                        <span class="device-icon">💻</span>
-                        <span data-i18n="tabletView">Tablet View</span>
-                    </button>
-                    <button class="device-toggle" data-device="desktop">
-                        <span class="device-icon">🖥️</span>
-                        <span data-i18n="desktopView">Desktop View</span>
-                    </button>
-                </div>
-                
-                <div class="templates-grid" id="templatesGrid">
-                    <!-- Templates will be dynamically generated -->
-                </div>
-                
-                <div class="text-center">
-                    <button class="btn btn-secondary" id="backToLanding">
-                        <span data-i18n="back">← Back</span>
-                    </button>
-                    <button class="btn btn-primary hidden" id="useTemplateBtn">
-                        <span data-i18n="useTemplate">Use This Template →</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Menu Editor Screen -->
-    <div class="screen" id="editorScreen">
-        <div class="container">
-            <div class="template-section">
-                <h2 class="section-title" data-i18n="menuEditor">Menu Editor</h2>
-                <div class="success-message" id="successMessage">
-                    <span data-i18n="menuCreated">Your beautiful menu is ready! 🎉</span>
-                </div>
-                <div class="text-center">
-                    <button class="btn btn-secondary" id="backToTemplates">
-                        <span data-i18n="backToTemplates">← Choose Different Template</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Translations
+        // Comprehensive translations with more content
         const translations = {
             en: {
+                // Main navigation
                 title: "Restaurant Menu Builder",
-                subtitle: "Create stunning digital menus with drag-and-drop interface, 3D models, multilingual support, and QR code generation. Perfect for modern restaurants.",
-                feature1Title: "Beautiful Templates",
-                feature1Desc: "Choose from professionally designed templates that match your restaurant style perfectly",
-                feature2Title: "Multilingual Support", 
-                feature2Desc: "Full Arabic and English support with automatic RTL/LTR layout switching",
-                feature3Title: "Mobile Optimized",
-                feature3Desc: "Perfect experience on all devices with responsive design and QR code generation",
-                getStarted: "Start Crafting Your Menu",
-                selectTemplate: "Choose Your Perfect Template",
-                mobileView: "Mobile View",
-                tabletView: "Tablet View", 
-                desktopView: "Desktop View",
-                back: "← Back",
-                useTemplate: "Use This Template →",
-                menuEditor: "Menu Editor",
-                menuCreated: "Your beautiful menu is ready! 🎉",
-                backToTemplates: "← Choose Different Template",
-                darkNeon: "Dark Neon",
-                darkNeonDesc: "Futuristic dark theme with neon accents and cyber vibes",
-                elegantScript: "Elegant Script", 
-                elegantScriptDesc: "Sophisticated script fonts with gold accents and classic elegance",
-                imageGrid: "Image Grid",
-                imageGridDesc: "Photo-focused layout with bold typography and vibrant colors",
-                minimalZen: "Minimal Zen",
-                minimalZenDesc: "Clean and spacious design with mindful simplicity"
-            },
-            ar: {
-                title: "منشئ قوائم المطاعم",
-                subtitle: "إنشاء قوائم رقمية مذهلة مع واجهة السحب والإفلات، ونماذج ثلاثية الأبعاد، والدعم متعدد اللغات، وإنشاء رمز الاستجابة السريعة. مثالي للمطاعم الحديثة.",
-                feature1Title: "قوالب جميلة",
-                feature1Desc: "اختر من القوالب المصممة بشكل احترافي التي تتناسب مع أسلوب مطعمك بشكل مثالي",
-                feature2Title: "دعم متعدد اللغات",
-                feature2Desc: "دعم كامل للعربية والإنجليزية مع تبديل تخطيط RTL/LTR التلقائي",
-                feature3Title: "محسن للجوال",
-                feature3Desc: "تجربة مثالية على جميع الأجهزة مع التصميم المتجاوب وإنشاء رمز الاستجابة السريعة",
-                getStarted: "ابدأ في صياغة قائمتك",
-                selectTemplate: "اختر القالب المثالي",
-                mobileView: "عرض الجوال",
-                tabletView: "عرض الجهاز اللوحي",
-                desktopView: "عرض سطح المكتب",
-                back: "← رجوع",
-                useTemplate: "استخدم هذا القالب ←",
-                menuEditor: "محرر القائمة",
-                menuCreated: "قائمتك الجميلة جاهزة! 🎉",
-                backToTemplates: "← اختر قالب مختلف",
-                darkNeon: "نيون داكن",
-                darkNeonDesc: "تصميم مستقبلي داكن مع لمسات نيون وأجواء سايبر",
-                elegantScript: "خط أنيق",
-                elegantScriptDesc: "خطوط سكريبت متطورة مع لمسات ذهبية وأناقة كلاسيكية",
-                imageGrid: "شبكة الصور",
-                imageGridDesc: "تخطيط يركز على الصور مع طباعة جريئة وألوان نابضة بالحياة",
-                minimalZen: "بساطة زين",
-                minimalZenDesc: "تصميم نظيف وواسع مع بساطة واعية"
-            }
-        };
-
-        // Templates data
-        const templates = [
-            {
-                id: 'dark-neon',
-                name: 'darkNeon',
-                description: 'darkNeonDesc',
-                preview: {
-                    background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)',
-                    accentColor: '#00f5ff',
-                    secondaryColor: '#ff00aa'
-                }
-            },
-            {
-                id: 'elegant-script',
-                name: 'elegantScript', 
-                description: 'elegantScriptDesc',
-                preview: {
-                    background: 'linear-gradient(135deg, #f7f1e3 0%, #f5e6d3 50%, #e8d5b7 100%)',
-                    accentColor: '#d4af37',
-                    secondaryColor: '#8b4513'
-                }
-            },
-            {
-                id: 'image-grid',
-                name: 'imageGrid',
-                description: 'imageGridDesc', 
-                preview: {
-                    background: 'linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ffd23f 100%)',
-                    accentColor: '#ff6b35',
-                    secondaryColor: '#2c3e50'
-                }
-            },
-            {
-                id: 'minimal-zen',
-                name: 'minimalZen',
-                description: 'minimalZenDesc',
-                preview: {
-                    background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #e9ecef 100%)',
-                    accentColor: '#6c757d',
-                    secondaryColor: '#495057'
-                }
-            }
-        ];
-
-        // State management
-        let currentLanguage = 'en';
-        let selectedTemplate = null;
-        let currentDevice = 'mobile';
-
-        // DOM elements
-        const languageToggle = document.getElementById('languageToggle');
-        const startButton = document.getElementById('startButton');
-        const backToLanding = document.getElementById('backToLanding');
-        const useTemplateBtn = document.getElementById('useTemplateBtn');
-        const backToTemplates = document.getElementById('backToTemplates');
-        const templatesGrid = document.getElementById('templatesGrid');
-        const deviceToggles = document.querySelectorAll('.device-toggle');
-
-        // Screen elements
-        const landingScreen = document.getElementById('landingScreen');
-        const templateScreen = document.getElementById('templateScreen');
-        const editorScreen = document.getElementById('editorScreen');
-
-        // Initialize app
-        function init() {
-            updateLanguage();
-            generateTemplates();
-            setupEventListeners();
-        }
-
-        // Event listeners
-        function setupEventListeners() {
-            if (languageToggle) {
-                languageToggle.addEventListener('click', toggleLanguage);
-            }
-            if (startButton) {
-                startButton.addEventListener('click', function() { showScreen('template'); });
-            }
-            if (backToLanding) {
-                backToLanding.addEventListener('click', function() { showScreen('landing'); });
-            }
-            if (useTemplateBtn) {
-                useTemplateBtn.addEventListener('click', function() { showScreen('editor'); });
-            }
-            if (backToTemplates) {
-                backToTemplates.addEventListener('click', function() { showScreen('template'); });
-            }
-            
-            deviceToggles.forEach(function(toggle) {
-                toggle.addEventListener('click', function(e) {
-                    deviceToggles.forEach(function(t) { t.classList.remove('active'); });
-                    e.target.closest('.device-toggle').classList.add('active');
-                    currentDevice = e.target.closest('.device-toggle').dataset.device;
-                    updateTemplatePreview();
-                });
-            });
-        }
-
-        // Language toggle
-        function toggleLanguage() {
-            currentLanguage = currentLanguage === 'en' ? 'ar' : 'en';
-            document.documentElement.dir = currentLanguage === 'ar' ? 'rtl' : 'ltr';
-            document.documentElement.lang = currentLanguage;
-            
-            // Update toggle button
-            if (languageToggle) {
-                languageToggle.textContent = currentLanguage === 'en' ? '🇸🇦 العربية' : '🇺🇸 English';
-            }
-            
-            // Animate language switch
-            document.body.style.opacity = '0.7';
-            setTimeout(function() {
-                updateLanguage();
-                document.body.style.opacity = '1';
-            }, 150);
-        }
-
-        // Update language
-        function updateLanguage() {
-            const elements = document.querySelectorAll('[data-i18n]');
-            elements.forEach(function(element) {
-                const key = element.getAttribute('data-i18n');
-                if (translations[currentLanguage] && translations[currentLanguage][key]) {
-                    element.textContent = translations[currentLanguage][key];
-                }
-            });
-            
-            // Update CTA arrow direction
-            const arrow = document.querySelector('.cta-arrow');
-            if (arrow) {
-                arrow.textContent = currentLanguage === 'ar' ? '←' : '→';
-            }
-        }
-
-        // Generate templates
-        function generateTemplates() {
-            if (!templatesGrid) {
-                return;
-            }
-            
-            templatesGrid.innerHTML = '';
-            
-            templates.forEach(function(template) {
-                const templateCard = document.createElement('div');
-                templateCard.className = 'template-card';
-                templateCard.dataset.templateId = template.id;
+                subtitle: "Create beautiful, multilingual digital menus with drag-and-drop ease",
+                selectTemplate: "Choose Your Template",
+                getStarted: "Get Started",
                 
-                templateCard.innerHTML = 
-                    '<div class="template-preview" style="background: ' + template.preview.background + '">' +
-                        '<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 100%;">' +
-                            '<div style="color: ' + template.preview.accentColor + '; font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">Restaurant Name</div>' +
-                            '<div style="color: ' + template.preview.secondaryColor + '; font-size: 0.9rem;">Sample Menu Item - $25</div>' +
-                        '</div>' +
-                    '</div>' +
-                    '<div class="template-info">' +
-                        '<h3 class="template-name" data-i18n="' + template.name + '"></h3>' +
-                        '<p class="template-description" data-i18n="' + template.description + '"></p>' +
-                    '</div>';
-                
-                templateCard.addEventListener('click', function() { selectTemplate(template.id); });
-                templatesGrid.appendChild(templateCard);
-            });
-            
-            updateLanguage(); // Update translations for new elements
-        }
-
-        // Select template
-        function selectTemplate(templateId) {
-            // Remove previous selection
-            document.querySelectorAll('.template-card').forEach(function(card) {
-                card.classList.remove('selected');
-            });
-            
-            // Add selection to clicked template
-            const selectedCard = document.querySelector('[data-template-id="' + templateId + '"]');
-            if (selectedCard) {
-                selectedCard.classList.add('selected');
-            }
-            
-            selectedTemplate = templateId;
-            if (useTemplateBtn) {
-                useTemplateBtn.classList.remove('hidden');
-            }
-            
-            // Smooth scroll to use template button
-            setTimeout(function() {
-                if (useTemplateBtn) {
-                    useTemplateBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-            }, 300);
-        }
-
-        // Update template preview based on device
-        function updateTemplatePreview() {
-            console.log('Updating preview for ' + currentDevice + ' device');
-        }
-
-        // Show screen
-        function showScreen(screenName) {
-            // Hide all screens
-            document.querySelectorAll('.screen').forEach(function(screen) {
-                screen.classList.remove('active');
-            });
-            
-            // Show selected screen with animation
-            setTimeout(function() {
-                const targetScreen = document.getElementById(screenName + 'Screen');
-                if (targetScreen) {
-                    targetScreen.classList.add('active');
-                }
-            }, 100);
-        }
-
-        // Initialize when DOM is loaded
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', init);
-        } else {
-            init();
-        }
-    </script>
-</body>
-</html>
+                // Templates
+                "dark-neon": "Dark Neon",
+                "elegant-script": "Elegant Script",
                 "image-grid": "Image Grid", 
                 "minimal-zen": "Minimal Zen",
                 "dark-neonDesc": "Futuristic dark theme with neon accents and cyber styling",
@@ -2578,7 +2115,7 @@
                 "image-gridDesc": "تخطيط يركز على الصور مع طباعة جريئة وألوان نابضة بالحياة",
                 "minimal-zenDesc": "تصميم نظيف وواسع مع بساطة واعية",
                 useTemplate: "استخدم هذا القالب",
-                chooseTemplate: "اختر هذا القالب",
+                chooseTemplate: "اخ �ر هذا القالب",
                 templateSelected: "تم اختيار القالب!",
                 perfectChoice: "اختيار مثالي!",
                 selectedTemplate: "لقد اخترت",
@@ -4842,141 +4379,66 @@
             SHARE: 'share'
         };
 
-        // ENHANCED LANDING PAGE - Complete Visual Overhaul
+        // Landing Page Component
         function LandingPage({ onContinue }) {
             const { t, isRTL } = useLanguage();
             
             return React.createElement('div', {
-                className: `min-h-screen ${isRTL ? 'rtl' : ''}`,
-                dir: isRTL ? 'rtl' : 'ltr',
-                style: {
-                    background: 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 25%, #8b5cf6 75%, #ec4899 100%)',
-                    position: 'relative',
-                    overflow: 'hidden'
-                }
+                className: `screen min-h-screen flex items-center justify-center p-8 ${isRTL ? 'rtl' : ''}`,
+                dir: isRTL ? 'rtl' : 'ltr'
             }, [
-                // Floating Background Elements
                 React.createElement('div', {
-                    key: 'bg-elements',
-                    className: 'absolute inset-0 pointer-events-none'
+                    key: 'content',
+                    className: 'text-center max-w-4xl mx-auto animate-fade-in'
                 }, [
                     React.createElement('div', {
-                        key: 'circle1',
-                        className: 'floating-circle',
-                        style: { top: '10%', left: '10%', animationDelay: '0s' }
-                    }),
-                    React.createElement('div', {
-                        key: 'circle2',
-                        className: 'floating-circle',
-                        style: { top: '20%', right: '15%', animationDelay: '2s' }
-                    }),
-                    React.createElement('div', {
-                        key: 'circle3',
-                        className: 'floating-circle',
-                        style: { bottom: '30%', left: '20%', animationDelay: '4s' }
-                    })
-                ]),
-
-                // Hero Section Enhanced
-                React.createElement('div', {
-                    key: 'hero',
-                    className: 'landing-hero-enhanced'
-                }, [
-                    React.createElement('div', {
-                        key: 'icon',
-                        className: 'text-8xl mb-8',
-                        style: { 
-                            animation: 'iconFloat 3s ease-in-out infinite',
-                            filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.3))'
-                        }
+                        key: 'hero-icon',
+                        className: 'text-8xl mb-8 animate-bounce'
                     }, '🍽️'),
+                    
                     React.createElement('h1', {
                         key: 'title',
-                        className: 'landing-title-enhanced'
+                        className: 'text-6xl font-bold text-white mb-6 leading-tight'
                     }, t('title')),
+                    
                     React.createElement('p', {
                         key: 'subtitle',
-                        className: 'landing-subtitle-enhanced'
-                    }, t('subtitle'))
-                ]),
-                
-                // Enhanced Features Showcase
-                React.createElement('div', {
-                    key: 'features',
-                    className: 'features-showcase'
-                }, [
+                        className: 'text-xl text-white opacity-90 mb-12 max-w-2xl mx-auto leading-relaxed'
+                    }, t('subtitle')),
+                    
                     React.createElement('div', {
-                        key: 'feature1',
-                        className: 'feature-showcase-card'
+                        key: 'features',
+                        className: 'grid grid-cols-1 md:grid-cols-3 gap-8 mb-12'
                     }, [
+                        ['🎨', 'Beautiful Templates', 'Choose from professionally designed templates'],
+                        ['🌐', 'Multilingual Support', 'Support for Arabic and English with RTL'],
+                        ['📱', 'Mobile Friendly', 'Perfect on all devices and screen sizes']
+                    ].map(([icon, title, desc], index) => 
                         React.createElement('div', {
-                            key: 'icon',
-                            className: 'feature-icon-showcase'
-                        }, '🎨'),
-                        React.createElement('h3', {
-                            key: 'title',
-                            className: 'feature-title-showcase'
-                        }, 'Beautiful Templates'),
-                        React.createElement('p', {
-                            key: 'desc',
-                            className: 'feature-desc-showcase'
-                        }, 'Choose from professionally designed templates that match your restaurant style')
-                    ]),
-                    React.createElement('div', {
-                        key: 'feature2',
-                        className: 'feature-showcase-card'
-                    }, [
-                        React.createElement('div', {
-                            key: 'icon',
-                            className: 'feature-icon-showcase'
-                        }, '🌍'),
-                        React.createElement('h3', {
-                            key: 'title',
-                            className: 'feature-title-showcase'
-                        }, 'Multilingual Support'),
-                        React.createElement('p', {
-                            key: 'desc',
-                            className: 'feature-desc-showcase'
-                        }, 'Full Arabic and English support with automatic RTL/LTR layout switching')
-                    ]),
-                    React.createElement('div', {
-                        key: 'feature3',
-                        className: 'feature-showcase-card'
-                    }, [
-                        React.createElement('div', {
-                            key: 'icon',
-                            className: 'feature-icon-showcase'
-                        }, '📱'),
-                        React.createElement('h3', {
-                            key: 'title',
-                            className: 'feature-title-showcase'
-                        }, 'Mobile Optimized'),
-                        React.createElement('p', {
-                            key: 'desc',
-                            className: 'feature-desc-showcase'
-                        }, 'Perfect experience on all devices with responsive design and QR code generation')
-                    ])
-                ]),
-                
-                // Enhanced CTA Button
-                React.createElement('div', {
-                    key: 'cta-container',
-                    className: 'text-center relative z-10'
-                }, [
+                            key: index,
+                            className: 'glass-effect p-6 rounded-2xl animate-slide-up',
+                            style: { animationDelay: `${index * 200}ms` }
+                        }, [
+                            React.createElement('div', {
+                                key: 'icon',
+                                className: 'text-4xl mb-4'
+                            }, icon),
+                            React.createElement('h3', {
+                                key: 'title',
+                                className: 'text-xl font-bold text-white mb-2'
+                            }, title),
+                            React.createElement('p', {
+                                key: 'desc',
+                                className: 'text-white opacity-80'
+                            }, desc)
+                        ])
+                    )),
+                    
                     React.createElement('button', {
                         key: 'cta',
-                        className: 'landing-cta-enhanced',
+                        className: 'btn btn-primary text-xl px-12 py-6',
                         onClick: onContinue
-                    }, [
-                        React.createElement('span', {
-                            key: 'text',
-                            className: 'cta-text'
-                        }, t('getStarted')),
-                        React.createElement('span', {
-                            key: 'arrow',
-                            className: 'cta-arrow'
-                        }, isRTL ? '←' : '→')
-                    ])
+                    }, t('getStarted'))
                 ])
             ]);
         }
@@ -5392,17 +4854,17 @@
                 setSelectedTemplate(template.id);
                 setShowConfirmation(true);
                 
-                // Visual feedback with immediate template preview update
-                const templateCards = document.querySelectorAll('.template-card');
-                templateCards.forEach(card => {
-                    card.classList.remove('template-selected');
-                });
+                // Apply template design immediately to live editor
+                const previewArea = document.querySelector('.preview-area');
+                const editorContainer = document.querySelector('.menu-editor-container');
                 
-                const selectedCard = document.querySelector(`[data-template-id="${template.id}"]`);
-                if (selectedCard) {
-                    selectedCard.classList.add('template-selected');
-                    selectedCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                if (previewArea) {
+                    previewArea.style.background = template.preview.headerBg;
+                    previewArea.style.fontFamily = template.preview.typography;
+                    previewArea.style.color = template.preview.accentColor;
                 }
+                
+                if (editorContainer) {
                     editorContainer.style.setProperty('--template-accent', template.preview.accentColor);
                     editorContainer.style.setProperty('--template-bg', template.preview.headerBg);
                     editorContainer.style.setProperty('--template-font', template.preview.typography);
