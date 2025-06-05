@@ -3891,9 +3891,21 @@
                 }
             };
 
-            const downloadMenuAsPDF = async () => {
+            const downloadMenuAsPDF = async (event) => {
                 try {
+                    // Prevent multiple clicks
+                    if (event) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    
                     addToast('Generating PDF...', 'info');
+                    
+                    // Check if html2pdf is available
+                    if (typeof html2pdf === 'undefined') {
+                        addToast('PDF library not loaded. Please refresh the page and try again.', 'error');
+                        return;
+                    }
                     
                     console.log('Starting PDF generation with menu data:', menu);
                     
@@ -3908,13 +3920,13 @@
                     // Create PDF container with proper A4 styling
                     const pdfContainer = document.createElement('div');
                     pdfContainer.style.cssText = `
-                        position: fixed;
+                        position: absolute;
                         top: -9999px;
                         left: -9999px;
-                        width: 210mm;
-                        min-height: 297mm;
+                        width: 794px;
+                        min-height: 1123px;
                         background: white;
-                        padding: 20mm;
+                        padding: 40px;
                         box-sizing: border-box;
                         font-family: 'Inter', sans-serif;
                         color: #1a1a1a;
@@ -3987,11 +3999,11 @@
                     pdfContainer.innerHTML = htmlContent;
                     document.body.appendChild(pdfContainer);
 
-                    console.log('PDF content created:', htmlContent.substring(0, 500));
+                    console.log('PDF content created, element:', pdfContainer);
 
                     // Configure PDF options
                     const opt = {
-                        margin: 0,
+                        margin: 10,
                         filename: `${(menu.restaurantName || 'menu').replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-')}.pdf`,
                         image: { type: 'jpeg', quality: 0.98 },
                         html2canvas: { 
@@ -4008,8 +4020,22 @@
                         }
                     };
 
-                    // Generate PDF
-                    await html2pdf().set(opt).from(pdfContainer).save();
+                    // Generate PDF with proper async handling
+                    console.log('Calling html2pdf with options:', opt);
+                    await new Promise((resolve, reject) => {
+                        html2pdf()
+                            .set(opt)
+                            .from(pdfContainer)
+                            .save()
+                            .then(() => {
+                                console.log('PDF generation completed successfully');
+                                resolve();
+                            })
+                            .catch((error) => {
+                                console.error('PDF generation error:', error);
+                                reject(error);
+                            });
+                    });
                     
                     // Cleanup
                     document.body.removeChild(pdfContainer);
@@ -4017,10 +4043,10 @@
                     
                 } catch (error) {
                     console.error('PDF generation failed:', error);
-                    addToast('Failed to generate PDF. Please try again.', 'error');
+                    addToast(`Failed to generate PDF: ${error.message}`, 'error');
                     
                     // Cleanup on error
-                    const containers = document.querySelectorAll('div[style*="position: fixed"][style*="top: -9999px"]');
+                    const containers = document.querySelectorAll('div[style*="position: absolute"][style*="top: -9999px"]');
                     containers.forEach(container => {
                         if (container.parentNode) {
                             container.parentNode.removeChild(container);
