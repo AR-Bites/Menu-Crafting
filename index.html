@@ -2661,114 +2661,80 @@
         // Visually Unique Templates with Live Previews
         const templates = [
             {
-                id: 'dark-neon',
-                name: 'Dark Neon',
-                description: 'Modern dark theme with neon accents and futuristic vibes',
-                colorScheme: 'indigo',
-                fontFamily: 'inter',
-                headerStyle: 'gradient',
-                spacing: 3,
-                category: 'modern',
-                preview: {
-                    theme: 'dark',
-                    headerBg: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)',
-                    accentColor: '#00f5ff',
-                    secondaryColor: '#ff00aa',
-                    typography: 'Inter',
-                    buttonStyle: 'neon'
-                },
-                mockData: {
-                    restaurantName: 'NEON BISTRO',
-                    tagline: 'Future of Dining',
-                    sections: [
-                        { 
-                            name: 'CYBER STARTERS', 
-                            items: [
-                                { name: 'Neural Nachos', price: '$18', featured: true },
-                                { name: 'Digital Dumplings', price: '$22' }
-                            ]
-                        },
-                        { 
-                            name: 'MAIN PROTOCOL', 
-                            items: [
-                                { name: 'Quantum Burger', price: '$28' },
-                                { name: 'Binary Pasta', price: '$24' }
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                id: 'elegant-script',
-                name: 'Elegant Script',
-                description: 'Sophisticated script fonts with gold accents and classic elegance',
-                colorScheme: 'rose',
+                id: 'elegant-classic',
+                name: 'Elegant Classic',
+                description: 'Timeless sophistication with golden accents',
+                colorScheme: 'gold',
                 fontFamily: 'serif',
-                headerStyle: 'image',
+                headerStyle: 'gradient',
                 spacing: 4,
-                category: 'elegant',
+                category: 'premium',
                 preview: {
                     theme: 'light',
-                    headerBg: 'linear-gradient(135deg, #f7f1e3 0%, #f5e6d3 50%, #e8d5b7 100%)',
+                    headerBg: 'linear-gradient(135deg, #fefcf3 0%, #f5e6d3 50%, #e8d5b7 100%)',
+                    backgroundColor: '#fefcf3',
+                    primaryColor: '#1a1a2e',
                     accentColor: '#d4af37',
-                    secondaryColor: '#8b4513',
+                    secondaryColor: '#666666',
                     typography: 'Playfair Display',
                     buttonStyle: 'classic'
                 },
                 mockData: {
-                    restaurantName: 'La Belle Époque',
-                    tagline: 'Fine French Cuisine Since 1889',
+                    restaurantName: { en: 'Le Jardin Royal', ar: 'الحديقة الملكية' },
+                    tagline: { en: 'Fine Dining Experience', ar: 'تجربة طعام راقية' },
                     sections: [
-                        { 
-                            name: 'Les Entrées', 
+                        {
+                            name: { en: 'Appetizers', ar: 'المقبلات' },
                             items: [
-                                { name: 'Escargots de Bourgogne', price: '€24', special: true },
-                                { name: 'Pâté de Foie Gras', price: '€32' }
+                                { name: { en: 'Truffle Hummus', ar: 'حمص بالكمأة' }, price: '8.50 JOD' },
+                                { name: { en: 'Grilled Halloumi', ar: 'حلوم مشوي' }, price: '6.00 JOD' }
                             ]
                         },
-                        { 
-                            name: 'Les Plats Principaux', 
+                        {
+                            name: { en: 'Main Courses', ar: 'الأطباق الرئيسية' },
                             items: [
-                                { name: 'Bouillabaisse Marseillaise', price: '€45' },
-                                { name: 'Bœuf Wellington', price: '€52' }
+                                { name: { en: 'Lamb Ouzi', ar: 'عوزي لحم' }, price: '18.00 JOD' },
+                                { name: { en: 'Grilled Sea Bass', ar: 'قاروص مشوي' }, price: '22.50 JOD' }
                             ]
                         }
                     ]
                 }
             },
             {
-                id: 'image-grid',
-                name: 'Image Grid',
-                description: 'Photo-focused layout with bold typography and vibrant colors',
-                colorScheme: 'amber',
-                fontFamily: 'sans',
-                headerStyle: 'image',
-                spacing: 2,
-                category: 'visual',
+                id: 'modern-vibrant',
+                name: 'Modern Vibrant',
+                description: 'Bold colors and contemporary design',
+                colorScheme: 'red',
+                fontFamily: 'inter',
+                headerStyle: 'solid',
+                spacing: 3,
+                category: 'modern',
                 preview: {
-                    theme: 'vibrant',
-                    headerBg: 'linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ffd23f 100%)',
-                    accentColor: '#ff6b35',
-                    secondaryColor: '#2c3e50',
-                    typography: 'Montserrat',
-                    buttonStyle: 'bold'
+                    theme: 'light',
+                    headerBg: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #e9ecef 100%)',
+                    backgroundColor: '#ffffff',
+                    primaryColor: '#2c3e50',
+                    accentColor: '#e74c3c',
+                    secondaryColor: '#34495e',
+                    typography: 'Inter',
+                    buttonStyle: 'modern'
                 },
                 mockData: {
-                    restaurantName: 'STREET KITCHEN',
-                    tagline: 'Bold Flavors, Fresh Ingredients',
+                    restaurantName: { en: 'Fusion Street', ar: 'شارع الانصهار' },
+                    tagline: { en: 'Bold Flavors & Fresh Ideas', ar: 'نكهات جريئة وأفكار طازجة' },
                     sections: [
-                        { 
-                            name: 'SIGNATURE BOWLS', 
+                        {
+                            name: { en: 'Street Bites', ar: 'لقم الشارع' },
                             items: [
-                                { name: 'Korean BBQ Bowl', price: '$16', hasImage: true },
-                                { name: 'Med Quinoa Bowl', price: '$14', hasImage: true }
+                                { name: { en: 'Spicy Falafel Bowl', ar: 'وعاء فلافل حار' }, price: '7.25 JOD' },
+                                { name: { en: 'Loaded Shawarma Fries', ar: 'بطاطس شاورما محشوة' }, price: '9.00 JOD' }
                             ]
                         },
-                        { 
-                            name: 'CRAFT BURGERS', 
+                        {
+                            name: { en: 'Power Bowls', ar: 'أوعية القوة' },
                             items: [
-                                { name: 'Truffle Burger', price: '$18', hasImage: true },
-                                { name: 'Spicy Jalapeño', price: '$16', hasImage: true }
+                                { name: { en: 'Mediterranean Quinoa', ar: 'كينوا متوسطية' }, price: '12.50 JOD' },
+                                { name: { en: 'Asian Fusion Rice', ar: 'أرز آسيوي مندمج' }, price: '13.75 JOD' }
                             ]
                         }
                     ]
@@ -2777,140 +2743,84 @@
             {
                 id: 'minimal-zen',
                 name: 'Minimal Zen',
-                description: 'Clean, spacious design with subtle elegance and mindful simplicity',
-                colorScheme: 'emerald',
-                fontFamily: 'sans',
-                headerStyle: 'solid',
+                description: 'Clean lines and serene simplicity',
+                colorScheme: 'gray',
+                fontFamily: 'inter',
+                headerStyle: 'minimal',
                 spacing: 5,
                 category: 'minimal',
                 preview: {
-                    theme: 'minimal',
-                    headerBg: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #e9ecef 100%)',
-                    accentColor: '#2d3748',
+                    theme: 'light',
+                    headerBg: 'linear-gradient(135deg, #f7fafc 0%, #edf2f7 50%, #e2e8f0 100%)',
+                    backgroundColor: '#f7fafc',
+                    primaryColor: '#2d3748',
+                    accentColor: '#4a5568',
                     secondaryColor: '#718096',
                     typography: 'Inter',
                     buttonStyle: 'minimal'
                 },
                 mockData: {
-                    restaurantName: 'zen',
-                    tagline: 'mindful dining',
+                    restaurantName: { en: 'Serenity', ar: 'الصفاء' },
+                    tagline: { en: 'Pure. Simple. Delicious.', ar: 'نقي. بسيط. لذيذ.' },
                     sections: [
-                        { 
-                            name: 'starters', 
+                        {
+                            name: { en: 'Fresh Start', ar: 'بداية طازجة' },
                             items: [
-                                { name: 'miso soup', price: '12' },
-                                { name: 'edamame', price: '8' }
+                                { name: { en: 'Garden Salad', ar: 'سلطة البستان' }, price: '4.50 JOD' },
+                                { name: { en: 'Avocado Toast', ar: 'توست الأفوكادو' }, price: '5.25 JOD' }
                             ]
                         },
-                        { 
-                            name: 'mains', 
+                        {
+                            name: { en: 'Simple Plates', ar: 'أطباق بسيطة' },
                             items: [
-                                { name: 'salmon teriyaki', price: '28' },
-                                { name: 'vegetable ramen', price: '22' }
+                                { name: { en: 'Grilled Chicken', ar: 'دجاج مشوي' }, price: '11.00 JOD' },
+                                { name: { en: 'Fresh Fish', ar: 'سمك طازج' }, price: '14.50 JOD' }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                id: 'arabic-heritage',
+                name: 'Arabic Heritage',
+                description: 'Traditional patterns with modern flair',
+                colorScheme: 'amber',
+                fontFamily: 'serif',
+                headerStyle: 'ornate',
+                spacing: 4,
+                category: 'traditional',
+                preview: {
+                    theme: 'warm',
+                    headerBg: 'linear-gradient(135deg, #fdf5e6 0%, #f4e4bc 50%, #e6d3a3 100%)',
+                    backgroundColor: '#fdf5e6',
+                    primaryColor: '#8b4513',
+                    accentColor: '#cd853f',
+                    secondaryColor: '#d2691e',
+                    typography: 'Amiri',
+                    buttonStyle: 'ornate'
+                },
+                mockData: {
+                    restaurantName: { en: 'Bait Al Salam', ar: 'بيت السلام' },
+                    tagline: { en: 'Authentic Flavors, Timeless Traditions', ar: 'نكهات أصيلة، تقاليد خالدة' },
+                    sections: [
+                        {
+                            name: { en: 'Traditional Mezze', ar: 'المزة التقليدية' },
+                            items: [
+                                { name: { en: 'Mutabal', ar: 'متبل' }, price: '4.50 JOD' },
+                                { name: { en: 'Kibbeh Nayeh', ar: 'كبة نية' }, price: '8.75 JOD' }
+                            ]
+                        },
+                        {
+                            name: { en: 'Heritage Mains', ar: 'الأطباق التراثية' },
+                            items: [
+                                { name: { en: 'Mansaf', ar: 'منسف' }, price: '16.50 JOD' },
+                                { name: { en: 'Makloubeh', ar: 'مقلوبة' }, price: '13.75 JOD' }
                             ]
                         }
                     ]
                 }
             }
         ];
-
-        // Local Storage utilities
-        const storage = {
-            save: (key, data) => {
-                try {
-                    localStorage.setItem(key, JSON.stringify(data));
-                } catch (error) {
-                    console.error('Failed to save to localStorage:', error);
-                }
-            },
-            load: (key, defaultValue = null) => {
-                try {
-                    const stored = localStorage.getItem(key);
-                    return stored ? JSON.parse(stored) : defaultValue;
-                } catch (error) {
-                    console.error('Failed to load from localStorage:', error);
-                    return defaultValue;
-                }
-            },
-            remove: (key) => {
-                try {
-                    localStorage.removeItem(key);
-                } catch (error) {
-                    console.error('Failed to remove from localStorage:', error);
-                }
-            }
-        };
-
-        // Enhanced File Upload Component with drag & drop
-        function FileUpload({ accept, onUpload, currentFile, label, type, className = '' }) {
-            const { t } = useLanguage();
-            const { addToast } = useToast();
-            const fileInputRef = useRef(null);
-            const [preview, setPreview] = useState(currentFile || null);
-            const [isDragging, setIsDragging] = useState(false);
-            const [isUploading, setIsUploading] = useState(false);
-
-            const handleFileSelect = useCallback(async (file) => {
-                if (!file) return;
-                
-                setIsUploading(true);
-                addToast(type === '3d' ? t('uploading3D') : t('uploadingImage'), 'info');
-                
-                try {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        const result = e.target.result;
-                        setPreview(result);
-                        onUpload(result);
-                        setIsUploading(false);
-                        addToast(`${label} uploaded successfully!`, 'success');
-                    };
-                    reader.readAsDataURL(file);
-                } catch (error) {
-                    setIsUploading(false);
-                    addToast('Upload failed. Please try again.', 'error');
-                }
-            }, [onUpload, type, label, t, addToast]);
-
-            const handleDrop = useCallback((e) => {
-                e.preventDefault();
-                setIsDragging(false);
-                
-                const files = Array.from(e.dataTransfer.files);
-                if (files.length > 0) {
-                    handleFileSelect(files[0]);
-                }
-            }, [handleFileSelect]);
-
-            const handleDragOver = useCallback((e) => {
-                e.preventDefault();
-                setIsDragging(true);
-            }, []);
-
-            const handleDragLeave = useCallback((e) => {
-                e.preventDefault();
-                setIsDragging(false);
-            }, []);
-
-            const renderPreview = () => {
-                if (!preview) return null;
-
-                if (type === '3d' && preview.includes('data:')) {
-                    return React.createElement('div', {
-                        className: 'mt-3 p-4 bg-blue-50 border border-blue-200 rounded-lg text-center'
-                    }, [
-                        React.createElement('div', {
-                            key: 'icon',
-                            className: 'text-3xl mb-2'
-                        }, '🎮'),
-                        React.createElement('p', {
-                            key: 'text',
-                            className: 'text-blue-700 font-medium'
-                        }, '3D Model Ready!')
-                    ]);
-                } else if (type === 'image' && preview.includes('data:')) {
-                    return React.createElement('div', {
-                        className: 'mt-3'
                     }, [
                         React.createElement('img', {
                             key: 'preview',
@@ -3066,9 +2976,66 @@
                         }, [
                             React.createElement('div', {
                                 key: 'preview',
-                                className: 'h-64 relative overflow-hidden',
-                                style: { background: template.preview.headerBg }
-                            }, [
+                                className: 'h-64 relative overflow-hidden p-4',
+                                style: { 
+                                    background: template.mockData ? template.preview.backgroundColor : template.preview.headerBg,
+                                    fontFamily: 'Inter, sans-serif'
+                                }
+                            }, template.mockData ? [
+                                // Real restaurant header
+                                React.createElement('div', {
+                                    key: 'restaurant-header',
+                                    className: 'text-center mb-4 pb-2 border-b',
+                                    style: { borderColor: template.preview.accentColor + '40' }
+                                }, [
+                                    React.createElement('h3', {
+                                        key: 'name',
+                                        className: 'text-lg font-bold mb-1',
+                                        style: { color: template.preview.primaryColor }
+                                    }, template.mockData.restaurantName.en),
+                                    React.createElement('p', {
+                                        key: 'tagline',
+                                        className: 'text-xs italic',
+                                        style: { color: template.preview.secondaryColor }
+                                    }, template.mockData.tagline.en)
+                                ]),
+                                
+                                // Real menu sections
+                                React.createElement('div', {
+                                    key: 'menu-sections',
+                                    className: 'space-y-3'
+                                }, template.mockData.sections.slice(0, 2).map((section, idx) =>
+                                    React.createElement('div', {
+                                        key: idx
+                                    }, [
+                                        React.createElement('h4', {
+                                            key: 'section-name',
+                                            className: 'text-sm font-semibold mb-2',
+                                            style: { color: template.preview.accentColor }
+                                        }, section.name.en),
+                                        React.createElement('div', {
+                                            key: 'items',
+                                            className: 'space-y-1'
+                                        }, section.items.slice(0, 2).map((item, itemIdx) =>
+                                            React.createElement('div', {
+                                                key: itemIdx,
+                                                className: 'flex justify-between items-center text-xs'
+                                            }, [
+                                                React.createElement('span', {
+                                                    key: 'item-name',
+                                                    style: { color: template.preview.primaryColor }
+                                                }, item.name.en),
+                                                React.createElement('span', {
+                                                    key: 'price',
+                                                    className: 'font-semibold',
+                                                    style: { color: template.preview.accentColor }
+                                                }, item.price)
+                                            ])
+                                        ))
+                                    ])
+                                ))
+                            ] : [
+                                // Fallback for templates without mockData
                                 React.createElement('div', {
                                     key: 'mock-header',
                                     className: 'absolute top-0 left-0 right-0 h-16 flex items-center justify-center text-white font-bold text-lg',
@@ -3082,20 +3049,13 @@
                                     React.createElement('div', {
                                         key: 'section',
                                         className: 'font-semibold text-gray-800 text-sm'
-                                    }, 'Appetizers'),
+                                    }, 'Menu Items'),
                                     React.createElement('div', {
                                         key: 'item1',
                                         className: 'flex justify-between items-center text-xs'
                                     }, [
-                                        React.createElement('span', { key: 'name' }, 'Caesar Salad'),
-                                        React.createElement('span', { key: 'price' }, '$12')
-                                    ]),
-                                    React.createElement('div', {
-                                        key: 'item2',
-                                        className: 'flex justify-between items-center text-xs'
-                                    }, [
-                                        React.createElement('span', { key: 'name' }, 'Soup of the Day'),
-                                        React.createElement('span', { key: 'price' }, '$8')
+                                        React.createElement('span', { key: 'name' }, 'Sample Dish'),
+                                        React.createElement('span', { key: 'price' }, '0.00 JOD')
                                     ])
                                 ])
                             ]),
@@ -4797,7 +4757,7 @@
             ]);
         }
 
-        // Auth Page Component (simplified for )
+        // Auth Page Component (simplified for demo)
         function AuthPage({ onContinue }) {
             const { t, isRTL } = useLanguage();
             const [userName, setUserName] = useState('');
