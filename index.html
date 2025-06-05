@@ -2978,10 +2978,10 @@
                                 key: 'preview',
                                 className: 'h-64 relative overflow-hidden p-4',
                                 style: { 
-                                    background: template.mockData ? template.preview.backgroundColor : template.preview.headerBg,
+                                    background: template.preview.backgroundColor,
                                     fontFamily: 'Inter, sans-serif'
                                 }
-                            }, template.mockData ? [
+                            }, [
                                 // Real restaurant header
                                 React.createElement('div', {
                                     key: 'restaurant-header',
@@ -3034,30 +3034,6 @@
                                         ))
                                     ])
                                 ))
-                            ] : [
-                                // Fallback for templates without mockData
-                                React.createElement('div', {
-                                    key: 'mock-header',
-                                    className: 'absolute top-0 left-0 right-0 h-16 flex items-center justify-center text-white font-bold text-lg',
-                                    style: { fontFamily: template.preview.typography }
-                                }, 'Restaurant Name'),
-                                
-                                React.createElement('div', {
-                                    key: 'mock-content',
-                                    className: 'absolute bottom-0 left-0 right-0 bg-white p-4 space-y-2'
-                                }, [
-                                    React.createElement('div', {
-                                        key: 'section',
-                                        className: 'font-semibold text-gray-800 text-sm'
-                                    }, 'Menu Items'),
-                                    React.createElement('div', {
-                                        key: 'item1',
-                                        className: 'flex justify-between items-center text-xs'
-                                    }, [
-                                        React.createElement('span', { key: 'name' }, 'Sample Dish'),
-                                        React.createElement('span', { key: 'price' }, '0.00 JOD')
-                                    ])
-                                ])
                             ]),
                             
                             React.createElement('div', {
