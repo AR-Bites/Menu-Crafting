@@ -4950,118 +4950,115 @@
 
             const gradientClass = getGradientClass(colorScheme);
 
-            // Return template preview that exactly matches editing experience structure
+            // Template preview matching exact desktop editing interface
             return React.createElement('div', {
-                className: 'realistic-preview h-80 relative overflow-hidden rounded-lg bg-white shadow-lg',
+                className: `realistic-preview h-80 relative overflow-hidden rounded-lg bg-white shadow-lg ${font}`,
                 style: {
-                    fontFamily: font
+                    maxWidth: '400px'
                 }
             }, [
-                // Header matching exact editing interface
+                // Header exactly matching desktop editing interface
                 React.createElement('div', {
                     key: 'header',
-                    className: `p-8 text-white bg-gradient-to-r ${gradientClass}`,
-                    style: {
-                        textAlign: 'center'
-                    }
+                    className: `p-8 text-white bg-gradient-to-r ${gradientClass}`
                 }, [
                     React.createElement('h1', {
                         key: 'restaurant-name',
-                        className: 'text-2xl font-bold mb-1'
+                        className: 'text-4xl font-bold mb-3'
                     }, mockData?.restaurantName || 'Sample Restaurant'),
                     React.createElement('p', {
                         key: 'tagline',
-                        className: 'opacity-90 text-sm'
+                        className: 'opacity-90 text-xl'
                     }, mockData?.tagline || 'Delicious cuisine awaits')
                 ]),
 
-                // Content section matching exact editing layout
+                // Content matching exact desktop editing layout
                 React.createElement('div', {
                     key: 'content',
-                    style: { 
-                        padding: paddingValue,
-                        height: 'calc(100% - 100px)',
-                        overflow: 'hidden'
-                    }
+                    className: 'p-8'
                 }, [
-                    // Section header exactly matching editing interface
-                    React.createElement('h2', {
-                        key: 'section-title',
-                        className: 'text-xl font-bold text-gray-800 mb-2 border-b-2 border-gray-200 pb-2',
-                        style: { 
-                            fontFamily: font
-                        }
-                    }, 'Appetizers'),
-
-                    // Menu items with exact editing layout structure
+                    // Section with mb-10 matching desktop
                     React.createElement('div', {
-                        key: 'items'
+                        key: 'section',
+                        className: 'mb-10'
                     }, [
-                        // First menu item with exact editing structure
-                        React.createElement('div', {
-                            key: 'item1',
-                            className: 'menu-item p-4 border-b border-gray-100'
-                        }, [
-                            React.createElement('div', {
-                                key: 'content',
-                                className: 'flex justify-between items-start gap-4'
-                            }, [
-                                React.createElement('div', {
-                                    key: 'left',
-                                    className: 'flex-1'
-                                }, [
-                                    React.createElement('div', {
-                                        key: 'header',
-                                        className: 'flex items-center gap-2 mb-1'
-                                    }, [
-                                        React.createElement('h4', {
-                                            key: 'name',
-                                            className: 'font-semibold text-gray-800 text-lg'
-                                        }, 'Caesar Salad')
-                                    ]),
-                                    React.createElement('p', {
-                                        key: 'desc',
-                                        className: 'text-gray-600 text-sm leading-relaxed'
-                                    }, 'Fresh romaine lettuce, parmesan cheese')
-                                ]),
-                                React.createElement('div', {
-                                    key: 'price',
-                                    className: 'font-bold text-xl text-gray-800 flex-shrink-0'
-                                }, '$12.00')
-                            ])
-                        ]),
+                        // Section title exactly matching desktop editing
+                        React.createElement('h2', {
+                            key: 'title',
+                            className: 'text-3xl font-bold text-gray-800 mb-4 border-b-2 border-gray-200 pb-3'
+                        }, 'Appetizers'),
 
-                        // Second menu item
+                        // Items container with space-y-1
                         React.createElement('div', {
-                            key: 'item2',
-                            className: 'menu-item p-4 border-b border-gray-100'
+                            key: 'items',
+                            className: 'space-y-1'
                         }, [
+                            // Menu item 1 exactly matching desktop structure
                             React.createElement('div', {
-                                key: 'content',
-                                className: 'flex justify-between items-start gap-4'
+                                key: 'item1',
+                                className: 'menu-item p-4 border-b border-gray-100 last:border-b-0'
                             }, [
                                 React.createElement('div', {
-                                    key: 'left',
-                                    className: 'flex-1'
+                                    key: 'content',
+                                    className: 'flex justify-between items-start gap-4'
                                 }, [
                                     React.createElement('div', {
-                                        key: 'header',
-                                        className: 'flex items-center gap-2 mb-1'
+                                        key: 'left',
+                                        className: 'flex-1'
                                     }, [
-                                        React.createElement('h4', {
-                                            key: 'name',
-                                            className: 'font-semibold text-gray-800 text-lg'
-                                        }, 'Bruschetta')
+                                        React.createElement('div', {
+                                            key: 'header',
+                                            className: 'flex items-center gap-2 mb-2'
+                                        }, [
+                                            React.createElement('h4', {
+                                                key: 'name',
+                                                className: 'font-semibold text-gray-800 text-lg'
+                                            }, 'Caesar Salad')
+                                        ]),
+                                        React.createElement('p', {
+                                            key: 'desc',
+                                            className: 'text-gray-600 mb-3 leading-relaxed'
+                                        }, 'Fresh romaine lettuce, parmesan cheese')
                                     ]),
-                                    React.createElement('p', {
-                                        key: 'desc',
-                                        className: 'text-gray-600 text-sm leading-relaxed'
-                                    }, 'Grilled bread with tomato and basil')
-                                ]),
+                                    React.createElement('div', {
+                                        key: 'price',
+                                        className: 'font-bold text-xl text-gray-800 flex-shrink-0'
+                                    }, '$12.00')
+                                ])
+                            ]),
+
+                            // Menu item 2
+                            React.createElement('div', {
+                                key: 'item2',
+                                className: 'menu-item p-4 border-b border-gray-100 last:border-b-0'
+                            }, [
                                 React.createElement('div', {
-                                    key: 'price',
-                                    className: 'font-bold text-xl text-gray-800 flex-shrink-0'
-                                }, '$8.00')
+                                    key: 'content',
+                                    className: 'flex justify-between items-start gap-4'
+                                }, [
+                                    React.createElement('div', {
+                                        key: 'left',
+                                        className: 'flex-1'
+                                    }, [
+                                        React.createElement('div', {
+                                            key: 'header',
+                                            className: 'flex items-center gap-2 mb-2'
+                                        }, [
+                                            React.createElement('h4', {
+                                                key: 'name',
+                                                className: 'font-semibold text-gray-800 text-lg'
+                                            }, 'Bruschetta')
+                                        ]),
+                                        React.createElement('p', {
+                                            key: 'desc',
+                                            className: 'text-gray-600 mb-3 leading-relaxed'
+                                        }, 'Grilled bread with tomato and basil')
+                                    ]),
+                                    React.createElement('div', {
+                                        key: 'price',
+                                        className: 'font-bold text-xl text-gray-800 flex-shrink-0'
+                                    }, '$8.00')
+                                ])
                             ])
                         ])
                     ])
