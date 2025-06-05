@@ -3863,11 +3863,8 @@
                                     key: 'restaurant-name-input',
                                     type: 'text',
                                     className: 'input-field',
-                                    defaultValue: menu.restaurantName || '',
-                                    onInput: (e) => {
-                                        setMenu(prev => ({...prev, restaurantName: e.target.value}));
-                                    },
-                                    onBlur: (e) => {
+                                    value: menu.restaurantName || '',
+                                    onChange: (e) => {
                                         setMenu(prev => ({...prev, restaurantName: e.target.value}));
                                     },
                                     placeholder: t('enterRestaurantName'),
@@ -3884,11 +3881,8 @@
                                     key: 'tagline-input',
                                     type: 'text',
                                     className: 'input-field',
-                                    defaultValue: menu.tagline || '',
-                                    onInput: (e) => {
-                                        setMenu(prev => ({...prev, tagline: e.target.value}));
-                                    },
-                                    onBlur: (e) => {
+                                    value: menu.tagline || '',
+                                    onChange: (e) => {
                                         setMenu(prev => ({...prev, tagline: e.target.value}));
                                     },
                                     placeholder: t('enterTagline'),
