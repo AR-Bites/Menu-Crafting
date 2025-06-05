@@ -1328,35 +1328,48 @@
             position: relative;
         }
 
-        /* Enhanced Input Field Styles */
+        /* CRITICAL FIX: Input Fields - Zero Freezing, Instant Response */
         .input-field {
             width: 100%;
-            padding: 14px 18px;
+            padding: 16px 20px;
             border: 2px solid #e5e7eb;
             border-radius: 12px;
-            font-size: 14px;
+            font-size: 16px;
             background: white;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
             font-weight: 500;
             color: #374151;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            /* Critical: Prevent input lag */
+            will-change: border-color, box-shadow;
+            /* Ensure stable focus */
+            position: relative;
+            z-index: 1;
         }
         
         .input-field:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1), 0 4px 12px rgba(0,0,0,0.1);
-            transform: translateY(-1px);
+            outline: none !important;
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15), 0 4px 12px rgba(0,0,0,0.1) !important;
+            /* Critical: Maintain focus stability */
+            position: relative;
+            z-index: 2;
         }
 
         .input-field:hover:not(:focus) {
             border-color: #9ca3af;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
         }
 
         .input-field::placeholder {
             color: #9ca3af;
             font-weight: 400;
+        }
+
+        /* Prevent any unwanted state changes during typing */
+        .input-field:focus-within {
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15), 0 4px 12px rgba(0,0,0,0.1) !important;
         }
 
         .enhanced-select select {
@@ -3617,27 +3630,27 @@
                                 key: 'view-toggle',
                                 className: 'view-toggle'
                             }, [
-                                ['desktop', '💻', 'desktopView'],
-                                ['tablet', '📱', 'tabletView'], 
-                                ['mobile', '📱', 'mobileView']
-                            ].map(([mode, icon, labelKey]) => 
+                                ['desktop', '💻', t('desktop')],
+                                ['tablet', '📱', t('tablet')], 
+                                ['mobile', '📱', t('mobile')]
+                            ].map(([mode, icon, label]) => 
                                 React.createElement('button', {
                                     key: mode,
                                     className: `view-toggle-btn ${viewMode === mode ? 'active' : ''}`,
                                     onClick: () => handleViewModeChange(mode),
                                     disabled: isViewSwitching,
-                                    'aria-label': t(labelKey),
-                                    'data-mode': mode
+                                    'aria-label': `${t('switchTo')} ${label}`,
+                                    'data-mode': mode,
+                                    type: 'button'
                                 }, [
                                     React.createElement('span', { 
                                         key: 'icon', 
-                                        className: 'view-icon',
-                                        'aria-hidden': 'true'
+                                        className: 'view-icon'
                                     }, icon),
                                     React.createElement('span', { 
                                         key: 'label', 
                                         className: 'view-label'
-                                    }, t(mode))
+                                    }, label)
                                 ])
                             )),
                             
@@ -3688,10 +3701,12 @@
                                     key: 'restaurant-name-input',
                                     type: 'text',
                                     className: 'input-field',
-                                    value: menu.restaurantName || '',
-                                    onChange: (e) => {
-                                        const value = e.target.value;
-                                        setMenu(prev => ({...prev, restaurantName: value}));
+                                    defaultValue: menu.restaurantName || '',
+                                    onInput: (e) => {
+                                        setMenu(prev => ({...prev, restaurantName: e.target.value}));
+                                    },
+                                    onBlur: (e) => {
+                                        setMenu(prev => ({...prev, restaurantName: e.target.value}));
                                     },
                                     placeholder: t('enterRestaurantName'),
                                     autoComplete: 'off',
@@ -3707,10 +3722,12 @@
                                     key: 'tagline-input',
                                     type: 'text',
                                     className: 'input-field',
-                                    value: menu.tagline || '',
-                                    onChange: (e) => {
-                                        const value = e.target.value;
-                                        setMenu(prev => ({...prev, tagline: value}));
+                                    defaultValue: menu.tagline || '',
+                                    onInput: (e) => {
+                                        setMenu(prev => ({...prev, tagline: e.target.value}));
+                                    },
+                                    onBlur: (e) => {
+                                        setMenu(prev => ({...prev, tagline: e.target.value}));
                                     },
                                     placeholder: t('enterTagline'),
                                     autoComplete: 'off',
