@@ -5337,11 +5337,24 @@
             const [completedSteps, setCompletedSteps] = useState(new Set());
             const [isTransitioning, setIsTransitioning] = useState(false);
 
-            // Step transition with animation
-            const transitionToStep = useCallback((nextStep) => {
+            // Step transition with animation and browser history
+            const transitionToStep = useCallback((nextStep, addToHistory = true) => {
                 if (isTransitioning) return;
                 
                 setIsTransitioning(true);
+                
+                // Update browser history
+                if (addToHistory) {
+                    const stepNames = {
+                        [STEPS.LANDING]: 'home',
+                        [STEPS.AUTH]: 'auth',
+                        [STEPS.TEMPLATE]: 'templates',
+                        [STEPS.EDITOR]: 'editor'
+                    };
+                    
+                    const url = `#${stepNames[nextStep] || 'home'}`;
+                    window.history.pushState({ step: nextStep, template: selectedTemplate }, '', url);
+                }
                 
                 // Add fade out animation
                 setTimeout(() => {
@@ -5349,7 +5362,7 @@
                     setCompletedSteps(prev => new Set([...prev, currentStep]));
                     setIsTransitioning(false);
                 }, 300);
-            }, [currentStep, isTransitioning]);
+            }, [currentStep, isTransitioning, selectedTemplate]);
 
             // Step handlers
             const handleLandingContinue = () => {
@@ -5367,10 +5380,45 @@
 
             const handleBackToTemplates = () => {
                 transitionToStep(STEPS.TEMPLATE);
-                setSelectedTemplate(null);
-                storage.remove('currentMenu');
-                storage.remove('currentSections');
+                // Keep selected template when going back
+                // Don't clear storage to maintain template selection
             };
+
+            // Handle browser back/forward navigation
+            useEffect(() => {
+                const handlePopstate = (event) => {
+                    if (event.state && event.state.step) {
+                        // Restore template if available
+                        if (event.state.template) {
+                            setSelectedTemplate(event.state.template);
+                        }
+                        // Navigate without adding to history
+                        transitionToStep(event.state.step, false);
+                    } else {
+                        // Default to landing page if no state
+                        transitionToStep(STEPS.LANDING, false);
+                    }
+                };
+
+                window.addEventListener('popstate', handlePopstate);
+                
+                // Set initial state
+                const initialUrl = window.location.hash.slice(1) || 'home';
+                const stepFromUrl = {
+                    'home': STEPS.LANDING,
+                    'auth': STEPS.AUTH,
+                    'templates': STEPS.TEMPLATE,
+                    'editor': STEPS.EDITOR
+                }[initialUrl] || STEPS.LANDING;
+                
+                if (stepFromUrl !== currentStep) {
+                    transitionToStep(stepFromUrl, false);
+                }
+
+                return () => {
+                    window.removeEventListener('popstate', handlePopstate);
+                };
+            }, [transitionToStep, currentStep]);
 
             // Prevent skipping steps
             const canAccessStep = (step) => {
