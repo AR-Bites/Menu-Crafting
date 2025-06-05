@@ -2323,6 +2323,13 @@
                 mobileFriendly: "Mobile Friendly",
                 mobileFriendlyDesc: "Perfect on all devices and screen sizes",
                 
+                // Welcome modal
+                welcome: "Welcome!",
+                welcomeMessage: "Enter your name to get started",
+                yourName: "Your Name",
+                enterName: "Enter your name",
+                continueToTemplates: "Continue to Templates",
+                
                 // Empty states
                 noSections: "No menu sections yet. Start by adding your first section!",
                 noItems: "No items in this section. Add your first menu item!",
@@ -2457,6 +2464,13 @@
                 multilingualSupportDesc: "دعم للعربية والإنجليزية مع اتجاه النص",
                 mobileFriendly: "متوافق مع الهاتف",
                 mobileFriendlyDesc: "مثالي على جميع الأجهزة وأحجام الشاشات",
+                
+                // Welcome modal
+                welcome: "مرحباً!",
+                welcomeMessage: "أدخل اسمك للبدء",
+                yourName: "اسمك",
+                enterName: "أدخل اسمك",
+                continueToTemplates: "المتابعة إلى القوالب",
                 
                 // Empty states
                 noSections: "لا توجد أقسام في القائمة بعد. ابدأ بإضافة قسمك الأول!",
@@ -4781,11 +4795,11 @@
                         React.createElement('h2', {
                             key: 'title',
                             className: 'text-2xl font-bold text-gray-800 mb-2'
-                        }, 'Welcome!'),
+                        }, t('welcome')),
                         React.createElement('p', {
                             key: 'subtitle',
                             className: 'text-gray-600'
-                        }, 'Enter your name to get started')
+                        }, t('welcomeMessage'))
                     ]),
                     
                     React.createElement('form', {
@@ -4797,14 +4811,14 @@
                             React.createElement('label', {
                                 key: 'label',
                                 className: 'block text-sm font-semibold text-gray-700 mb-2'
-                            }, 'Your Name'),
+                            }, t('yourName')),
                             React.createElement('input', {
                                 key: 'input',
                                 type: 'text',
                                 className: 'input-field',
                                 value: userName,
                                 onChange: (e) => setUserName(e.target.value),
-                                placeholder: 'Enter your name',
+                                placeholder: t('enterName'),
                                 required: true
                             })
                         ]),
@@ -4814,7 +4828,7 @@
                             type: 'submit',
                             className: 'btn btn-primary w-full',
                             disabled: !userName.trim()
-                        }, 'Continue to Templates')
+                        }, t('continueToTemplates'))
                     ])
                 ])
             ]);
