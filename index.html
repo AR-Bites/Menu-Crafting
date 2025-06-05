@@ -5125,25 +5125,36 @@
             const handleTemplateClick = (template) => {
                 if (isSelecting) return;
                 
-                // INSTANT visual feedback - no delays
+                // INSTANT visual feedback
                 setSelectedTemplate(template.id);
                 setShowConfirmation(true);
                 
-                // Apply template design immediately to live editor
-                const previewArea = document.querySelector('.preview-area');
-                const editorContainer = document.querySelector('.menu-editor-container');
+                // Apply template configuration to menu immediately
+                const templateConfig = {
+                    colorScheme: template.colorScheme,
+                    fontFamily: template.fontFamily,
+                    spacing: template.spacing,
+                    headerStyle: template.headerStyle,
+                    name: 'Sample Restaurant',
+                    tagline: 'Delicious cuisine awaits',
+                    sections: [
+                        {
+                            name: 'Appetizers',
+                            items: [
+                                { name: 'Caesar Salad', description: 'Fresh romaine, parmesan', price: '$12' },
+                                { name: 'Bruschetta', description: 'Tomato, basil, garlic', price: '$8' }
+                            ]
+                        }
+                    ]
+                };
                 
-                if (previewArea) {
-                    previewArea.style.background = template.preview.headerBg;
-                    previewArea.style.fontFamily = template.preview.typography;
-                    previewArea.style.color = template.preview.accentColor;
-                }
+                // Store template config for editor to use
+                window.selectedTemplateConfig = templateConfig;
                 
-                if (editorContainer) {
-                    editorContainer.style.setProperty('--template-accent', template.preview.accentColor);
-                    editorContainer.style.setProperty('--template-bg', template.preview.headerBg);
-                    editorContainer.style.setProperty('--template-font', template.preview.typography);
-                }
+                // Trigger custom event to notify editor of template selection
+                window.dispatchEvent(new CustomEvent('templateSelected', { 
+                    detail: templateConfig 
+                }));
                 
                 // Visual confirmation with smooth scroll
                 setTimeout(() => {
@@ -5163,8 +5174,27 @@
                 setIsSelecting(true);
                 const template = templates.find(t => t.id === selectedTemplate);
                 
+                // Create menu with template configuration applied
+                const menuWithTemplate = {
+                    name: 'My Restaurant',
+                    tagline: 'Delicious cuisine awaits',
+                    colorScheme: template.colorScheme,
+                    fontFamily: template.fontFamily,
+                    spacing: template.spacing,
+                    headerStyle: template.headerStyle,
+                    sections: [
+                        {
+                            name: 'Appetizers',
+                            items: [
+                                { name: 'Caesar Salad', description: 'Fresh romaine, parmesan', price: '$12' },
+                                { name: 'Bruschetta', description: 'Tomato, basil, garlic', price: '$8' }
+                            ]
+                        }
+                    ]
+                };
+                
                 setTimeout(() => {
-                    onSelectTemplate(template);
+                    onSelectTemplate(menuWithTemplate);
                 }, 800);
             };
 
