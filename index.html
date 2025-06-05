@@ -2969,66 +2969,70 @@
                     }, templates.map((template, index) => 
                         React.createElement('div', {
                             key: template.id,
-                            className: `template-card bg-white rounded-2xl overflow-hidden shadow-xl animate-slide-up ${
-                                selectedTemplate === template.id ? 'ring-4 ring-white ring-opacity-50' : ''
+                            className: `template-card-enhanced bg-white rounded-2xl overflow-hidden shadow-xl cursor-pointer transition-all duration-300 hover:shadow-2xl hover:scale-105 ${
+                                selectedTemplate === template.id ? 'ring-4 ring-blue-500 shadow-blue-500/25' : ''
                             }`,
-                            style: { animationDelay: `${index * 100}ms` }
+                            style: { animationDelay: `${index * 100}ms` },
+                            onClick: () => selectTemplate(template.id)
                         }, [
+                            // Authentic Restaurant Preview 
                             React.createElement('div', {
-                                key: 'preview',
-                                className: 'h-64 relative overflow-hidden p-4',
-                                style: { 
-                                    background: template.preview.backgroundColor,
-                                    fontFamily: 'Inter, sans-serif'
-                                }
+                                key: 'restaurant-preview',
+                                className: 'h-64 bg-white border-2 p-4 overflow-hidden',
+                                style: { borderColor: template.preview.accentColor }
                             }, [
-                                // Real restaurant header
+                                // Restaurant Name & Tagline
                                 React.createElement('div', {
-                                    key: 'restaurant-header',
-                                    className: 'text-center mb-4 pb-2 border-b',
+                                    key: 'restaurant-info',
+                                    className: 'text-center mb-4 pb-3 border-b',
                                     style: { borderColor: template.preview.accentColor + '40' }
                                 }, [
-                                    React.createElement('h3', {
-                                        key: 'name',
+                                    React.createElement('h2', {
+                                        key: 'restaurant-name',
                                         className: 'text-lg font-bold mb-1',
-                                        style: { color: template.preview.primaryColor }
+                                        style: { 
+                                            color: template.preview.primaryColor,
+                                            fontFamily: template.preview.typography || 'Inter'
+                                        }
                                     }, template.mockData.restaurantName.en),
                                     React.createElement('p', {
-                                        key: 'tagline',
-                                        className: 'text-xs italic',
+                                        key: 'restaurant-tagline',
+                                        className: 'text-xs italic opacity-80',
                                         style: { color: template.preview.secondaryColor }
                                     }, template.mockData.tagline.en)
                                 ]),
                                 
-                                // Real menu sections
+                                // Authentic Menu Items with JOD Pricing
                                 React.createElement('div', {
-                                    key: 'menu-sections',
+                                    key: 'authentic-menu',
                                     className: 'space-y-3'
-                                }, template.mockData.sections.slice(0, 2).map((section, idx) =>
+                                }, template.mockData.sections.slice(0, 2).map((section, sectionIndex) =>
                                     React.createElement('div', {
-                                        key: idx
+                                        key: sectionIndex,
+                                        className: 'menu-section-preview'
                                     }, [
-                                        React.createElement('h4', {
-                                            key: 'section-name',
-                                            className: 'text-sm font-semibold mb-2',
+                                        React.createElement('h3', {
+                                            key: 'section-header',
+                                            className: 'text-sm font-bold mb-2',
                                             style: { color: template.preview.accentColor }
                                         }, section.name.en),
                                         React.createElement('div', {
-                                            key: 'items',
+                                            key: 'section-items',
                                             className: 'space-y-1'
-                                        }, section.items.slice(0, 2).map((item, itemIdx) =>
+                                        }, section.items.slice(0, 2).map((item, itemIndex) =>
                                             React.createElement('div', {
-                                                key: itemIdx,
-                                                className: 'flex justify-between items-center text-xs'
+                                                key: itemIndex,
+                                                className: 'flex justify-between items-center bg-gray-50 px-2 py-1 rounded'
                                             }, [
                                                 React.createElement('span', {
                                                     key: 'item-name',
+                                                    className: 'text-xs font-medium',
                                                     style: { color: template.preview.primaryColor }
                                                 }, item.name.en),
                                                 React.createElement('span', {
-                                                    key: 'price',
-                                                    className: 'font-semibold',
-                                                    style: { color: template.preview.accentColor }
+                                                    key: 'item-price',
+                                                    className: 'text-xs font-bold px-2 py-0.5 rounded text-white',
+                                                    style: { backgroundColor: template.preview.accentColor }
                                                 }, item.price)
                                             ])
                                         ))
