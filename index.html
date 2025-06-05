@@ -4184,27 +4184,27 @@
                                     className: 'form-label'
                                 }, t('restaurantName')),
                                 React.createElement('input', {
-                                    key: 'restaurant-name-input',
+                                    key: `restaurant-name-${Date.now()}`,
                                     type: 'text',
                                     className: 'input-field',
                                     defaultValue: menu.restaurantName || '',
-                                    ref: (el) => {
-                                        if (el && !el.hasListener) {
-                                            el.hasListener = true;
-                                            el.addEventListener('input', (e) => {
-                                                // Update state and live preview
-                                                menu.restaurantName = e.target.value;
-                                                setMenu(prev => ({...prev, restaurantName: e.target.value}));
-                                                
-                                                // Update preview immediately - mobile and desktop views
-                                                const previewTitles = document.querySelectorAll('h1');
-                                                previewTitles.forEach(title => {
-                                                    if (title.textContent === menu.restaurantName || title.textContent.includes('Restaurant Name')) {
-                                                        title.textContent = e.target.value || 'Restaurant Name';
-                                                    }
-                                                });
-                                            });
-                                        }
+                                    onChange: () => {}, // Prevent React interference
+                                    onInput: (e) => {
+                                        // Immediate DOM update for live preview
+                                        const value = e.target.value;
+                                        
+                                        // Update all h1 elements that might be restaurant names
+                                        document.querySelectorAll('h1').forEach(h1 => {
+                                            if (h1.closest('[class*="preview"]') || h1.parentElement.classList.contains('p-4') || h1.parentElement.classList.contains('p-8')) {
+                                                h1.textContent = value || 'Restaurant Name';
+                                            }
+                                        });
+                                        
+                                        // Debounced state update
+                                        clearTimeout(window.nameUpdateTimeout);
+                                        window.nameUpdateTimeout = setTimeout(() => {
+                                            menu.restaurantName = value;
+                                        }, 100);
                                     },
                                     placeholder: t('enterRestaurantName'),
                                     autoComplete: 'off',
@@ -4217,27 +4217,28 @@
                                     className: 'form-label'
                                 }, t('tagline')),
                                 React.createElement('input', {
-                                    key: 'tagline-input',
+                                    key: `tagline-${Date.now()}`,
                                     type: 'text',
                                     className: 'input-field',
                                     defaultValue: menu.tagline || '',
-                                    ref: (el) => {
-                                        if (el && !el.hasListener) {
-                                            el.hasListener = true;
-                                            el.addEventListener('input', (e) => {
-                                                // Update state and live preview
-                                                menu.tagline = e.target.value;
-                                                setMenu(prev => ({...prev, tagline: e.target.value}));
-                                                
-                                                // Update preview immediately - mobile and desktop views
-                                                const previewTaglines = document.querySelectorAll('p');
-                                                previewTaglines.forEach(tagline => {
-                                                    if (tagline.textContent === menu.tagline || tagline.classList.contains('opacity-90')) {
-                                                        tagline.textContent = e.target.value || 'Your restaurant tagline';
-                                                    }
-                                                });
-                                            });
-                                        }
+                                    onChange: () => {}, // Prevent React interference
+                                    onInput: (e) => {
+                                        // Immediate DOM update for live preview
+                                        const value = e.target.value;
+                                        
+                                        // Update tagline elements in preview
+                                        document.querySelectorAll('p').forEach(p => {
+                                            if (p.classList.contains('opacity-90') || 
+                                                (p.parentElement && (p.parentElement.classList.contains('p-4') || p.parentElement.classList.contains('p-8')))) {
+                                                p.textContent = value || 'Your tagline';
+                                            }
+                                        });
+                                        
+                                        // Debounced state update
+                                        clearTimeout(window.taglineUpdateTimeout);
+                                        window.taglineUpdateTimeout = setTimeout(() => {
+                                            menu.tagline = value;
+                                        }, 100);
                                     },
                                     placeholder: t('enterTagline'),
                                     autoComplete: 'off',
