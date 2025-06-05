@@ -7,11 +7,7 @@
     <meta name="description" content="Create stunning restaurant menus with drag-and-drop interface, 3D models, multilingual support, and QR code generation. Perfect for modern restaurants.">
     
     <!-- External Dependencies -->
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Arabic:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
@@ -2072,23 +2068,382 @@
     </style>
 </head>
 <body>
-    <div id="root"></div>
+    <!-- Language Toggle -->
+    <button class="language-toggle" id="languageToggle">
+        🇺🇸 English
+    </button>
+
+    <!-- Landing Screen -->
+    <div class="screen active" id="landingScreen">
+        <div class="container">
+            <div class="landing-hero">
+                <div class="hero-icon">🍽️</div>
+                <h1 class="hero-title" data-i18n="title">Restaurant Menu Builder</h1>
+                <p class="hero-subtitle" data-i18n="subtitle">Create stunning digital menus with drag-and-drop interface, 3D models, multilingual support, and QR code generation. Perfect for modern restaurants.</p>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <span class="feature-icon">🎨</span>
+                        <h3 class="feature-title" data-i18n="feature1Title">Beautiful Templates</h3>
+                        <p class="feature-description" data-i18n="feature1Desc">Choose from professionally designed templates that match your restaurant style perfectly</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">🌍</span>
+                        <h3 class="feature-title" data-i18n="feature2Title">Multilingual Support</h3>
+                        <p class="feature-description" data-i18n="feature2Desc">Full Arabic and English support with automatic RTL/LTR layout switching</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">📱</span>
+                        <h3 class="feature-title" data-i18n="feature3Title">Mobile Optimized</h3>
+                        <p class="feature-description" data-i18n="feature3Desc">Perfect experience on all devices with responsive design and QR code generation</p>
+                    </div>
+                </div>
+                
+                <button class="cta-button" id="startButton">
+                    <span data-i18n="getStarted">Start Crafting Your Menu</span>
+                    <span class="cta-arrow">→</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Template Selection Screen -->
+    <div class="screen" id="templateScreen">
+        <div class="container">
+            <div class="template-section">
+                <h2 class="section-title" data-i18n="selectTemplate">Choose Your Perfect Template</h2>
+                
+                <div class="device-toggles">
+                    <button class="device-toggle active" data-device="mobile">
+                        <span class="device-icon">📱</span>
+                        <span data-i18n="mobileView">Mobile View</span>
+                    </button>
+                    <button class="device-toggle" data-device="tablet">
+                        <span class="device-icon">💻</span>
+                        <span data-i18n="tabletView">Tablet View</span>
+                    </button>
+                    <button class="device-toggle" data-device="desktop">
+                        <span class="device-icon">🖥️</span>
+                        <span data-i18n="desktopView">Desktop View</span>
+                    </button>
+                </div>
+                
+                <div class="templates-grid" id="templatesGrid">
+                    <!-- Templates will be dynamically generated -->
+                </div>
+                
+                <div class="text-center">
+                    <button class="btn btn-secondary" id="backToLanding">
+                        <span data-i18n="back">← Back</span>
+                    </button>
+                    <button class="btn btn-primary hidden" id="useTemplateBtn">
+                        <span data-i18n="useTemplate">Use This Template →</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Editor Screen -->
+    <div class="screen" id="editorScreen">
+        <div class="container">
+            <div class="template-section">
+                <h2 class="section-title" data-i18n="menuEditor">Menu Editor</h2>
+                <div class="success-message" id="successMessage">
+                    <span data-i18n="menuCreated">Your beautiful menu is ready! 🎉</span>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-secondary" id="backToTemplates">
+                        <span data-i18n="backToTemplates">← Choose Different Template</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        const { useState, useEffect, useRef, useCallback, useMemo } = React;
-
-        // Comprehensive translations with more content
+        // Translations
         const translations = {
             en: {
-                // Main navigation
                 title: "Restaurant Menu Builder",
-                subtitle: "Create beautiful, multilingual digital menus with drag-and-drop ease",
-                selectTemplate: "Choose Your Template",
-                getStarted: "Get Started",
+                subtitle: "Create stunning digital menus with drag-and-drop interface, 3D models, multilingual support, and QR code generation. Perfect for modern restaurants.",
+                feature1Title: "Beautiful Templates",
+                feature1Desc: "Choose from professionally designed templates that match your restaurant style perfectly",
+                feature2Title: "Multilingual Support", 
+                feature2Desc: "Full Arabic and English support with automatic RTL/LTR layout switching",
+                feature3Title: "Mobile Optimized",
+                feature3Desc: "Perfect experience on all devices with responsive design and QR code generation",
+                getStarted: "Start Crafting Your Menu",
+                selectTemplate: "Choose Your Perfect Template",
+                mobileView: "Mobile View",
+                tabletView: "Tablet View", 
+                desktopView: "Desktop View",
+                back: "← Back",
+                useTemplate: "Use This Template →",
+                menuEditor: "Menu Editor",
+                menuCreated: "Your beautiful menu is ready! 🎉",
+                backToTemplates: "← Choose Different Template",
+                darkNeon: "Dark Neon",
+                darkNeonDesc: "Futuristic dark theme with neon accents and cyber vibes",
+                elegantScript: "Elegant Script", 
+                elegantScriptDesc: "Sophisticated script fonts with gold accents and classic elegance",
+                imageGrid: "Image Grid",
+                imageGridDesc: "Photo-focused layout with bold typography and vibrant colors",
+                minimalZen: "Minimal Zen",
+                minimalZenDesc: "Clean and spacious design with mindful simplicity"
+            },
+            ar: {
+                title: "منشئ قوائم المطاعم",
+                subtitle: "إنشاء قوائم رقمية مذهلة مع واجهة السحب والإفلات، ونماذج ثلاثية الأبعاد، والدعم متعدد اللغات، وإنشاء رمز الاستجابة السريعة. مثالي للمطاعم الحديثة.",
+                feature1Title: "قوالب جميلة",
+                feature1Desc: "اختر من القوالب المصممة بشكل احترافي التي تتناسب مع أسلوب مطعمك بشكل مثالي",
+                feature2Title: "دعم متعدد اللغات",
+                feature2Desc: "دعم كامل للعربية والإنجليزية مع تبديل تخطيط RTL/LTR التلقائي",
+                feature3Title: "محسن للجوال",
+                feature3Desc: "تجربة مثالية على جميع الأجهزة مع التصميم المتجاوب وإنشاء رمز الاستجابة السريعة",
+                getStarted: "ابدأ في صياغة قائمتك",
+                selectTemplate: "اختر القالب المثالي",
+                mobileView: "عرض الجوال",
+                tabletView: "عرض الجهاز اللوحي",
+                desktopView: "عرض سطح المكتب",
+                back: "← رجوع",
+                useTemplate: "استخدم هذا القالب ←",
+                menuEditor: "محرر القائمة",
+                menuCreated: "قائمتك الجميلة جاهزة! 🎉",
+                backToTemplates: "← اختر قالب مختلف",
+                darkNeon: "نيون داكن",
+                darkNeonDesc: "تصميم مستقبلي داكن مع لمسات نيون وأجواء سايبر",
+                elegantScript: "خط أنيق",
+                elegantScriptDesc: "خطوط سكريبت متطورة مع لمسات ذهبية وأناقة كلاسيكية",
+                imageGrid: "شبكة الصور",
+                imageGridDesc: "تخطيط يركز على الصور مع طباعة جريئة وألوان نابضة بالحياة",
+                minimalZen: "بساطة زين",
+                minimalZenDesc: "تصميم نظيف وواسع مع بساطة واعية"
+            }
+        };
+
+        // Templates data
+        const templates = [
+            {
+                id: 'dark-neon',
+                name: 'darkNeon',
+                description: 'darkNeonDesc',
+                preview: {
+                    background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)',
+                    accentColor: '#00f5ff',
+                    secondaryColor: '#ff00aa'
+                }
+            },
+            {
+                id: 'elegant-script',
+                name: 'elegantScript', 
+                description: 'elegantScriptDesc',
+                preview: {
+                    background: 'linear-gradient(135deg, #f7f1e3 0%, #f5e6d3 50%, #e8d5b7 100%)',
+                    accentColor: '#d4af37',
+                    secondaryColor: '#8b4513'
+                }
+            },
+            {
+                id: 'image-grid',
+                name: 'imageGrid',
+                description: 'imageGridDesc', 
+                preview: {
+                    background: 'linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ffd23f 100%)',
+                    accentColor: '#ff6b35',
+                    secondaryColor: '#2c3e50'
+                }
+            },
+            {
+                id: 'minimal-zen',
+                name: 'minimalZen',
+                description: 'minimalZenDesc',
+                preview: {
+                    background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #e9ecef 100%)',
+                    accentColor: '#6c757d',
+                    secondaryColor: '#495057'
+                }
+            }
+        ];
+
+        // State management
+        let currentLanguage = 'en';
+        let selectedTemplate = null;
+        let currentDevice = 'mobile';
+
+        // DOM elements
+        const languageToggle = document.getElementById('languageToggle');
+        const startButton = document.getElementById('startButton');
+        const backToLanding = document.getElementById('backToLanding');
+        const useTemplateBtn = document.getElementById('useTemplateBtn');
+        const backToTemplates = document.getElementById('backToTemplates');
+        const templatesGrid = document.getElementById('templatesGrid');
+        const deviceToggles = document.querySelectorAll('.device-toggle');
+
+        // Screen elements
+        const landingScreen = document.getElementById('landingScreen');
+        const templateScreen = document.getElementById('templateScreen');
+        const editorScreen = document.getElementById('editorScreen');
+
+        // Initialize app
+        function init() {
+            updateLanguage();
+            generateTemplates();
+            setupEventListeners();
+        }
+
+        // Event listeners
+        function setupEventListeners() {
+            if (languageToggle) {
+                languageToggle.addEventListener('click', toggleLanguage);
+            }
+            if (startButton) {
+                startButton.addEventListener('click', function() { showScreen('template'); });
+            }
+            if (backToLanding) {
+                backToLanding.addEventListener('click', function() { showScreen('landing'); });
+            }
+            if (useTemplateBtn) {
+                useTemplateBtn.addEventListener('click', function() { showScreen('editor'); });
+            }
+            if (backToTemplates) {
+                backToTemplates.addEventListener('click', function() { showScreen('template'); });
+            }
+            
+            deviceToggles.forEach(function(toggle) {
+                toggle.addEventListener('click', function(e) {
+                    deviceToggles.forEach(function(t) { t.classList.remove('active'); });
+                    e.target.closest('.device-toggle').classList.add('active');
+                    currentDevice = e.target.closest('.device-toggle').dataset.device;
+                    updateTemplatePreview();
+                });
+            });
+        }
+
+        // Language toggle
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'en' ? 'ar' : 'en';
+            document.documentElement.dir = currentLanguage === 'ar' ? 'rtl' : 'ltr';
+            document.documentElement.lang = currentLanguage;
+            
+            // Update toggle button
+            if (languageToggle) {
+                languageToggle.textContent = currentLanguage === 'en' ? '🇸🇦 العربية' : '🇺🇸 English';
+            }
+            
+            // Animate language switch
+            document.body.style.opacity = '0.7';
+            setTimeout(function() {
+                updateLanguage();
+                document.body.style.opacity = '1';
+            }, 150);
+        }
+
+        // Update language
+        function updateLanguage() {
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(function(element) {
+                const key = element.getAttribute('data-i18n');
+                if (translations[currentLanguage] && translations[currentLanguage][key]) {
+                    element.textContent = translations[currentLanguage][key];
+                }
+            });
+            
+            // Update CTA arrow direction
+            const arrow = document.querySelector('.cta-arrow');
+            if (arrow) {
+                arrow.textContent = currentLanguage === 'ar' ? '←' : '→';
+            }
+        }
+
+        // Generate templates
+        function generateTemplates() {
+            if (!templatesGrid) {
+                return;
+            }
+            
+            templatesGrid.innerHTML = '';
+            
+            templates.forEach(function(template) {
+                const templateCard = document.createElement('div');
+                templateCard.className = 'template-card';
+                templateCard.dataset.templateId = template.id;
                 
-                // Templates
-                "dark-neon": "Dark Neon",
-                "elegant-script": "Elegant Script",
+                templateCard.innerHTML = 
+                    '<div class="template-preview" style="background: ' + template.preview.background + '">' +
+                        '<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 100%;">' +
+                            '<div style="color: ' + template.preview.accentColor + '; font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">Restaurant Name</div>' +
+                            '<div style="color: ' + template.preview.secondaryColor + '; font-size: 0.9rem;">Sample Menu Item - $25</div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="template-info">' +
+                        '<h3 class="template-name" data-i18n="' + template.name + '"></h3>' +
+                        '<p class="template-description" data-i18n="' + template.description + '"></p>' +
+                    '</div>';
+                
+                templateCard.addEventListener('click', function() { selectTemplate(template.id); });
+                templatesGrid.appendChild(templateCard);
+            });
+            
+            updateLanguage(); // Update translations for new elements
+        }
+
+        // Select template
+        function selectTemplate(templateId) {
+            // Remove previous selection
+            document.querySelectorAll('.template-card').forEach(function(card) {
+                card.classList.remove('selected');
+            });
+            
+            // Add selection to clicked template
+            const selectedCard = document.querySelector('[data-template-id="' + templateId + '"]');
+            if (selectedCard) {
+                selectedCard.classList.add('selected');
+            }
+            
+            selectedTemplate = templateId;
+            if (useTemplateBtn) {
+                useTemplateBtn.classList.remove('hidden');
+            }
+            
+            // Smooth scroll to use template button
+            setTimeout(function() {
+                if (useTemplateBtn) {
+                    useTemplateBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 300);
+        }
+
+        // Update template preview based on device
+        function updateTemplatePreview() {
+            console.log('Updating preview for ' + currentDevice + ' device');
+        }
+
+        // Show screen
+        function showScreen(screenName) {
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(function(screen) {
+                screen.classList.remove('active');
+            });
+            
+            // Show selected screen with animation
+            setTimeout(function() {
+                const targetScreen = document.getElementById(screenName + 'Screen');
+                if (targetScreen) {
+                    targetScreen.classList.add('active');
+                }
+            }, 100);
+        }
+
+        // Initialize when DOM is loaded
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+</body>
+</html>
                 "image-grid": "Image Grid", 
                 "minimal-zen": "Minimal Zen",
                 "dark-neonDesc": "Futuristic dark theme with neon accents and cyber styling",
@@ -2209,7 +2564,7 @@
             ar: {
                 // Main navigation
                 title: "منشئ قوائم المطاعم",
-                subtitle: "إنشاء قوائم رقمية جميلة ومتعددة اللغات بسهولة  �لسحب والإفلات",
+                subtitle: "إنشاء قوائم رقمية جميلة ومتعددة اللغات بسهولة السحب والإفلات",
                 selectTemplate: "اختر القالب المناسب",
                 getStarted: "ابدأ الآن",
                 
