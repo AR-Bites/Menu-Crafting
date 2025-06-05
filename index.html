@@ -1507,7 +1507,7 @@
             border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
-        /* ALWAYS visible icon and label - FORCED VISIBILITY */
+        /* FORCE LABEL VISIBILITY - OVERRIDE ALL OTHER RULES */
         .view-toggle-btn .view-icon {
             font-size: 18px !important;
             transition: all 0.3s ease;
@@ -1517,7 +1517,9 @@
             flex-shrink: 0;
         }
 
-        .view-toggle-btn .view-label {
+        .view-toggle-btn .view-label,
+        .view-toggle .view-label,
+        span.view-label {
             font-weight: 600 !important;
             font-size: 13px !important;
             display: inline-block !important;
@@ -1526,6 +1528,19 @@
             visibility: visible !important;
             color: inherit !important;
             margin-left: 6px !important;
+            max-width: none !important;
+            width: auto !important;
+            height: auto !important;
+            overflow: visible !important;
+        }
+
+        /* Override any media queries or responsive rules */
+        @media (max-width: 9999px) {
+            .view-toggle-btn .view-label {
+                display: inline-block !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+            }
         }
 
         .view-toggle-btn:hover {
@@ -2156,7 +2171,7 @@
                 // Item properties
                 spicy: "Spicy 🌶️",
                 vegetarian: "Vegetarian 🌱",
-                vegan: "Vegan   ��",
+                vegan: "Vegan 🌿",
                 glutenFree: "Gluten Free",
                 popular: "Popular Choice",
                 
