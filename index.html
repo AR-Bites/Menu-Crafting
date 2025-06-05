@@ -1787,21 +1787,21 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
             max-width: 1200px;
-            margin: 0 auto 4rem;
+            margin: 0 auto 4rem auto;
             padding: 0 2rem;
         }
 
         .feature-showcase-card {
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 24px;
-            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            padding: 2rem;
             text-align: center;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: translateY(30px);
+            animation: slideUpSteps 0.8s ease-out forwards;
             opacity: 0;
-            animation: slideUpFeature 0.8s ease-out forwards;
+            transform: translateY(50px);
         }
 
         .feature-showcase-card:nth-child(1) { animation-delay: 0.2s; }
@@ -1809,6 +1809,110 @@
         .feature-showcase-card:nth-child(3) { animation-delay: 0.6s; }
 
         .feature-showcase-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-icon-showcase {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+        }
+
+        .feature-title-showcase {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .feature-desc-showcase {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Template Selection Enhanced Styles */
+        .template-selected {
+            transform: scale(1.05) !important;
+            box-shadow: 0 0 0 4px #00f5ff, 0 20px 40px rgba(0, 245, 255, 0.3) !important;
+            border: 2px solid #00f5ff !important;
+            position: relative;
+            z-index: 10;
+        }
+
+        .template-selected::after {
+            content: "✓ SELECTED";
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #00f5ff;
+            color: #000;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            animation: selectedPulse 1s ease-in-out infinite;
+        }
+
+        @keyframes selectedPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Input Field Fix - No Focus Loss */
+        .input-field {
+            transition: none !important;
+            outline: none !important;
+        }
+
+        .input-field:focus {
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+        }
+
+        /* Device Toggle Enhanced */
+        .device-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .device-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .device-toggle.active {
+            background: #3b82f6;
+            border-color: #3b82f6;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .device-toggle-icon {
+            font-size: 1.25rem;
+        }
             transform: translateY(-10px) scale(1.03);
             background: rgba(255, 255, 255, 0.18);
             box-shadow: 0 25px 60px rgba(0,0,0,0.2);
@@ -2115,7 +2219,7 @@
                 "image-gridDesc": "تخطيط يركز على الصور مع طباعة جريئة وألوان نابضة بالحياة",
                 "minimal-zenDesc": "تصميم نظيف وواسع مع بساطة واعية",
                 useTemplate: "استخدم هذا القالب",
-                chooseTemplate: "اخ �ر هذا القالب",
+                chooseTemplate: "اختر هذا القالب",
                 templateSelected: "تم اختيار القالب!",
                 perfectChoice: "اختيار مثالي!",
                 selectedTemplate: "لقد اخترت",
@@ -4379,66 +4483,141 @@
             SHARE: 'share'
         };
 
-        // Landing Page Component
+        // ENHANCED LANDING PAGE - Complete Visual Overhaul
         function LandingPage({ onContinue }) {
             const { t, isRTL } = useLanguage();
             
             return React.createElement('div', {
-                className: `screen min-h-screen flex items-center justify-center p-8 ${isRTL ? 'rtl' : ''}`,
-                dir: isRTL ? 'rtl' : 'ltr'
+                className: `min-h-screen ${isRTL ? 'rtl' : ''}`,
+                dir: isRTL ? 'rtl' : 'ltr',
+                style: {
+                    background: 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 25%, #8b5cf6 75%, #ec4899 100%)',
+                    position: 'relative',
+                    overflow: 'hidden'
+                }
             }, [
+                // Floating Background Elements
                 React.createElement('div', {
-                    key: 'content',
-                    className: 'text-center max-w-4xl mx-auto animate-fade-in'
+                    key: 'bg-elements',
+                    className: 'absolute inset-0 pointer-events-none'
                 }, [
                     React.createElement('div', {
-                        key: 'hero-icon',
-                        className: 'text-8xl mb-8 animate-bounce'
+                        key: 'circle1',
+                        className: 'floating-circle',
+                        style: { top: '10%', left: '10%', animationDelay: '0s' }
+                    }),
+                    React.createElement('div', {
+                        key: 'circle2',
+                        className: 'floating-circle',
+                        style: { top: '20%', right: '15%', animationDelay: '2s' }
+                    }),
+                    React.createElement('div', {
+                        key: 'circle3',
+                        className: 'floating-circle',
+                        style: { bottom: '30%', left: '20%', animationDelay: '4s' }
+                    })
+                ]),
+
+                // Hero Section Enhanced
+                React.createElement('div', {
+                    key: 'hero',
+                    className: 'landing-hero-enhanced'
+                }, [
+                    React.createElement('div', {
+                        key: 'icon',
+                        className: 'text-8xl mb-8',
+                        style: { 
+                            animation: 'iconFloat 3s ease-in-out infinite',
+                            filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.3))'
+                        }
                     }, '🍽️'),
-                    
                     React.createElement('h1', {
                         key: 'title',
-                        className: 'text-6xl font-bold text-white mb-6 leading-tight'
+                        className: 'landing-title-enhanced'
                     }, t('title')),
-                    
                     React.createElement('p', {
                         key: 'subtitle',
-                        className: 'text-xl text-white opacity-90 mb-12 max-w-2xl mx-auto leading-relaxed'
-                    }, t('subtitle')),
-                    
+                        className: 'landing-subtitle-enhanced'
+                    }, t('subtitle'))
+                ]),
+                
+                // Enhanced Features Showcase
+                React.createElement('div', {
+                    key: 'features',
+                    className: 'features-showcase'
+                }, [
                     React.createElement('div', {
-                        key: 'features',
-                        className: 'grid grid-cols-1 md:grid-cols-3 gap-8 mb-12'
+                        key: 'feature1',
+                        className: 'feature-showcase-card'
                     }, [
-                        ['🎨', 'Beautiful Templates', 'Choose from professionally designed templates'],
-                        ['🌐', 'Multilingual Support', 'Support for Arabic and English with RTL'],
-                        ['📱', 'Mobile Friendly', 'Perfect on all devices and screen sizes']
-                    ].map(([icon, title, desc], index) => 
                         React.createElement('div', {
-                            key: index,
-                            className: 'glass-effect p-6 rounded-2xl animate-slide-up',
-                            style: { animationDelay: `${index * 200}ms` }
-                        }, [
-                            React.createElement('div', {
-                                key: 'icon',
-                                className: 'text-4xl mb-4'
-                            }, icon),
-                            React.createElement('h3', {
-                                key: 'title',
-                                className: 'text-xl font-bold text-white mb-2'
-                            }, title),
-                            React.createElement('p', {
-                                key: 'desc',
-                                className: 'text-white opacity-80'
-                            }, desc)
-                        ])
-                    )),
-                    
+                            key: 'icon',
+                            className: 'feature-icon-showcase'
+                        }, '🎨'),
+                        React.createElement('h3', {
+                            key: 'title',
+                            className: 'feature-title-showcase'
+                        }, 'Beautiful Templates'),
+                        React.createElement('p', {
+                            key: 'desc',
+                            className: 'feature-desc-showcase'
+                        }, 'Choose from professionally designed templates that match your restaurant style')
+                    ]),
+                    React.createElement('div', {
+                        key: 'feature2',
+                        className: 'feature-showcase-card'
+                    }, [
+                        React.createElement('div', {
+                            key: 'icon',
+                            className: 'feature-icon-showcase'
+                        }, '🌍'),
+                        React.createElement('h3', {
+                            key: 'title',
+                            className: 'feature-title-showcase'
+                        }, 'Multilingual Support'),
+                        React.createElement('p', {
+                            key: 'desc',
+                            className: 'feature-desc-showcase'
+                        }, 'Full Arabic and English support with automatic RTL/LTR layout switching')
+                    ]),
+                    React.createElement('div', {
+                        key: 'feature3',
+                        className: 'feature-showcase-card'
+                    }, [
+                        React.createElement('div', {
+                            key: 'icon',
+                            className: 'feature-icon-showcase'
+                        }, '📱'),
+                        React.createElement('h3', {
+                            key: 'title',
+                            className: 'feature-title-showcase'
+                        }, 'Mobile Optimized'),
+                        React.createElement('p', {
+                            key: 'desc',
+                            className: 'feature-desc-showcase'
+                        }, 'Perfect experience on all devices with responsive design and QR code generation')
+                    ])
+                ]),
+                
+                // Enhanced CTA Button
+                React.createElement('div', {
+                    key: 'cta-container',
+                    className: 'text-center relative z-10'
+                }, [
                     React.createElement('button', {
                         key: 'cta',
-                        className: 'btn btn-primary text-xl px-12 py-6',
+                        className: 'landing-cta-enhanced',
                         onClick: onContinue
-                    }, t('getStarted'))
+                    }, [
+                        React.createElement('span', {
+                            key: 'text',
+                            className: 'cta-text'
+                        }, t('getStarted')),
+                        React.createElement('span', {
+                            key: 'arrow',
+                            className: 'cta-arrow'
+                        }, isRTL ? '←' : '→')
+                    ])
                 ])
             ]);
         }
@@ -4854,17 +5033,17 @@
                 setSelectedTemplate(template.id);
                 setShowConfirmation(true);
                 
-                // Apply template design immediately to live editor
-                const previewArea = document.querySelector('.preview-area');
-                const editorContainer = document.querySelector('.menu-editor-container');
+                // Visual feedback with immediate template preview update
+                const templateCards = document.querySelectorAll('.template-card');
+                templateCards.forEach(card => {
+                    card.classList.remove('template-selected');
+                });
                 
-                if (previewArea) {
-                    previewArea.style.background = template.preview.headerBg;
-                    previewArea.style.fontFamily = template.preview.typography;
-                    previewArea.style.color = template.preview.accentColor;
+                const selectedCard = document.querySelector(`[data-template-id="${template.id}"]`);
+                if (selectedCard) {
+                    selectedCard.classList.add('template-selected');
+                    selectedCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
-                
-                if (editorContainer) {
                     editorContainer.style.setProperty('--template-accent', template.preview.accentColor);
                     editorContainer.style.setProperty('--template-bg', template.preview.headerBg);
                     editorContainer.style.setProperty('--template-font', template.preview.typography);
