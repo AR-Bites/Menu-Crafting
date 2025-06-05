@@ -5275,884 +5275,247 @@
         // Update the main translations object to include template translations
         translations.en = { ...translations.en, ...templateTranslations.en };
         translations.ar = { ...translations.ar, ...templateTranslations.ar };
-                        style: {
-                            backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20c0-11.046-8.954-20-20-20v20h20z' fill='%23d4af37'/%3E%3C/svg%3E")`
-                        }
-                    }),
-                    
-                    // Decorative border
-                    React.createElement('div', {
-                        key: 'border',
-                        className: 'absolute inset-2 border-2 border-amber-300/40 rounded-lg'
-                    }),
-                    
-                    // Header with ornate styling
+
+        // Simple Template Card Component - Working Version
+        function SimpleTemplateCard({ template, isSelected, onClick, language = 'en' }) {
+            const isRTL = language === 'ar';
+            const getText = (textObj) => textObj[language] || textObj.en;
+            
+            return React.createElement('div', {
+                className: `template-card bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl ${isSelected ? 'ring-4 ring-purple-500' : ''}`,
+                onClick: onClick
+            }, [
+                // Mini Menu Preview
+                React.createElement('div', {
+                    key: 'preview',
+                    className: `h-64 p-4 ${isRTL ? 'text-right' : 'text-left'}`,
+                    dir: isRTL ? 'rtl' : 'ltr',
+                    style: {
+                        background: template.preview.backgroundColor,
+                        fontFamily: isRTL ? 'Cairo, sans-serif' : 'Inter, sans-serif'
+                    }
+                }, [
+                    // Restaurant Header
                     React.createElement('div', {
                         key: 'header',
-                        className: 'p-6 text-center'
+                        className: 'text-center mb-4 pb-2 border-b',
+                        style: { borderColor: template.preview.accentColor + '40' }
                     }, [
-                        React.createElement('h1', {
-                            key: 'title',
-                            className: 'text-2xl font-bold italic mb-1',
-                            style: {
-                                color: preview.accentColor,
-                                fontFamily: 'Playfair Display, serif'
-                            }
-                        }, mockData.restaurantName),
-                        React.createElement('div', {
-                            key: 'ornament',
-                            className: 'w-16 h-px mx-auto my-2',
-                            style: { background: preview.accentColor }
-                        }),
+                        React.createElement('h3', {
+                            key: 'name',
+                            className: 'text-lg font-bold mb-1',
+                            style: { color: template.preview.primaryColor }
+                        }, getText(template.mockData.restaurantName)),
                         React.createElement('p', {
                             key: 'tagline',
-                            className: 'text-xs italic',
-                            style: { color: preview.secondaryColor }
-                        }, mockData.tagline)
+                            className: 'text-xs',
+                            style: { color: template.preview.secondaryColor }
+                        }, getText(template.mockData.tagline))
                     ]),
                     
-                    // Elegant menu layout
+                    // Menu Sections
                     React.createElement('div', {
-                        key: 'menu',
-                        className: 'px-6 space-y-3'
-                    }, mockData.sections.slice(0, 2).map((section, sIndex) =>
+                        key: 'sections',
+                        className: 'space-y-3'
+                    }, template.mockData.sections.slice(0, 2).map((section, idx) =>
                         React.createElement('div', {
-                            key: sIndex,
-                            className: 'section'
+                            key: idx
                         }, [
-                            React.createElement('h3', {
-                                key: 'section-title',
-                                className: 'text-sm font-bold mb-2 text-center',
-                                style: { 
-                                    color: preview.accentColor,
-                                    fontFamily: 'Playfair Display, serif'
-                                }
-                            }, section.name),
+                            React.createElement('h4', {
+                                key: 'section-name',
+                                className: `text-sm font-semibold mb-2 ${isRTL ? 'text-right' : 'text-left'}`,
+                                style: { color: template.preview.accentColor }
+                            }, getText(section.name)),
                             React.createElement('div', {
                                 key: 'items',
                                 className: 'space-y-1'
-                            }, section.items.slice(0, 2).map((item, iIndex) =>
+                            }, section.items.slice(0, 2).map((item, itemIdx) =>
                                 React.createElement('div', {
-                                    key: iIndex,
-                                    className: 'flex justify-between items-center py-1 border-b border-amber-200/30'
+                                    key: itemIdx,
+                                    className: `flex justify-between items-center text-xs ${isRTL ? 'flex-row-reverse' : 'flex-row'}`
                                 }, [
                                     React.createElement('span', {
-                                        key: 'name',
-                                        className: 'text-xs flex items-center gap-1',
-                                        style: { color: preview.secondaryColor }
-                                    }, [
-                                        item.name,
-                                        item.special && React.createElement('span', {
-                                            key: 'star',
-                                            style: { color: preview.accentColor }
-                                        }, '✦')
-                                    ]),
+                                        key: 'item-name',
+                                        style: { color: template.preview.primaryColor }
+                                    }, getText(item.name)),
                                     React.createElement('span', {
                                         key: 'price',
-                                        className: 'text-xs font-semibold',
-                                        style: { color: preview.accentColor }
+                                        className: 'font-semibold',
+                                        style: { color: template.preview.accentColor }
                                     }, item.price)
                                 ])
                             ))
                         ])
                     ))
-                ]);
-            }
-            
-            // Image Grid Template
-            if (template.id === 'image-grid') {
-                return React.createElement('div', {
-                    className: 'realistic-preview h-80 relative overflow-hidden rounded-lg',
-                    style: {
-                        background: 'linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ffd23f 100%)',
-                        fontFamily: 'Montserrat, sans-serif'
-                    }
-                }, [
-                    // Bold header
-                    React.createElement('div', {
-                        key: 'header',
-                        className: 'p-4 text-center text-white'
-                    }, [
-                        React.createElement('h1', {
-                            key: 'title',
-                            className: 'text-2xl font-black uppercase mb-1 tracking-wide',
-                            style: { textShadow: '2px 2px 4px rgba(0,0,0,0.3)' }
-                        }, mockData.restaurantName),
-                        React.createElement('p', {
-                            key: 'tagline',
-                            className: 'text-xs font-bold uppercase tracking-wider opacity-90'
-                        }, mockData.tagline)
-                    ]),
-                    
-                    // Image grid layout
-                    React.createElement('div', {
-                        key: 'grid',
-                        className: 'px-4 grid grid-cols-2 gap-2'
-                    }, mockData.sections.flatMap(section => 
-                        section.items.slice(0, 2).map((item, i) =>
-                            React.createElement('div', {
-                                key: i,
-                                className: 'relative rounded-lg overflow-hidden',
-                                style: {
-                                    background: 'linear-gradient(45deg, #2c3e50 0%, #34495e 100%)',
-                                    aspectRatio: '4/3'
-                                }
-                            }, [
-                                // Mock image placeholder
-                                React.createElement('div', {
-                                    key: 'image',
-                                    className: 'absolute inset-0 flex items-center justify-center text-4xl opacity-30'
-                                }, '🍽️'),
-                                
-                                // Item info overlay
-                                React.createElement('div', {
-                                    key: 'overlay',
-                                    className: 'absolute bottom-0 left-0 right-0 p-2',
-                                    style: {
-                                        background: 'linear-gradient(transparent, rgba(0,0,0,0.8))'
-                                    }
-                                }, [
-                                    React.createElement('div', {
-                                        key: 'name',
-                                        className: 'text-white text-xs font-bold'
-                                    }, item.name),
-                                    React.createElement('div', {
-                                        key: 'price',
-                                        className: 'text-xs font-black',
-                                        style: { color: preview.accentColor }
-                                    }, item.price)
-                                ])
-                            ])
-                        )
-                    ))
-                ]);
-            }
-            
-            // Minimal Zen Template
-            if (template.id === 'minimal-zen') {
-                return React.createElement('div', {
-                    className: 'realistic-preview h-80 relative overflow-hidden rounded-lg',
-                    style: {
-                        background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #e9ecef 100%)',
-                        fontFamily: 'Inter, sans-serif'
-                    }
-                }, [
-                    // Clean header
-                    React.createElement('div', {
-                        key: 'header',
-                        className: 'p-8 text-center'
-                    }, [
-                        React.createElement('h1', {
-                            key: 'title',
-                            className: 'text-xl font-light lowercase tracking-wide mb-2',
-                            style: { color: preview.accentColor }
-                        }, mockData.restaurantName),
-                        React.createElement('p', {
-                            key: 'tagline',
-                            className: 'text-xs lowercase tracking-wider',
-                            style: { color: preview.secondaryColor }
-                        }, mockData.tagline)
-                    ]),
-                    
-                    // Minimal menu layout with lots of space
-                    React.createElement('div', {
-                        key: 'menu',
-                        className: 'px-8 space-y-6'
-                    }, mockData.sections.slice(0, 2).map((section, sIndex) =>
-                        React.createElement('div', {
-                            key: sIndex,
-                            className: 'section'
-                        }, [
-                            React.createElement('h3', {
-                                key: 'section-title',
-                                className: 'text-sm font-medium lowercase tracking-wide mb-3 pb-1',
-                                style: { 
-                                    color: preview.accentColor,
-                                    borderBottom: `1px solid ${preview.secondaryColor}30`
-                                }
-                            }, section.name),
-                            React.createElement('div', {
-                                key: 'items',
-                                className: 'space-y-3'
-                            }, section.items.slice(0, 1).map((item, iIndex) =>
-                                React.createElement('div', {
-                                    key: iIndex,
-                                    className: 'flex justify-between items-baseline'
-                                }, [
-                                    React.createElement('span', {
-                                        key: 'name',
-                                        className: 'text-xs lowercase',
-                                        style: { color: preview.accentColor }
-                                    }, item.name),
-                                    React.createElement('div', {
-                                        key: 'dots',
-                                        className: 'flex-1 mx-2 border-b border-dotted',
-                                        style: { borderColor: preview.secondaryColor + '30' }
-                                    }),
-                                    React.createElement('span', {
-                                        key: 'price',
-                                        className: 'text-xs font-mono',
-                                        style: { color: preview.secondaryColor }
-                                    }, item.price)
-                                ])
-                            ))
-                        ])
-                    ))
-                ]);
-            }
-            
-            // Fallback
-            return React.createElement('div', {
-                className: 'realistic-preview h-80 bg-gray-100 rounded-lg flex items-center justify-center'
-            }, 'Template Preview');
-        }
-
-        // Realistic Template Data with JOD Pricing
-        const templateData = {
-            'elegant-classic': {
-                id: 'elegant-classic',
-                name: { en: 'Elegant Classic', ar: 'كلاسيكي أنيق' },
-                description: { en: 'Timeless sophistication with golden accents', ar: 'أناقة خالدة مع لمسات ذهبية' },
-                category: 'premium',
-                preview: {
-                    primaryColor: '#1a1a2e',
-                    accentColor: '#d4af37',
-                    secondaryColor: '#666666',
-                    backgroundColor: '#fefcf3'
-                },
-                mockData: {
-                    restaurantName: { en: 'Le Jardin Royal', ar: 'الحديقة الملكية' },
-                    tagline: { en: 'Fine Dining Experience', ar: 'تجربة طعام راقية' },
-                    sections: [
-                        {
-                            name: { en: 'Appetizers', ar: 'المقبلات' },
-                            items: [
-                                { name: { en: 'Truffle Hummus', ar: 'حمص بالكمأة' }, price: '8.50 JOD', special: true },
-                                { name: { en: 'Grilled Halloumi', ar: 'حلوم مشوي' }, price: '6.00 JOD' },
-                                { name: { en: 'Fattoush Salad', ar: 'سلطة فتوش' }, price: '5.50 JOD' }
-                            ]
-                        },
-                        {
-                            name: { en: 'Main Courses', ar: 'الأطباق الرئيسية' },
-                            items: [
-                                { name: { en: 'Lamb Ouzi', ar: 'عوزي لحم' }, price: '18.00 JOD', special: true },
-                                { name: { en: 'Grilled Sea Bass', ar: 'قاروص مشوي' }, price: '22.50 JOD' },
-                                { name: { en: 'Chicken Musakhhan', ar: 'مسخن دجاج' }, price: '14.00 JOD' }
-                            ]
-                        },
-                        {
-                            name: { en: 'Desserts', ar: 'الحلويات' },
-                            items: [
-                                { name: { en: 'Knafeh Royale', ar: 'كنافة ملكية' }, price: '7.00 JOD' },
-                                { name: { en: 'Rose Baklava', ar: 'بقلاوة بالورد' }, price: '6.50 JOD' }
-                            ]
-                        }
-                    ]
-                }
-            },
-            'modern-vibrant': {
-                id: 'modern-vibrant',
-                name: { en: 'Modern Vibrant', ar: 'عصري نابض' },
-                description: { en: 'Bold colors and contemporary design', ar: 'ألوان جريئة وتصميم معاصر' },
-                category: 'modern',
-                preview: {
-                    primaryColor: '#ff6b35',
-                    accentColor: '#ffd23f',
-                    secondaryColor: '#2c3e50',
-                    backgroundColor: '#ffffff'
-                },
-                mockData: {
-                    restaurantName: { en: 'Fusion Street', ar: 'شارع الانصهار' },
-                    tagline: { en: 'Bold Flavors & Fresh Ideas', ar: 'نكهات جريئة وأفكار طازجة' },
-                    sections: [
-                        {
-                            name: { en: 'Street Bites', ar: 'لقم الشارع' },
-                            items: [
-                                { name: { en: 'Spicy Falafel Bowl', ar: 'وعاء فلافل حار' }, price: '7.25 JOD' },
-                                { name: { en: 'Loaded Shawarma Fries', ar: 'بطاطس شاورما محشوة' }, price: '9.00 JOD', special: true },
-                                { name: { en: 'Crispy Cauliflower', ar: 'قرنبيط مقرمش' }, price: '6.75 JOD' }
-                            ]
-                        },
-                        {
-                            name: { en: 'Power Bowls', ar: 'أوعية القوة' },
-                            items: [
-                                { name: { en: 'Mediterranean Quinoa', ar: 'كينوا متوسطية' }, price: '12.50 JOD' },
-                                { name: { en: 'Asian Fusion Rice', ar: 'أرز آسيوي مندمج' }, price: '13.75 JOD' },
-                                { name: { en: 'Protein Paradise', ar: 'جنة البروتين' }, price: '15.00 JOD', special: true }
-                            ]
-                        }
-                    ]
-                }
-            },
-            'minimal-zen': {
-                id: 'minimal-zen',
-                name: { en: 'Minimal Zen', ar: 'زن بسيط' },
-                description: { en: 'Clean lines and serene simplicity', ar: 'خطوط نظيفة وبساطة هادئة' },
-                category: 'minimal',
-                preview: {
-                    primaryColor: '#2d3748',
-                    accentColor: '#4a5568',
-                    secondaryColor: '#718096',
-                    backgroundColor: '#ffffff'
-                },
-                mockData: {
-                    restaurantName: { en: 'Serenity', ar: 'الصفاء' },
-                    tagline: { en: 'Pure. Simple. Delicious.', ar: 'نقي. بسيط. لذيذ.' },
-                    sections: [
-                        {
-                            name: { en: 'Fresh Start', ar: 'بداية طازجة' },
-                            items: [
-                                { name: { en: 'Garden Salad', ar: 'سلطة البستان' }, price: '4.50 JOD' },
-                                { name: { en: 'Soup of the Day', ar: 'شوربة اليوم' }, price: '3.75 JOD' },
-                                { name: { en: 'Avocado Toast', ar: 'توست الأفوكادو' }, price: '5.25 JOD' }
-                            ]
-                        },
-                        {
-                            name: { en: 'Simple Plates', ar: 'أطباق بسيطة' },
-                            items: [
-                                { name: { en: 'Grilled Chicken', ar: 'دجاج مشوي' }, price: '11.00 JOD' },
-                                { name: { en: 'Fresh Fish', ar: 'سمك طازج' }, price: '14.50 JOD' },
-                                { name: { en: 'Vegetable Curry', ar: 'كاري الخضار' }, price: '9.75 JOD' }
-                            ]
-                        }
-                    ]
-                }
-            },
-            'arabic-heritage': {
-                id: 'arabic-heritage',
-                name: { en: 'Arabic Heritage', ar: 'التراث العربي' },
-                description: { en: 'Traditional patterns with modern flair', ar: 'أنماط تقليدية بلمسة عصرية' },
-                category: 'traditional',
-                preview: {
-                    primaryColor: '#8b4513',
-                    accentColor: '#cd853f',
-                    secondaryColor: '#d2691e',
-                    backgroundColor: '#fdf5e6'
-                },
-                mockData: {
-                    restaurantName: { en: 'Bait Al Salam', ar: 'بيت السلام' },
-                    tagline: { en: 'Authentic Flavors, Timeless Traditions', ar: 'نكهات أصيلة، تقاليد خالدة' },
-                    sections: [
-                        {
-                            name: { en: 'Traditional Mezze', ar: 'المزة التقليدية' },
-                            items: [
-                                { name: { en: 'Mutabal', ar: 'متبل' }, price: '4.50 JOD' },
-                                { name: { en: 'Labneh & Zaatar', ar: 'لبنة وزعتر' }, price: '3.25 JOD' },
-                                { name: { en: 'Kibbeh Nayeh', ar: 'كبة نية' }, price: '8.75 JOD', special: true }
-                            ]
-                        },
-                        {
-                            name: { en: 'Heritage Mains', ar: 'الأطباق التراثية' },
-                            items: [
-                                { name: { en: 'Mansaf', ar: 'منسف' }, price: '16.50 JOD', special: true },
-                                { name: { en: 'Makloubeh', ar: 'مقلوبة' }, price: '13.75 JOD' },
-                                { name: { en: 'Stuffed Vine Leaves', ar: 'ورق عنب محشي' }, price: '10.25 JOD' }
-                            ]
-                        }
-                    ]
-                }
-            }
-        };
-
-        // Enhanced Template Selection with Live Previews
-        function EnhancedTemplateSelection({ onSelectTemplate }) {
-            const { t, isRTL } = useLanguage();
-            const [selectedTemplate, setSelectedTemplate] = useState(null);
-            const [isSelecting, setIsSelecting] = useState(false);
-            const [showConfirmation, setShowConfirmation] = useState(false);
-
-            const handleTemplateClick = (template) => {
-                setIsSelecting(true);
-                setSelectedTemplate(template.id);
-                
-                // Smooth scroll to editor section after selection
-                setTimeout(() => {
-                    setShowConfirmation(true);
-                    onSelectTemplate(template.id);
-                    
-                    // Scroll to editor/customization area
-                    const editorSection = document.getElementById('editor-section');
-                    if (editorSection) {
-                        editorSection.scrollIntoView({ 
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                }, 600);
-            };
-
-            const templates = Object.values(templateData);
-
-            return React.createElement('div', {
-                className: `min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-4 ${isRTL ? 'rtl' : 'ltr'}`,
-                dir: isRTL ? 'rtl' : 'ltr'
-            }, [
-                // Header Section
-                React.createElement('div', {
-                    key: 'header',
-                    className: 'max-w-7xl mx-auto text-center mb-12 pt-8'
-                }, [
-                    React.createElement('h1', {
-                        key: 'title',
-                        className: 'text-4xl md:text-5xl font-bold text-white mb-4 animate-fade-in'
-                    }, t('chooseTemplate')),
-                    React.createElement('p', {
-                        key: 'subtitle',
-                        className: 'text-lg text-purple-200 max-w-2xl mx-auto animate-fade-in-delay'
-                    }, t('templateDescription'))
                 ]),
-
-                // Template Grid
+                
+                // Template Info
                 React.createElement('div', {
-                    key: 'template-grid',
-                    className: 'max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8 mb-12'
-                }, templates.map((template, index) => 
-                    React.createElement('div', {
-                        key: template.id,
-                        className: `template-card group relative bg-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-500 hover:scale-105 hover:shadow-2xl cursor-pointer ${
-                            selectedTemplate === template.id ? 'ring-4 ring-purple-500 scale-105' : ''
-                        }`,
-                        style: {
-                            animationDelay: `${index * 150}ms`
-                        },
-                        onClick: () => handleTemplateClick(template),
-                        onMouseEnter: () => setSelectedTemplate(template.id),
-                        onMouseLeave: () => setSelectedTemplate(null)
-                    }, [
-                        // Template Preview
-                        React.createElement('div', {
-                            key: 'preview',
-                            className: 'relative'
-                        }, [
-                            React.createElement(RealisticTemplatePreview, {
-                                key: 'realistic-preview',
-                                template: template,
-                                language: isRTL ? 'ar' : 'en'
-                            }),
-                            
-                            // Hover overlay
-                            React.createElement('div', {
-                                key: 'overlay',
-                                className: `absolute inset-0 bg-purple-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center ${
-                                    selectedTemplate === template.id ? 'opacity-100' : ''
-                                }`
-                            }, [
-                                React.createElement('div', {
-                                    key: 'hover-content',
-                                    className: 'text-white text-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300'
-                                }, [
-                                    React.createElement('div', {
-                                        key: 'icon',
-                                        className: 'text-4xl mb-2'
-                                    }, '👆'),
-                                    React.createElement('p', {
-                                        key: 'text',
-                                        className: 'font-semibold'
-                                    }, t('clickToSelect'))
-                                ])
-                            ]),
-
-                            // Selection indicator
-                            selectedTemplate === template.id && React.createElement('div', {
-                                key: 'selected-indicator',
-                                className: 'absolute top-4 right-4 bg-green-500 text-white rounded-full p-2 animate-bounce'
-                            }, React.createElement('svg', {
-                                className: 'w-6 h-6',
-                                fill: 'currentColor',
-                                viewBox: '0 0 20 20'
-                            }, React.createElement('path', {
-                                fillRule: 'evenodd',
-                                d: 'M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z',
-                                clipRule: 'evenodd'
-                            })))
-                        ]),
-
-                        // Template Info
-                        React.createElement('div', {
-                            key: 'info',
-                            className: 'p-6'
-                        }, [
-                            React.createElement('div', {
-                                key: 'header',
-                                className: `flex justify-between items-start mb-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`
-                            }, [
-                                React.createElement('div', {
-                                    key: 'name-section',
-                                    className: isRTL ? 'text-right' : 'text-left'
-                                }, [
-                                    React.createElement('h3', {
-                                        key: 'name',
-                                        className: 'text-xl font-bold text-gray-800 mb-1'
-                                    }, template.name[isRTL ? 'ar' : 'en']),
-                                    React.createElement('p', {
-                                        key: 'description',
-                                        className: 'text-sm text-gray-600'
-                                    }, template.description[isRTL ? 'ar' : 'en'])
-                                ]),
-                                React.createElement('div', {
-                                    key: 'category-badge',
-                                    className: 'px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-semibold uppercase tracking-wide'
-                                }, template.category)
-                            ]),
-
-                            // Features showcase
-                            React.createElement('div', {
-                                key: 'features',
-                                className: 'space-y-2'
-                            }, [
-                                React.createElement('div', {
-                                    key: 'feature-1',
-                                    className: `flex items-center gap-2 text-sm text-gray-600 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`
-                                }, [
-                                    React.createElement('span', { key: 'check-1' }, '✓'),
-                                    React.createElement('span', { key: 'text-1' }, t('jodPricing'))
-                                ]),
-                                React.createElement('div', {
-                                    key: 'feature-2',
-                                    className: `flex items-center gap-2 text-sm text-gray-600 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`
-                                }, [
-                                    React.createElement('span', { key: 'check-2' }, '✓'),
-                                    React.createElement('span', { key: 'text-2' }, t('rtlSupport'))
-                                ]),
-                                React.createElement('div', {
-                                    key: 'feature-3',
-                                    className: `flex items-center gap-2 text-sm text-gray-600 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`
-                                }, [
-                                    React.createElement('span', { key: 'check-3' }, '✓'),
-                                    React.createElement('span', { key: 'text-3' }, t('mobileOptimized'))
-                                ])
-                            ]),
-
-                            // Action button
-                            React.createElement('button', {
-                                key: 'select-btn',
-                                className: `w-full mt-4 py-3 px-6 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-semibold transform transition-all duration-200 hover:from-purple-700 hover:to-indigo-700 hover:scale-105 active:scale-95 ${
-                                    selectedTemplate === template.id ? 'ring-2 ring-purple-300' : ''
-                                }`,
-                                onClick: (e) => {
-                                    e.stopPropagation();
-                                    handleTemplateClick(template);
-                                }
-                            }, isSelecting && selectedTemplate === template.id ? t('selecting') : t('selectTemplate'))
-                        ])
-                    ])
-                )),
-
-                // Confirmation Modal
-                showConfirmation && React.createElement('div', {
-                    key: 'confirmation-modal',
-                    className: 'fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4',
-                    onClick: () => setShowConfirmation(false)
-                }, React.createElement('div', {
-                    className: 'bg-white rounded-2xl p-8 max-w-md w-full text-center animate-scale-in',
-                    onClick: (e) => e.stopPropagation()
+                    key: 'info',
+                    className: 'p-4 bg-gray-50'
                 }, [
-                    React.createElement('div', {
-                        key: 'success-icon',
-                        className: 'text-6xl mb-4 animate-bounce'
-                    }, '🎉'),
                     React.createElement('h3', {
-                        key: 'title',
-                        className: 'text-2xl font-bold text-gray-800 mb-2'
-                    }, t('templateSelected')),
+                        key: 'template-name',
+                        className: 'font-bold text-gray-800 mb-1'
+                    }, getText(template.name)),
                     React.createElement('p', {
-                        key: 'message',
-                        className: 'text-gray-600 mb-6'
-                    }, t('redirectingToEditor')),
-                    React.createElement('button', {
-                        key: 'close-btn',
-                        className: 'px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors',
-                        onClick: () => setShowConfirmation(false)
-                    }, t('continue'))
-                ]))
-            });
-        }
-                    previewArea.style.fontFamily = template.preview.typography;
-                    previewArea.style.color = template.preview.accentColor;
-                }
-                
-                if (editorContainer) {
-                    editorContainer.style.setProperty('--template-accent', template.preview.accentColor);
-                    editorContainer.style.setProperty('--template-bg', template.preview.headerBg);
-                    editorContainer.style.setProperty('--template-font', template.preview.typography);
-                }
-                
-                // Visual confirmation with smooth scroll
-                setTimeout(() => {
-                    const confirmationElement = document.getElementById('template-confirmation');
-                    if (confirmationElement) {
-                        confirmationElement.scrollIntoView({ 
-                            behavior: 'smooth',
-                            block: 'center'
-                        });
-                    }
-                }, 50);
-            };
-
-            const handleConfirmSelection = () => {
-                if (!selectedTemplate) return;
-                
-                setIsSelecting(true);
-                const template = templates.find(t => t.id === selectedTemplate);
-                
-                setTimeout(() => {
-                    onSelectTemplate(template);
-                }, 800);
-            };
-
-            const selectedTemplateData = templates.find(t => t.id === selectedTemplate);
-
-            return React.createElement('div', {
-                className: `screen min-h-screen p-8 ${isRTL ? 'rtl' : ''}`,
-                dir: isRTL ? 'rtl' : 'ltr'
-            }, [
-                React.createElement('div', {
-                    key: 'header',
-                    className: 'text-center mb-16 animate-fade-in'
-                }, [
-                    React.createElement('h1', {
-                        key: 'title',
-                        className: 'text-5xl font-bold text-white mb-6'
-                    }, t('selectTemplate')),
-                    React.createElement('p', {
-                        key: 'subtitle',
-                        className: 'text-xl text-white opacity-90 max-w-2xl mx-auto'
-                    }, 'Choose a template that perfectly matches your restaurant style')
-                ]),
-                
-                React.createElement('div', {
-                    key: 'templates',
-                    className: 'max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 mb-16'
-                }, templates.map((template, index) => 
+                        key: 'description',
+                        className: 'text-sm text-gray-600 mb-3'
+                    }, getText(template.description)),
                     React.createElement('div', {
-                        key: template.id,
-                        'data-template-id': template.id,
-                        className: `template-card-enhanced ${
-                            selectedTemplate === template.id ? 'selected' : ''
-                        }`,
-                        style: { 
-                            animationDelay: `${index * 200}ms`
-                        },
-                        onClick: () => handleTemplateClick(template)
+                        key: 'features',
+                        className: 'flex flex-wrap gap-2'
                     }, [
-                        React.createElement('div', {
-                            key: 'preview-container',
-                            className: 'template-preview-container'
-                        }, [
-                            React.createElement(RealisticTemplatePreview, {
-                                key: 'preview',
-                                template: template
-                            }),
-                            
-                            // Overlay on hover
-                            React.createElement('div', {
-                                key: 'overlay',
-                                className: 'template-overlay'
-                            }, [
-                                React.createElement('div', {
-                                    key: 'overlay-content',
-                                    className: 'overlay-content'
-                                }, [
-                                    React.createElement('h3', {
-                                        key: 'name',
-                                        className: 'text-2xl font-bold text-white mb-2'
-                                    }, template.name),
-                                    React.createElement('p', {
-                                        key: 'desc',
-                                        className: 'text-white opacity-90 text-center mb-4'
-                                    }, template.description),
-                                    React.createElement('div', {
-                                        key: 'features',
-                                        className: 'flex flex-wrap justify-center gap-2'
-                                    }, [
-                                        React.createElement('span', {
-                                            key: 'theme',
-                                            className: 'feature-badge'
-                                        }, template.preview.theme),
-                                        React.createElement('span', {
-                                            key: 'category',
-                                            className: 'feature-badge'
-                                        }, template.category)
-                                    ])
-                                ])
-                            ])
-                        ]),
-                        
-                        React.createElement('div', {
-                            key: 'info',
-                            className: 'template-info'
-                        }, [
-                            React.createElement('h3', {
-                                key: 'name',
-                                className: 'template-name'
-                            }, template.name),
-                            React.createElement('p', {
-                                key: 'desc',
-                                className: 'template-description'
-                            }, template.description),
-                            React.createElement('div', {
-                                key: 'tags',
-                                className: 'template-tags'
-                            }, [
-                                React.createElement('span', {
-                                    key: 'category',
-                                    className: 'template-tag'
-                                }, template.category),
-                                React.createElement('span', {
-                                    key: 'theme',
-                                    className: 'template-tag'
-                                }, template.preview.theme)
-                            ])
-                        ])
-                    ])
-                )),
-                
-                // Confirmation Section
-                showConfirmation && selectedTemplateData && React.createElement('div', {
-                    key: 'confirmation',
-                    id: 'template-confirmation',
-                    className: 'confirmation-section max-w-2xl mx-auto text-center'
-                }, [
-                    React.createElement('div', {
-                        key: 'content',
-                        className: 'confirmation-content'
-                    }, [
-                        React.createElement('div', {
-                            key: 'icon',
-                            className: 'confirmation-icon mb-6'
-                        }, '✨'),
-                        React.createElement('h2', {
-                            key: 'title',
-                            className: 'text-3xl font-bold text-white mb-4'
-                        }, t('perfectChoice')),
-                        React.createElement('p', {
-                            key: 'desc',
-                            className: 'text-xl text-white opacity-90 mb-8'
-                        }, `${t('selectedTemplate')} "${t(selectedTemplateData.id)}" ${t('useTemplate').toLowerCase()}`),
-                        React.createElement('div', {
-                            key: 'actions',
-                            className: 'flex gap-4 justify-center'
-                        }, [
-                            React.createElement('button', {
-                                key: 'back',
-                                className: 'btn btn-secondary',
-                                onClick: () => {
-                                    setSelectedTemplate(null);
-                                    setShowConfirmation(false);
-                                }
-                            }, t('chooseDifferent')),
-                            React.createElement('button', {
-                                key: 'confirm',
-                                className: `btn btn-primary ${isSelecting ? 'loading' : ''}`,
-                                onClick: handleConfirmSelection,
-                                disabled: isSelecting
-                            }, isSelecting ? t('loading') : t('startBuilding') + ' →')
-                        ])
+                        React.createElement('span', {
+                            key: 'jod',
+                            className: 'px-2 py-1 bg-green-100 text-green-700 text-xs rounded'
+                        }, 'JOD Pricing'),
+                        React.createElement('span', {
+                            key: 'rtl',
+                            className: 'px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded'
+                        }, 'RTL Ready'),
+                        React.createElement('span', {
+                            key: 'mobile',
+                            className: 'px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded'
+                        }, 'Mobile')
                     ])
                 ])
             ]);
         }
 
-        // Main App Component with guided flow
-        function App() {
-            const [currentStep, setCurrentStep] = useState(STEPS.LANDING);
+        // Working Template Selection Component with Real Menu Content
+        function WorkingTemplateSelection({ onSelectTemplate }) {
+            const { t, isRTL } = useLanguage();
             const [selectedTemplate, setSelectedTemplate] = useState(null);
-            const [completedSteps, setCompletedSteps] = useState(new Set());
-            const [isTransitioning, setIsTransitioning] = useState(false);
 
-            // Step transition with animation
-            const transitionToStep = useCallback((nextStep) => {
-                if (isTransitioning) return;
-                
-                setIsTransitioning(true);
-                
-                // Add fade out animation
-                setTimeout(() => {
-                    setCurrentStep(nextStep);
-                    setCompletedSteps(prev => new Set([...prev, currentStep]));
-                    setIsTransitioning(false);
-                }, 300);
-            }, [currentStep, isTransitioning]);
-
-            // Step handlers
-            const handleLandingContinue = () => {
-                transitionToStep(STEPS.AUTH);
+            const handleTemplateSelect = (templateId) => {
+                setSelectedTemplate(templateId);
+                onSelectTemplate(templateId);
             };
 
-            const handleAuthContinue = () => {
-                transitionToStep(STEPS.TEMPLATE);
-            };
+            const templates = Object.values(templateData);
 
-            const handleSelectTemplate = (template) => {
-                setSelectedTemplate(template);
-                transitionToStep(STEPS.EDITOR);
-            };
-
-            const handleBackToTemplates = () => {
-                transitionToStep(STEPS.TEMPLATE);
-                setSelectedTemplate(null);
-                storage.remove('currentMenu');
-                storage.remove('currentSections');
-            };
-
-            // Prevent skipping steps
-            const canAccessStep = (step) => {
-                const stepOrder = [STEPS.LANDING, STEPS.AUTH, STEPS.TEMPLATE, STEPS.EDITOR];
-                const stepIndex = stepOrder.indexOf(step);
-                const currentIndex = stepOrder.indexOf(currentStep);
-                
-                return stepIndex <= currentIndex + 1;
-            };
-
-            const renderCurrentStep = () => {
-                switch (currentStep) {
-                    case STEPS.LANDING:
-                        return React.createElement(LandingPage, {
-                            onContinue: handleLandingContinue
-                        });
-                    case STEPS.AUTH:
-                        return React.createElement(AuthPage, {
-                            onContinue: handleAuthContinue
-                        });
-                    case STEPS.TEMPLATE:
-                        return React.createElement(EnhancedTemplateSelection, {
-                            onSelectTemplate: handleSelectTemplate
-                        });
-                    case STEPS.EDITOR:
-                        return React.createElement(MenuEditor, {
-                            template: selectedTemplate,
-                            onBack: handleBackToTemplates
-                        });
-                    default:
-                        return React.createElement(LandingPage, {
-                            onContinue: handleLandingContinue
-                        });
-                }
-            };
-
-            return React.createElement('div', { 
-                className: `min-h-screen ${isTransitioning ? 'language-switch' : ''}` 
+            return React.createElement('div', {
+                className: `min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-8 ${isRTL ? 'rtl' : 'ltr'}`,
+                dir: isRTL ? 'rtl' : 'ltr'
             }, [
-                React.createElement(LanguageToggle, { key: 'lang-toggle' }),
-                React.createElement(ToastContainer, { key: 'toasts' }),
-                React.createElement('div', { 
-                    key: 'content',
-                    className: currentStep !== STEPS.LANDING ? 'fade-in' : ''
-                }, renderCurrentStep())
+                // Header
+                React.createElement('div', {
+                    key: 'header',
+                    className: 'text-center mb-12'
+                }, [
+                    React.createElement('h1', {
+                        key: 'title',
+                        className: 'text-5xl font-bold text-white mb-4'
+                    }, t('chooseTemplate')),
+                    React.createElement('p', {
+                        key: 'subtitle',
+                        className: 'text-xl text-purple-200 max-w-2xl mx-auto'
+                    }, t('templateDescription'))
+                ]),
+
+                // Template Grid
+                React.createElement('div', {
+                    key: 'grid',
+                    className: 'max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'
+                }, templates.map(template =>
+                    React.createElement(SimpleTemplateCard, {
+                        key: template.id,
+                        template: template,
+                        isSelected: selectedTemplate === template.id,
+                        onClick: () => handleTemplateSelect(template.id),
+                        language: isRTL ? 'ar' : 'en'
+                    })
+                ))
             ]);
         }
 
-        // Root App with Providers
-        function RootApp() {
-            return React.createElement(LanguageProvider, null,
-                React.createElement(ToastProvider, null,
-                    React.createElement(App)
-                )
-            );
+        // Replace the broken template selection with the working version
+        function TemplateSelection({ onSelectTemplate }) {
+            return React.createElement(WorkingTemplateSelection, {
+                onSelectTemplate: onSelectTemplate
+            });
         }
 
-        // Initialize the app
-        ReactDOM.render(React.createElement(RootApp), document.getElementById('root'));
+        // Main App Component
+        function App() {
+            const [currentView, setCurrentView] = useState('landing');
+            const [selectedTemplate, setSelectedTemplate] = useState(null);
+            const [menu, setMenu] = useState(null);
+            const [previewMode, setPreviewMode] = useState(false);
+            const [deviceView, setDeviceView] = useState('desktop');
+
+            const handleGetStarted = () => {
+                setCurrentView('templates');
+            };
+
+            const handleTemplateSelect = (templateId) => {
+                setSelectedTemplate(templateId);
+                setCurrentView('editor');
+                const template = templateData[templateId];
+                setMenu({
+                    id: Date.now(),
+                    name: template.mockData.restaurantName.en,
+                    sections: template.mockData.sections.map((section, index) => ({
+                        id: index + 1,
+                        name: section.name.en,
+                        items: section.items.map((item, itemIndex) => ({
+                            id: itemIndex + 1,
+                            name: item.name.en,
+                            price: item.price,
+                            description: item.description ? item.description.en : ''
+                        }))
+                    }))
+                });
+            };
+
+            const handleBackToTemplates = () => {
+                setCurrentView('templates');
+            };
+
+            const togglePreview = () => {
+                setPreviewMode(!previewMode);
+            };
+
+            const switchDevice = (device) => {
+                setDeviceView(device);
+            };
+
+            if (currentView === 'landing') {
+                return React.createElement(LandingPage, {
+                    onGetStarted: handleGetStarted
+                });
+            }
+
+            if (currentView === 'templates') {
+                return React.createElement(TemplateSelection, {
+                    onSelectTemplate: handleTemplateSelect
+                });
+            }
+
+            if (currentView === 'editor') {
+                return React.createElement(MenuEditor, {
+                    template: templateData[selectedTemplate],
+                    menu: menu,
+                    onMenuUpdate: setMenu,
+                    onBack: handleBackToTemplates,
+                    previewMode: previewMode,
+                    onTogglePreview: togglePreview,
+                    deviceView: deviceView,
+                    onSwitchDevice: switchDevice
+                });
+            }
+
+            return React.createElement(LandingPage, {
+                onGetStarted: handleGetStarted
+            });
+        }
+
+        // Initialize and render the app
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(React.createElement(LanguageProvider, null, 
+            React.createElement(App)
+        ));
     </script>
 </body>
 </html>
