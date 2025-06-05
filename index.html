@@ -918,7 +918,7 @@
             }
         }
         
-        /* Critical Fix: Template Selection - Full Mini Menu Previews */
+        /* CRITICAL FIX: Template Selection - Realistic Live Mini Previews */
         .template-card-enhanced {
             background: white;
             border-radius: 20px;
@@ -931,72 +931,125 @@
             animation: slideInUp 0.8s ease-out forwards;
             border: 4px solid transparent;
             position: relative;
-            /* Consistent sizing for all templates */
             width: 100%;
-            height: 480px;
+            height: 500px;
             display: flex;
             flex-direction: column;
         }
 
         .template-card-enhanced:hover {
-            transform: translateY(-12px) scale(1.02);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
-            border-color: rgba(59, 130, 246, 0.3);
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+            border-color: rgba(59, 130, 246, 0.4);
         }
 
-        /* Instant visual selection feedback */
+        .template-card-enhanced:hover .realistic-preview {
+            transform: scale(1.02);
+        }
+
+        /* INSTANT visual selection feedback with dramatic effects */
         .template-card-enhanced.selected {
-            transform: translateY(-8px) scale(1.03) !important;
-            box-shadow: 0 0 0 4px #3b82f6, 0 30px 60px rgba(59, 130, 246, 0.4) !important;
+            transform: translateY(-20px) scale(1.05) !important;
+            box-shadow: 0 0 0 6px #3b82f6, 0 40px 80px rgba(59, 130, 246, 0.5) !important;
             border: 4px solid #3b82f6 !important;
             background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%) !important;
+            animation: selectedPulse 2s ease-in-out infinite;
         }
 
         .template-card-enhanced.selected::after {
-            content: '✓';
+            content: '✓ SELECTED';
             position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 40px;
-            height: 40px;
-            background: #3b82f6;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
             color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
             z-index: 100;
-            animation: checkmarkBounce 0.5s ease-out;
+            animation: selectedBadge 0.6s ease-out;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
         }
 
-        @keyframes checkmarkBounce {
-            0% { transform: scale(0) rotate(-180deg); }
-            50% { transform: scale(1.2) rotate(-90deg); }
-            100% { transform: scale(1) rotate(0deg); }
+        .template-card-enhanced.selected .realistic-preview {
+            transform: scale(1.02);
+            box-shadow: inset 0 0 0 3px rgba(59, 130, 246, 0.3);
         }
 
-        /* Consistent preview container */
+        @keyframes selectedPulse {
+            0%, 100% { 
+                box-shadow: 0 0 0 6px #3b82f6, 0 40px 80px rgba(59, 130, 246, 0.5);
+            }
+            50% { 
+                box-shadow: 0 0 0 8px #3b82f6, 0 45px 90px rgba(59, 130, 246, 0.6);
+            }
+        }
+
+        @keyframes selectedBadge {
+            0% { 
+                transform: scale(0) rotate(-180deg);
+                opacity: 0;
+            }
+            50% { 
+                transform: scale(1.2) rotate(-90deg);
+                opacity: 1;
+            }
+            100% { 
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        /* Enhanced realistic preview container */
         .realistic-preview {
             flex: 1;
             position: relative;
             overflow: hidden;
             border-radius: 16px 16px 0 0;
-            /* Ensure all previews are same height */
-            height: 320px;
+            height: 340px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
         }
 
-        /* Template info section */
+        /* Template info section with better styling */
         .template-info {
-            padding: 20px;
+            padding: 24px;
             background: white;
             border-top: 1px solid #f1f5f9;
-            /* Fixed height for consistency */
             height: 160px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+        }
+
+        .template-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .template-description {
+            font-size: 0.9rem;
+            color: #64748b;
+            line-height: 1.4;
+            margin-bottom: 16px;
+        }
+
+        .template-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .template-tag {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
         }
 
         .template-preview-container {
@@ -1662,6 +1715,145 @@
             50% { transform: translateY(-20px) rotate(180deg); }
         }
 
+        /* CRITICAL FIX: Enhanced Landing Page Visual Upgrade */
+        .landing-hero-enhanced {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .landing-title-enhanced {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            color: white;
+            margin-bottom: 2rem;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            animation: titlePulse 3s ease-in-out infinite;
+        }
+
+        .landing-subtitle-enhanced {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .landing-cta-enhanced {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            color: #1e293b;
+            padding: 1.5rem 3rem;
+            border-radius: 50px;
+            border: none;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .landing-cta-enhanced::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .landing-cta-enhanced:hover::before {
+            left: 100%;
+        }
+
+        .landing-cta-enhanced:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 30px 70px rgba(0,0,0,0.3);
+        }
+
+        .features-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto 4rem;
+            padding: 0 2rem;
+        }
+
+        .feature-showcase-card {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(30px);
+            opacity: 0;
+            animation: slideUpFeature 0.8s ease-out forwards;
+        }
+
+        .feature-showcase-card:nth-child(1) { animation-delay: 0.2s; }
+        .feature-showcase-card:nth-child(2) { animation-delay: 0.4s; }
+        .feature-showcase-card:nth-child(3) { animation-delay: 0.6s; }
+
+        .feature-showcase-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            background: rgba(255, 255, 255, 0.18);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+        }
+
+        .feature-icon-showcase {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        .feature-icon-showcase:nth-child(1) { animation-delay: 0s; }
+        .feature-icon-showcase:nth-child(2) { animation-delay: 1s; }
+        .feature-icon-showcase:nth-child(3) { animation-delay: 2s; }
+
+        .feature-title-showcase {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .feature-desc-showcase {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        @keyframes slideUpFeature {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
         /* Enhanced Preview Device Animations with Smooth Transitions */
         .preview-container {
             transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1923,7 +2115,7 @@
                 "image-gridDesc": "تخطيط يركز على الصور مع طباعة جريئة وألوان نابضة بالحياة",
                 "minimal-zenDesc": "تصميم نظيف وواسع مع بساطة واعية",
                 useTemplate: "استخدم هذا القالب",
-                chooseTemplate: "اختر هذا القالب",
+                chooseTemplate: "اخ �ر هذا القالب",
                 templateSelected: "تم اختيار القالب!",
                 perfectChoice: "اختيار مثالي!",
                 selectedTemplate: "لقد اخترت",
@@ -4658,18 +4850,27 @@
             const handleTemplateClick = (template) => {
                 if (isSelecting) return;
                 
-                // Instant visual feedback with immediate state update
+                // INSTANT visual feedback - no delays
                 setSelectedTemplate(template.id);
                 setShowConfirmation(true);
                 
-                // Apply template immediately to preview area (instant feedback)
+                // Apply template design immediately to live editor
                 const previewArea = document.querySelector('.preview-area');
+                const editorContainer = document.querySelector('.menu-editor-container');
+                
                 if (previewArea) {
                     previewArea.style.background = template.preview.headerBg;
                     previewArea.style.fontFamily = template.preview.typography;
+                    previewArea.style.color = template.preview.accentColor;
                 }
                 
-                // Scroll to confirmation immediately
+                if (editorContainer) {
+                    editorContainer.style.setProperty('--template-accent', template.preview.accentColor);
+                    editorContainer.style.setProperty('--template-bg', template.preview.headerBg);
+                    editorContainer.style.setProperty('--template-font', template.preview.typography);
+                }
+                
+                // Visual confirmation with smooth scroll
                 setTimeout(() => {
                     const confirmationElement = document.getElementById('template-confirmation');
                     if (confirmationElement) {
@@ -4677,9 +4878,8 @@
                             behavior: 'smooth',
                             block: 'center'
                         });
-                        confirmationElement.focus();
                     }
-                }, 100);
+                }, 50);
             };
 
             const handleConfirmSelection = () => {
@@ -4724,8 +4924,7 @@
                             selectedTemplate === template.id ? 'selected' : ''
                         }`,
                         style: { 
-                            animationDelay: `${index * 200}ms`,
-                            transform: selectedTemplate === template.id ? 'scale(1.02)' : 'scale(1)'
+                            animationDelay: `${index * 200}ms`
                         },
                         onClick: () => handleTemplateClick(template)
                     }, [
