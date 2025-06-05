@@ -4192,8 +4192,17 @@
                                         if (el && !el.hasListener) {
                                             el.hasListener = true;
                                             el.addEventListener('input', (e) => {
-                                                // Update state without causing re-render during typing
+                                                // Update state and live preview
                                                 menu.restaurantName = e.target.value;
+                                                setMenu(prev => ({...prev, restaurantName: e.target.value}));
+                                                
+                                                // Update preview immediately - mobile and desktop views
+                                                const previewTitles = document.querySelectorAll('h1');
+                                                previewTitles.forEach(title => {
+                                                    if (title.textContent === menu.restaurantName || title.textContent.includes('Restaurant Name')) {
+                                                        title.textContent = e.target.value || 'Restaurant Name';
+                                                    }
+                                                });
                                             });
                                         }
                                     },
@@ -4216,8 +4225,17 @@
                                         if (el && !el.hasListener) {
                                             el.hasListener = true;
                                             el.addEventListener('input', (e) => {
-                                                // Update state without causing re-render during typing
+                                                // Update state and live preview
                                                 menu.tagline = e.target.value;
+                                                setMenu(prev => ({...prev, tagline: e.target.value}));
+                                                
+                                                // Update preview immediately - mobile and desktop views
+                                                const previewTaglines = document.querySelectorAll('p');
+                                                previewTaglines.forEach(tagline => {
+                                                    if (tagline.textContent === menu.tagline || tagline.classList.contains('opacity-90')) {
+                                                        tagline.textContent = e.target.value || 'Your restaurant tagline';
+                                                    }
+                                                });
                                             });
                                         }
                                     },
