@@ -14,6 +14,7 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Arabic:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
@@ -3890,6 +3891,57 @@
                 }
             };
 
+            const downloadMenuAsPDF = async () => {
+                try {
+                    addToast('Generating PDF...', 'info');
+                    
+                    // Find the menu preview element - try multiple selectors
+                    const previewElement = document.querySelector('.preview-panel') || 
+                                         document.querySelector('.preview-container') || 
+                                         document.querySelector('.menu-preview') || 
+                                         document.querySelector('[data-preview="true"]') ||
+                                         document.querySelector('.flex.max-w-7xl.mx-auto.min-h-screen > div:last-child');
+                    
+                    if (!previewElement) {
+                        addToast('Preview not found. Please ensure the menu preview is visible.', 'error');
+                        return;
+                    }
+
+                    // Configure PDF options for A4 size with proper margins
+                    const opt = {
+                        margin: [0.5, 0.5, 0.5, 0.5],
+                        filename: `${menu.restaurantName?.replace(/[^a-zA-Z0-9]/g, '-') || 'menu'}.pdf`,
+                        image: { type: 'jpeg', quality: 0.95 },
+                        html2canvas: { 
+                            scale: 2,
+                            useCORS: true,
+                            allowTaint: true,
+                            backgroundColor: '#ffffff',
+                            logging: false,
+                            width: previewElement.scrollWidth,
+                            height: previewElement.scrollHeight,
+                            scrollX: 0,
+                            scrollY: 0
+                        },
+                        jsPDF: { 
+                            unit: 'in', 
+                            format: 'a4', 
+                            orientation: 'portrait',
+                            compress: true
+                        },
+                        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+                    };
+
+                    // Generate and download PDF
+                    await html2pdf().set(opt).from(previewElement).save();
+                    addToast('PDF downloaded successfully!', 'success');
+                    
+                } catch (error) {
+                    console.error('PDF generation failed:', error);
+                    addToast('Failed to generate PDF. Please try again.', 'error');
+                }
+            };
+
             if (!isOpen) return null;
 
             return React.createElement('div', { className: 'modal' },
@@ -3979,6 +4031,31 @@
                                 className: 'btn btn-secondary',
                                 onClick: downloadQRCode
                             }, t('downloadQR'))
+                        ]),
+                        
+                        // PDF Download Section
+                        React.createElement('div', {
+                            key: 'pdf-section',
+                            className: 'space-y-4 pt-6 border-t border-gray-200'
+                        }, [
+                            React.createElement('h3', {
+                                key: 'pdf-title',
+                                className: 'text-xl font-semibold text-gray-800'
+                            }, isRTL ? 'تحميل كـ PDF' : 'Download as PDF'),
+                            
+                            React.createElement('p', {
+                                key: 'pdf-description',
+                                className: 'text-gray-600 text-sm'
+                            }, isRTL ? 'احصل على نسخة PDF من قائمتك للطباعة أو المشاركة' : 'Get a PDF version of your menu for printing or sharing'),
+                            
+                            React.createElement('button', {
+                                key: 'pdf-download',
+                                className: 'btn btn-primary w-full flex items-center justify-center gap-2',
+                                onClick: downloadMenuAsPDF
+                            }, [
+                                React.createElement('span', { key: 'icon' }, '📄'),
+                                React.createElement('span', { key: 'text' }, isRTL ? 'تحميل القائمة كـ PDF' : 'Download Menu as PDF')
+                            ])
                         ]),
                         
                         React.createElement('div', {
