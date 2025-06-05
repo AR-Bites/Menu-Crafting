@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant Menu Builder - Create Beautiful Digital Menus</title>
-    <meta name="description" content="Create stunning restaurant menus with drag-and-drop interface, 3D models, multilingual support, and QR code generation. Perfect for modern restaurants.">
+    <title>Professional Menu Builder - Create Beautiful Digital Menus</title>
+    <meta name="description" content="Create stunning restaurant menus with modern design, 3D models, multilingual support, and responsive layouts.">
     
     <!-- External Dependencies -->
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
@@ -13,10 +13,9 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Arabic:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Arabic:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
         
         * {
             margin: 0;
@@ -36,261 +35,237 @@
             font-family: 'Noto Sans Arabic', sans-serif;
         }
         
-        .font-serif {
-            font-family: 'Playfair Display', serif;
+        /* Enhanced modern design system */
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
-        .font-sans {
-            font-family: system-ui, -apple-system, sans-serif;
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
         }
-
-        /* Gentle hover effects */
-        .enhanced-hover {
-            transition: all 0.3s ease;
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
-
-        .enhanced-hover:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-
-        /* Smooth RTL/LTR transitions */
-        .rtl-smooth {
-            transition: all 0.3s ease;
+        
+        /* Enhanced animations */
+        .smooth-transition {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
-        /* Gentle fade-in animation */
+        
         .fade-in {
-            animation: fadeIn 0.5s ease-in;
+            animation: fadeIn 0.6s ease-out;
         }
-
+        
+        .slide-up {
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        .scale-in {
+            animation: scaleIn 0.4s ease-out;
+        }
+        
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        .template-card {
-            transition: all 0.3s ease;
-            cursor: pointer;
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        .template-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
         }
         
-        .menu-item {
-            transition: all 0.2s ease;
-        }
-        
-        .menu-item:hover {
-            background-color: #f8fafc;
-            transform: scale(1.01);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
+        /* Modern button system */
         .btn {
             padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 500;
+            border-radius: 12px;
+            font-weight: 600;
             font-size: 14px;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             border: none;
             outline: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
         }
         
         .btn-primary {
             background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
             color: white;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
         }
         
         .btn-primary:hover {
             background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
         }
         
         .btn-secondary {
-            background: white;
-            color: #374151;
-            border: 1px solid #d1d5db;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #475569;
+            border: 1px solid #e2e8f0;
         }
         
         .btn-secondary:hover {
-            background: #f9fafb;
-            border-color: #9ca3af;
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+            transform: translateY(-1px);
         }
         
         .btn-ghost {
             background: transparent;
-            color: #6b7280;
+            color: #64748b;
+            border: 1px solid transparent;
         }
         
         .btn-ghost:hover {
-            background: rgba(0,0,0,0.05);
-            color: #374151;
+            background: rgba(148, 163, 184, 0.1);
+            color: #334155;
         }
         
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 12px;
+            border-radius: 8px;
         }
         
-        .modal-content {
-            background: white;
-            padding: 24px;
-            border-radius: 12px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        .btn-lg {
+            padding: 16px 32px;
+            font-size: 16px;
+            border-radius: 16px;
         }
         
+        /* Enhanced form elements */
         .input {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
             font-size: 14px;
-            transition: border-color 0.2s ease;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
         }
         
         .input:focus {
             outline: none;
             border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            background: white;
         }
         
         .textarea {
             resize: vertical;
-            min-height: 80px;
+            min-height: 100px;
         }
         
-        .language-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            padding: 8px 16px;
-            border-radius: 20px;
-            border: none;
+        /* Enhanced cards */
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-hover {
             cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            z-index: 100;
         }
         
-        .language-toggle:hover {
-            background: white;
-            transform: scale(1.05);
+        .card-hover:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
         }
         
-        .loading-spinner {
-            width: 16px;
-            height: 16px;
-            border: 2px solid #e5e7eb;
-            border-top: 2px solid #3b82f6;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+        /* Template cards with unique designs */
+        .template-preview {
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
         }
         
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .template-dark {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
         }
         
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: white;
-            padding: 16px 20px;
-            border-radius: 8px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            z-index: 1001;
-            animation: slideInToast 0.3s ease-out;
+        .template-light {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            color: #1e293b;
         }
         
-        @keyframes slideInToast {
-            from {
-                opacity: 0;
-                transform: translateX(100%);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+        .template-vibrant {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
         }
         
-        .toast-success {
-            border-left: 4px solid #10b981;
+        .template-luxury {
+            background: linear-gradient(135deg, #d4af37 0%, #ffd700 100%);
+            color: #7c2d12;
         }
         
-        .toast-error {
-            border-left: 4px solid #ef4444;
+        .template-nature {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
         }
-
-        /* Mobile-first responsive design */
+        
+        .template-ocean {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
+            color: white;
+        }
+        
+        /* Mobile responsive design */
         @media (max-width: 768px) {
-            body {
-                font-size: 16px;
-            }
-            
             .btn {
-                padding: 14px 20px;
-                font-size: 16px;
+                padding: 12px 20px;
+                font-size: 14px;
                 min-height: 48px;
-                border-radius: 10px;
             }
             
             .input {
                 padding: 14px;
                 font-size: 16px;
                 min-height: 48px;
-                border-radius: 10px;
             }
             
-            .textarea {
-                min-height: 100px;
-                padding: 14px;
-                font-size: 16px;
-            }
-            
-            .modal-content {
-                padding: 20px;
-                margin: 10px;
-                border-radius: 16px;
-                max-height: 90vh;
-            }
-            
-            .template-card {
-                padding: 20px;
-                margin-bottom: 16px;
-            }
-            
-            .template-card h3 {
-                font-size: 18px;
-            }
-            
-            .language-toggle {
-                padding: 12px 20px;
-                font-size: 16px;
-                top: 15px;
-                right: 15px;
-            }
-            
-            /* Mobile sidebar */
-            .mobile-sidebar {
+            .mobile-menu {
                 position: fixed;
                 top: 0;
                 left: -100%;
@@ -302,153 +277,186 @@
                 overflow-y: auto;
             }
             
-            .mobile-sidebar.open {
+            .mobile-menu.open {
                 left: 0;
             }
             
-            .mobile-menu-button {
-                display: block;
+            .mobile-menu-overlay {
                 position: fixed;
-                top: 15px;
-                left: 15px;
-                z-index: 1001;
-                background: rgba(255, 255, 255, 0.9);
-                backdrop-filter: blur(10px);
-                border: none;
-                padding: 12px;
-                border-radius: 12px;
-                font-size: 18px;
-                cursor: pointer;
-            }
-            
-            /* Mobile grid adjustments */
-            .grid-mobile-1 {
-                grid-template-columns: 1fr !important;
-                gap: 16px !important;
-            }
-            
-            .grid-mobile-2 {
-                grid-template-columns: 1fr 1fr !important;
-                gap: 12px !important;
-            }
-            
-            /* Auth form mobile */
-            .auth-container {
-                padding: 20px !important;
-                max-width: 100% !important;
-                margin: 20px !important;
-            }
-            
-            /* Preview adjustments */
-            .mobile-preview {
-                padding: 16px !important;
-            }
-            
-            .mobile-preview .menu-item {
-                padding: 16px !important;
-                margin: 12px 0 !important;
-            }
-            
-            /* Touch-friendly spacing */
-            .mobile-spacing {
-                margin: 16px 0;
-            }
-            
-            .mobile-button-group {
-                display: flex;
-                flex-direction: column;
-                gap: 12px;
-            }
-            
-            .mobile-button-group .btn {
+                top: 0;
+                left: 0;
                 width: 100%;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 999;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+            
+            .mobile-menu-overlay.open {
+                opacity: 1;
+                visibility: visible;
             }
         }
         
-        @media (min-width: 769px) {
-            .mobile-menu-button {
-                display: none;
-            }
-            
-            .desktop-sidebar {
-                position: relative !important;
-                left: 0 !important;
-                width: 320px !important;
-            }
+        /* Language toggle */
+        .lang-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 10px 16px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
-
-        /* Auth styles */
-        .auth-container {
-            min-height: 100vh;
+        
+        .lang-toggle:hover {
+            background: white;
+            transform: scale(1.05);
+        }
+        
+        /* Loading spinner */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #e5e7eb;
+            border-top: 2px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 16px 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
+            animation: slideInToast 0.3s ease-out;
+        }
+        
+        @keyframes slideInToast {
+            from { opacity: 0; transform: translateX(100%); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .toast-success {
+            border-left: 4px solid #10b981;
+        }
+        
+        .toast-error {
+            border-left: 4px solid #ef4444;
+        }
+        
+        /* Modal system */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
         }
         
-        .auth-card {
+        .modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
             background: white;
-            padding: 40px;
+            padding: 24px;
             border-radius: 16px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
         }
         
-        .auth-header {
-            text-align: center;
-            margin-bottom: 32px;
+        .modal-overlay.open .modal-content {
+            transform: scale(1);
         }
         
-        .auth-title {
-            font-size: 28px;
-            font-weight: 700;
-            color: #1f2937;
-            margin-bottom: 8px;
+        /* Sidebar styles */
+        .sidebar {
+            width: 320px;
+            background: white;
+            border-right: 1px solid #e5e7eb;
+            height: 100vh;
+            overflow-y: auto;
+            transition: all 0.3s ease;
         }
         
-        .auth-subtitle {
-            color: #6b7280;
-            font-size: 16px;
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -320px;
+                z-index: 1000;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            }
+            
+            .sidebar.open {
+                left: 0;
+            }
         }
         
-        .auth-form {
-            space-y: 20px;
+        /* Enhanced menu item styles */
+        .menu-item-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            border: 2px solid #f1f5f9;
+            transition: all 0.3s ease;
+            margin-bottom: 12px;
         }
         
-        .auth-field {
-            margin-bottom: 20px;
+        .menu-item-card:hover {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
         }
         
-        .auth-label {
-            display: block;
-            font-weight: 500;
-            color: #374151;
-            margin-bottom: 8px;
+        /* 3D model viewer enhancements */
+        .model-viewer-container {
+            border-radius: 12px;
+            overflow: hidden;
+            background: #f8fafc;
+            position: relative;
         }
         
-        .auth-toggle {
-            text-align: center;
-            margin-top: 24px;
-            padding-top: 24px;
-            border-top: 1px solid #e5e7eb;
-        }
-        
-        .auth-link {
-            color: #3b82f6;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        
-        .auth-link:hover {
-            color: #2563eb;
-        }
-        
-        .guest-option {
-            text-align: center;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #e5e7eb;
+        .model-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
         }
     </style>
 </head>
@@ -458,75 +466,127 @@
     <script type="text/babel">
         const { useState, useEffect, useContext, createContext, useRef } = React;
 
-        // Simple Storage Utility
+        // Enhanced storage utility
         const storage = {
-            save: (key, data) => localStorage.setItem(key, JSON.stringify(data)),
+            save: (key, data) => {
+                try {
+                    localStorage.setItem(key, JSON.stringify(data));
+                    return true;
+                } catch (error) {
+                    console.error('Storage save error:', error);
+                    return false;
+                }
+            },
             load: (key) => {
                 try {
-                    return JSON.parse(localStorage.getItem(key));
-                } catch {
+                    const data = localStorage.getItem(key);
+                    return data ? JSON.parse(data) : null;
+                } catch (error) {
+                    console.error('Storage load error:', error);
                     return null;
                 }
             },
-            remove: (key) => localStorage.removeItem(key)
+            remove: (key) => {
+                try {
+                    localStorage.removeItem(key);
+                    return true;
+                } catch (error) {
+                    console.error('Storage remove error:', error);
+                    return false;
+                }
+            }
         };
 
-        // Language Context
-        const LanguageContext = createContext();
-
+        // Enhanced translations
         const translations = {
             en: {
-                // Auth translations
-                login: 'Login',
+                // Auth
+                welcome: 'Welcome to Menu Builder',
+                login: 'Sign In',
                 signup: 'Sign Up',
-                email: 'Email',
+                email: 'Email Address',
                 password: 'Password',
                 confirmPassword: 'Confirm Password',
                 fullName: 'Full Name',
                 continueAsGuest: 'Continue as Guest',
-                welcome: 'Welcome to Menu Builder',
                 createAccount: 'Create your account',
                 alreadyHaveAccount: 'Already have an account?',
                 dontHaveAccount: "Don't have an account?",
+                signInToAccount: 'Sign in to your account',
                 
-                // Menu builder translations
+                // Navigation
                 menuBuilder: 'Menu Builder',
-                selectTemplate: 'Select Template',
-                modern: 'Modern',
-                elegant: 'Elegant',
-                casual: 'Casual',
-                premium: 'Premium',
-                useTemplate: 'Use Template',
-                customize: 'Customize',
+                selectTemplate: 'Choose Template',
+                dashboard: 'Dashboard',
+                templates: 'Templates',
+                myMenus: 'My Menus',
+                settings: 'Settings',
+                logout: 'Logout',
+                
+                // Templates
+                modernDark: 'Modern Dark',
+                minimalistLight: 'Minimalist Light',
+                vibrantFood: 'Vibrant Food Focus',
+                luxuryGold: 'Luxury Gold',
+                freshGreen: 'Fresh Green',
+                oceanBlue: 'Ocean Blue',
+                useTemplate: 'Use This Template',
+                previewTemplate: 'Preview Template',
+                
+                // Menu Builder
+                restaurantInfo: 'Restaurant Information',
                 restaurantName: 'Restaurant Name',
                 menuTitle: 'Menu Title',
-                tagline: 'Tagline',
+                tagline: 'Tagline or Description',
                 addSection: 'Add Section',
                 addItem: 'Add Item',
+                editSection: 'Edit Section',
+                editItem: 'Edit Item',
+                deleteSection: 'Delete Section',
+                deleteItem: 'Delete Item',
+                
+                // Forms
                 sectionName: 'Section Name',
                 itemName: 'Item Name',
+                itemNameAr: 'Item Name (Arabic)',
                 price: 'Price',
                 description: 'Description',
+                descriptionAr: 'Description (Arabic)',
+                imageUrl: 'Image URL',
+                model3dUrl: '3D Model URL (.glb)',
+                
+                // Actions
                 save: 'Save',
                 cancel: 'Cancel',
-                publish: 'Publish',
+                publish: 'Publish Menu',
                 preview: 'Preview',
-                desktop: 'Desktop',
-                tablet: 'Tablet',
-                mobile: 'Mobile',
                 back: 'Back',
                 edit: 'Edit',
                 delete: 'Delete',
+                apply: 'Apply',
+                close: 'Close',
+                
+                // View modes
+                desktop: 'Desktop',
+                tablet: 'Tablet',
+                mobile: 'Mobile',
+                
+                // Status
                 saving: 'Saving...',
+                loading: 'Loading...',
                 saved: 'Saved successfully!',
-                published: 'Menu published!',
+                published: 'Menu published successfully!',
+                error: 'An error occurred',
+                
+                // Sharing
+                shareMenu: 'Share Menu',
                 shareUrl: 'Share URL',
                 qrCode: 'QR Code',
-                close: 'Close',
-                apply: 'Apply'
+                copyLink: 'Copy Link'
             },
             ar: {
-                // Auth translations
+                // Auth
+                welcome: 'مرحباً بك في منشئ القوائم',
                 login: 'تسجيل الدخول',
                 signup: 'إنشاء حساب',
                 email: 'البريد الإلكتروني',
@@ -534,67 +594,124 @@
                 confirmPassword: 'تأكيد كلمة المرور',
                 fullName: 'الاسم الكامل',
                 continueAsGuest: 'متابعة كضيف',
-                welcome: 'مرحباً بك في منشئ القوائم',
                 createAccount: 'إنشاء حسابك',
                 alreadyHaveAccount: 'لديك حساب بالفعل؟',
                 dontHaveAccount: 'ليس لديك حساب؟',
+                signInToAccount: 'تسجيل الدخول إلى حسابك',
                 
-                // Menu builder translations
+                // Navigation
                 menuBuilder: 'منشئ القائمة',
                 selectTemplate: 'اختر قالب',
-                modern: 'عصري',
-                elegant: 'أنيق',
-                casual: 'عادي',
-                premium: 'مميز',
-                useTemplate: 'استخدم القالب',
-                customize: 'تخصيص',
+                dashboard: 'لوحة التحكم',
+                templates: 'القوالب',
+                myMenus: 'قوائمي',
+                settings: 'الإعدادات',
+                logout: 'تسجيل الخروج',
+                
+                // Templates
+                modernDark: 'عصري داكن',
+                minimalistLight: 'بسيط فاتح',
+                vibrantFood: 'طعام نابض بالحياة',
+                luxuryGold: 'ذهبي فاخر',
+                freshGreen: 'أخضر طازج',
+                oceanBlue: 'أزرق المحيط',
+                useTemplate: 'استخدم هذا القالب',
+                previewTemplate: 'معاينة القالب',
+                
+                // Menu Builder
+                restaurantInfo: 'معلومات المطعم',
                 restaurantName: 'اسم المطعم',
                 menuTitle: 'عنوان القائمة',
-                tagline: 'الشعار',
+                tagline: 'شعار أو وصف',
                 addSection: 'إضافة قسم',
                 addItem: 'إضافة عنصر',
+                editSection: 'تحرير القسم',
+                editItem: 'تحرير العنصر',
+                deleteSection: 'حذف القسم',
+                deleteItem: 'حذف العنصر',
+                
+                // Forms
                 sectionName: 'اسم القسم',
                 itemName: 'اسم العنصر',
+                itemNameAr: 'اسم العنصر (عربي)',
                 price: 'السعر',
                 description: 'الوصف',
+                descriptionAr: 'الوصف (عربي)',
+                imageUrl: 'رابط الصورة',
+                model3dUrl: 'رابط النموذج ثلاثي الأبعاد (.glb)',
+                
+                // Actions
                 save: 'حفظ',
                 cancel: 'إلغاء',
-                publish: 'نشر',
+                publish: 'نشر القائمة',
                 preview: 'معاينة',
-                desktop: 'سطح المكتب',
-                tablet: 'جهاز لوحي',
-                mobile: 'جوال',
                 back: 'رجوع',
                 edit: 'تحرير',
                 delete: 'حذف',
+                apply: 'تطبيق',
+                close: 'إغلاق',
+                
+                // View modes
+                desktop: 'سطح المكتب',
+                tablet: 'جهاز لوحي',
+                mobile: 'جوال',
+                
+                // Status
                 saving: 'جاري الحفظ...',
+                loading: 'جاري التحميل...',
                 saved: 'تم الحفظ بنجاح!',
-                published: 'تم نشر القائمة!',
+                published: 'تم نشر القائمة بنجاح!',
+                error: 'حدث خطأ',
+                
+                // Sharing
+                shareMenu: 'مشاركة القائمة',
                 shareUrl: 'رابط المشاركة',
                 qrCode: 'رمز الاستجابة السريعة',
-                close: 'إغلاق',
-                apply: 'تطبيق'
+                copyLink: 'نسخ الرابط'
             }
         };
+
+        // Language Context
+        const LanguageContext = createContext();
 
         function LanguageProvider({ children }) {
             const [language, setLanguage] = useState('en');
 
             const toggleLanguage = () => {
-                setLanguage(prev => prev === 'en' ? 'ar' : 'en');
+                const newLang = language === 'en' ? 'ar' : 'en';
+                setLanguage(newLang);
+                storage.save('language', newLang);
             };
 
             const t = (key) => translations[language][key] || key;
 
+            useEffect(() => {
+                const savedLang = storage.load('language');
+                if (savedLang && translations[savedLang]) {
+                    setLanguage(savedLang);
+                }
+            }, []);
+
             return React.createElement(LanguageContext.Provider, {
-                value: { language, toggleLanguage, t, isRTL: language === 'ar' }
+                value: { 
+                    language, 
+                    toggleLanguage, 
+                    t, 
+                    isRTL: language === 'ar' 
+                }
             }, children);
         }
 
         function useLanguage() {
             const context = useContext(LanguageContext);
             if (!context) {
-                throw new Error('useLanguage must be used within LanguageProvider');
+                console.error('useLanguage must be used within LanguageProvider');
+                return {
+                    language: 'en',
+                    toggleLanguage: () => {},
+                    t: (key) => key,
+                    isRTL: false
+                };
             }
             return context;
         }
@@ -608,7 +725,7 @@
             const addToast = (message, type = 'success') => {
                 const id = Date.now();
                 setToasts(prev => [...prev, { id, message, type }]);
-                setTimeout(() => removeToast(id), 3000);
+                setTimeout(() => removeToast(id), 4000);
             };
 
             const removeToast = (id) => {
@@ -623,106 +740,144 @@
         function useToast() {
             const context = useContext(ToastContext);
             if (!context) {
-                throw new Error('useToast must be used within ToastProvider');
+                console.error('useToast must be used within ToastProvider');
+                return {
+                    addToast: () => {},
+                    removeToast: () => {},
+                    toasts: []
+                };
             }
             return context;
         }
 
-        // Templates Data with Eye-catching Designs
+        // Enhanced template data
         const templates = [
             {
-                id: 1,
-                name: 'Modern Dark',
+                id: 'modern-dark',
+                name: 'modernDark',
                 category: 'modern',
-                gradient: 'from-gray-900 via-purple-900 to-black',
-                bgColor: '#1a1a1a',
-                textColor: '#ffffff',
-                accentColor: '#8b5cf6',
-                description: 'Sleek dark theme with purple accents',
                 preview: {
-                    headerBg: 'linear-gradient(135deg, #1a1a1a 0%, #8b5cf6 100%)',
-                    itemBg: '#2d2d2d',
-                    borderColor: '#8b5cf6'
-                }
+                    headerBg: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
+                    contentBg: '#0f172a',
+                    itemBg: '#1e293b',
+                    textColor: '#ffffff',
+                    accentColor: '#8b5cf6',
+                    borderColor: '#374151'
+                },
+                className: 'template-dark'
             },
             {
-                id: 2,
-                name: 'Minimalist Light',
+                id: 'minimalist-light',
+                name: 'minimalistLight',
                 category: 'elegant',
-                gradient: 'from-white to-gray-100',
-                bgColor: '#ffffff',
-                textColor: '#1f2937',
-                accentColor: '#3b82f6',
-                description: 'Ultra-clean minimalist design',
                 preview: {
-                    headerBg: 'linear-gradient(135deg, #ffffff 0%, #f3f4f6 100%)',
+                    headerBg: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+                    contentBg: '#ffffff',
+                    itemBg: '#f8fafc',
+                    textColor: '#1e293b',
+                    accentColor: '#3b82f6',
+                    borderColor: '#e2e8f0'
+                },
+                className: 'template-light'
+            },
+            {
+                id: 'vibrant-food',
+                name: 'vibrantFood',
+                category: 'casual',
+                preview: {
+                    headerBg: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)',
+                    contentBg: '#fff5f5',
                     itemBg: '#ffffff',
-                    borderColor: '#e5e7eb'
-                }
+                    textColor: '#7c2d12',
+                    accentColor: '#dc2626',
+                    borderColor: '#fed7d7'
+                },
+                className: 'template-vibrant'
             },
             {
-                id: 3,
-                name: 'Vibrant Food Focus',
-                category: 'casual',
-                gradient: 'from-orange-400 via-red-500 to-pink-500',
-                bgColor: '#fff7ed',
-                textColor: '#7c2d12',
-                accentColor: '#ea580c',
-                description: 'Bold colors showcasing delicious dishes',
-                preview: {
-                    headerBg: 'linear-gradient(135deg, #ea580c 0%, #dc2626 100%)',
-                    itemBg: '#fff7ed',
-                    borderColor: '#fed7aa'
-                }
-            },
-            {
-                id: 4,
-                name: 'Luxury Gold',
+                id: 'luxury-gold',
+                name: 'luxuryGold',
                 category: 'premium',
-                gradient: 'from-amber-700 via-yellow-600 to-amber-500',
-                bgColor: '#fffbeb',
-                textColor: '#78350f',
-                accentColor: '#d97706',
-                description: 'Sophisticated gold and cream luxury theme',
                 preview: {
-                    headerBg: 'linear-gradient(135deg, #78350f 0%, #d97706 100%)',
-                    itemBg: '#fffbeb',
+                    headerBg: 'linear-gradient(135deg, #d4af37 0%, #ffd700 100%)',
+                    contentBg: '#fffbeb',
+                    itemBg: '#ffffff',
+                    textColor: '#7c2d12',
+                    accentColor: '#d97706',
                     borderColor: '#fde68a'
-                }
+                },
+                className: 'template-luxury'
             },
             {
-                id: 5,
-                name: 'Fresh Green',
-                category: 'casual',
-                gradient: 'from-green-600 to-emerald-500',
-                bgColor: '#f0fdf4',
-                textColor: '#14532d',
-                accentColor: '#16a34a',
-                description: 'Fresh and natural green theme',
+                id: 'fresh-green',
+                name: 'freshGreen',
+                category: 'natural',
                 preview: {
-                    headerBg: 'linear-gradient(135deg, #16a34a 0%, #059669 100%)',
-                    itemBg: '#f0fdf4',
+                    headerBg: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                    contentBg: '#f0fdf4',
+                    itemBg: '#ffffff',
+                    textColor: '#14532d',
+                    accentColor: '#16a34a',
                     borderColor: '#bbf7d0'
-                }
+                },
+                className: 'template-nature'
             },
             {
-                id: 6,
-                name: 'Ocean Blue',
+                id: 'ocean-blue',
+                name: 'oceanBlue',
                 category: 'elegant',
-                gradient: 'from-blue-800 to-indigo-600',
-                bgColor: '#eff6ff',
-                textColor: '#1e3a8a',
-                accentColor: '#2563eb',
-                description: 'Deep ocean blue with wave-like elegance',
                 preview: {
-                    headerBg: 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%)',
-                    itemBg: '#eff6ff',
+                    headerBg: 'linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%)',
+                    contentBg: '#eff6ff',
+                    itemBg: '#ffffff',
+                    textColor: '#1e3a8a',
+                    accentColor: '#2563eb',
                     borderColor: '#bfdbfe'
-                }
+                },
+                className: 'template-ocean'
             }
         ];
 
-        // Authentication Component
+        // Language Toggle Component
+        function LanguageToggle() {
+            const { language, toggleLanguage } = useLanguage();
+            
+            return React.createElement('button', {
+                className: 'lang-toggle smooth-transition',
+                onClick: toggleLanguage
+            }, language === 'en' ? '🇸🇦 العربية' : '🇺🇸 English');
+        }
+
+        // Toast Container
+        function ToastContainer() {
+            const { toasts, removeToast } = useToast();
+
+            if (!toasts || toasts.length === 0) {
+                return null;
+            }
+
+            return React.createElement('div', {
+                className: 'fixed bottom-4 right-4 z-50 space-y-2'
+            }, toasts.map(toast =>
+                React.createElement('div', {
+                    key: toast.id,
+                    className: `toast toast-${toast.type} scale-in`,
+                    onClick: () => removeToast(toast.id)
+                }, [
+                    React.createElement('span', { key: 'message' }, toast.message),
+                    React.createElement('button', {
+                        key: 'close',
+                        className: 'ml-3 text-gray-500 hover:text-gray-700 font-bold',
+                        onClick: (e) => {
+                            e.stopPropagation();
+                            removeToast(toast.id);
+                        }
+                    }, '×')
+                ])
+            ));
+        }
+
+        // Enhanced Authentication Screen
         function AuthScreen({ onAuthenticated }) {
             const { t, isRTL } = useLanguage();
             const { addToast } = useToast();
@@ -748,15 +903,21 @@
                     return;
                 }
 
-                // Store user data
+                if (!formData.email || !formData.password) {
+                    addToast('Please fill in all required fields', 'error');
+                    setIsLoading(false);
+                    return;
+                }
+
                 const userData = {
                     email: formData.email,
                     name: formData.fullName || formData.email.split('@')[0],
-                    authenticated: true
+                    authenticated: true,
+                    joinDate: new Date().toISOString()
                 };
-                storage.save('currentUser', userData);
                 
-                addToast(isLogin ? 'Logged in successfully!' : 'Account created successfully!');
+                storage.save('currentUser', userData);
+                addToast(isLogin ? 'Welcome back!' : 'Account created successfully!');
                 setIsLoading(false);
                 onAuthenticated(userData);
             };
@@ -765,154 +926,169 @@
                 const guestData = {
                     email: 'guest@menubuilder.com',
                     name: 'Guest User',
-                    authenticated: false
+                    authenticated: false,
+                    joinDate: new Date().toISOString()
                 };
                 storage.save('currentUser', guestData);
                 onAuthenticated(guestData);
             };
 
             return React.createElement('div', {
-                className: `auth-container ${isRTL ? 'rtl' : ''}`
-            }, React.createElement('div', {
-                className: 'auth-card fade-in',
+                className: `min-h-screen flex items-center justify-center p-4 ${isRTL ? 'rtl' : ''}`,
                 dir: isRTL ? 'rtl' : 'ltr'
+            }, React.createElement('div', {
+                className: 'glass-card rounded-3xl p-8 w-full max-w-md fade-in'
             }, [
+                // Header
                 React.createElement('div', {
                     key: 'header',
-                    className: 'auth-header'
+                    className: 'text-center mb-8'
                 }, [
+                    React.createElement('div', {
+                        key: 'logo',
+                        className: 'w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl mx-auto mb-4 flex items-center justify-center'
+                    }, React.createElement('span', {
+                        className: 'text-2xl font-bold text-white'
+                    }, '🍽️')),
                     React.createElement('h1', {
                         key: 'title',
-                        className: 'auth-title'
+                        className: 'text-3xl font-bold gradient-text mb-2'
                     }, t('welcome')),
                     React.createElement('p', {
                         key: 'subtitle',
-                        className: 'auth-subtitle'
-                    }, isLogin ? 'Sign in to your account' : t('createAccount'))
+                        className: 'text-gray-600'
+                    }, isLogin ? t('signInToAccount') : t('createAccount'))
                 ]),
 
+                // Form
                 React.createElement('form', {
                     key: 'form',
-                    className: 'auth-form',
-                    onSubmit: handleSubmit
+                    onSubmit: handleSubmit,
+                    className: 'space-y-6'
                 }, [
+                    // Full Name (signup only)
                     !isLogin && React.createElement('div', {
                         key: 'fullName',
-                        className: 'auth-field'
+                        className: 'slide-up'
                     }, [
                         React.createElement('label', {
                             key: 'label',
-                            className: 'auth-label'
+                            className: 'block text-sm font-semibold text-gray-700 mb-2'
                         }, t('fullName')),
                         React.createElement('input', {
                             key: 'input',
                             type: 'text',
-                            className: 'input w-full',
+                            className: 'input',
                             value: formData.fullName,
                             onChange: (e) => setFormData(prev => ({ ...prev, fullName: e.target.value })),
-                            required: !isLogin
+                            required: !isLogin,
+                            placeholder: 'John Smith'
                         })
                     ]),
 
-                    React.createElement('div', {
-                        key: 'email',
-                        className: 'auth-field'
-                    }, [
+                    // Email
+                    React.createElement('div', { key: 'email' }, [
                         React.createElement('label', {
                             key: 'label',
-                            className: 'auth-label'
+                            className: 'block text-sm font-semibold text-gray-700 mb-2'
                         }, t('email')),
                         React.createElement('input', {
                             key: 'input',
                             type: 'email',
-                            className: 'input w-full',
+                            className: 'input',
                             value: formData.email,
                             onChange: (e) => setFormData(prev => ({ ...prev, email: e.target.value })),
-                            required: true
+                            required: true,
+                            placeholder: 'john@example.com'
                         })
                     ]),
 
-                    React.createElement('div', {
-                        key: 'password',
-                        className: 'auth-field'
-                    }, [
+                    // Password
+                    React.createElement('div', { key: 'password' }, [
                         React.createElement('label', {
                             key: 'label',
-                            className: 'auth-label'
+                            className: 'block text-sm font-semibold text-gray-700 mb-2'
                         }, t('password')),
                         React.createElement('input', {
                             key: 'input',
                             type: 'password',
-                            className: 'input w-full',
+                            className: 'input',
                             value: formData.password,
                             onChange: (e) => setFormData(prev => ({ ...prev, password: e.target.value })),
-                            required: true
+                            required: true,
+                            placeholder: '••••••••'
                         })
                     ]),
 
+                    // Confirm Password (signup only)
                     !isLogin && React.createElement('div', {
                         key: 'confirmPassword',
-                        className: 'auth-field'
+                        className: 'slide-up'
                     }, [
                         React.createElement('label', {
                             key: 'label',
-                            className: 'auth-label'
+                            className: 'block text-sm font-semibold text-gray-700 mb-2'
                         }, t('confirmPassword')),
                         React.createElement('input', {
                             key: 'input',
                             type: 'password',
-                            className: 'input w-full',
+                            className: 'input',
                             value: formData.confirmPassword,
                             onChange: (e) => setFormData(prev => ({ ...prev, confirmPassword: e.target.value })),
-                            required: !isLogin
+                            required: !isLogin,
+                            placeholder: '••••••••'
                         })
                     ]),
 
+                    // Submit Button
                     React.createElement('button', {
                         key: 'submit',
                         type: 'submit',
-                        className: 'btn btn-primary w-full',
+                        className: 'btn btn-primary btn-lg w-full',
                         disabled: isLoading
                     }, isLoading ? [
                         React.createElement('div', {
                             key: 'spinner',
-                            className: 'loading-spinner mr-2'
+                            className: 'spinner mr-2'
                         }),
                         isLogin ? 'Signing in...' : 'Creating account...'
                     ] : (isLogin ? t('login') : t('signup')))
                 ]),
 
+                // Toggle
                 React.createElement('div', {
                     key: 'toggle',
-                    className: 'auth-toggle'
+                    className: 'text-center mt-6 pt-6 border-t border-gray-200'
                 }, [
                     React.createElement('p', {
                         key: 'text',
-                        className: 'text-sm text-gray-600'
+                        className: 'text-sm text-gray-600 mb-2'
                     }, isLogin ? t('dontHaveAccount') : t('alreadyHaveAccount')),
                     React.createElement('button', {
                         key: 'link',
                         type: 'button',
-                        className: 'auth-link ml-1',
+                        className: 'btn btn-ghost',
                         onClick: () => setIsLogin(!isLogin)
                     }, isLogin ? t('signup') : t('login'))
                 ]),
 
+                // Guest Option
                 React.createElement('div', {
                     key: 'guest',
-                    className: 'guest-option'
+                    className: 'text-center mt-6 pt-6 border-t border-gray-200'
                 }, React.createElement('button', {
                     type: 'button',
-                    className: 'btn btn-ghost w-full',
+                    className: 'btn btn-secondary w-full',
                     onClick: handleGuestContinue
                 }, t('continueAsGuest')))
             ]));
         }
 
-        // Template Selection Component with Enhanced Previews
+        // Enhanced Template Selection
         function TemplateSelection({ onSelectTemplate }) {
             const { t, isRTL } = useLanguage();
             const [selectedTemplate, setSelectedTemplate] = useState(null);
+            const [previewMode, setPreviewMode] = useState('grid');
 
             const handleTemplateClick = (template) => {
                 setSelectedTemplate(template);
@@ -925,133 +1101,151 @@
             };
 
             return React.createElement('div', {
-                className: `min-h-screen p-4 md:p-8 ${isRTL ? 'rtl' : ''} fade-in`
+                className: `min-h-screen p-4 md:p-8 ${isRTL ? 'rtl' : ''} fade-in`,
+                dir: isRTL ? 'rtl' : 'ltr'
             }, [
                 React.createElement('div', {
                     key: 'container',
                     className: 'max-w-7xl mx-auto'
                 }, [
+                    // Header
                     React.createElement('div', {
                         key: 'header',
                         className: 'text-center mb-8 md:mb-12'
                     }, [
                         React.createElement('h1', {
                             key: 'title',
-                            className: 'text-3xl md:text-4xl font-bold text-white mb-4'
+                            className: 'text-4xl md:text-5xl font-bold text-white mb-4'
                         }, t('selectTemplate')),
                         React.createElement('p', {
                             key: 'subtitle',
-                            className: 'text-lg md:text-xl text-white opacity-90'
-                        }, 'Choose a template that matches your restaurant style')
+                            className: 'text-xl text-white opacity-90 max-w-2xl mx-auto'
+                        }, 'Choose from our professionally designed templates to create your perfect menu')
                     ]),
                     
+                    // Templates Grid
                     React.createElement('div', {
                         key: 'templates',
-                        className: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 grid-mobile-1'
+                        className: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'
                     }, templates.map(template =>
                         React.createElement('div', {
                             key: template.id,
-                            className: `template-card bg-white rounded-xl overflow-hidden enhanced-hover cursor-pointer ${
-                                selectedTemplate?.id === template.id ? 'ring-4 ring-blue-500' : ''
-                            }`,
+                            className: `card card-hover ${selectedTemplate?.id === template.id ? 'ring-4 ring-blue-400 ring-opacity-60' : ''}`,
                             onClick: () => handleTemplateClick(template)
                         }, [
-                            // Live Preview
+                            // Preview
                             React.createElement('div', {
                                 key: 'preview',
-                                className: 'h-48 md:h-56 relative overflow-hidden',
+                                className: `template-preview ${template.className}`,
                                 style: { background: template.preview.headerBg }
                             }, [
-                                // Header preview
+                                // Header section
                                 React.createElement('div', {
                                     key: 'header',
-                                    className: 'p-4 text-center',
-                                    style: { color: template.textColor === '#ffffff' ? '#ffffff' : template.textColor }
+                                    className: 'p-4 text-center'
                                 }, [
                                     React.createElement('h3', {
                                         key: 'restaurant',
-                                        className: 'text-lg font-bold mb-1'
-                                    }, 'Sample Restaurant'),
+                                        className: 'text-lg font-bold mb-1',
+                                        style: { color: template.preview.textColor }
+                                    }, 'Restaurant Name'),
                                     React.createElement('p', {
                                         key: 'tagline',
-                                        className: 'text-sm opacity-80'
-                                    }, 'Delicious Food Menu')
+                                        className: 'text-sm opacity-80',
+                                        style: { color: template.preview.textColor }
+                                    }, 'Fine Dining Experience')
                                 ]),
                                 
-                                // Menu items preview
+                                // Content section
                                 React.createElement('div', {
-                                    key: 'items',
-                                    className: 'px-4 pb-4 space-y-2'
+                                    key: 'content',
+                                    className: 'px-4 pb-4',
+                                    style: { backgroundColor: template.preview.contentBg }
                                 }, [
                                     React.createElement('div', {
-                                        key: 'item1',
-                                        className: 'p-3 rounded-lg',
-                                        style: { 
-                                            backgroundColor: template.preview.itemBg,
-                                            borderLeft: `3px solid ${template.accentColor}`,
-                                            color: template.textColor
-                                        }
+                                        key: 'section',
+                                        className: 'mb-3'
                                     }, [
+                                        React.createElement('h4', {
+                                            key: 'section-title',
+                                            className: 'text-sm font-semibold mb-2',
+                                            style: { color: template.preview.textColor }
+                                        }, 'Appetizers'),
                                         React.createElement('div', {
-                                            key: 'content',
-                                            className: 'flex justify-between items-center'
+                                            key: 'items',
+                                            className: 'space-y-2'
                                         }, [
-                                            React.createElement('span', {
-                                                key: 'name',
-                                                className: 'text-sm font-medium'
-                                            }, 'Signature Dish'),
-                                            React.createElement('span', {
-                                                key: 'price',
-                                                className: 'text-sm font-bold',
-                                                style: { color: template.accentColor }
-                                            }, '$12.99')
-                                        ])
-                                    ]),
-                                    React.createElement('div', {
-                                        key: 'item2',
-                                        className: 'p-3 rounded-lg',
-                                        style: { 
-                                            backgroundColor: template.preview.itemBg,
-                                            borderLeft: `3px solid ${template.accentColor}`,
-                                            color: template.textColor
-                                        }
-                                    }, [
-                                        React.createElement('div', {
-                                            key: 'content',
-                                            className: 'flex justify-between items-center'
-                                        }, [
-                                            React.createElement('span', {
-                                                key: 'name',
-                                                className: 'text-sm font-medium'
-                                            }, 'Special Item'),
-                                            React.createElement('span', {
-                                                key: 'price',
-                                                className: 'text-sm font-bold',
-                                                style: { color: template.accentColor }
-                                            }, '$8.50')
+                                            React.createElement('div', {
+                                                key: 'item1',
+                                                className: 'p-2 rounded text-xs',
+                                                style: { 
+                                                    backgroundColor: template.preview.itemBg,
+                                                    borderLeft: `3px solid ${template.preview.accentColor}`
+                                                }
+                                            }, [
+                                                React.createElement('div', {
+                                                    key: 'content',
+                                                    className: 'flex justify-between'
+                                                }, [
+                                                    React.createElement('span', {
+                                                        key: 'name',
+                                                        style: { color: template.preview.textColor }
+                                                    }, 'Signature Dish'),
+                                                    React.createElement('span', {
+                                                        key: 'price',
+                                                        className: 'font-semibold',
+                                                        style: { color: template.preview.accentColor }
+                                                    }, '$12')
+                                                ])
+                                            ]),
+                                            React.createElement('div', {
+                                                key: 'item2',
+                                                className: 'p-2 rounded text-xs',
+                                                style: { 
+                                                    backgroundColor: template.preview.itemBg,
+                                                    borderLeft: `3px solid ${template.preview.accentColor}`
+                                                }
+                                            }, [
+                                                React.createElement('div', {
+                                                    key: 'content',
+                                                    className: 'flex justify-between'
+                                                }, [
+                                                    React.createElement('span', {
+                                                        key: 'name',
+                                                        style: { color: template.preview.textColor }
+                                                    }, 'Special Item'),
+                                                    React.createElement('span', {
+                                                        key: 'price',
+                                                        className: 'font-semibold',
+                                                        style: { color: template.preview.accentColor }
+                                                    }, '$8')
+                                                ])
+                                            ])
                                         ])
                                     ])
                                 ])
                             ]),
                             
-                            // Template info
+                            // Info
                             React.createElement('div', {
                                 key: 'info',
-                                className: 'p-4 md:p-6'
+                                className: 'p-6'
                             }, [
                                 React.createElement('h3', {
                                     key: 'name',
-                                    className: 'text-lg md:text-xl font-semibold mb-2'
-                                }, template.name),
+                                    className: 'text-xl font-semibold mb-2'
+                                }, t(template.name)),
                                 React.createElement('p', {
-                                    key: 'description',
-                                    className: 'text-gray-600 text-sm mb-4'
-                                }, template.description),
-                                React.createElement('span', {
                                     key: 'category',
-                                    className: 'inline-block px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium',
-                                    style: { backgroundColor: template.accentColor + '20', color: template.accentColor }
-                                }, t(template.category))
+                                    className: 'text-gray-600 mb-4'
+                                }, `${template.category.charAt(0).toUpperCase() + template.category.slice(1)} Design`),
+                                selectedTemplate?.id === template.id && React.createElement('div', {
+                                    key: 'selected',
+                                    className: 'flex items-center text-blue-600 font-semibold'
+                                }, [
+                                    React.createElement('span', { key: 'icon', className: 'mr-2' }, '✓'),
+                                    React.createElement('span', { key: 'text' }, 'Selected')
+                                ])
                             ])
                         ])
                     )),
@@ -1059,45 +1253,48 @@
                     // Use Template Button
                     selectedTemplate && React.createElement('div', {
                         key: 'action',
-                        className: 'text-center mt-8'
+                        className: 'text-center mt-12'
                     }, React.createElement('button', {
-                        className: 'btn btn-primary btn-lg enhanced-hover',
+                        className: 'btn btn-primary btn-lg scale-in',
                         onClick: handleUseTemplate
-                    }, t('useTemplate') + ` - ${selectedTemplate.name}`))
+                    }, `${t('useTemplate')} - ${t(selectedTemplate.name)}`))
                 ])
             ]);
         }
 
-        // Menu Preview Component with Template Styling
-        function MenuPreview({ menu, sections, isDesktop, selectedTemplate }) {
+        // Enhanced Menu Preview
+        function MenuPreview({ menu, sections, viewMode, selectedTemplate }) {
             const { t, language, isRTL } = useLanguage();
             
-            const containerClass = isDesktop 
+            const containerClass = viewMode === 'desktop' 
                 ? 'max-w-4xl mx-auto' 
+                : viewMode === 'tablet'
+                ? 'max-w-2xl mx-auto'
                 : 'max-w-md mx-auto';
-                
-            const fontClass = language === 'ar' ? 'font-arabic' : 'font-inter';
 
-            // Get template styling
-            const template = selectedTemplate || templates.find(t => t.id === menu.templateId) || templates[0];
+            const template = selectedTemplate || templates[0];
 
             return React.createElement('div', {
-                className: `${containerClass} rounded-lg shadow-lg overflow-hidden ${fontClass} rtl-smooth ${isDesktop ? '' : 'mobile-preview'}`,
-                dir: language === 'ar' ? 'rtl' : 'ltr',
-                style: { backgroundColor: template.bgColor }
+                className: `${containerClass} rounded-2xl shadow-2xl overflow-hidden smooth-transition`,
+                dir: isRTL ? 'rtl' : 'ltr',
+                style: { backgroundColor: template.preview.contentBg }
             }, [
+                // Header
                 React.createElement('div', {
                     key: 'header',
-                    className: 'p-4 md:p-8 text-white',
-                    style: { background: template.preview.headerBg, color: template.textColor === '#ffffff' ? '#ffffff' : template.textColor }
+                    className: 'p-6 md:p-8 text-center',
+                    style: { 
+                        background: template.preview.headerBg,
+                        color: template.preview.textColor
+                    }
                 }, [
                     React.createElement('h1', {
                         key: 'restaurant-name',
-                        className: 'text-3xl font-bold mb-2'
-                    }, menu.restaurantName || 'Restaurant Name'),
+                        className: 'text-2xl md:text-4xl font-bold mb-2'
+                    }, menu.restaurantName || 'Your Restaurant Name'),
                     React.createElement('h2', {
                         key: 'menu-title',
-                        className: 'text-xl opacity-90 mb-2'
+                        className: 'text-lg md:text-xl opacity-90 mb-2'
                     }, menu.name || 'Menu'),
                     menu.tagline && React.createElement('p', {
                         key: 'tagline',
@@ -1105,10 +1302,11 @@
                     }, menu.tagline)
                 ]),
 
+                // Content
                 React.createElement('div', {
                     key: 'content',
                     className: 'p-4 md:p-8'
-                }, sections.map(section =>
+                }, sections.length > 0 ? sections.map(section =>
                     React.createElement('div', {
                         key: section.id,
                         className: 'mb-6 md:mb-8 fade-in'
@@ -1116,13 +1314,13 @@
                         React.createElement('h3', {
                             key: 'section-title',
                             className: 'text-xl md:text-2xl font-semibold mb-4',
-                            style: { color: template.textColor }
+                            style: { color: template.preview.textColor }
                         }, section.name),
                         
                         section.description && React.createElement('p', {
                             key: 'section-description',
-                            className: 'mb-4 md:mb-6 opacity-80',
-                            style: { color: template.textColor }
+                            className: 'mb-4 md:mb-6 opacity-75',
+                            style: { color: template.preview.textColor }
                         }, section.description),
 
                         React.createElement('div', {
@@ -1131,11 +1329,11 @@
                         }, section.items.map(item =>
                             React.createElement('div', {
                                 key: item.id,
-                                className: 'menu-item p-3 md:p-4 rounded-lg mobile-spacing',
+                                className: 'p-4 md:p-6 rounded-xl smooth-transition',
                                 style: { 
                                     backgroundColor: template.preview.itemBg,
-                                    borderLeft: `4px solid ${template.accentColor}`,
-                                    color: template.textColor
+                                    borderLeft: `4px solid ${template.preview.accentColor}`,
+                                    border: `1px solid ${template.preview.borderColor}`
                                 }
                             }, [
                                 React.createElement('div', {
@@ -1144,61 +1342,84 @@
                                 }, [
                                     React.createElement('h4', {
                                         key: 'item-name',
-                                        className: 'text-lg md:text-lg font-medium mb-1 md:mb-0',
-                                        style: { color: template.textColor }
+                                        className: 'text-lg md:text-xl font-semibold mb-1 md:mb-0',
+                                        style: { color: template.preview.textColor }
                                     }, item.name),
                                     React.createElement('span', {
                                         key: 'item-price',
-                                        className: 'text-lg font-semibold',
-                                        style: { color: template.accentColor }
+                                        className: 'text-lg md:text-xl font-bold',
+                                        style: { color: template.preview.accentColor }
                                     }, item.price)
                                 ]),
                                 
                                 item.description && React.createElement('p', {
                                     key: 'item-description',
-                                    className: 'opacity-75 text-sm md:text-base',
-                                    style: { color: template.textColor }
+                                    className: 'opacity-75 mb-3',
+                                    style: { color: template.preview.textColor }
                                 }, item.description),
 
                                 item.image && React.createElement('img', {
                                     key: 'item-image',
                                     src: item.image,
                                     alt: item.name,
-                                    className: 'mt-3 w-full h-32 md:h-40 object-cover rounded-lg'
+                                    className: 'mt-3 w-full h-40 md:h-48 object-cover rounded-lg',
+                                    onError: (e) => { e.target.style.display = 'none'; }
                                 }),
 
                                 item.model3d && React.createElement('div', {
                                     key: 'item-3d',
-                                    className: 'mt-3'
+                                    className: 'mt-3 model-viewer-container'
                                 }, React.createElement('model-viewer', {
                                     src: item.model3d,
                                     alt: item.name,
                                     'auto-rotate': true,
                                     'camera-controls': true,
-                                    style: { width: '100%', height: isDesktop ? '200px' : '150px' }
+                                    style: { 
+                                        width: '100%', 
+                                        height: viewMode === 'desktop' ? '200px' : '150px',
+                                        borderRadius: '8px'
+                                    }
                                 }))
                             ])
                         ))
                     ])
-                ))
+                ) : React.createElement('div', {
+                    key: 'empty',
+                    className: 'text-center py-12'
+                }, [
+                    React.createElement('div', {
+                        key: 'icon',
+                        className: 'text-6xl mb-4 opacity-50'
+                    }, '🍽️'),
+                    React.createElement('p', {
+                        key: 'text',
+                        className: 'text-gray-500 text-lg'
+                    }, 'Add sections and items to see your menu preview')
+                ]))
             ]);
         }
 
         // Modal Components
-        function Modal({ isOpen, onClose, children }) {
-            if (!isOpen) return null;
+        function Modal({ isOpen, onClose, children, size = 'md' }) {
+            const sizeClasses = {
+                sm: 'max-w-md',
+                md: 'max-w-lg',
+                lg: 'max-w-2xl',
+                xl: 'max-w-4xl'
+            };
 
             return React.createElement('div', {
-                className: 'modal-overlay',
+                className: `modal-overlay ${isOpen ? 'open' : ''}`,
                 onClick: onClose
             }, React.createElement('div', {
-                className: 'modal-content fade-in',
+                className: `modal-content ${sizeClasses[size]}`,
                 onClick: (e) => e.stopPropagation()
             }, children));
         }
 
         function ItemModal({ isOpen, onClose, item, onSave }) {
-            const { t } = useLanguage();
+            const { t, isRTL } = useLanguage();
+            const { addToast } = useToast();
             const [formData, setFormData] = useState({
                 name: '',
                 nameAr: '',
@@ -1211,7 +1432,7 @@
 
             useEffect(() => {
                 if (item) {
-                    setFormData(item);
+                    setFormData({ ...item });
                 } else {
                     setFormData({
                         name: '',
@@ -1227,133 +1448,166 @@
 
             const handleSubmit = (e) => {
                 e.preventDefault();
+                if (!formData.name || !formData.price) {
+                    addToast('Please fill in required fields', 'error');
+                    return;
+                }
                 onSave(formData);
                 onClose();
+                addToast(item ? 'Item updated!' : 'Item added!');
             };
 
             return React.createElement(Modal, {
                 isOpen,
-                onClose
+                onClose,
+                size: 'lg'
             }, [
-                React.createElement('h2', {
-                    key: 'title',
-                    className: 'text-xl font-semibold mb-4'
-                }, item ? 'Edit Item' : 'Add Item'),
+                React.createElement('div', {
+                    key: 'header',
+                    className: 'flex items-center justify-between mb-6'
+                }, [
+                    React.createElement('h2', {
+                        key: 'title',
+                        className: 'text-2xl font-bold gradient-text'
+                    }, item ? t('editItem') : t('addItem')),
+                    React.createElement('button', {
+                        key: 'close',
+                        className: 'btn btn-ghost btn-sm',
+                        onClick: onClose
+                    }, '✕')
+                ]),
 
                 React.createElement('form', {
                     key: 'form',
                     onSubmit: handleSubmit,
-                    className: 'space-y-4'
+                    className: 'space-y-6',
+                    dir: isRTL ? 'rtl' : 'ltr'
                 }, [
+                    // Names
                     React.createElement('div', {
-                        key: 'name-group',
-                        className: 'grid grid-cols-2 gap-4'
+                        key: 'names',
+                        className: 'grid grid-cols-1 md:grid-cols-2 gap-4'
                     }, [
                         React.createElement('div', { key: 'name-en' }, [
                             React.createElement('label', {
                                 key: 'label',
-                                className: 'block text-sm font-medium mb-1'
-                            }, 'Name (English)'),
+                                className: 'block text-sm font-semibold text-gray-700 mb-2'
+                            }, t('itemName') + ' *'),
                             React.createElement('input', {
                                 key: 'input',
                                 type: 'text',
                                 className: 'input',
                                 value: formData.name,
                                 onChange: (e) => setFormData(prev => ({ ...prev, name: e.target.value })),
-                                required: true
+                                required: true,
+                                placeholder: 'Delicious Pasta'
                             })
                         ]),
                         React.createElement('div', { key: 'name-ar' }, [
                             React.createElement('label', {
                                 key: 'label',
-                                className: 'block text-sm font-medium mb-1'
-                            }, 'Name (Arabic)'),
+                                className: 'block text-sm font-semibold text-gray-700 mb-2'
+                            }, t('itemNameAr')),
                             React.createElement('input', {
                                 key: 'input',
                                 type: 'text',
                                 className: 'input',
                                 value: formData.nameAr,
-                                onChange: (e) => setFormData(prev => ({ ...prev, nameAr: e.target.value }))
+                                onChange: (e) => setFormData(prev => ({ ...prev, nameAr: e.target.value })),
+                                placeholder: 'معكرونة لذيذة'
                             })
                         ])
                     ]),
 
+                    // Price
                     React.createElement('div', { key: 'price' }, [
                         React.createElement('label', {
                             key: 'label',
-                            className: 'block text-sm font-medium mb-1'
-                        }, t('price')),
+                            className: 'block text-sm font-semibold text-gray-700 mb-2'
+                        }, t('price') + ' *'),
                         React.createElement('input', {
                             key: 'input',
                             type: 'text',
                             className: 'input',
                             value: formData.price,
                             onChange: (e) => setFormData(prev => ({ ...prev, price: e.target.value })),
-                            required: true
+                            required: true,
+                            placeholder: '$12.99'
                         })
                     ]),
 
+                    // Descriptions
                     React.createElement('div', {
-                        key: 'description-group',
-                        className: 'grid grid-cols-2 gap-4'
+                        key: 'descriptions',
+                        className: 'grid grid-cols-1 md:grid-cols-2 gap-4'
                     }, [
                         React.createElement('div', { key: 'desc-en' }, [
                             React.createElement('label', {
                                 key: 'label',
-                                className: 'block text-sm font-medium mb-1'
-                            }, 'Description (English)'),
+                                className: 'block text-sm font-semibold text-gray-700 mb-2'
+                            }, t('description')),
                             React.createElement('textarea', {
                                 key: 'input',
                                 className: 'input textarea',
                                 value: formData.description,
-                                onChange: (e) => setFormData(prev => ({ ...prev, description: e.target.value }))
+                                onChange: (e) => setFormData(prev => ({ ...prev, description: e.target.value })),
+                                placeholder: 'Fresh pasta with homemade sauce...'
                             })
                         ]),
                         React.createElement('div', { key: 'desc-ar' }, [
                             React.createElement('label', {
                                 key: 'label',
-                                className: 'block text-sm font-medium mb-1'
-                            }, 'Description (Arabic)'),
+                                className: 'block text-sm font-semibold text-gray-700 mb-2'
+                            }, t('descriptionAr')),
                             React.createElement('textarea', {
                                 key: 'input',
                                 className: 'input textarea',
                                 value: formData.descriptionAr,
-                                onChange: (e) => setFormData(prev => ({ ...prev, descriptionAr: e.target.value }))
+                                onChange: (e) => setFormData(prev => ({ ...prev, descriptionAr: e.target.value })),
+                                placeholder: 'معكرونة طازجة مع صلصة منزلية...'
                             })
                         ])
                     ]),
 
-                    React.createElement('div', { key: 'image' }, [
-                        React.createElement('label', {
-                            key: 'label',
-                            className: 'block text-sm font-medium mb-1'
-                        }, 'Image URL'),
-                        React.createElement('input', {
-                            key: 'input',
-                            type: 'url',
-                            className: 'input',
-                            value: formData.image,
-                            onChange: (e) => setFormData(prev => ({ ...prev, image: e.target.value }))
-                        })
-                    ]),
-
-                    React.createElement('div', { key: '3d-model' }, [
-                        React.createElement('label', {
-                            key: 'label',
-                            className: 'block text-sm font-medium mb-1'
-                        }, '3D Model URL (.glb)'),
-                        React.createElement('input', {
-                            key: 'input',
-                            type: 'url',
-                            className: 'input',
-                            value: formData.model3d,
-                            onChange: (e) => setFormData(prev => ({ ...prev, model3d: e.target.value }))
-                        })
-                    ]),
-
+                    // Media
                     React.createElement('div', {
-                        key: 'buttons',
-                        className: 'flex gap-3 pt-4'
+                        key: 'media',
+                        className: 'grid grid-cols-1 md:grid-cols-2 gap-4'
+                    }, [
+                        React.createElement('div', { key: 'image' }, [
+                            React.createElement('label', {
+                                key: 'label',
+                                className: 'block text-sm font-semibold text-gray-700 mb-2'
+                            }, t('imageUrl')),
+                            React.createElement('input', {
+                                key: 'input',
+                                type: 'url',
+                                className: 'input',
+                                value: formData.image,
+                                onChange: (e) => setFormData(prev => ({ ...prev, image: e.target.value })),
+                                placeholder: 'https://example.com/image.jpg'
+                            })
+                        ]),
+                        React.createElement('div', { key: '3d-model' }, [
+                            React.createElement('label', {
+                                key: 'label',
+                                className: 'block text-sm font-semibold text-gray-700 mb-2'
+                            }, t('model3dUrl')),
+                            React.createElement('input', {
+                                key: 'input',
+                                type: 'url',
+                                className: 'input',
+                                value: formData.model3d,
+                                onChange: (e) => setFormData(prev => ({ ...prev, model3d: e.target.value })),
+                                placeholder: 'https://example.com/model.glb'
+                            })
+                        ])
+                    ]),
+
+                    // Actions
+                    React.createElement('div', {
+                        key: 'actions',
+                        className: 'flex gap-3 pt-4 border-t border-gray-200'
                     }, [
                         React.createElement('button', {
                             key: 'cancel',
@@ -1372,7 +1626,8 @@
         }
 
         function SectionModal({ isOpen, onClose, section, onSave }) {
-            const { t } = useLanguage();
+            const { t, isRTL } = useLanguage();
+            const { addToast } = useToast();
             const [formData, setFormData] = useState({
                 name: '',
                 nameAr: '',
@@ -1382,7 +1637,7 @@
 
             useEffect(() => {
                 if (section) {
-                    setFormData(section);
+                    setFormData({ ...section });
                 } else {
                     setFormData({
                         name: '',
@@ -1395,90 +1650,113 @@
 
             const handleSubmit = (e) => {
                 e.preventDefault();
+                if (!formData.name) {
+                    addToast('Please enter a section name', 'error');
+                    return;
+                }
                 onSave(formData);
                 onClose();
+                addToast(section ? 'Section updated!' : 'Section added!');
             };
 
             return React.createElement(Modal, {
                 isOpen,
                 onClose
             }, [
-                React.createElement('h2', {
-                    key: 'title',
-                    className: 'text-xl font-semibold mb-4'
-                }, section ? 'Edit Section' : 'Add Section'),
+                React.createElement('div', {
+                    key: 'header',
+                    className: 'flex items-center justify-between mb-6'
+                }, [
+                    React.createElement('h2', {
+                        key: 'title',
+                        className: 'text-2xl font-bold gradient-text'
+                    }, section ? t('editSection') : t('addSection')),
+                    React.createElement('button', {
+                        key: 'close',
+                        className: 'btn btn-ghost btn-sm',
+                        onClick: onClose
+                    }, '✕')
+                ]),
 
                 React.createElement('form', {
                     key: 'form',
                     onSubmit: handleSubmit,
-                    className: 'space-y-4'
+                    className: 'space-y-6',
+                    dir: isRTL ? 'rtl' : 'ltr'
                 }, [
+                    // Names
                     React.createElement('div', {
-                        key: 'name-group',
-                        className: 'grid grid-cols-2 gap-4'
+                        key: 'names',
+                        className: 'grid grid-cols-1 md:grid-cols-2 gap-4'
                     }, [
                         React.createElement('div', { key: 'name-en' }, [
                             React.createElement('label', {
                                 key: 'label',
-                                className: 'block text-sm font-medium mb-1'
-                            }, 'Section Name (English)'),
+                                className: 'block text-sm font-semibold text-gray-700 mb-2'
+                            }, t('sectionName') + ' *'),
                             React.createElement('input', {
                                 key: 'input',
                                 type: 'text',
                                 className: 'input',
                                 value: formData.name,
                                 onChange: (e) => setFormData(prev => ({ ...prev, name: e.target.value })),
-                                required: true
+                                required: true,
+                                placeholder: 'Appetizers'
                             })
                         ]),
                         React.createElement('div', { key: 'name-ar' }, [
                             React.createElement('label', {
                                 key: 'label',
-                                className: 'block text-sm font-medium mb-1'
+                                className: 'block text-sm font-semibold text-gray-700 mb-2'
                             }, 'Section Name (Arabic)'),
                             React.createElement('input', {
                                 key: 'input',
                                 type: 'text',
                                 className: 'input',
                                 value: formData.nameAr,
-                                onChange: (e) => setFormData(prev => ({ ...prev, nameAr: e.target.value }))
+                                onChange: (e) => setFormData(prev => ({ ...prev, nameAr: e.target.value })),
+                                placeholder: 'المقبلات'
                             })
                         ])
                     ]),
 
+                    // Descriptions
                     React.createElement('div', {
-                        key: 'description-group',
-                        className: 'grid grid-cols-2 gap-4'
+                        key: 'descriptions',
+                        className: 'grid grid-cols-1 md:grid-cols-2 gap-4'
                     }, [
                         React.createElement('div', { key: 'desc-en' }, [
                             React.createElement('label', {
                                 key: 'label',
-                                className: 'block text-sm font-medium mb-1'
-                            }, 'Description (English)'),
+                                className: 'block text-sm font-semibold text-gray-700 mb-2'
+                            }, t('description')),
                             React.createElement('textarea', {
                                 key: 'input',
                                 className: 'input textarea',
                                 value: formData.description,
-                                onChange: (e) => setFormData(prev => ({ ...prev, description: e.target.value }))
+                                onChange: (e) => setFormData(prev => ({ ...prev, description: e.target.value })),
+                                placeholder: 'Perfect starters for your meal...'
                             })
                         ]),
                         React.createElement('div', { key: 'desc-ar' }, [
                             React.createElement('label', {
                                 key: 'label',
-                                className: 'block text-sm font-medium mb-1'
-                            }, 'Description (Arabic)'),
+                                className: 'block text-sm font-semibold text-gray-700 mb-2'
+                            }, t('descriptionAr')),
                             React.createElement('textarea', {
                                 key: 'input',
                                 className: 'input textarea',
                                 value: formData.descriptionAr,
-                                onChange: (e) => setFormData(prev => ({ ...prev, descriptionAr: e.target.value }))
+                                onChange: (e) => setFormData(prev => ({ ...prev, descriptionAr: e.target.value })),
+                                placeholder: 'بدايات مثالية لوجبتك...'
                             })
                         ])
                     ]),
 
+                    // Actions
                     React.createElement('div', {
-                        key: 'buttons',
-                        className: 'flex gap-3 pt-4'
+                        key: 'actions',
+                        className: 'flex gap-3 pt-4 border-t border-gray-200'
                     }, [
                         React.createElement('button', {
                             key: 'cancel',
@@ -1498,74 +1776,110 @@
 
         function ShareModal({ isOpen, onClose, menu }) {
             const { t } = useLanguage();
+            const { addToast } = useToast();
             const [qrCode, setQrCode] = useState('');
             
             const shareUrl = `${window.location.origin}/menu/${menu.id || 'preview'}`;
 
             useEffect(() => {
                 if (isOpen && window.QRCode) {
-                    window.QRCode.toDataURL(shareUrl, (err, url) => {
+                    window.QRCode.toDataURL(shareUrl, { width: 200, margin: 2 }, (err, url) => {
                         if (!err) setQrCode(url);
                     });
                 }
             }, [isOpen, shareUrl]);
 
+            const copyToClipboard = async () => {
+                try {
+                    await navigator.clipboard.writeText(shareUrl);
+                    addToast('Link copied to clipboard!');
+                } catch (err) {
+                    addToast('Failed to copy link', 'error');
+                }
+            };
+
             return React.createElement(Modal, {
                 isOpen,
                 onClose
             }, [
-                React.createElement('h2', {
-                    key: 'title',
-                    className: 'text-xl font-semibold mb-4'
-                }, 'Share Menu'),
+                React.createElement('div', {
+                    key: 'header',
+                    className: 'flex items-center justify-between mb-6'
+                }, [
+                    React.createElement('h2', {
+                        key: 'title',
+                        className: 'text-2xl font-bold gradient-text'
+                    }, t('shareMenu')),
+                    React.createElement('button', {
+                        key: 'close',
+                        className: 'btn btn-ghost btn-sm',
+                        onClick: onClose
+                    }, '✕')
+                ]),
 
                 React.createElement('div', {
                     key: 'content',
-                    className: 'space-y-4'
+                    className: 'space-y-6'
                 }, [
+                    // URL Section
                     React.createElement('div', { key: 'url' }, [
                         React.createElement('label', {
                             key: 'label',
-                            className: 'block text-sm font-medium mb-2'
+                            className: 'block text-sm font-semibold text-gray-700 mb-2'
                         }, t('shareUrl')),
-                        React.createElement('input', {
-                            key: 'input',
-                            type: 'text',
-                            className: 'input',
-                            value: shareUrl,
-                            readOnly: true,
-                            onClick: (e) => e.target.select()
-                        })
+                        React.createElement('div', {
+                            key: 'input-group',
+                            className: 'flex'
+                        }, [
+                            React.createElement('input', {
+                                key: 'input',
+                                type: 'text',
+                                className: 'input flex-1 rounded-r-none',
+                                value: shareUrl,
+                                readOnly: true
+                            }),
+                            React.createElement('button', {
+                                key: 'copy',
+                                type: 'button',
+                                className: 'btn btn-primary rounded-l-none',
+                                onClick: copyToClipboard
+                            }, t('copyLink'))
+                        ])
                     ]),
 
+                    // QR Code Section
                     qrCode && React.createElement('div', {
                         key: 'qr',
                         className: 'text-center'
                     }, [
-                        React.createElement('p', {
+                        React.createElement('label', {
                             key: 'label',
-                            className: 'text-sm font-medium mb-2'
+                            className: 'block text-sm font-semibold text-gray-700 mb-4'
                         }, t('qrCode')),
-                        React.createElement('img', {
+                        React.createElement('div', {
+                            key: 'qr-container',
+                            className: 'inline-block p-4 bg-white rounded-xl shadow-lg'
+                        }, React.createElement('img', {
                             key: 'qr-image',
                             src: qrCode,
                             alt: 'QR Code',
-                            className: 'mx-auto w-32 h-32'
-                        })
+                            className: 'w-48 h-48 mx-auto'
+                        }))
                     ]),
 
+                    // Close Button
                     React.createElement('button', {
-                        key: 'close',
-                        className: 'btn btn-primary w-full',
+                        key: 'close-btn',
+                        className: 'btn btn-secondary w-full',
                         onClick: onClose
                     }, t('close'))
                 ])
             ]);
         }
 
-        // Main Menu Editor Component with Mobile Support
+        // Enhanced Menu Editor
         function MenuEditor({ template, onBack }) {
-            const { t, isRTL, language } = useLanguage();
+            const { t, isRTL } = useLanguage();
             const { addToast } = useToast();
             
             // State management
@@ -1578,6 +1892,7 @@
             
             const [sections, setSections] = useState([]);
             const [viewMode, setViewMode] = useState('desktop');
+            const [showMobileSidebar, setShowMobileSidebar] = useState(false);
             const [editingItem, setEditingItem] = useState(null);
             const [editingSection, setEditingSection] = useState(null);
             const [showItemModal, setShowItemModal] = useState(false);
@@ -1585,16 +1900,19 @@
             const [showShareModal, setShowShareModal] = useState(false);
             const [currentSectionId, setCurrentSectionId] = useState(null);
             const [isSaving, setIsSaving] = useState(false);
-            const [showMobileSidebar, setShowMobileSidebar] = useState(false);
 
             // Load saved data on component mount
             useEffect(() => {
                 const savedMenu = storage.load('currentMenu');
                 const savedSections = storage.load('currentSections');
                 
-                if (savedMenu) setMenu(savedMenu);
-                if (savedSections) setSections(savedSections);
-            }, []);
+                if (savedMenu && savedMenu.templateId === template.id) {
+                    setMenu(savedMenu);
+                }
+                if (savedSections) {
+                    setSections(savedSections);
+                }
+            }, [template.id]);
 
             // Auto-save functionality
             useEffect(() => {
@@ -1616,7 +1934,8 @@
                 const newSection = {
                     id: Date.now(),
                     ...sectionData,
-                    items: []
+                    items: [],
+                    sortOrder: sections.length
                 };
                 setSections(prev => [...prev, newSection]);
             };
@@ -1637,7 +1956,8 @@
             const addItem = (itemData) => {
                 const newItem = {
                     id: Date.now(),
-                    ...itemData
+                    ...itemData,
+                    sortOrder: 0
                 };
                 
                 setSections(prev => prev.map(section =>
@@ -1706,37 +2026,45 @@
             return React.createElement('div', {
                 className: `min-h-screen ${isRTL ? 'rtl' : ''}`
             }, [
+                // Mobile menu button
+                React.createElement('button', {
+                    key: 'mobile-menu-btn',
+                    className: 'fixed top-4 left-4 z-50 btn btn-primary btn-sm md:hidden',
+                    onClick: () => setShowMobileSidebar(true)
+                }, '☰'),
+
                 // Header
                 React.createElement('div', {
                     key: 'header',
                     className: 'bg-white shadow-sm border-b border-gray-200'
                 }, React.createElement('div', {
-                    className: 'max-w-7xl mx-auto px-6 py-4'
+                    className: 'max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4'
                 }, React.createElement('div', {
                     className: 'flex items-center justify-between'
                 }, [
                     React.createElement('div', {
                         key: 'left',
-                        className: 'flex items-center gap-4'
+                        className: 'flex items-center gap-2 md:gap-4'
                     }, [
                         React.createElement('button', {
                             key: 'back',
-                            className: 'btn btn-ghost',
+                            className: 'btn btn-ghost btn-sm md:btn',
                             onClick: onBack
                         }, '← ' + t('back')),
                         React.createElement('h1', {
                             key: 'title',
-                            className: 'text-2xl font-bold text-gray-800'
+                            className: 'text-lg md:text-2xl font-bold gradient-text'
                         }, t('menuBuilder'))
                     ]),
                     
                     React.createElement('div', {
                         key: 'right',
-                        className: 'flex items-center gap-4'
+                        className: 'flex items-center gap-2 md:gap-4'
                     }, [
+                        // View Mode Toggle (Desktop only)
                         React.createElement('div', {
                             key: 'view-toggle',
-                            className: 'flex bg-gray-100 rounded-lg p-1'
+                            className: 'hidden md:flex glass-effect rounded-lg p-1'
                         }, [
                             ['desktop', '🖥️'],
                             ['tablet', '📱'],
@@ -1744,7 +2072,7 @@
                         ].map(([mode, icon]) => 
                             React.createElement('button', {
                                 key: mode,
-                                className: `px-3 py-2 rounded flex items-center gap-2 transition-all enhanced-hover ${
+                                className: `px-3 py-2 rounded flex items-center gap-2 smooth-transition ${
                                     viewMode === mode ? 'bg-white shadow text-blue-600' : 'text-gray-600 hover:text-gray-800'
                                 }`,
                                 onClick: () => setViewMode(mode)
@@ -1753,186 +2081,224 @@
                                 React.createElement('span', { key: 'text' }, t(mode))
                             ])
                         )),
-                        
-                        React.createElement('button', {
-                            key: 'save',
-                            className: 'btn btn-secondary enhanced-hover',
-                            onClick: handleSave,
-                            disabled: isSaving
-                        }, isSaving ? [
-                            React.createElement('div', {
-                                key: 'spinner',
-                                className: 'loading-spinner mr-2'
-                            }),
-                            t('saving')
-                        ] : t('save')),
-                        
-                        React.createElement('button', {
-                            key: 'publish',
-                            className: 'btn btn-primary enhanced-hover',
-                            onClick: handlePublish
-                        }, t('publish'))
+
+                        // Actions
+                        React.createElement('div', {
+                            key: 'actions',
+                            className: 'flex gap-2'
+                        }, [
+                            React.createElement('button', {
+                                key: 'save',
+                                className: 'btn btn-secondary btn-sm md:btn',
+                                onClick: handleSave,
+                                disabled: isSaving
+                            }, isSaving ? [
+                                React.createElement('div', {
+                                    key: 'spinner',
+                                    className: 'spinner mr-2'
+                                }),
+                                t('saving')
+                            ] : t('save')),
+                            
+                            React.createElement('button', {
+                                key: 'publish',
+                                className: 'btn btn-primary btn-sm md:btn',
+                                onClick: handlePublish
+                            }, t('publish'))
+                        ])
                     ])
                 ]))),
 
                 // Main Content
                 React.createElement('div', {
                     key: 'content',
-                    className: 'flex h-screen'
+                    className: 'flex h-screen pt-16 md:pt-20'
                 }, [
                     // Sidebar
                     React.createElement('div', {
                         key: 'sidebar',
-                        className: 'w-80 bg-white border-r border-gray-200 overflow-y-auto'
-                    }, React.createElement('div', {
-                        className: 'p-6'
+                        className: `sidebar ${showMobileSidebar ? 'open' : ''} desktop-sidebar`
                     }, [
-                        // Restaurant Info
+                        // Mobile close button
                         React.createElement('div', {
-                            key: 'restaurant-info',
-                            className: 'mb-8'
+                            key: 'mobile-header',
+                            className: 'md:hidden p-4 border-b border-gray-200 flex items-center justify-between'
                         }, [
                             React.createElement('h2', {
                                 key: 'title',
-                                className: 'text-lg font-semibold mb-4'
-                            }, 'Restaurant Information'),
-                            React.createElement('div', {
-                                key: 'form',
-                                className: 'space-y-4'
-                            }, [
-                                React.createElement('div', { key: 'name' }, [
-                                    React.createElement('label', {
-                                        key: 'label',
-                                        className: 'block text-sm font-medium mb-1'
-                                    }, t('restaurantName')),
-                                    React.createElement('input', {
-                                        key: 'input',
-                                        type: 'text',
-                                        className: 'input',
-                                        value: menu.restaurantName,
-                                        onChange: (e) => updateMenu({ restaurantName: e.target.value })
-                                    })
-                                ]),
-                                React.createElement('div', { key: 'menu-name' }, [
-                                    React.createElement('label', {
-                                        key: 'label',
-                                        className: 'block text-sm font-medium mb-1'
-                                    }, t('menuTitle')),
-                                    React.createElement('input', {
-                                        key: 'input',
-                                        type: 'text',
-                                        className: 'input',
-                                        value: menu.name,
-                                        onChange: (e) => updateMenu({ name: e.target.value })
-                                    })
-                                ]),
-                                React.createElement('div', { key: 'tagline' }, [
-                                    React.createElement('label', {
-                                        key: 'label',
-                                        className: 'block text-sm font-medium mb-1'
-                                    }, t('tagline')),
-                                    React.createElement('input', {
-                                        key: 'input',
-                                        type: 'text',
-                                        className: 'input',
-                                        value: menu.tagline,
-                                        onChange: (e) => updateMenu({ tagline: e.target.value })
-                                    })
-                                ])
-                            ])
+                                className: 'text-lg font-semibold'
+                            }, 'Menu Editor'),
+                            React.createElement('button', {
+                                key: 'close',
+                                className: 'btn btn-ghost btn-sm',
+                                onClick: () => setShowMobileSidebar(false)
+                            }, '✕')
                         ]),
 
-                        // Sections
                         React.createElement('div', {
-                            key: 'sections',
-                            className: 'mb-8'
+                            key: 'content',
+                            className: 'p-4 md:p-6 space-y-6'
                         }, [
+                            // Restaurant Information
                             React.createElement('div', {
-                                key: 'header',
-                                className: 'flex items-center justify-between mb-4'
+                                key: 'restaurant-info',
+                                className: 'card p-6'
                             }, [
                                 React.createElement('h2', {
                                     key: 'title',
-                                    className: 'text-lg font-semibold'
-                                }, 'Menu Sections'),
-                                React.createElement('button', {
-                                    key: 'add',
-                                    className: 'btn btn-primary btn-sm enhanced-hover',
-                                    onClick: handleAddSection
-                                }, t('addSection'))
+                                    className: 'text-lg font-semibold mb-4'
+                                }, t('restaurantInfo')),
+                                React.createElement('div', {
+                                    key: 'form',
+                                    className: 'space-y-4'
+                                }, [
+                                    React.createElement('div', { key: 'name' }, [
+                                        React.createElement('label', {
+                                            key: 'label',
+                                            className: 'block text-sm font-semibold text-gray-700 mb-2'
+                                        }, t('restaurantName')),
+                                        React.createElement('input', {
+                                            key: 'input',
+                                            type: 'text',
+                                            className: 'input',
+                                            value: menu.restaurantName,
+                                            onChange: (e) => updateMenu({ restaurantName: e.target.value }),
+                                            placeholder: 'Your Restaurant Name'
+                                        })
+                                    ]),
+                                    React.createElement('div', { key: 'menu-name' }, [
+                                        React.createElement('label', {
+                                            key: 'label',
+                                            className: 'block text-sm font-semibold text-gray-700 mb-2'
+                                        }, t('menuTitle')),
+                                        React.createElement('input', {
+                                            key: 'input',
+                                            type: 'text',
+                                            className: 'input',
+                                            value: menu.name,
+                                            onChange: (e) => updateMenu({ name: e.target.value }),
+                                            placeholder: 'Dinner Menu'
+                                        })
+                                    ]),
+                                    React.createElement('div', { key: 'tagline' }, [
+                                        React.createElement('label', {
+                                            key: 'label',
+                                            className: 'block text-sm font-semibold text-gray-700 mb-2'
+                                        }, t('tagline')),
+                                        React.createElement('input', {
+                                            key: 'input',
+                                            type: 'text',
+                                            className: 'input',
+                                            value: menu.tagline,
+                                            onChange: (e) => updateMenu({ tagline: e.target.value }),
+                                            placeholder: 'Fine dining experience'
+                                        })
+                                    ])
+                                ])
                             ]),
 
+                            // Sections
                             React.createElement('div', {
-                                key: 'list',
-                                className: 'space-y-3'
-                            }, sections.map(section =>
+                                key: 'sections',
+                                className: 'card p-6'
+                            }, [
                                 React.createElement('div', {
-                                    key: section.id,
-                                    className: 'border border-gray-200 rounded-lg p-4 enhanced-hover'
+                                    key: 'header',
+                                    className: 'flex items-center justify-between mb-6'
                                 }, [
-                                    React.createElement('div', {
-                                        key: 'header',
-                                        className: 'flex items-center justify-between mb-3'
-                                    }, [
-                                        React.createElement('h3', {
-                                            key: 'name',
-                                            className: 'font-medium'
-                                        }, section.name),
-                                        React.createElement('div', {
-                                            key: 'actions',
-                                            className: 'flex gap-2'
-                                        }, [
-                                            React.createElement('button', {
-                                                key: 'edit',
-                                                className: 'text-blue-600 hover:text-blue-800 text-sm',
-                                                onClick: () => handleEditSection(section)
-                                            }, t('edit')),
-                                            React.createElement('button', {
-                                                key: 'delete',
-                                                className: 'text-red-600 hover:text-red-800 text-sm',
-                                                onClick: () => deleteSection(section.id)
-                                            }, t('delete'))
-                                        ])
-                                    ]),
+                                    React.createElement('h2', {
+                                        key: 'title',
+                                        className: 'text-lg font-semibold'
+                                    }, 'Menu Sections'),
+                                    React.createElement('button', {
+                                        key: 'add',
+                                        className: 'btn btn-primary btn-sm',
+                                        onClick: handleAddSection
+                                    }, t('addSection'))
+                                ]),
 
+                                React.createElement('div', {
+                                    key: 'list',
+                                    className: 'space-y-4'
+                                }, sections.map(section =>
                                     React.createElement('div', {
-                                        key: 'items',
-                                        className: 'space-y-2 mb-3'
-                                    }, section.items.map(item =>
+                                        key: section.id,
+                                        className: 'menu-item-card'
+                                    }, [
                                         React.createElement('div', {
-                                            key: item.id,
-                                            className: 'flex items-center justify-between py-2 px-3 bg-gray-50 rounded text-sm'
+                                            key: 'header',
+                                            className: 'flex items-center justify-between mb-4'
                                         }, [
-                                            React.createElement('span', {
-                                                key: 'name'
-                                            }, item.name),
+                                            React.createElement('h3', {
+                                                key: 'name',
+                                                className: 'font-semibold text-gray-800'
+                                            }, section.name),
                                             React.createElement('div', {
                                                 key: 'actions',
                                                 className: 'flex gap-2'
                                             }, [
                                                 React.createElement('button', {
                                                     key: 'edit',
-                                                    className: 'text-blue-600 hover:text-blue-800 text-xs',
-                                                    onClick: () => handleEditItem(item)
+                                                    className: 'btn btn-ghost btn-sm',
+                                                    onClick: () => handleEditSection(section)
                                                 }, t('edit')),
                                                 React.createElement('button', {
                                                     key: 'delete',
-                                                    className: 'text-red-600 hover:text-red-800 text-xs',
-                                                    onClick: () => deleteItem(section.id, item.id)
+                                                    className: 'btn btn-ghost btn-sm text-red-600',
+                                                    onClick: () => deleteSection(section.id)
                                                 }, t('delete'))
                                             ])
-                                        ])
-                                    )),
+                                        ]),
 
-                                    React.createElement('button', {
-                                        key: 'add-item',
-                                        className: 'btn btn-ghost btn-sm w-full enhanced-hover',
-                                        onClick: () => handleAddItem(section.id)
-                                    }, t('addItem'))
-                                ])
-                            ))
+                                        React.createElement('div', {
+                                            key: 'items',
+                                            className: 'space-y-2 mb-4'
+                                        }, section.items.map(item =>
+                                            React.createElement('div', {
+                                                key: item.id,
+                                                className: 'flex items-center justify-between py-2 px-3 bg-gray-50 rounded-lg text-sm'
+                                            }, [
+                                                React.createElement('div', {
+                                                    key: 'info',
+                                                    className: 'flex-1'
+                                                }, [
+                                                    React.createElement('span', {
+                                                        key: 'name',
+                                                        className: 'font-medium'
+                                                    }, item.name),
+                                                    React.createElement('span', {
+                                                        key: 'price',
+                                                        className: 'ml-2 text-blue-600 font-semibold'
+                                                    }, item.price)
+                                                ]),
+                                                React.createElement('div', {
+                                                    key: 'actions',
+                                                    className: 'flex gap-1'
+                                                }, [
+                                                    React.createElement('button', {
+                                                        key: 'edit',
+                                                        className: 'text-blue-600 hover:text-blue-800 text-xs px-2 py-1',
+                                                        onClick: () => handleEditItem(item)
+                                                    }, t('edit')),
+                                                    React.createElement('button', {
+                                                        key: 'delete',
+                                                        className: 'text-red-600 hover:text-red-800 text-xs px-2 py-1',
+                                                        onClick: () => deleteItem(section.id, item.id)
+                                                    }, t('delete'))
+                                                ])
+                                            ])
+                                        )),
+
+                                        React.createElement('button', {
+                                            key: 'add-item',
+                                            className: 'btn btn-ghost btn-sm w-full border-2 border-dashed border-gray-300',
+                                            onClick: () => handleAddItem(section.id)
+                                        }, t('addItem'))
+                                    ])
+                                ))
+                            ])
                         ])
-                    ])),
+                    ]),
 
                     // Preview Area
                     React.createElement('div', {
@@ -1941,10 +2307,17 @@
                     }, React.createElement(MenuPreview, {
                         menu,
                         sections,
-                        isDesktop: viewMode === 'desktop',
+                        viewMode,
                         selectedTemplate: template
                     }))
                 ]),
+
+                // Mobile Sidebar Overlay
+                showMobileSidebar && React.createElement('div', {
+                    key: 'overlay',
+                    className: 'mobile-menu-overlay open',
+                    onClick: () => setShowMobileSidebar(false)
+                }),
 
                 // Modals
                 React.createElement(ItemModal, {
@@ -1970,39 +2343,7 @@
             ]);
         }
 
-        // Language Toggle Component
-        function LanguageToggle() {
-            const { language, toggleLanguage } = useLanguage();
-            
-            return React.createElement('button', {
-                className: 'language-toggle enhanced-hover rtl-smooth',
-                onClick: toggleLanguage
-            }, language === 'en' ? '🇸🇦 العربية' : '🇺🇸 English');
-        }
-
-        // Toast Container
-        function ToastContainer() {
-            const { toasts, removeToast } = useToast();
-
-            return React.createElement('div', {
-                className: 'fixed bottom-4 right-4 z-50 space-y-2'
-            }, toasts.map(toast =>
-                React.createElement('div', {
-                    key: toast.id,
-                    className: `toast toast-${toast.type}`,
-                    onClick: () => removeToast(toast.id)
-                }, [
-                    React.createElement('span', { key: 'message' }, toast.message),
-                    React.createElement('button', {
-                        key: 'close',
-                        className: 'ml-2 text-gray-500 hover:text-gray-700',
-                        onClick: () => removeToast(toast.id)
-                    }, '×')
-                ])
-            ));
-        }
-
-        // Main App Component with Authentication Flow
+        // Main App Component
         function App() {
             const [currentStep, setCurrentStep] = useState('auth');
             const [selectedTemplate, setSelectedTemplate] = useState(null);
@@ -2049,18 +2390,18 @@
                 React.createElement(LanguageToggle, { key: 'lang-toggle' }),
                 React.createElement(ToastContainer, { key: 'toasts' }),
                 
-                // User info display when logged in
+                // User info when logged in
                 currentUser && currentStep !== 'auth' && React.createElement('div', {
                     key: 'user-info',
-                    className: 'fixed top-4 left-4 z-50 bg-white rounded-lg p-3 shadow-lg text-sm'
+                    className: 'fixed top-4 right-20 md:right-4 z-40 glass-effect rounded-lg px-4 py-2 text-white text-sm'
                 }, [
-                    React.createElement('div', {
+                    React.createElement('span', {
                         key: 'welcome',
-                        className: 'text-gray-600'
-                    }, `Welcome, ${currentUser.name}`),
+                        className: 'mr-3'
+                    }, `${currentUser.name}`),
                     React.createElement('button', {
                         key: 'logout',
-                        className: 'text-blue-600 hover:text-blue-800 mt-1',
+                        className: 'text-white hover:text-gray-200 underline',
                         onClick: handleLogout
                     }, 'Logout')
                 ]),
