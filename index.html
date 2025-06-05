@@ -3,16 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant Menu Builder</title>
+    <title>Professional Restaurant Menu Builder</title>
+    <meta name="description" content="Create stunning restaurant menus with advanced customization, 3D models, multilingual support, and professional templates.">
+    
+    <!-- External Dependencies -->
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&family=Merriweather:wght@300;400;700;900&family=Open+Sans:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700;900&family=Roboto:wght@300;400;500;700;900&display=swap');
         
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --text-dark: #1a202c;
+            --text-light: #718096;
+            --bg-light: #f7fafc;
+            --bg-dark: #1a202c;
+            --border-color: #e2e8f0;
+            --success-color: #48bb78;
+            --warning-color: #ed8936;
+            --error-color: #f56565;
+            --shadow-light: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-heavy: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --border-radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -23,6 +47,12 @@
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            overflow-x: hidden;
+            transition: var(--transition);
+        }
+
+        body.dark {
+            background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
         }
         
         .rtl {
@@ -30,420 +60,2214 @@
             font-family: 'Noto Sans Arabic', sans-serif;
         }
         
-        .template-card {
-            transition: all 0.3s ease;
-            cursor: pointer;
+        /* Font Families */
+        .font-inter { font-family: 'Inter', sans-serif; }
+        .font-poppins { font-family: 'Poppins', sans-serif; }
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .font-merriweather { font-family: 'Merriweather', serif; }
+        .font-opensans { font-family: 'Open Sans', sans-serif; }
+        .font-lato { font-family: 'Lato', sans-serif; }
+        .font-roboto { font-family: 'Roboto', sans-serif; }
+        
+        /* Theme System */
+        .theme-modern {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
         }
         
-        .template-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        .theme-elegant {
+            --primary: #8b5cf6;
+            --secondary: #a855f7;
+            --accent: #c084fc;
         }
         
-        .menu-item {
-            transition: all 0.2s ease;
+        .theme-nature {
+            --primary: #10b981;
+            --secondary: #059669;
+            --accent: #34d399;
         }
         
-        .menu-item:hover {
-            background-color: #f8fafc;
-            transform: scale(1.02);
+        .theme-sunset {
+            --primary: #f59e0b;
+            --secondary: #d97706;
+            --accent: #fbbf24;
         }
         
-        .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .theme-ocean {
+            --primary: #0ea5e9;
+            --secondary: #0284c7;
+            --accent: #38bdf8;
         }
         
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-        }
-        
-        .animate-fade-in {
-            animation: fadeIn 0.5s ease-in;
-        }
-        
+        /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .animate-fade-in { animation: fadeIn 0.6s ease-out; }
+        .animate-slide-in { animation: slideIn 0.5s ease-out; }
+        .animate-scale-in { animation: scaleIn 0.4s ease-out; }
+        .animate-pulse-hover:hover { animation: pulse 1s infinite; }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        
+        /* Particle Background */
+        .particles-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        /* Glass Effect */
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .glass-dark {
+            background: rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Button Styles */
         .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
             padding: 12px 24px;
-            border-radius: 8px;
+            border-radius: var(--border-radius);
             font-weight: 600;
-            transition: all 0.2s ease;
-            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
             border: none;
             outline: none;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             color: white;
+            box-shadow: var(--shadow-light);
         }
         
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            box-shadow: var(--shadow-medium);
         }
         
         .btn-secondary {
             background: white;
-            color: #374151;
-            border: 1px solid #d1d5db;
+            color: var(--text-dark);
+            border: 2px solid var(--border-color);
+            box-shadow: var(--shadow-light);
         }
         
         .btn-secondary:hover {
-            background: #f9fafb;
-            border-color: #9ca3af;
+            background: var(--bg-light);
+            border-color: var(--primary-color);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-medium);
         }
         
+        .btn-ghost {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 12px;
+        }
+        
+        .btn-lg {
+            padding: 16px 32px;
+            font-size: 16px;
+        }
+        
+        /* Input Styles */
         .input-field {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
+            padding: 14px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
             font-size: 16px;
-            transition: border-color 0.2s ease;
+            background: white;
+            transition: var(--transition);
         }
         
         .input-field:focus {
-            border-color: #667eea;
+            border-color: var(--primary-color);
             outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
         }
         
+        .input-field.dark {
+            background: var(--bg-dark);
+            border-color: #4a5568;
+            color: white;
+        }
+        
+        /* Card Styles */
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .card.dark {
+            background: var(--bg-dark);
+            color: white;
+        }
+        
+        /* Modal Styles */
         .modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 1000;
+            backdrop-filter: blur(5px);
         }
         
         .modal-content {
             background: white;
-            padding: 24px;
-            border-radius: 12px;
-            max-width: 500px;
-            width: 90%;
+            padding: 32px;
+            border-radius: 20px;
+            max-width: 90vw;
             max-height: 90vh;
             overflow-y: auto;
+            box-shadow: var(--shadow-heavy);
+            position: relative;
+            animation: scaleIn 0.3s ease-out;
         }
         
-        .color-scheme-indigo { --primary: #667eea; --secondary: #764ba2; }
-        .color-scheme-emerald { --primary: #10b981; --secondary: #059669; }
-        .color-scheme-amber { --primary: #f59e0b; --secondary: #d97706; }
-        .color-scheme-rose { --primary: #f43f5e; --secondary: #e11d48; }
+        .modal-content.dark {
+            background: var(--bg-dark);
+            color: white;
+        }
         
-        model-viewer {
-            width: 100%;
-            height: 200px;
-            background-color: #f3f4f6;
+        /* Loader */
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Navigation */
+        .nav-tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            padding: 4px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-tab {
+            flex: 1;
+            padding: 12px 24px;
+            border-radius: calc(var(--border-radius) - 4px);
+            background: transparent;
+            color: rgba(255, 255, 255, 0.7);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .nav-tab.active {
+            background: white;
+            color: var(--text-dark);
+            box-shadow: var(--shadow-light);
+        }
+        
+        /* Template Cards */
+        .template-card {
+            position: relative;
+            cursor: pointer;
+            transition: var(--transition);
+            overflow: hidden;
+            border-radius: var(--border-radius);
+        }
+        
+        .template-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 100%);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 1;
+        }
+        
+        .template-card:hover::before {
+            opacity: 1;
+        }
+        
+        .template-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-heavy);
+        }
+        
+        /* Menu Item Cards */
+        .menu-item-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin: 16px 0;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .menu-item-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary-color);
+            transform: scaleY(0);
+            transition: var(--transition);
+        }
+        
+        .menu-item-card:hover::before {
+            transform: scaleY(1);
+        }
+        
+        .menu-item-card:hover {
+            transform: translateX(8px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        /* Color Picker */
+        .color-picker {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+            gap: 8px;
+            padding: 16px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+        }
+        
+        .color-option {
+            width: 40px;
+            height: 40px;
             border-radius: 8px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: var(--transition);
+        }
+        
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+        
+        .color-option.selected {
+            border-color: white;
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+        
+        /* Font Selector */
+        .font-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        
+        .font-option {
+            padding: 16px;
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+        }
+        
+        .font-option:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .font-option.selected {
+            border-color: var(--primary-color);
+            background: rgba(102, 126, 234, 0.1);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                padding: 24px;
+                max-height: 85vh;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+            
+            .nav-tab {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+            
+            .template-card:hover {
+                transform: translateY(-4px) scale(1.01);
+            }
+        }
+        
+        /* Dark Mode */
+        .dark .card {
+            background: #2d3748;
+            color: white;
+        }
+        
+        .dark .input-field {
+            background: #2d3748;
+            border-color: #4a5568;
+            color: white;
+        }
+        
+        .dark .modal-content {
+            background: #2d3748;
+            color: white;
+        }
+        
+        /* Sound Effects */
+        .sound-enabled .btn:hover {
+            /* Sound effect will be handled by JavaScript */
+        }
+        
+        /* Professional Mode */
+        .pro-mode .advanced-controls {
+            display: block;
+        }
+        
+        .advanced-controls {
+            display: none;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color);
+        }
+        
+        /* Hidden sections */
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        /* Parallax effect */
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        /* Professional Preview Frames */
+        .preview-frame {
+            border: 8px solid #333;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-heavy);
+            position: relative;
+        }
+        
+        .preview-frame.mobile {
+            width: 375px;
+            height: 812px;
+            border-radius: 40px;
+            border-width: 8px;
+        }
+        
+        .preview-frame.tablet {
+            width: 768px;
+            height: 1024px;
+            border-radius: 20px;
+        }
+        
+        .preview-frame.desktop {
+            width: 1200px;
+            height: 800px;
+            border-radius: 12px;
+        }
+        
+        .preview-frame::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 6px;
+            background: #666;
+            border-radius: 3px;
+            z-index: 10;
+        }
+        
+        /* Logo upload area */
+        .logo-upload {
+            width: 120px;
+            height: 120px;
+            border: 2px dashed var(--border-color);
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            background: white;
+        }
+        
+        .logo-upload:hover {
+            border-color: var(--primary-color);
+            background: rgba(102, 126, 234, 0.05);
+        }
+        
+        .logo-preview {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: calc(var(--border-radius) - 2px);
         }
     </style>
 </head>
-<body>
+<body id="app-body">
+    <!-- Particle Background -->
+    <div class="particles-bg" id="particles-bg"></div>
+    
+    <!-- Main App Container -->
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
+        const { useState, useEffect, useRef, useCallback, useMemo, createContext, useContext } = React;
 
-        // Translations
+        // Sound Effects
+        const playSound = (type) => {
+            if (!document.body.classList.contains('sound-enabled')) return;
+            
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            const frequencies = {
+                click: 800,
+                hover: 600,
+                success: 1200,
+                error: 300
+            };
+            
+            oscillator.frequency.setValueAtTime(frequencies[type] || 600, audioContext.currentTime);
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.1);
+        };
+
+        // Particle Animation
+        const createParticles = () => {
+            const particlesContainer = document.getElementById('particles-bg');
+            if (!particlesContainer) return;
+            
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.width = Math.random() * 4 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        };
+
+        // Initialize particles
+        useEffect(() => {
+            createParticles();
+        }, []);
+
+        // Enhanced Translations
         const translations = {
             en: {
-                title: "Restaurant Menu Builder",
-                subtitle: "Create beautiful, multilingual digital menus",
-                selectTemplate: "Select Template",
+                // Authentication
+                welcome: "Welcome to Menu Builder Pro",
+                signIn: "Sign In",
+                signUp: "Sign Up",
+                email: "Email Address",
+                password: "Password",
+                googleLogin: "Continue with Google",
+                createAccount: "Create Account",
+                alreadyMember: "Already a member?",
+                notMember: "Not a member yet?",
+                
+                // Navigation
+                dashboard: "Dashboard",
+                templates: "Templates",
+                builder: "Builder",
+                preview: "Preview",
+                export: "Export",
+                
+                // Dashboard
+                myMenus: "My Menus",
+                createNew: "Create New Menu",
+                recentMenus: "Recent Menus",
+                templates: "Choose Template",
+                noMenus: "No menus yet. Create your first menu!",
+                
+                // Builder
+                menuBuilder: "Menu Builder",
+                restaurantInfo: "Restaurant Information",
+                design: "Design",
+                sections: "Sections",
+                items: "Items",
+                preview: "Preview",
+                
+                // Restaurant Info
+                restaurantName: "Restaurant Name",
+                tagline: "Tagline",
+                description: "Description",
+                phone: "Phone Number",
+                address: "Address",
+                website: "Website",
+                uploadLogo: "Upload Logo",
+                
+                // Design Controls
+                theme: "Theme",
+                colors: "Colors",
+                fonts: "Fonts",
+                layout: "Layout",
+                spacing: "Spacing",
+                darkMode: "Dark Mode",
+                professionalMode: "Professional Mode",
+                
+                // Templates
                 modern: "Modern",
                 elegant: "Elegant",
                 casual: "Casual",
                 premium: "Premium",
-                modernDesc: "Clean and contemporary design",
-                elegantDesc: "Sophisticated fine dining style",
-                casualDesc: "Friendly family restaurant design",
-                premiumDesc: "Luxurious premium experience",
-                useTemplate: "Use Template",
-                menuEditor: "Menu Editor",
+                minimalist: "Minimalist",
+                vintage: "Vintage",
+                
+                // Menu Items
                 addSection: "Add Section",
                 addItem: "Add Item",
                 editItem: "Edit Item",
+                deleteItem: "Delete Item",
+                duplicateItem: "Duplicate Item",
                 itemName: "Item Name",
-                itemNameAr: "Item Name (Arabic)",
-                description: "Description",
-                descriptionAr: "Description (Arabic)",
+                itemDescription: "Description",
                 price: "Price",
                 image: "Image",
                 model3d: "3D Model",
+                
+                // Properties
                 spicy: "Spicy",
                 vegetarian: "Vegetarian",
+                vegan: "Vegan",
+                glutenFree: "Gluten Free",
+                popular: "Popular",
+                chefSpecial: "Chef's Special",
+                
+                // Actions
                 save: "Save",
                 cancel: "Cancel",
-                preview: "Preview",
+                delete: "Delete",
+                edit: "Edit",
+                duplicate: "Duplicate",
                 publish: "Publish",
                 share: "Share",
-                qrCode: "QR Code",
-                desktop: "Desktop",
-                mobile: "Mobile",
-                restaurantName: "Restaurant Name",
-                tagline: "Tagline",
-                sections: "Sections",
-                noSections: "No sections added yet",
-                uploadImage: "Upload Image",
-                upload3d: "Upload 3D Model",
-                colorScheme: "Color Scheme",
-                fontFamily: "Font Family",
-                spacing: "Spacing",
-                published: "Menu Published!",
+                export: "Export",
+                download: "Download",
+                
+                // Sharing
+                published: "Menu Published Successfully!",
                 shareLink: "Share this link with your customers:",
+                qrCode: "QR Code",
                 copyLink: "Copy Link",
-                linkCopied: "Link copied!",
-                sectionName: "Section Name",
-                sectionNameAr: "Section Name (Arabic)",
-                sectionDesc: "Section Description",
-                sectionDescAr: "Section Description (Arabic)",
+                downloadQR: "Download QR Code",
+                linkCopied: "Link copied to clipboard!",
+                
+                // Export
+                exportPDF: "Export as PDF",
+                exportImage: "Export as Image",
+                printMenu: "Print Menu",
+                
+                // Messages
+                loading: "Loading...",
+                saving: "Saving...",
+                success: "Success!",
+                error: "Error occurred",
+                
+                // Settings
+                settings: "Settings",
+                language: "Language",
+                soundEffects: "Sound Effects",
+                animations: "Animations",
+                autoSave: "Auto Save",
             },
             ar: {
-                title: "منشئ قوائم المطاعم",
-                subtitle: "إنشاء قوائم رقمية جميلة ومتعددة اللغات",
-                selectTemplate: "اختر القالب",
+                // Authentication
+                welcome: "مرحباً بك في منشئ القوائم المحترف",
+                signIn: "تسجيل الدخول",
+                signUp: "إنشاء حساب",
+                email: "عنوان البريد الإلكتروني",
+                password: "كلمة المرور",
+                googleLogin: "المتابعة مع جوجل",
+                createAccount: "إنشاء حساب",
+                alreadyMember: "عضو بالفعل؟",
+                notMember: "لست عضواً بعد؟",
+                
+                // Navigation
+                dashboard: "لوحة التحكم",
+                templates: "القوالب",
+                builder: "المحرر",
+                preview: "المعاينة",
+                export: "التصدير",
+                
+                // Dashboard
+                myMenus: "قوائمي",
+                createNew: "إنشاء قائمة جديدة",
+                recentMenus: "القوائم الأخيرة",
+                templates: "اختر قالب",
+                noMenus: "لا توجد قوائم بعد. أنشئ قائمتك الأولى!",
+                
+                // Builder
+                menuBuilder: "محرر القائمة",
+                restaurantInfo: "معلومات المطعم",
+                design: "التصميم",
+                sections: "الأقسام",
+                items: "العناصر",
+                preview: "المعاينة",
+                
+                // Restaurant Info
+                restaurantName: "اسم المطعم",
+                tagline: "الشعار",
+                description: "الوصف",
+                phone: "رقم الهاتف",
+                address: "العنوان",
+                website: "الموقع الإلكتروني",
+                uploadLogo: "رفع الشعار",
+                
+                // Design Controls
+                theme: "الثيم",
+                colors: "الألوان",
+                fonts: "الخطوط",
+                layout: "التخطيط",
+                spacing: "التباعد",
+                darkMode: "الوضع المظلم",
+                professionalMode: "الوضع المحترف",
+                
+                // Templates
                 modern: "عصري",
                 elegant: "أنيق",
                 casual: "عادي",
                 premium: "فاخر",
-                modernDesc: "تصميم نظيف ومعاصر",
-                elegantDesc: "أسلوب راقي للمطاعم الفاخرة",
-                casualDesc: "تصميم ودود للمطاعم العائلية",
-                premiumDesc: "تجربة فاخرة ومميزة",
-                useTemplate: "استخدم القالب",
-                menuEditor: "محرر القائمة",
+                minimalist: "بسيط",
+                vintage: "كلاسيكي",
+                
+                // Menu Items
                 addSection: "إضافة قسم",
                 addItem: "إضافة عنصر",
                 editItem: "تعديل العنصر",
+                deleteItem: "حذف العنصر",
+                duplicateItem: "نسخ العنصر",
                 itemName: "اسم العنصر",
-                itemNameAr: "اسم العنصر (عربي)",
-                description: "الوصف",
-                descriptionAr: "الوصف (عربي)",
+                itemDescription: "الوصف",
                 price: "السعر",
                 image: "الصورة",
-                model3d: "نموذج ثلاثي الأبعاد",
+                model3d: "النموذج ثلاثي الأبعاد",
+                
+                // Properties
                 spicy: "حار",
                 vegetarian: "نباتي",
+                vegan: "نباتي كليا",
+                glutenFree: "خالي من الجلوتين",
+                popular: "شائع",
+                chefSpecial: "طبق الشيف",
+                
+                // Actions
                 save: "حفظ",
                 cancel: "إلغاء",
-                preview: "معاينة",
+                delete: "حذف",
+                edit: "تعديل",
+                duplicate: "نسخ",
                 publish: "نشر",
                 share: "مشاركة",
-                qrCode: "رمز الاستجابة السريعة",
-                desktop: "سطح المكتب",
-                mobile: "جوال",
-                restaurantName: "اسم المطعم",
-                tagline: "شعار المطعم",
-                sections: "الأقسام",
-                noSections: "لم يتم إضافة أقسام بعد",
-                uploadImage: "تحميل صورة",
-                upload3d: "تحميل نموذج ثلاثي الأبعاد",
-                colorScheme: "نظام الألوان",
-                fontFamily: "نوع الخط",
-                spacing: "التباعد",
-                published: "تم نشر القائمة!",
+                export: "تصدير",
+                download: "تحميل",
+                
+                // Sharing
+                published: "تم نشر القائمة بنجاح!",
                 shareLink: "شارك هذا الرابط مع عملائك:",
+                qrCode: "رمز الاستجابة السريعة",
                 copyLink: "نسخ الرابط",
+                downloadQR: "تحميل رمز الاستجابة السريعة",
                 linkCopied: "تم نسخ الرابط!",
-                sectionName: "اسم القسم",
-                sectionNameAr: "اسم القسم (عربي)",
-                sectionDesc: "وصف القسم",
-                sectionDescAr: "وصف القسم (عربي)",
+                
+                // Export
+                exportPDF: "تصدير كـ PDF",
+                exportImage: "تصدير كصورة",
+                printMenu: "طباعة القائمة",
+                
+                // Messages
+                loading: "جاري التحميل...",
+                saving: "جاري الحفظ...",
+                success: "تم بنجاح!",
+                error: "حدث خطأ",
+                
+                // Settings
+                settings: "الإعدادات",
+                language: "اللغة",
+                soundEffects: "المؤثرات الصوتية",
+                animations: "الحركات",
+                autoSave: "الحفظ التلقائي",
             }
         };
 
-        // Context for language
-        const LanguageContext = React.createContext();
+        // Global Contexts
+        const AppContext = createContext();
+        const ThemeContext = createContext();
+        const LanguageContext = createContext();
+        const AuthContext = createContext();
 
+        // Theme Provider
+        function ThemeProvider({ children }) {
+            const [isDark, setIsDark] = useState(false);
+            const [currentTheme, setCurrentTheme] = useState('modern');
+            const [soundEnabled, setSoundEnabled] = useState(false);
+            const [animationsEnabled, setAnimationsEnabled] = useState(true);
+            const [professionalMode, setProfessionalMode] = useState(false);
+
+            const toggleDark = () => {
+                setIsDark(!isDark);
+                document.body.classList.toggle('dark', !isDark);
+            };
+
+            const toggleSound = () => {
+                setSoundEnabled(!soundEnabled);
+                document.body.classList.toggle('sound-enabled', !soundEnabled);
+            };
+
+            const toggleProfessionalMode = () => {
+                setProfessionalMode(!professionalMode);
+                document.body.classList.toggle('pro-mode', !professionalMode);
+            };
+
+            const value = {
+                isDark, setIsDark, toggleDark,
+                currentTheme, setCurrentTheme,
+                soundEnabled, setSoundEnabled, toggleSound,
+                animationsEnabled, setAnimationsEnabled,
+                professionalMode, setProfessionalMode, toggleProfessionalMode
+            };
+
+            return React.createElement(ThemeContext.Provider, { value }, children);
+        }
+
+        // Language Provider
         function LanguageProvider({ children }) {
             const [language, setLanguage] = useState('en');
             const isRTL = language === 'ar';
             
-            const t = (key) => {
+            const t = useCallback((key) => {
                 return translations[language][key] || key;
-            };
+            }, [language]);
             
             const toggleLanguage = () => {
                 setLanguage(prev => prev === 'en' ? 'ar' : 'en');
+                document.body.classList.toggle('rtl', language === 'en');
             };
             
-            return React.createElement(LanguageContext.Provider, {
-                value: { language, isRTL, t, toggleLanguage }
-            }, children);
+            const value = { language, isRTL, t, toggleLanguage, setLanguage };
+            return React.createElement(LanguageContext.Provider, { value }, children);
         }
 
-        function useLanguage() {
-            return React.useContext(LanguageContext);
+        // Auth Provider
+        function AuthProvider({ children }) {
+            const [user, setUser] = useState(null);
+            const [isLoading, setIsLoading] = useState(false);
+
+            const signIn = async (email, password) => {
+                setIsLoading(true);
+                try {
+                    // Simulate API call
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    const userData = { id: 1, email, name: email.split('@')[0] };
+                    setUser(userData);
+                    localStorage.setItem('user', JSON.stringify(userData));
+                    playSound('success');
+                } catch (error) {
+                    playSound('error');
+                    throw error;
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+
+            const signUp = async (email, password) => {
+                setIsLoading(true);
+                try {
+                    // Simulate API call
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    const userData = { id: 1, email, name: email.split('@')[0] };
+                    setUser(userData);
+                    localStorage.setItem('user', JSON.stringify(userData));
+                    playSound('success');
+                } catch (error) {
+                    playSound('error');
+                    throw error;
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+
+            const signOut = () => {
+                setUser(null);
+                localStorage.removeItem('user');
+                playSound('click');
+            };
+
+            const googleSignIn = async () => {
+                setIsLoading(true);
+                try {
+                    // Simulate Google OAuth
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    const userData = { id: 1, email: 'user@gmail.com', name: 'Google User' };
+                    setUser(userData);
+                    localStorage.setItem('user', JSON.stringify(userData));
+                    playSound('success');
+                } catch (error) {
+                    playSound('error');
+                    throw error;
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+
+            useEffect(() => {
+                const savedUser = localStorage.getItem('user');
+                if (savedUser) {
+                    setUser(JSON.parse(savedUser));
+                }
+            }, []);
+
+            const value = { user, isLoading, signIn, signUp, signOut, googleSignIn };
+            return React.createElement(AuthContext.Provider, { value }, children);
         }
 
-        // Templates
+        // Custom Hooks
+        const useTheme = () => {
+            const context = useContext(ThemeContext);
+            if (!context) throw new Error('useTheme must be used within ThemeProvider');
+            return context;
+        };
+
+        const useLanguage = () => {
+            const context = useContext(LanguageContext);
+            if (!context) throw new Error('useLanguage must be used within LanguageProvider');
+            return context;
+        };
+
+        const useAuth = () => {
+            const context = useContext(AuthContext);
+            if (!context) throw new Error('useAuth must be used within AuthProvider');
+            return context;
+        };
+
+        // Enhanced Templates
         const templates = [
             {
                 id: 'modern',
                 name: 'Modern',
                 description: 'Clean and contemporary design',
-                colorScheme: 'indigo',
-                fontFamily: 'inter',
-                category: 'modern'
+                preview: '/api/placeholder/300/400',
+                theme: 'theme-modern',
+                font: 'font-inter',
+                colors: { primary: '#667eea', secondary: '#764ba2', accent: '#f093fb' }
             },
             {
                 id: 'elegant',
                 name: 'Elegant',
                 description: 'Sophisticated fine dining style',
-                colorScheme: 'rose',
-                fontFamily: 'serif',
-                category: 'elegant'
+                preview: '/api/placeholder/300/400',
+                theme: 'theme-elegant',
+                font: 'font-playfair',
+                colors: { primary: '#8b5cf6', secondary: '#a855f7', accent: '#c084fc' }
             },
             {
                 id: 'casual',
                 name: 'Casual',
-                description: 'Friendly family restaurant design',
-                colorScheme: 'emerald',
-                fontFamily: 'sans',
-                category: 'casual'
+                description: 'Friendly family restaurant',
+                preview: '/api/placeholder/300/400',
+                theme: 'theme-nature',
+                font: 'font-opensans',
+                colors: { primary: '#10b981', secondary: '#059669', accent: '#34d399' }
             },
             {
                 id: 'premium',
                 name: 'Premium',
-                description: 'Luxurious premium experience',
-                colorScheme: 'amber',
-                fontFamily: 'serif',
-                category: 'premium'
+                description: 'Luxurious dining experience',
+                preview: '/api/placeholder/300/400',
+                theme: 'theme-sunset',
+                font: 'font-playfair',
+                colors: { primary: '#f59e0b', secondary: '#d97706', accent: '#fbbf24' }
+            },
+            {
+                id: 'minimalist',
+                name: 'Minimalist',
+                description: 'Simple and clean layout',
+                preview: '/api/placeholder/300/400',
+                theme: 'theme-modern',
+                font: 'font-lato',
+                colors: { primary: '#6b7280', secondary: '#4b5563', accent: '#9ca3af' }
+            },
+            {
+                id: 'vintage',
+                name: 'Vintage',
+                description: 'Classic retro styling',
+                preview: '/api/placeholder/300/400',
+                theme: 'theme-sunset',
+                font: 'font-merriweather',
+                colors: { primary: '#92400e', secondary: '#78350f', accent: '#a16207' }
             }
         ];
 
+        // Font Options
+        const fontOptions = [
+            { id: 'inter', name: 'Inter', className: 'font-inter', preview: 'Modern & Clean' },
+            { id: 'poppins', name: 'Poppins', className: 'font-poppins', preview: 'Friendly & Round' },
+            { id: 'playfair', name: 'Playfair Display', className: 'font-playfair', preview: 'Elegant & Sophisticated' },
+            { id: 'merriweather', name: 'Merriweather', className: 'font-merriweather', preview: 'Classic & Readable' },
+            { id: 'opensans', name: 'Open Sans', className: 'font-opensans', preview: 'Clean & Neutral' },
+            { id: 'lato', name: 'Lato', className: 'font-lato', preview: 'Warm & Friendly' },
+            { id: 'roboto', name: 'Roboto', className: 'font-roboto', preview: 'Modern & Technical' }
+        ];
+
+        // Color Themes
+        const colorThemes = [
+            { id: 'blue', name: 'Ocean Blue', colors: ['#0ea5e9', '#0284c7', '#0369a1'] },
+            { id: 'purple', name: 'Royal Purple', colors: ['#8b5cf6', '#7c3aed', '#6d28d9'] },
+            { id: 'green', name: 'Forest Green', colors: ['#10b981', '#059669', '#047857'] },
+            { id: 'orange', name: 'Sunset Orange', colors: ['#f59e0b', '#d97706', '#b45309'] },
+            { id: 'red', name: 'Cherry Red', colors: ['#ef4444', '#dc2626', '#b91c1c'] },
+            { id: 'pink', name: 'Rose Pink', colors: ['#ec4899', '#db2777', '#be185d'] },
+            { id: 'indigo', name: 'Deep Indigo', colors: ['#6366f1', '#4f46e5', '#4338ca'] },
+            { id: 'gray', name: 'Elegant Gray', colors: ['#6b7280', '#4b5563', '#374151'] }
+        ];
+
+        // Welcome/Login Screen
+        function WelcomeScreen({ onComplete }) {
+            const { t, isRTL } = useLanguage();
+            const { signIn, signUp, googleSignIn, isLoading } = useAuth();
+            const [isSignUp, setIsSignUp] = useState(false);
+            const [email, setEmail] = useState('');
+            const [password, setPassword] = useState('');
+            const [error, setError] = useState('');
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                setError('');
+                
+                try {
+                    if (isSignUp) {
+                        await signUp(email, password);
+                    } else {
+                        await signIn(email, password);
+                    }
+                    onComplete();
+                } catch (err) {
+                    setError('Authentication failed. Please try again.');
+                }
+            };
+
+            const handleGoogleLogin = async () => {
+                try {
+                    await googleSignIn();
+                    onComplete();
+                } catch (err) {
+                    setError('Google authentication failed.');
+                }
+            };
+
+            return React.createElement('div', {
+                className: `min-h-screen flex items-center justify-center p-8 ${isRTL ? 'rtl' : ''}`,
+                dir: isRTL ? 'rtl' : 'ltr'
+            }, [
+                React.createElement('div', {
+                    key: 'container',
+                    className: 'glass-effect rounded-2xl p-8 w-full max-w-md animate-scale-in'
+                }, [
+                    React.createElement('div', {
+                        key: 'header',
+                        className: 'text-center mb-8'
+                    }, [
+                        React.createElement('div', {
+                            key: 'logo',
+                            className: 'text-6xl mb-4 animate-float'
+                        }, '🍽️'),
+                        React.createElement('h1', {
+                            key: 'title',
+                            className: 'text-3xl font-bold text-white mb-2'
+                        }, t('welcome')),
+                        React.createElement('p', {
+                            key: 'subtitle',
+                            className: 'text-white opacity-80'
+                        }, 'Create beautiful restaurant menus with ease')
+                    ]),
+
+                    React.createElement('form', {
+                        key: 'form',
+                        onSubmit: handleSubmit,
+                        className: 'space-y-6'
+                    }, [
+                        React.createElement('div', { key: 'email-field' }, [
+                            React.createElement('label', {
+                                key: 'label',
+                                className: 'block text-white text-sm font-semibold mb-2'
+                            }, t('email')),
+                            React.createElement('input', {
+                                key: 'input',
+                                type: 'email',
+                                className: 'input-field w-full',
+                                value: email,
+                                onChange: (e) => setEmail(e.target.value),
+                                required: true,
+                                placeholder: 'your@email.com'
+                            })
+                        ]),
+
+                        React.createElement('div', { key: 'password-field' }, [
+                            React.createElement('label', {
+                                key: 'label',
+                                className: 'block text-white text-sm font-semibold mb-2'
+                            }, t('password')),
+                            React.createElement('input', {
+                                key: 'input',
+                                type: 'password',
+                                className: 'input-field w-full',
+                                value: password,
+                                onChange: (e) => setPassword(e.target.value),
+                                required: true,
+                                placeholder: '••••••••'
+                            })
+                        ]),
+
+                        error && React.createElement('div', {
+                            key: 'error',
+                            className: 'bg-red-500 bg-opacity-20 border border-red-500 text-white p-3 rounded-lg text-sm'
+                        }, error),
+
+                        React.createElement('button', {
+                            key: 'submit',
+                            type: 'submit',
+                            className: 'btn btn-primary w-full btn-lg',
+                            disabled: isLoading,
+                            onClick: () => playSound('click')
+                        }, isLoading ? [
+                            React.createElement('div', {
+                                key: 'loader',
+                                className: 'loader mr-2'
+                            }),
+                            t('loading')
+                        ] : (isSignUp ? t('signUp') : t('signIn'))),
+
+                        React.createElement('div', {
+                            key: 'divider',
+                            className: 'relative'
+                        }, [
+                            React.createElement('div', {
+                                key: 'line',
+                                className: 'absolute inset-0 flex items-center'
+                            }, [
+                                React.createElement('div', {
+                                    key: 'border',
+                                    className: 'w-full border-t border-white border-opacity-30'
+                                })
+                            ]),
+                            React.createElement('div', {
+                                key: 'text',
+                                className: 'relative flex justify-center text-sm'
+                            }, [
+                                React.createElement('span', {
+                                    key: 'span',
+                                    className: 'px-2 bg-transparent text-white opacity-70'
+                                }, 'or')
+                            ])
+                        ]),
+
+                        React.createElement('button', {
+                            key: 'google',
+                            type: 'button',
+                            className: 'btn btn-ghost w-full',
+                            onClick: handleGoogleLogin,
+                            disabled: isLoading
+                        }, [
+                            React.createElement('span', { key: 'icon', className: 'mr-2' }, '🔍'),
+                            t('googleLogin')
+                        ]),
+
+                        React.createElement('div', {
+                            key: 'toggle',
+                            className: 'text-center'
+                        }, [
+                            React.createElement('span', {
+                                key: 'text',
+                                className: 'text-white opacity-70'
+                            }, isSignUp ? t('alreadyMember') : t('notMember')),
+                            React.createElement('button', {
+                                key: 'button',
+                                type: 'button',
+                                className: 'ml-2 text-white font-semibold hover:underline',
+                                onClick: () => {
+                                    setIsSignUp(!isSignUp);
+                                    playSound('click');
+                                }
+                            }, isSignUp ? t('signIn') : t('signUp'))
+                        ])
+                    ])
+                ])
+            ]);
+        }
+
+        // Dashboard Screen
+        function Dashboard({ onNavigate }) {
+            const { t, isRTL } = useLanguage();
+            const { user } = useAuth();
+            const [menus, setMenus] = useState([]);
+            const [isLoading, setIsLoading] = useState(true);
+
+            useEffect(() => {
+                // Simulate loading menus
+                setTimeout(() => {
+                    const savedMenus = JSON.parse(localStorage.getItem('userMenus') || '[]');
+                    setMenus(savedMenus);
+                    setIsLoading(false);
+                }, 1000);
+            }, []);
+
+            const createNewMenu = () => {
+                playSound('click');
+                onNavigate('templates');
+            };
+
+            const openMenu = (menuId) => {
+                playSound('click');
+                // Load menu and go to builder
+                onNavigate('builder', { menuId });
+            };
+
+            if (isLoading) {
+                return React.createElement('div', {
+                    className: 'min-h-screen flex items-center justify-center'
+                }, [
+                    React.createElement('div', {
+                        key: 'loader',
+                        className: 'text-center'
+                    }, [
+                        React.createElement('div', {
+                            key: 'spinner',
+                            className: 'loader mx-auto mb-4'
+                        }),
+                        React.createElement('p', {
+                            key: 'text',
+                            className: 'text-white'
+                        }, t('loading'))
+                    ])
+                ]);
+            }
+
+            return React.createElement('div', {
+                className: `min-h-screen p-8 ${isRTL ? 'rtl' : ''}`,
+                dir: isRTL ? 'rtl' : 'ltr'
+            }, [
+                React.createElement('div', {
+                    key: 'header',
+                    className: 'max-w-7xl mx-auto mb-12'
+                }, [
+                    React.createElement('div', {
+                        key: 'welcome',
+                        className: 'text-center mb-8 animate-fade-in'
+                    }, [
+                        React.createElement('h1', {
+                            key: 'title',
+                            className: 'text-5xl font-bold text-white mb-4'
+                        }, `Welcome back, ${user?.name || 'User'}!`),
+                        React.createElement('p', {
+                            key: 'subtitle',
+                            className: 'text-xl text-white opacity-80'
+                        }, 'Create and manage your restaurant menus')
+                    ]),
+
+                    React.createElement('div', {
+                        key: 'actions',
+                        className: 'flex justify-center gap-4'
+                    }, [
+                        React.createElement('button', {
+                            key: 'create',
+                            className: 'btn btn-primary btn-lg animate-pulse-hover',
+                            onClick: createNewMenu
+                        }, [
+                            React.createElement('span', { key: 'icon', className: 'mr-2' }, '✨'),
+                            t('createNew')
+                        ]),
+                        React.createElement('button', {
+                            key: 'templates',
+                            className: 'btn btn-ghost btn-lg',
+                            onClick: () => onNavigate('templates')
+                        }, [
+                            React.createElement('span', { key: 'icon', className: 'mr-2' }, '🎨'),
+                            t('templates')
+                        ])
+                    ])
+                ]),
+
+                React.createElement('div', {
+                    key: 'content',
+                    className: 'max-w-7xl mx-auto'
+                }, [
+                    React.createElement('h2', {
+                        key: 'section-title',
+                        className: 'text-3xl font-bold text-white mb-8'
+                    }, t('recentMenus')),
+
+                    menus.length > 0 ? React.createElement('div', {
+                        key: 'menus-grid',
+                        className: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'
+                    }, menus.map((menu, index) => 
+                        React.createElement('div', {
+                            key: menu.id,
+                            className: 'card animate-slide-in cursor-pointer',
+                            style: { animationDelay: `${index * 100}ms` },
+                            onClick: () => openMenu(menu.id)
+                        }, [
+                            React.createElement('div', {
+                                key: 'image',
+                                className: 'h-48 bg-gradient-to-r from-purple-400 to-pink-400 flex items-center justify-center'
+                            }, [
+                                React.createElement('span', {
+                                    key: 'icon',
+                                    className: 'text-6xl text-white'
+                                }, '🍽️')
+                            ]),
+                            React.createElement('div', {
+                                key: 'content',
+                                className: 'p-6'
+                            }, [
+                                React.createElement('h3', {
+                                    key: 'name',
+                                    className: 'text-xl font-bold mb-2'
+                                }, menu.name),
+                                React.createElement('p', {
+                                    key: 'desc',
+                                    className: 'text-gray-600 mb-4'
+                                }, menu.description),
+                                React.createElement('div', {
+                                    key: 'meta',
+                                    className: 'flex justify-between text-sm text-gray-500'
+                                }, [
+                                    React.createElement('span', { key: 'modified' }, `Modified ${menu.lastModified}`),
+                                    React.createElement('span', { key: 'items' }, `${menu.itemCount} items`)
+                                ])
+                            ])
+                        ])
+                    )) : React.createElement('div', {
+                        key: 'empty',
+                        className: 'text-center py-16'
+                    }, [
+                        React.createElement('div', {
+                            key: 'icon',
+                            className: 'text-8xl mb-6 animate-float'
+                        }, '📋'),
+                        React.createElement('h3', {
+                            key: 'title',
+                            className: 'text-2xl font-bold text-white mb-4'
+                        }, t('noMenus')),
+                        React.createElement('button', {
+                            key: 'create',
+                            className: 'btn btn-primary btn-lg',
+                            onClick: createNewMenu
+                        }, t('createNew'))
+                    ])
+                ])
+            ]);
+        }
+
+        // Template Selection Screen
+        function TemplateSelection({ onNavigate }) {
+            const { t, isRTL } = useLanguage();
+            const [selectedTemplate, setSelectedTemplate] = useState(null);
+
+            const selectTemplate = (template) => {
+                setSelectedTemplate(template.id);
+                playSound('click');
+                setTimeout(() => {
+                    onNavigate('builder', { template });
+                }, 300);
+            };
+
+            return React.createElement('div', {
+                className: `min-h-screen p-8 ${isRTL ? 'rtl' : ''}`,
+                dir: isRTL ? 'rtl' : 'ltr'
+            }, [
+                React.createElement('div', {
+                    key: 'header',
+                    className: 'text-center mb-16 animate-fade-in'
+                }, [
+                    React.createElement('h1', {
+                        key: 'title',
+                        className: 'text-6xl font-bold text-white mb-6'
+                    }, 'Choose Your Template'),
+                    React.createElement('p', {
+                        key: 'subtitle',
+                        className: 'text-xl text-white opacity-90 max-w-2xl mx-auto'
+                    }, 'Select a professional template that matches your restaurant\'s style and personality')
+                ]),
+
+                React.createElement('div', {
+                    key: 'templates',
+                    className: 'max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'
+                }, templates.map((template, index) => 
+                    React.createElement('div', {
+                        key: template.id,
+                        className: `template-card card ${selectedTemplate === template.id ? 'ring-4 ring-white ring-opacity-50' : ''}`,
+                        style: { animationDelay: `${index * 100}ms` },
+                        onClick: () => selectTemplate(template)
+                    }, [
+                        React.createElement('div', {
+                            key: 'preview',
+                            className: 'h-64 bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center relative overflow-hidden'
+                        }, [
+                            React.createElement('div', {
+                                key: 'mockup',
+                                className: 'text-white text-center'
+                            }, [
+                                React.createElement('div', {
+                                    key: 'header',
+                                    className: `text-2xl font-bold mb-4 ${template.font}`
+                                }, 'Restaurant Name'),
+                                React.createElement('div', {
+                                    key: 'section',
+                                    className: 'text-sm opacity-80'
+                                }, 'Appetizers'),
+                                React.createElement('div', {
+                                    key: 'items',
+                                    className: 'text-xs space-y-1 mt-2'
+                                }, [
+                                    React.createElement('div', { key: '1' }, 'Caesar Salad - $12'),
+                                    React.createElement('div', { key: '2' }, 'Soup of the Day - $8')
+                                ])
+                            ])
+                        ]),
+
+                        React.createElement('div', {
+                            key: 'content',
+                            className: 'p-6'
+                        }, [
+                            React.createElement('h3', {
+                                key: 'name',
+                                className: 'text-xl font-bold mb-2'
+                            }, t(template.name.toLowerCase())),
+                            React.createElement('p', {
+                                key: 'desc',
+                                className: 'text-gray-600 mb-4'
+                            }, template.description),
+                            React.createElement('div', {
+                                key: 'features',
+                                className: 'space-y-2 mb-6'
+                            }, [
+                                React.createElement('div', {
+                                    key: 'colors',
+                                    className: 'flex items-center gap-2'
+                                }, [
+                                    React.createElement('div', {
+                                        key: 'swatch',
+                                        className: 'w-4 h-4 rounded-full',
+                                        style: { backgroundColor: template.colors.primary }
+                                    }),
+                                    React.createElement('span', {
+                                        key: 'label',
+                                        className: 'text-sm text-gray-600'
+                                    }, 'Color Scheme')
+                                ]),
+                                React.createElement('div', {
+                                    key: 'font',
+                                    className: 'flex items-center gap-2'
+                                }, [
+                                    React.createElement('span', { key: 'icon' }, '✨'),
+                                    React.createElement('span', {
+                                        key: 'label',
+                                        className: 'text-sm text-gray-600'
+                                    }, template.font.replace('font-', '').replace('-', ' '))
+                                ])
+                            ]),
+                            React.createElement('button', {
+                                key: 'select',
+                                className: 'btn btn-primary w-full',
+                                disabled: selectedTemplate === template.id
+                            }, selectedTemplate === template.id ? 'Selected ✓' : 'Use Template')
+                        ])
+                    ])
+                ))
+            ]);
+        }
+
         // File Upload Component
-        function FileUpload({ accept, onUpload, currentFile, label, type }) {
+        function FileUpload({ accept, onUpload, currentFile, label, type, className = '' }) {
+            const { t } = useLanguage();
             const fileInputRef = useRef(null);
             const [preview, setPreview] = useState(currentFile || null);
+            const [isDragging, setIsDragging] = useState(false);
+            const [isUploading, setIsUploading] = useState(false);
 
-            const handleFileSelect = (event) => {
-                const file = event.target.files[0];
+            const handleFileSelect = useCallback(async (file) => {
                 if (!file) return;
+                
+                setIsUploading(true);
+                
+                try {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const result = e.target.result;
+                        setPreview(result);
+                        onUpload(result);
+                        setIsUploading(false);
+                        playSound('success');
+                    };
+                    reader.readAsDataURL(file);
+                } catch (error) {
+                    setIsUploading(false);
+                    playSound('error');
+                }
+            }, [onUpload]);
 
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const result = e.target.result;
-                    setPreview(result);
-                    onUpload(result);
-                };
-                reader.readAsDataURL(file);
-            };
+            const handleDrop = useCallback((e) => {
+                e.preventDefault();
+                setIsDragging(false);
+                
+                const files = Array.from(e.dataTransfer.files);
+                if (files.length > 0) {
+                    handleFileSelect(files[0]);
+                }
+            }, [handleFileSelect]);
+
+            const handleDragOver = useCallback((e) => {
+                e.preventDefault();
+                setIsDragging(true);
+            }, []);
+
+            const handleDragLeave = useCallback((e) => {
+                e.preventDefault();
+                setIsDragging(false);
+            }, []);
 
             const renderPreview = () => {
                 if (!preview) return null;
 
                 if (type === '3d' && preview.includes('data:')) {
                     return React.createElement('div', {
-                        className: 'mt-2 p-4 bg-gray-100 rounded text-center text-sm text-gray-600'
-                    }, '3D Model uploaded (Preview not available in demo)');
+                        className: 'mt-3 p-4 bg-blue-50 border border-blue-200 rounded-lg text-center'
+                    }, [
+                        React.createElement('div', {
+                            key: 'icon',
+                            className: 'text-3xl mb-2'
+                        }, '🎮'),
+                        React.createElement('p', {
+                            key: 'text',
+                            className: 'text-blue-700 font-medium'
+                        }, '3D Model Ready!')
+                    ]);
                 } else if (type === 'image' && preview.includes('data:')) {
-                    return React.createElement('img', {
-                        src: preview,
-                        alt: 'Preview',
-                        className: 'mt-2 w-full h-32 object-cover rounded border'
-                    });
+                    return React.createElement('div', {
+                        className: 'mt-3'
+                    }, [
+                        React.createElement('img', {
+                            key: 'preview',
+                            src: preview,
+                            alt: 'Preview',
+                            className: 'w-full h-32 object-cover rounded-lg border border-gray-200'
+                        })
+                    ]);
                 }
                 return null;
             };
 
-            return React.createElement('div', { className: 'space-y-2' }, [
-                React.createElement('label', { key: 'label', className: 'block text-sm font-medium' }, label),
-                React.createElement('div', { key: 'input-container', className: 'flex gap-2' }, [
+            return React.createElement('div', {
+                className: `space-y-3 ${className}`
+            }, [
+                React.createElement('label', {
+                    key: 'label',
+                    className: 'block text-sm font-semibold text-gray-700'
+                }, label),
+                
+                React.createElement('div', {
+                    key: 'upload-area',
+                    className: `border-2 border-dashed rounded-xl p-6 text-center transition-all cursor-pointer ${
+                        isDragging ? 'border-blue-400 bg-blue-50' : 'border-gray-300 hover:border-gray-400'
+                    }`,
+                    onDrop: handleDrop,
+                    onDragOver: handleDragOver,
+                    onDragLeave: handleDragLeave,
+                    onClick: () => fileInputRef.current?.click()
+                }, [
                     React.createElement('input', {
                         key: 'input',
                         ref: fileInputRef,
                         type: 'file',
                         accept: accept,
-                        onChange: handleFileSelect,
+                        onChange: (e) => handleFileSelect(e.target.files[0]),
                         className: 'hidden'
                     }),
-                    React.createElement('button', {
-                        key: 'button',
-                        type: 'button',
-                        className: 'btn btn-secondary',
-                        onClick: () => fileInputRef.current?.click()
-                    }, 'Choose File'),
+                    
+                    isUploading ? React.createElement('div', {
+                        key: 'loading',
+                        className: 'flex flex-col items-center'
+                    }, [
+                        React.createElement('div', {
+                            key: 'spinner',
+                            className: 'loader mb-2'
+                        }),
+                        React.createElement('p', {
+                            key: 'text',
+                            className: 'text-gray-600'
+                        }, t('loading'))
+                    ]) : React.createElement('div', {
+                        key: 'upload-content',
+                        className: 'space-y-3'
+                    }, [
+                        React.createElement('div', {
+                            key: 'icon',
+                            className: 'text-4xl'
+                        }, type === '3d' ? '🎮' : '📷'),
+                        
+                        React.createElement('p', {
+                            key: 'hint',
+                            className: 'text-gray-600'
+                        }, 'Drag & drop files here or click to browse'),
+                        
+                        React.createElement('button', {
+                            key: 'button',
+                            type: 'button',
+                            className: 'btn btn-primary',
+                            onClick: (e) => {
+                                e.stopPropagation();
+                                fileInputRef.current?.click();
+                            }
+                        }, 'Choose File')
+                    ]),
+                    
                     preview && React.createElement('button', {
                         key: 'remove',
                         type: 'button',
-                        className: 'btn btn-secondary',
-                        onClick: () => {
+                        className: 'btn btn-secondary mt-3',
+                        onClick: (e) => {
+                            e.stopPropagation();
                             setPreview(null);
                             onUpload('');
                         }
-                    }, 'Remove')
+                    }, 'Remove File')
                 ]),
+                
                 renderPreview()
             ]);
         }
 
-        // Template Selection Component
-        function TemplateSelection({ onSelectTemplate }) {
-            const { t, isRTL } = useLanguage();
+        // Menu Builder Screen
+        function MenuBuilder({ onNavigate, template }) {
+            const { t, isRTL, language } = useLanguage();
+            const { isDark } = useTheme();
+            const [menu, setMenu] = useState({
+                restaurantName: '',
+                tagline: '',
+                description: '',
+                phone: '',
+                address: '',
+                website: '',
+                logo: '',
+                theme: template?.theme || 'theme-modern',
+                font: template?.font || 'font-inter',
+                colors: template?.colors || { primary: '#667eea', secondary: '#764ba2', accent: '#f093fb' },
+                layout: 'grid',
+                spacing: 'normal',
+                showPrices: true,
+                showDescriptions: true
+            });
+            
+            const [sections, setSections] = useState([]);
+            const [activeTab, setActiveTab] = useState('info');
+            const [previewMode, setPreviewMode] = useState('desktop');
+            const [showItemModal, setShowItemModal] = useState(false);
+            const [showSectionModal, setShowSectionModal] = useState(false);
+            const [editingItem, setEditingItem] = useState(null);
+            const [editingSection, setEditingSection] = useState(null);
+            const [currentSectionId, setCurrentSectionId] = useState(null);
+
+            // Auto-save functionality
+            useEffect(() => {
+                const saveData = () => {
+                    localStorage.setItem('currentMenu', JSON.stringify(menu));
+                    localStorage.setItem('currentSections', JSON.stringify(sections));
+                };
+                
+                const timeoutId = setTimeout(saveData, 1000);
+                return () => clearTimeout(timeoutId);
+            }, [menu, sections]);
+
+            const addSection = useCallback((sectionData) => {
+                const newSection = {
+                    id: Date.now(),
+                    ...sectionData,
+                    items: []
+                };
+                setSections(prev => [...prev, newSection]);
+                playSound('success');
+            }, []);
+
+            const addItem = useCallback((itemData) => {
+                const newItem = {
+                    id: Date.now(),
+                    ...itemData
+                };
+                setSections(prev => prev.map(s => 
+                    s.id === currentSectionId 
+                        ? { ...s, items: [...s.items, newItem] }
+                        : s
+                ));
+                playSound('success');
+            }, [currentSectionId]);
+
+            const deleteSection = useCallback((sectionId) => {
+                setSections(prev => prev.filter(s => s.id !== sectionId));
+                playSound('click');
+            }, []);
+
+            const deleteItem = useCallback((sectionId, itemId) => {
+                setSections(prev => prev.map(s => 
+                    s.id === sectionId 
+                        ? { ...s, items: s.items.filter(i => i.id !== itemId) }
+                        : s
+                ));
+                playSound('click');
+            }, []);
+
+            const renderTabContent = () => {
+                switch (activeTab) {
+                    case 'info':
+                        return React.createElement(RestaurantInfoTab, {
+                            menu, setMenu
+                        });
+                    case 'design':
+                        return React.createElement(DesignTab, {
+                            menu, setMenu
+                        });
+                    case 'sections':
+                        return React.createElement(SectionsTab, {
+                            sections, setSections,
+                            onAddSection: () => {
+                                setEditingSection(null);
+                                setShowSectionModal(true);
+                            },
+                            onEditSection: (section) => {
+                                setEditingSection(section);
+                                setShowSectionModal(true);
+                            },
+                            onDeleteSection: deleteSection,
+                            onAddItem: (sectionId) => {
+                                setCurrentSectionId(sectionId);
+                                setEditingItem(null);
+                                setShowItemModal(true);
+                            },
+                            onEditItem: (item) => {
+                                setEditingItem(item);
+                                setShowItemModal(true);
+                            },
+                            onDeleteItem: deleteItem
+                        });
+                    case 'preview':
+                        return React.createElement(PreviewTab, {
+                            menu, sections, previewMode, setPreviewMode, language
+                        });
+                    default:
+                        return null;
+                }
+            };
 
             return React.createElement('div', {
-                className: `min-h-screen p-8 ${isRTL ? 'rtl' : ''}`,
+                className: `min-h-screen ${isDark ? 'dark' : ''} ${isRTL ? 'rtl' : ''}`,
                 dir: isRTL ? 'rtl' : 'ltr'
             }, [
-                React.createElement('div', { key: 'header', className: 'text-center mb-12' }, [
-                    React.createElement('h1', {
-                        key: 'title',
-                        className: 'text-5xl font-bold text-white mb-4'
-                    }, t('title')),
-                    React.createElement('p', {
-                        key: 'subtitle',
-                        className: 'text-xl text-white opacity-90'
-                    }, t('subtitle'))
-                ]),
+                // Header
                 React.createElement('div', {
-                    key: 'templates',
-                    className: 'max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'
-                }, templates.map(template => 
+                    key: 'header',
+                    className: 'bg-white dark:bg-gray-800 shadow-sm border-b px-6 py-4'
+                }, [
                     React.createElement('div', {
-                        key: template.id,
-                        className: 'template-card bg-white rounded-2xl p-6 shadow-xl'
+                        key: 'header-content',
+                        className: 'flex items-center justify-between max-w-7xl mx-auto'
                     }, [
                         React.createElement('div', {
-                            key: 'preview',
-                            className: `h-48 rounded-lg mb-4 bg-gradient-to-br ${
-                                template.colorScheme === 'indigo' ? 'from-indigo-400 to-purple-600' :
-                                template.colorScheme === 'emerald' ? 'from-emerald-400 to-teal-600' :
-                                template.colorScheme === 'amber' ? 'from-amber-400 to-orange-600' :
-                                'from-rose-400 to-pink-600'
-                            } flex items-center justify-center text-white font-bold text-lg`
-                        }, t(template.name.toLowerCase())),
-                        React.createElement('h3', {
-                            key: 'name',
-                            className: 'text-xl font-bold mb-2'
-                        }, t(template.name.toLowerCase())),
-                        React.createElement('p', {
-                            key: 'desc',
-                            className: 'text-gray-600 mb-4'
-                        }, t(template.name.toLowerCase() + 'Desc')),
-                        React.createElement('button', {
-                            key: 'button',
-                            className: 'btn btn-primary w-full',
-                            onClick: () => onSelectTemplate(template)
-                        }, t('useTemplate'))
+                            key: 'left',
+                            className: 'flex items-center gap-4'
+                        }, [
+                            React.createElement('button', {
+                                key: 'back',
+                                className: 'btn btn-secondary',
+                                onClick: () => onNavigate('dashboard')
+                            }, '← Back'),
+                            React.createElement('h1', {
+                                key: 'title',
+                                className: 'text-2xl font-bold'
+                            }, t('menuBuilder'))
+                        ]),
+                        
+                        React.createElement('div', {
+                            key: 'right',
+                            className: 'flex gap-4'
+                        }, [
+                            React.createElement('button', {
+                                key: 'save',
+                                className: 'btn btn-secondary',
+                                onClick: () => {
+                                    // Save menu
+                                    playSound('success');
+                                }
+                            }, t('save')),
+                            React.createElement('button', {
+                                key: 'export',
+                                className: 'btn btn-primary',
+                                onClick: () => onNavigate('export', { menu, sections })
+                            }, t('export'))
+                        ])
                     ])
-                ))
+                ]),
+
+                // Tab Navigation
+                React.createElement('div', {
+                    key: 'tabs',
+                    className: 'bg-white dark:bg-gray-800 border-b px-6'
+                }, [
+                    React.createElement('div', {
+                        key: 'nav',
+                        className: 'max-w-7xl mx-auto'
+                    }, [
+                        React.createElement('div', {
+                            key: 'tab-list',
+                            className: 'flex gap-1'
+                        }, [
+                            ['info', 'restaurantInfo'],
+                            ['design', 'design'],
+                            ['sections', 'sections'],
+                            ['preview', 'preview']
+                        ].map(([id, labelKey]) => 
+                            React.createElement('button', {
+                                key: id,
+                                className: `px-6 py-3 font-medium transition-all ${
+                                    activeTab === id 
+                                        ? 'border-b-2 border-blue-500 text-blue-600' 
+                                        : 'text-gray-600 hover:text-gray-800'
+                                }`,
+                                onClick: () => {
+                                    setActiveTab(id);
+                                    playSound('click');
+                                }
+                            }, t(labelKey))
+                        ))
+                    ])
+                ]),
+
+                // Main Content
+                React.createElement('div', {
+                    key: 'content',
+                    className: 'max-w-7xl mx-auto p-6'
+                }, renderTabContent()),
+
+                // Modals
+                showItemModal && React.createElement(ItemModal, {
+                    key: 'item-modal',
+                    isOpen: showItemModal,
+                    onClose: () => setShowItemModal(false),
+                    onSave: editingItem ? 
+                        (data) => {
+                            setSections(prev => prev.map(s => ({
+                                ...s,
+                                items: s.items.map(i => 
+                                    i.id === editingItem.id ? { ...i, ...data } : i
+                                )
+                            })));
+                            setEditingItem(null);
+                        } : addItem,
+                    item: editingItem
+                }),
+
+                showSectionModal && React.createElement(SectionModal, {
+                    key: 'section-modal',
+                    isOpen: showSectionModal,
+                    onClose: () => setShowSectionModal(false),
+                    onSave: editingSection ?
+                        (data) => {
+                            setSections(prev => prev.map(s => 
+                                s.id === editingSection.id ? { ...s, ...data } : s
+                            ));
+                            setEditingSection(null);
+                        } : addSection,
+                    section: editingSection
+                })
             ]);
         }
 
-        // Item Edit Modal
-        function ItemEditModal({ isOpen, onClose, onSave, item }) {
+        // Restaurant Info Tab
+        function RestaurantInfoTab({ menu, setMenu }) {
+            const { t } = useLanguage();
+
+            return React.createElement('div', {
+                className: 'grid grid-cols-1 lg:grid-cols-2 gap-8'
+            }, [
+                React.createElement('div', {
+                    key: 'left',
+                    className: 'space-y-6'
+                }, [
+                    React.createElement('div', { key: 'basic-info' }, [
+                        React.createElement('h3', {
+                            key: 'title',
+                            className: 'text-xl font-bold mb-4'
+                        }, 'Basic Information'),
+                        React.createElement('div', {
+                            key: 'fields',
+                            className: 'space-y-4'
+                        }, [
+                            React.createElement('div', { key: 'name' }, [
+                                React.createElement('label', {
+                                    key: 'label',
+                                    className: 'block text-sm font-semibold mb-2'
+                                }, t('restaurantName')),
+                                React.createElement('input', {
+                                    key: 'input',
+                                    type: 'text',
+                                    className: 'input-field',
+                                    value: menu.restaurantName,
+                                    onChange: (e) => setMenu(prev => ({...prev, restaurantName: e.target.value})),
+                                    placeholder: 'Enter restaurant name'
+                                })
+                            ]),
+                            React.createElement('div', { key: 'tagline' }, [
+                                React.createElement('label', {
+                                    key: 'label',
+                                    className: 'block text-sm font-semibold mb-2'
+                                }, t('tagline')),
+                                React.createElement('input', {
+                                    key: 'input',
+                                    type: 'text',
+                                    className: 'input-field',
+                                    value: menu.tagline,
+                                    onChange: (e) => setMenu(prev => ({...prev, tagline: e.target.value})),
+                                    placeholder: 'Enter tagline'
+                                })
+                            ]),
+                            React.createElement('div', { key: 'description' }, [
+                                React.createElement('label', {
+                                    key: 'label',
+                                    className: 'block text-sm font-semibold mb-2'
+                                }, t('description')),
+                                React.createElement('textarea', {
+                                    key: 'input',
+                                    className: 'input-field',
+                                    rows: 3,
+                                    value: menu.description,
+                                    onChange: (e) => setMenu(prev => ({...prev, description: e.target.value})),
+                                    placeholder: 'Enter description'
+                                })
+                            ])
+                        ])
+                    ])
+                ]),
+
+                React.createElement('div', {
+                    key: 'right',
+                    className: 'space-y-6'
+                }, [
+                    React.createElement('div', { key: 'contact-info' }, [
+                        React.createElement('h3', {
+                            key: 'title',
+                            className: 'text-xl font-bold mb-4'
+                        }, 'Contact Information'),
+                        React.createElement('div', {
+                            key: 'fields',
+                            className: 'space-y-4'
+                        }, [
+                            React.createElement('div', { key: 'phone' }, [
+                                React.createElement('label', {
+                                    key: 'label',
+                                    className: 'block text-sm font-semibold mb-2'
+                                }, t('phone')),
+                                React.createElement('input', {
+                                    key: 'input',
+                                    type: 'tel',
+                                    className: 'input-field',
+                                    value: menu.phone,
+                                    onChange: (e) => setMenu(prev => ({...prev, phone: e.target.value})),
+                                    placeholder: '+1 (555) 123-4567'
+                                })
+                            ]),
+                            React.createElement('div', { key: 'address' }, [
+                                React.createElement('label', {
+                                    key: 'label',
+                                    className: 'block text-sm font-semibold mb-2'
+                                }, t('address')),
+                                React.createElement('textarea', {
+                                    key: 'input',
+                                    className: 'input-field',
+                                    rows: 2,
+                                    value: menu.address,
+                                    onChange: (e) => setMenu(prev => ({...prev, address: e.target.value})),
+                                    placeholder: 'Enter address'
+                                })
+                            ]),
+                            React.createElement('div', { key: 'website' }, [
+                                React.createElement('label', {
+                                    key: 'label',
+                                    className: 'block text-sm font-semibold mb-2'
+                                }, t('website')),
+                                React.createElement('input', {
+                                    key: 'input',
+                                    type: 'url',
+                                    className: 'input-field',
+                                    value: menu.website,
+                                    onChange: (e) => setMenu(prev => ({...prev, website: e.target.value})),
+                                    placeholder: 'https://example.com'
+                                })
+                            ])
+                        ])
+                    ]),
+
+                    React.createElement('div', { key: 'logo' }, [
+                        React.createElement('h3', {
+                            key: 'title',
+                            className: 'text-xl font-bold mb-4'
+                        }, 'Logo'),
+                        React.createElement(FileUpload, {
+                            key: 'upload',
+                            type: 'image',
+                            accept: 'image/*',
+                            label: t('uploadLogo'),
+                            currentFile: menu.logo,
+                            onUpload: (url) => setMenu(prev => ({...prev, logo: url}))
+                        })
+                    ])
+                ])
+            ]);
+        }
+
+        // Design Tab
+        function DesignTab({ menu, setMenu }) {
+            const { t } = useLanguage();
+
+            return React.createElement('div', {
+                className: 'grid grid-cols-1 lg:grid-cols-2 gap-8'
+            }, [
+                React.createElement('div', {
+                    key: 'left',
+                    className: 'space-y-6'
+                }, [
+                    React.createElement('div', { key: 'colors' }, [
+                        React.createElement('h3', {
+                            key: 'title',
+                            className: 'text-xl font-bold mb-4'
+                        }, t('colors')),
+                        React.createElement('div', {
+                            key: 'themes',
+                            className: 'grid grid-cols-2 gap-4'
+                        }, colorThemes.map(theme => 
+                            React.createElement('div', {
+                                key: theme.id,
+                                className: `p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                                    menu.colors.primary === theme.colors[0] ? 'border-blue-500' : 'border-gray-200'
+                                }`,
+                                onClick: () => {
+                                    setMenu(prev => ({
+                                        ...prev,
+                                        colors: {
+                                            primary: theme.colors[0],
+                                            secondary: theme.colors[1],
+                                            accent: theme.colors[2]
+                                        }
+                                    }));
+                                    playSound('click');
+                                }
+                            }, [
+                                React.createElement('div', {
+                                    key: 'swatches',
+                                    className: 'flex gap-2 mb-2'
+                                }, theme.colors.map((color, index) => 
+                                    React.createElement('div', {
+                                        key: index,
+                                        className: 'w-6 h-6 rounded-full',
+                                        style: { backgroundColor: color }
+                                    })
+                                )),
+                                React.createElement('p', {
+                                    key: 'name',
+                                    className: 'text-sm font-medium'
+                                }, theme.name)
+                            ])
+                        ))
+                    ])
+                ]),
+
+                React.createElement('div', {
+                    key: 'right',
+                    className: 'space-y-6'
+                }, [
+                    React.createElement('div', { key: 'fonts' }, [
+                        React.createElement('h3', {
+                            key: 'title',
+                            className: 'text-xl font-bold mb-4'
+                        }, t('fonts')),
+                        React.createElement('div', {
+                            key: 'options',
+                            className: 'space-y-3'
+                        }, fontOptions.map(font => 
+                            React.createElement('div', {
+                                key: font.id,
+                                className: `p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                                    menu.font === font.className ? 'border-blue-500' : 'border-gray-200'
+                                }`,
+                                onClick: () => {
+                                    setMenu(prev => ({...prev, font: font.className}));
+                                    playSound('click');
+                                }
+                            }, [
+                                React.createElement('div', {
+                                    key: 'name',
+                                    className: `font-semibold ${font.className}`
+                                }, font.name),
+                                React.createElement('div', {
+                                    key: 'preview',
+                                    className: `text-sm text-gray-600 ${font.className}`
+                                }, font.preview)
+                            ])
+                        ))
+                    ])
+                ])
+            ]);
+        }
+
+        // Item Modal
+        function ItemModal({ isOpen, onClose, onSave, item }) {
             const { t, isRTL } = useLanguage();
             const [formData, setFormData] = useState({
                 name: '',
@@ -454,7 +2278,10 @@
                 image: '',
                 model3d: '',
                 isSpicy: false,
-                isVegetarian: false
+                isVegetarian: false,
+                isVegan: false,
+                isGlutenFree: false,
+                isPopular: false
             });
 
             useEffect(() => {
@@ -470,7 +2297,10 @@
                         image: '',
                         model3d: '',
                         isSpicy: false,
-                        isVegetarian: false
+                        isVegetarian: false,
+                        isVegan: false,
+                        isGlutenFree: false,
+                        isPopular: false
                     });
                 }
             }, [item, isOpen]);
@@ -485,23 +2315,37 @@
 
             return React.createElement('div', { className: 'modal' },
                 React.createElement('div', {
-                    className: `modal-content ${isRTL ? 'rtl' : ''}`,
+                    className: `modal-content animate-scale-in ${isRTL ? 'rtl' : ''}`,
                     dir: isRTL ? 'rtl' : 'ltr'
                 }, [
-                    React.createElement('h2', {
-                        key: 'title',
-                        className: 'text-xl font-bold mb-4'
-                    }, item ? t('editItem') : t('addItem')),
+                    React.createElement('div', {
+                        key: 'header',
+                        className: 'flex items-center justify-between mb-6'
+                    }, [
+                        React.createElement('h2', {
+                            key: 'title',
+                            className: 'text-2xl font-bold'
+                        }, item ? t('editItem') : t('addItem')),
+                        React.createElement('button', {
+                            key: 'close',
+                            className: 'text-gray-400 hover:text-gray-600 text-2xl',
+                            onClick: onClose
+                        }, '×')
+                    ]),
+                    
                     React.createElement('form', {
                         key: 'form',
                         onSubmit: handleSubmit,
-                        className: 'space-y-4'
+                        className: 'space-y-6'
                     }, [
-                        React.createElement('div', { key: 'name-row', className: 'grid grid-cols-2 gap-4' }, [
+                        React.createElement('div', {
+                            key: 'name-row',
+                            className: 'grid grid-cols-1 md:grid-cols-2 gap-4'
+                        }, [
                             React.createElement('div', { key: 'name' }, [
                                 React.createElement('label', {
                                     key: 'label',
-                                    className: 'block text-sm font-medium mb-1'
+                                    className: 'block text-sm font-semibold mb-2'
                                 }, t('itemName')),
                                 React.createElement('input', {
                                     key: 'input',
@@ -515,8 +2359,8 @@
                             React.createElement('div', { key: 'nameAr' }, [
                                 React.createElement('label', {
                                     key: 'label',
-                                    className: 'block text-sm font-medium mb-1'
-                                }, t('itemNameAr')),
+                                    className: 'block text-sm font-semibold mb-2'
+                                }, 'Item Name (Arabic)'),
                                 React.createElement('input', {
                                     key: 'input',
                                     type: 'text',
@@ -527,12 +2371,16 @@
                                 })
                             ])
                         ]),
-                        React.createElement('div', { key: 'desc-row', className: 'grid grid-cols-2 gap-4' }, [
+                        
+                        React.createElement('div', {
+                            key: 'desc-row',
+                            className: 'grid grid-cols-1 md:grid-cols-2 gap-4'
+                        }, [
                             React.createElement('div', { key: 'desc' }, [
                                 React.createElement('label', {
                                     key: 'label',
-                                    className: 'block text-sm font-medium mb-1'
-                                }, t('description')),
+                                    className: 'block text-sm font-semibold mb-2'
+                                }, t('itemDescription')),
                                 React.createElement('textarea', {
                                     key: 'input',
                                     className: 'input-field',
@@ -544,8 +2392,8 @@
                             React.createElement('div', { key: 'descAr' }, [
                                 React.createElement('label', {
                                     key: 'label',
-                                    className: 'block text-sm font-medium mb-1'
-                                }, t('descriptionAr')),
+                                    className: 'block text-sm font-semibold mb-2'
+                                }, 'Description (Arabic)'),
                                 React.createElement('textarea', {
                                     key: 'input',
                                     className: 'input-field',
@@ -556,10 +2404,11 @@
                                 })
                             ])
                         ]),
+                        
                         React.createElement('div', { key: 'price' }, [
                             React.createElement('label', {
                                 key: 'label',
-                                className: 'block text-sm font-medium mb-1'
+                                className: 'block text-sm font-semibold mb-2'
                             }, t('price')),
                             React.createElement('input', {
                                 key: 'input',
@@ -571,45 +2420,67 @@
                                 required: true
                             })
                         ]),
-                        React.createElement(FileUpload, {
-                            key: 'image-upload',
-                            type: 'image',
-                            accept: 'image/*',
-                            label: t('image'),
-                            currentFile: formData.image,
-                            onUpload: (url) => setFormData({...formData, image: url})
-                        }),
-                        React.createElement(FileUpload, {
-                            key: '3d-upload',
-                            type: '3d',
-                            accept: '.glb,.gltf',
-                            label: t('model3d'),
-                            currentFile: formData.model3d,
-                            onUpload: (url) => setFormData({...formData, model3d: url})
-                        }),
-                        React.createElement('div', { key: 'checkboxes', className: 'flex gap-4' }, [
-                            React.createElement('label', { key: 'spicy', className: 'flex items-center' }, [
-                                React.createElement('input', {
-                                    key: 'input',
-                                    type: 'checkbox',
-                                    checked: formData.isSpicy,
-                                    onChange: (e) => setFormData({...formData, isSpicy: e.target.checked}),
-                                    className: 'mr-2'
-                                }),
-                                t('spicy')
-                            ]),
-                            React.createElement('label', { key: 'vegetarian', className: 'flex items-center' }, [
-                                React.createElement('input', {
-                                    key: 'input',
-                                    type: 'checkbox',
-                                    checked: formData.isVegetarian,
-                                    onChange: (e) => setFormData({...formData, isVegetarian: e.target.checked}),
-                                    className: 'mr-2'
-                                }),
-                                t('vegetarian')
-                            ])
+                        
+                        React.createElement('div', {
+                            key: 'uploads',
+                            className: 'grid grid-cols-1 md:grid-cols-2 gap-6'
+                        }, [
+                            React.createElement(FileUpload, {
+                                key: 'image-upload',
+                                type: 'image',
+                                accept: 'image/*',
+                                label: t('image'),
+                                currentFile: formData.image,
+                                onUpload: (url) => setFormData({...formData, image: url})
+                            }),
+                            React.createElement(FileUpload, {
+                                key: '3d-upload',
+                                type: '3d',
+                                accept: '.glb,.gltf',
+                                label: t('model3d'),
+                                currentFile: formData.model3d,
+                                onUpload: (url) => setFormData({...formData, model3d: url})
+                            })
                         ]),
-                        React.createElement('div', { key: 'buttons', className: 'flex gap-2 pt-4' }, [
+                        
+                        React.createElement('div', { key: 'properties' }, [
+                            React.createElement('label', {
+                                key: 'label',
+                                className: 'block text-sm font-semibold mb-3'
+                            }, 'Properties'),
+                            React.createElement('div', {
+                                key: 'checkboxes',
+                                className: 'grid grid-cols-2 md:grid-cols-3 gap-3'
+                            }, [
+                                ['isSpicy', 'spicy'],
+                                ['isVegetarian', 'vegetarian'],
+                                ['isVegan', 'vegan'],
+                                ['isGlutenFree', 'glutenFree'],
+                                ['isPopular', 'popular']
+                            ].map(([key, labelKey]) => 
+                                React.createElement('label', {
+                                    key: key,
+                                    className: 'flex items-center p-3 bg-gray-50 rounded-lg cursor-pointer'
+                                }, [
+                                    React.createElement('input', {
+                                        key: 'input',
+                                        type: 'checkbox',
+                                        checked: formData[key],
+                                        onChange: (e) => setFormData({...formData, [key]: e.target.checked}),
+                                        className: 'mr-2'
+                                    }),
+                                    React.createElement('span', {
+                                        key: 'label',
+                                        className: 'text-sm font-medium'
+                                    }, t(labelKey))
+                                ])
+                            ))
+                        ]),
+                        
+                        React.createElement('div', {
+                            key: 'buttons',
+                            className: 'flex gap-3 pt-6 border-t'
+                        }, [
                             React.createElement('button', {
                                 key: 'save',
                                 type: 'submit',
@@ -627,8 +2498,8 @@
             );
         }
 
-        // Section Edit Modal
-        function SectionEditModal({ isOpen, onClose, onSave, section }) {
+        // Section Modal (similar structure to ItemModal)
+        function SectionModal({ isOpen, onClose, onSave, section }) {
             const { t, isRTL } = useLanguage();
             const [formData, setFormData] = useState({
                 name: '',
@@ -660,24 +2531,38 @@
 
             return React.createElement('div', { className: 'modal' },
                 React.createElement('div', {
-                    className: `modal-content ${isRTL ? 'rtl' : ''}`,
+                    className: `modal-content animate-scale-in ${isRTL ? 'rtl' : ''}`,
                     dir: isRTL ? 'rtl' : 'ltr'
                 }, [
-                    React.createElement('h2', {
-                        key: 'title',
-                        className: 'text-xl font-bold mb-4'
-                    }, section ? 'Edit Section' : t('addSection')),
+                    React.createElement('div', {
+                        key: 'header',
+                        className: 'flex items-center justify-between mb-6'
+                    }, [
+                        React.createElement('h2', {
+                            key: 'title',
+                            className: 'text-2xl font-bold'
+                        }, section ? 'Edit Section' : t('addSection')),
+                        React.createElement('button', {
+                            key: 'close',
+                            className: 'text-gray-400 hover:text-gray-600 text-2xl',
+                            onClick: onClose
+                        }, '×')
+                    ]),
+                    
                     React.createElement('form', {
                         key: 'form',
                         onSubmit: handleSubmit,
-                        className: 'space-y-4'
+                        className: 'space-y-6'
                     }, [
-                        React.createElement('div', { key: 'name-row', className: 'grid grid-cols-2 gap-4' }, [
+                        React.createElement('div', {
+                            key: 'name-row',
+                            className: 'grid grid-cols-1 md:grid-cols-2 gap-4'
+                        }, [
                             React.createElement('div', { key: 'name' }, [
                                 React.createElement('label', {
                                     key: 'label',
-                                    className: 'block text-sm font-medium mb-1'
-                                }, t('sectionName')),
+                                    className: 'block text-sm font-semibold mb-2'
+                                }, 'Section Name'),
                                 React.createElement('input', {
                                     key: 'input',
                                     type: 'text',
@@ -690,8 +2575,8 @@
                             React.createElement('div', { key: 'nameAr' }, [
                                 React.createElement('label', {
                                     key: 'label',
-                                    className: 'block text-sm font-medium mb-1'
-                                }, t('sectionNameAr')),
+                                    className: 'block text-sm font-semibold mb-2'
+                                }, 'Section Name (Arabic)'),
                                 React.createElement('input', {
                                     key: 'input',
                                     type: 'text',
@@ -702,12 +2587,16 @@
                                 })
                             ])
                         ]),
-                        React.createElement('div', { key: 'desc-row', className: 'grid grid-cols-2 gap-4' }, [
+                        
+                        React.createElement('div', {
+                            key: 'desc-row',
+                            className: 'grid grid-cols-1 md:grid-cols-2 gap-4'
+                        }, [
                             React.createElement('div', { key: 'desc' }, [
                                 React.createElement('label', {
                                     key: 'label',
-                                    className: 'block text-sm font-medium mb-1'
-                                }, t('sectionDesc')),
+                                    className: 'block text-sm font-semibold mb-2'
+                                }, 'Description'),
                                 React.createElement('textarea', {
                                     key: 'input',
                                     className: 'input-field',
@@ -719,8 +2608,8 @@
                             React.createElement('div', { key: 'descAr' }, [
                                 React.createElement('label', {
                                     key: 'label',
-                                    className: 'block text-sm font-medium mb-1'
-                                }, t('sectionDescAr')),
+                                    className: 'block text-sm font-semibold mb-2'
+                                }, 'Description (Arabic)'),
                                 React.createElement('textarea', {
                                     key: 'input',
                                     className: 'input-field',
@@ -731,7 +2620,11 @@
                                 })
                             ])
                         ]),
-                        React.createElement('div', { key: 'buttons', className: 'flex gap-2 pt-4' }, [
+                        
+                        React.createElement('div', {
+                            key: 'buttons',
+                            className: 'flex gap-3 pt-6 border-t'
+                        }, [
                             React.createElement('button', {
                                 key: 'save',
                                 type: 'submit',
@@ -749,544 +2642,764 @@
             );
         }
 
-        // Menu Preview Component
-        function MenuPreview({ menu, sections, isDesktop, language }) {
+        // Sections Tab
+        function SectionsTab({ sections, setSections, onAddSection, onEditSection, onDeleteSection, onAddItem, onEditItem, onDeleteItem }) {
             const { t } = useLanguage();
-            
-            const renderMenuItem = (item) => {
-                return React.createElement('div', {
-                    key: item.id,
-                    className: 'menu-item p-4 border-b border-gray-100 flex justify-between items-start'
-                }, [
-                    React.createElement('div', { key: 'content', className: 'flex-1' }, [
-                        React.createElement('div', { key: 'header', className: 'flex items-center gap-2 mb-2' }, [
-                            React.createElement('h4', {
-                                key: 'name',
-                                className: 'font-semibold text-gray-800'
-                            }, language === 'ar' && item.nameAr ? item.nameAr : item.name),
-                            item.isSpicy && React.createElement('span', {
-                                key: 'spicy',
-                                className: 'text-red-500 text-sm'
-                            }, '🌶️'),
-                            item.isVegetarian && React.createElement('span', {
-                                key: 'veg',
-                                className: 'text-green-500 text-sm'
-                            }, '🌱')
-                        ]),
-                        (language === 'ar' && item.descriptionAr || item.description) && React.createElement('p', {
-                            key: 'desc',
-                            className: 'text-gray-600 text-sm mb-2'
-                        }, language === 'ar' && item.descriptionAr ? item.descriptionAr : item.description),
-                        (item.image || item.model3d) && React.createElement('div', {
-                            key: 'media',
-                            className: 'mb-2'
-                        }, [
-                            item.model3d ? React.createElement('div', {
-                                key: '3d',
-                                className: 'text-sm text-blue-600 bg-blue-50 px-2 py-1 rounded'
-                            }, '🎮 3D Model Available') :
-                            item.image ? React.createElement('img', {
-                                key: 'img',
-                                src: item.image,
-                                alt: item.name,
-                                className: 'w-16 h-16 object-cover rounded'
-                            }) : null
-                        ])
-                    ]),
-                    React.createElement('div', {
-                        key: 'price',
-                        className: 'font-bold text-lg text-gray-800'
-                    }, `$${item.price}`)
-                ]);
-            };
 
             return React.createElement('div', {
-                className: `${isDesktop ? 'max-w-4xl' : 'max-w-sm'} mx-auto bg-white rounded-lg shadow-lg overflow-hidden`,
-                style: { fontFamily: menu.fontFamily === 'serif' ? 'serif' : menu.fontFamily === 'sans' ? 'sans-serif' : 'Inter' }
+                className: 'space-y-6'
             }, [
                 React.createElement('div', {
                     key: 'header',
-                    className: `p-6 text-white bg-gradient-to-r ${
-                        menu.colorScheme === 'indigo' ? 'from-indigo-500 to-purple-600' :
-                        menu.colorScheme === 'emerald' ? 'from-emerald-500 to-teal-600' :
-                        menu.colorScheme === 'amber' ? 'from-amber-500 to-orange-600' :
-                        'from-rose-500 to-pink-600'
-                    }`
+                    className: 'flex items-center justify-between'
                 }, [
-                    React.createElement('h1', {
-                        key: 'name',
-                        className: 'text-3xl font-bold mb-2'
-                    }, menu.restaurantName || t('restaurantName')),
-                    menu.tagline && React.createElement('p', {
-                        key: 'tagline',
-                        className: 'opacity-90'
-                    }, menu.tagline)
+                    React.createElement('h3', {
+                        key: 'title',
+                        className: 'text-xl font-bold'
+                    }, t('sections')),
+                    React.createElement('button', {
+                        key: 'add',
+                        className: 'btn btn-primary',
+                        onClick: onAddSection
+                    }, t('addSection'))
                 ]),
-                React.createElement('div', { key: 'content', className: 'p-6' },
-                    sections.length > 0 ? sections.map(section => 
-                        React.createElement('div', { key: section.id, className: 'mb-8' }, [
-                            React.createElement('h2', {
-                                key: 'title',
-                                className: 'text-2xl font-bold text-gray-800 mb-4 border-b-2 border-gray-200 pb-2'
-                            }, language === 'ar' && section.nameAr ? section.nameAr : section.name),
-                            section.description && React.createElement('p', {
-                                key: 'desc',
-                                className: 'text-gray-600 mb-4'
-                            }, language === 'ar' && section.descriptionAr ? section.descriptionAr : section.description),
-                            React.createElement('div', { key: 'items' },
-                                section.items.map(renderMenuItem)
-                            )
+
+                sections.length > 0 ? React.createElement('div', {
+                    key: 'sections-list',
+                    className: 'space-y-6'
+                }, sections.map(section => 
+                    React.createElement('div', {
+                        key: section.id,
+                        className: 'card p-6'
+                    }, [
+                        React.createElement('div', {
+                            key: 'header',
+                            className: 'flex items-center justify-between mb-4'
+                        }, [
+                            React.createElement('h4', {
+                                key: 'name',
+                                className: 'text-lg font-semibold'
+                            }, section.name),
+                            React.createElement('div', {
+                                key: 'actions',
+                                className: 'flex gap-2'
+                            }, [
+                                React.createElement('button', {
+                                    key: 'edit',
+                                    className: 'btn btn-secondary btn-sm',
+                                    onClick: () => onEditSection(section)
+                                }, t('edit')),
+                                React.createElement('button', {
+                                    key: 'delete',
+                                    className: 'btn btn-secondary btn-sm',
+                                    onClick: () => onDeleteSection(section.id)
+                                }, t('delete'))
+                            ])
+                        ]),
+
+                        section.description && React.createElement('p', {
+                            key: 'description',
+                            className: 'text-gray-600 mb-4'
+                        }, section.description),
+
+                        React.createElement('div', {
+                            key: 'items',
+                            className: 'space-y-3'
+                        }, [
+                            ...section.items.map(item => 
+                                React.createElement('div', {
+                                    key: item.id,
+                                    className: 'flex items-center justify-between p-3 bg-gray-50 rounded-lg'
+                                }, [
+                                    React.createElement('div', {
+                                        key: 'info'
+                                    }, [
+                                        React.createElement('h5', {
+                                            key: 'name',
+                                            className: 'font-medium'
+                                        }, item.name),
+                                        React.createElement('p', {
+                                            key: 'price',
+                                            className: 'text-sm text-gray-600'
+                                        }, `$${item.price}`)
+                                    ]),
+                                    React.createElement('div', {
+                                        key: 'actions',
+                                        className: 'flex gap-2'
+                                    }, [
+                                        React.createElement('button', {
+                                            key: 'edit',
+                                            className: 'text-blue-600 hover:text-blue-800 text-sm',
+                                            onClick: () => onEditItem(item)
+                                        }, t('edit')),
+                                        React.createElement('button', {
+                                            key: 'delete',
+                                            className: 'text-red-600 hover:text-red-800 text-sm',
+                                            onClick: () => onDeleteItem(section.id, item.id)
+                                        }, t('delete'))
+                                    ])
+                                ])
+                            ),
+                            React.createElement('button', {
+                                key: 'add-item',
+                                className: 'w-full p-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors',
+                                onClick: () => onAddItem(section.id)
+                            }, `+ ${t('addItem')}`)
                         ])
-                    ) : React.createElement('div', {
-                        key: 'empty',
-                        className: 'text-center text-gray-500 py-8'
-                    }, t('noSections'))
-                )
+                    ])
+                )) : React.createElement('div', {
+                    key: 'empty',
+                    className: 'text-center py-12'
+                }, [
+                    React.createElement('div', {
+                        key: 'icon',
+                        className: 'text-6xl mb-4'
+                    }, '📋'),
+                    React.createElement('h3', {
+                        key: 'title',
+                        className: 'text-xl font-semibold mb-2'
+                    }, 'No sections yet'),
+                    React.createElement('p', {
+                        key: 'desc',
+                        className: 'text-gray-600 mb-4'
+                    }, 'Start by adding your first menu section'),
+                    React.createElement('button', {
+                        key: 'add',
+                        className: 'btn btn-primary',
+                        onClick: onAddSection
+                    }, t('addSection'))
+                ])
             ]);
         }
 
-        // Share Modal
-        function ShareModal({ isOpen, onClose, menu }) {
-            const { t, isRTL } = useLanguage();
-            const [qrCodeUrl, setQrCodeUrl] = useState('');
-            const [shareUrl] = useState(`https://menu.app/${menu.restaurantName?.toLowerCase().replace(/\s+/g, '-') || 'my-restaurant'}`);
+        // Preview Tab
+        function PreviewTab({ menu, sections, previewMode, setPreviewMode, language }) {
+            const { t } = useLanguage();
 
-            useEffect(() => {
-                if (isOpen && typeof QRCode !== 'undefined') {
-                    QRCode.toDataURL(shareUrl)
-                        .then(url => setQrCodeUrl(url))
-                        .catch(err => console.error(err));
-                }
-            }, [isOpen, shareUrl]);
+            const renderMenuItem = (item) => {
+                const displayName = language === 'ar' && item.nameAr ? item.nameAr : item.name;
+                const displayDesc = language === 'ar' && item.descriptionAr ? item.descriptionAr : item.description;
 
-            const copyToClipboard = () => {
-                navigator.clipboard.writeText(shareUrl);
-                alert(t('linkCopied'));
+                return React.createElement('div', {
+                    key: item.id,
+                    className: 'menu-item-card'
+                }, [
+                    React.createElement('div', {
+                        key: 'content',
+                        className: 'flex justify-between items-start gap-4'
+                    }, [
+                        React.createElement('div', {
+                            key: 'left',
+                            className: 'flex-1'
+                        }, [
+                            React.createElement('div', {
+                                key: 'header',
+                                className: 'flex items-center gap-2 mb-2'
+                            }, [
+                                React.createElement('h4', {
+                                    key: 'name',
+                                    className: 'font-semibold text-lg'
+                                }, displayName),
+                                item.isPopular && React.createElement('span', {
+                                    key: 'popular',
+                                    className: 'bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full'
+                                }, '⭐ Popular'),
+                                item.isSpicy && React.createElement('span', {
+                                    key: 'spicy',
+                                    className: 'text-red-500'
+                                }, '🌶️'),
+                                item.isVegetarian && React.createElement('span', {
+                                    key: 'veg',
+                                    className: 'text-green-500'
+                                }, '🌱')
+                            ]),
+                            displayDesc && React.createElement('p', {
+                                key: 'desc',
+                                className: 'text-gray-600 mb-3'
+                            }, displayDesc),
+                            (item.image || item.model3d) && React.createElement('div', {
+                                key: 'media',
+                                className: 'mb-3'
+                            }, [
+                                item.image ? React.createElement('img', {
+                                    key: 'img',
+                                    src: item.image,
+                                    alt: displayName,
+                                    className: 'w-20 h-20 object-cover rounded-lg'
+                                }) : item.model3d ? React.createElement('div', {
+                                    key: '3d',
+                                    className: 'text-blue-600 bg-blue-50 px-3 py-2 rounded-lg inline-block'
+                                }, '🎮 3D Model') : null
+                            ])
+                        ]),
+                        React.createElement('div', {
+                            key: 'price',
+                            className: 'font-bold text-xl',
+                            style: { color: menu.colors.primary }
+                        }, `$${parseFloat(item.price || 0).toFixed(2)}`)
+                    ])
+                ]);
             };
 
-            if (!isOpen) return null;
-
-            return React.createElement('div', { className: 'modal' },
+            const previewContent = React.createElement('div', {
+                className: `${menu.font} bg-white rounded-lg shadow-lg overflow-hidden`,
+                style: { 
+                    '--primary-color': menu.colors.primary,
+                    '--secondary-color': menu.colors.secondary 
+                }
+            }, [
                 React.createElement('div', {
-                    className: `modal-content text-center ${isRTL ? 'rtl' : ''}`,
-                    dir: isRTL ? 'rtl' : 'ltr'
+                    key: 'header',
+                    className: 'p-8 text-white',
+                    style: { 
+                        background: `linear-gradient(135deg, ${menu.colors.primary} 0%, ${menu.colors.secondary} 100%)` 
+                    }
                 }, [
-                    React.createElement('h2', {
-                        key: 'title',
-                        className: 'text-2xl font-bold mb-4 text-green-600'
-                    }, t('published')),
-                    React.createElement('p', {
-                        key: 'subtitle',
-                        className: 'mb-4'
-                    }, t('shareLink')),
-                    React.createElement('div', {
-                        key: 'url-container',
-                        className: 'bg-gray-100 p-3 rounded mb-4 flex gap-2'
+                    menu.logo && React.createElement('img', {
+                        key: 'logo',
+                        src: menu.logo,
+                        alt: 'Logo',
+                        className: 'w-16 h-16 object-contain mb-4'
+                    }),
+                    React.createElement('h1', {
+                        key: 'name',
+                        className: 'text-4xl font-bold mb-2'
+                    }, menu.restaurantName || 'Restaurant Name'),
+                    menu.tagline && React.createElement('p', {
+                        key: 'tagline',
+                        className: 'text-xl opacity-90'
+                    }, menu.tagline)
+                ]),
+                React.createElement('div', {
+                    key: 'content',
+                    className: 'p-8'
+                }, sections.length > 0 ? sections.map(section => {
+                    const sectionName = language === 'ar' && section.nameAr ? section.nameAr : section.name;
+                    const sectionDesc = language === 'ar' && section.descriptionAr ? section.descriptionAr : section.description;
+
+                    return React.createElement('div', {
+                        key: section.id,
+                        className: 'mb-10'
                     }, [
-                        React.createElement('input', {
-                            key: 'url',
-                            type: 'text',
-                            value: shareUrl,
-                            readOnly: true,
-                            className: 'flex-1 bg-transparent outline-none'
-                        }),
+                        React.createElement('h2', {
+                            key: 'title',
+                            className: 'text-3xl font-bold mb-4 border-b-2 pb-3',
+                            style: { borderColor: menu.colors.primary }
+                        }, sectionName),
+                        sectionDesc && React.createElement('p', {
+                            key: 'desc',
+                            className: 'text-gray-600 mb-6'
+                        }, sectionDesc),
+                        React.createElement('div', {
+                            key: 'items'
+                        }, section.items.map(renderMenuItem))
+                    ]);
+                }) : React.createElement('div', {
+                    key: 'empty',
+                    className: 'text-center py-12'
+                }, [
+                    React.createElement('div', {
+                        key: 'icon',
+                        className: 'text-6xl mb-4'
+                    }, '📋'),
+                    React.createElement('p', {
+                        key: 'text',
+                        className: 'text-gray-500'
+                    }, 'No menu content yet')
+                ]))
+            ]);
+
+            return React.createElement('div', {
+                className: 'space-y-6'
+            }, [
+                React.createElement('div', {
+                    key: 'controls',
+                    className: 'flex items-center justify-between'
+                }, [
+                    React.createElement('h3', {
+                        key: 'title',
+                        className: 'text-xl font-bold'
+                    }, t('preview')),
+                    React.createElement('div', {
+                        key: 'mode-toggle',
+                        className: 'flex bg-gray-100 rounded-lg p-1'
+                    }, [
+                        ['desktop', '🖥️'],
+                        ['tablet', '📱'],
+                        ['mobile', '📱']
+                    ].map(([mode, icon]) => 
                         React.createElement('button', {
-                            key: 'copy',
-                            className: 'btn btn-primary',
-                            onClick: copyToClipboard
-                        }, t('copyLink'))
-                    ]),
-                    qrCodeUrl && React.createElement('div', { key: 'qr', className: 'mb-4' }, [
-                        React.createElement('h3', {
-                            key: 'qr-title',
-                            className: 'font-semibold mb-2'
-                        }, t('qrCode')),
-                        React.createElement('img', {
-                            key: 'qr-img',
-                            src: qrCodeUrl,
-                            alt: 'QR Code',
-                            className: 'mx-auto w-48 h-48'
-                        })
-                    ]),
-                    React.createElement('button', {
-                        key: 'close',
-                        className: 'btn btn-secondary',
-                        onClick: onClose
-                    }, t('cancel'))
+                            key: mode,
+                            className: `px-4 py-2 rounded flex items-center gap-2 ${
+                                previewMode === mode ? 'bg-white shadow' : ''
+                            }`,
+                            onClick: () => {
+                                setPreviewMode(mode);
+                                playSound('click');
+                            }
+                        }, [
+                            React.createElement('span', { key: 'icon' }, icon),
+                            React.createElement('span', { key: 'text' }, t(mode))
+                        ])
+                    ))
+                ]),
+
+                React.createElement('div', {
+                    key: 'preview-area',
+                    className: 'flex justify-center'
+                }, [
+                    React.createElement('div', {
+                        key: 'frame',
+                        className: `preview-frame ${previewMode} overflow-hidden bg-white`
+                    }, [
+                        React.createElement('div', {
+                            key: 'content',
+                            className: 'w-full h-full overflow-y-auto'
+                        }, previewContent)
+                    ])
                 ])
-            );
+            ]);
         }
 
-        // Menu Editor Component
-        function MenuEditor({ template, onBack }) {
-            const { t, isRTL, language } = useLanguage();
-            const [menu, setMenu] = useState({
-                restaurantName: '',
-                tagline: '',
-                colorScheme: template.colorScheme,
-                fontFamily: template.fontFamily
-            });
-            const [sections, setSections] = useState([]);
-            const [isDesktop, setIsDesktop] = useState(true);
-            const [editingItem, setEditingItem] = useState(null);
-            const [editingSection, setEditingSection] = useState(null);
-            const [showItemModal, setShowItemModal] = useState(false);
-            const [showSectionModal, setShowSectionModal] = useState(false);
-            const [showShareModal, setShowShareModal] = useState(false);
-            const [currentSectionId, setCurrentSectionId] = useState(null);
+        // Export Screen
+        function ExportScreen({ onNavigate, menu, sections }) {
+            const { t, isRTL } = useLanguage();
+            const [qrCodeUrl, setQrCodeUrl] = useState('');
+            const [isGeneratingQR, setIsGeneratingQR] = useState(false);
+            const canvasRef = useRef(null);
+            
+            const shareUrl = `https://your-domain.com/menu/${menu.restaurantName?.toLowerCase().replace(/\s+/g, '-') || 'my-restaurant'}`;
 
-            const addSection = (sectionData) => {
-                const newSection = {
-                    id: Date.now(),
-                    ...sectionData,
-                    items: []
-                };
-                setSections([...sections, newSection]);
+            useEffect(() => {
+                if (typeof QRCode !== 'undefined') {
+                    setIsGeneratingQR(true);
+                    QRCode.toCanvas(canvasRef.current, shareUrl, {
+                        width: 200,
+                        margin: 2,
+                        color: {
+                            dark: '#000000',
+                            light: '#FFFFFF'
+                        }
+                    }, (error) => {
+                        setIsGeneratingQR(false);
+                        if (error) {
+                            console.error('QR Code generation failed:', error);
+                        } else {
+                            setQrCodeUrl(canvasRef.current.toDataURL());
+                        }
+                    });
+                }
+            }, [shareUrl]);
+
+            const copyToClipboard = async () => {
+                try {
+                    await navigator.clipboard.writeText(shareUrl);
+                    playSound('success');
+                } catch (error) {
+                    playSound('error');
+                }
             };
 
-            const editSection = (sectionData) => {
-                setSections(sections.map(s => s.id === editingSection.id ? {...s, ...sectionData} : s));
-                setEditingSection(null);
+            const downloadQRCode = () => {
+                if (qrCodeUrl) {
+                    const link = document.createElement('a');
+                    link.download = `${menu.restaurantName || 'menu'}-qr-code.png`;
+                    link.href = qrCodeUrl;
+                    link.click();
+                    playSound('success');
+                }
             };
 
-            const deleteSection = (sectionId) => {
-                setSections(sections.filter(s => s.id !== sectionId));
+            const exportAsPDF = () => {
+                // PDF export functionality would require a library like jsPDF
+                // For now, we'll simulate the action
+                playSound('success');
+                alert('PDF export feature would be implemented with a PDF library');
             };
 
-            const addItem = (itemData) => {
-                const newItem = {
-                    id: Date.now(),
-                    ...itemData
-                };
-                setSections(sections.map(s => 
-                    s.id === currentSectionId 
-                        ? {...s, items: [...s.items, newItem]}
-                        : s
-                ));
-            };
-
-            const editItem = (itemData) => {
-                setSections(sections.map(s => ({
-                    ...s,
-                    items: s.items.map(i => i.id === editingItem.id ? {...i, ...itemData} : i)
-                })));
-                setEditingItem(null);
-            };
-
-            const deleteItem = (sectionId, itemId) => {
-                setSections(sections.map(s => 
-                    s.id === sectionId 
-                        ? {...s, items: s.items.filter(i => i.id !== itemId)}
-                        : s
-                ));
+            const printMenu = () => {
+                window.print();
+                playSound('click');
             };
 
             return React.createElement('div', {
-                className: `min-h-screen bg-gray-50 ${isRTL ? 'rtl' : ''}`,
+                className: `min-h-screen p-8 ${isRTL ? 'rtl' : ''}`,
                 dir: isRTL ? 'rtl' : 'ltr'
             }, [
-                // Header
                 React.createElement('div', {
                     key: 'header',
-                    className: 'bg-white shadow-sm border-b px-6 py-4'
+                    className: 'max-w-4xl mx-auto mb-12'
                 }, [
                     React.createElement('div', {
-                        key: 'header-content',
-                        className: 'flex items-center justify-between max-w-7xl mx-auto'
+                        key: 'nav',
+                        className: 'flex items-center gap-4 mb-8'
                     }, [
-                        React.createElement('div', { key: 'left', className: 'flex items-center gap-4' }, [
-                            React.createElement('button', {
-                                key: 'back',
-                                className: 'btn btn-secondary',
-                                onClick: onBack
-                            }, '← Back'),
-                            React.createElement('h1', {
-                                key: 'title',
-                                className: 'text-2xl font-bold'
-                            }, t('menuEditor'))
-                        ]),
-                        React.createElement('div', { key: 'right', className: 'flex items-center gap-4' }, [
-                            React.createElement('div', { key: 'view-toggle', className: 'flex bg-gray-100 rounded-lg p-1' }, [
-                                React.createElement('button', {
-                                    key: 'desktop',
-                                    className: `px-3 py-1 rounded ${isDesktop ? 'bg-white shadow' : ''}`,
-                                    onClick: () => setIsDesktop(true)
-                                }, t('desktop')),
-                                React.createElement('button', {
-                                    key: 'mobile',
-                                    className: `px-3 py-1 rounded ${!isDesktop ? 'bg-white shadow' : ''}`,
-                                    onClick: () => setIsDesktop(false)
-                                }, t('mobile'))
-                            ]),
-                            React.createElement('button', {
-                                key: 'publish',
-                                className: 'btn btn-primary',
-                                onClick: () => setShowShareModal(true)
-                            }, t('publish'))
-                        ])
+                        React.createElement('button', {
+                            key: 'back',
+                            className: 'btn btn-ghost',
+                            onClick: () => onNavigate('builder')
+                        }, '← Back to Builder'),
+                        React.createElement('h1', {
+                            key: 'title',
+                            className: 'text-4xl font-bold text-white'
+                        }, t('export'))
+                    ]),
+
+                    React.createElement('div', {
+                        key: 'success-message',
+                        className: 'glass-effect rounded-2xl p-8 text-center mb-8'
+                    }, [
+                        React.createElement('div', {
+                            key: 'icon',
+                            className: 'text-6xl mb-4 animate-float'
+                        }, '🎉'),
+                        React.createElement('h2', {
+                            key: 'title',
+                            className: 'text-3xl font-bold text-white mb-4'
+                        }, t('published')),
+                        React.createElement('p', {
+                            key: 'subtitle',
+                            className: 'text-white opacity-90 text-lg'
+                        }, t('shareLink'))
                     ])
                 ]),
 
-                // Main Content
-                React.createElement('div', { key: 'main', className: 'flex max-w-7xl mx-auto' }, [
-                    // Sidebar
+                React.createElement('div', {
+                    key: 'content',
+                    className: 'max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8'
+                }, [
                     React.createElement('div', {
-                        key: 'sidebar',
-                        className: 'w-80 bg-white shadow-lg border-r p-6 h-screen overflow-y-auto'
+                        key: 'left',
+                        className: 'space-y-6'
                     }, [
-                        // Restaurant Info
-                        React.createElement('div', { key: 'restaurant-info', className: 'mb-6' }, [
-                            React.createElement('h2', {
+                        React.createElement('div', {
+                            key: 'share-section',
+                            className: 'card p-6'
+                        }, [
+                            React.createElement('h3', {
                                 key: 'title',
-                                className: 'font-bold text-lg mb-4'
-                            }, 'Restaurant Info'),
-                            React.createElement('div', { key: 'fields', className: 'space-y-3' }, [
-                                React.createElement('div', { key: 'name' }, [
-                                    React.createElement('label', {
-                                        key: 'label',
-                                        className: 'block text-sm font-medium mb-1'
-                                    }, t('restaurantName')),
-                                    React.createElement('input', {
-                                        key: 'input',
-                                        type: 'text',
-                                        className: 'input-field',
-                                        value: menu.restaurantName,
-                                        onChange: (e) => setMenu({...menu, restaurantName: e.target.value})
-                                    })
-                                ]),
-                                React.createElement('div', { key: 'tagline' }, [
-                                    React.createElement('label', {
-                                        key: 'label',
-                                        className: 'block text-sm font-medium mb-1'
-                                    }, t('tagline')),
-                                    React.createElement('input', {
-                                        key: 'input',
-                                        type: 'text',
-                                        className: 'input-field',
-                                        value: menu.tagline,
-                                        onChange: (e) => setMenu({...menu, tagline: e.target.value})
-                                    })
-                                ])
-                            ])
-                        ]),
-
-                        // Design Settings
-                        React.createElement('div', { key: 'design', className: 'mb-6' }, [
-                            React.createElement('h2', {
-                                key: 'title',
-                                className: 'font-bold text-lg mb-4'
-                            }, 'Design'),
-                            React.createElement('div', { key: 'fields', className: 'space-y-3' }, [
-                                React.createElement('div', { key: 'color' }, [
-                                    React.createElement('label', {
-                                        key: 'label',
-                                        className: 'block text-sm font-medium mb-1'
-                                    }, t('colorScheme')),
-                                    React.createElement('select', {
-                                        key: 'select',
-                                        className: 'input-field',
-                                        value: menu.colorScheme,
-                                        onChange: (e) => setMenu({...menu, colorScheme: e.target.value})
-                                    }, [
-                                        React.createElement('option', { key: 'indigo', value: 'indigo' }, 'Indigo'),
-                                        React.createElement('option', { key: 'emerald', value: 'emerald' }, 'Emerald'),
-                                        React.createElement('option', { key: 'amber', value: 'amber' }, 'Amber'),
-                                        React.createElement('option', { key: 'rose', value: 'rose' }, 'Rose')
-                                    ])
-                                ]),
-                                React.createElement('div', { key: 'font' }, [
-                                    React.createElement('label', {
-                                        key: 'label',
-                                        className: 'block text-sm font-medium mb-1'
-                                    }, t('fontFamily')),
-                                    React.createElement('select', {
-                                        key: 'select',
-                                        className: 'input-field',
-                                        value: menu.fontFamily,
-                                        onChange: (e) => setMenu({...menu, fontFamily: e.target.value})
-                                    }, [
-                                        React.createElement('option', { key: 'inter', value: 'inter' }, 'Inter'),
-                                        React.createElement('option', { key: 'serif', value: 'serif' }, 'Serif'),
-                                        React.createElement('option', { key: 'sans', value: 'sans' }, 'Sans-serif')
-                                    ])
-                                ])
-                            ])
-                        ]),
-
-                        // Sections
-                        React.createElement('div', { key: 'sections' }, [
+                                className: 'text-xl font-bold mb-4'
+                            }, t('share')),
                             React.createElement('div', {
-                                key: 'header',
-                                className: 'flex items-center justify-between mb-4'
+                                key: 'url-container',
+                                className: 'bg-gray-50 border rounded-lg p-4 mb-4'
                             }, [
-                                React.createElement('h2', {
-                                    key: 'title',
-                                    className: 'font-bold text-lg'
-                                }, t('sections')),
-                                React.createElement('button', {
-                                    key: 'add',
-                                    className: 'btn btn-primary text-sm',
-                                    onClick: () => {
-                                        setEditingSection(null);
-                                        setShowSectionModal(true);
-                                    }
-                                }, t('addSection'))
+                                React.createElement('div', {
+                                    key: 'url-display',
+                                    className: 'flex gap-3'
+                                }, [
+                                    React.createElement('input', {
+                                        key: 'url',
+                                        type: 'text',
+                                        value: shareUrl,
+                                        readOnly: true,
+                                        className: 'flex-1 bg-transparent outline-none text-sm font-mono'
+                                    }),
+                                    React.createElement('button', {
+                                        key: 'copy',
+                                        className: 'btn btn-primary btn-sm',
+                                        onClick: copyToClipboard
+                                    }, t('copyLink'))
+                                ])
                             ]),
-                            React.createElement('div', { key: 'list', className: 'space-y-2' },
-                                sections.map(section => 
-                                    React.createElement('div', {
-                                        key: section.id,
-                                        className: 'border rounded-lg p-3 bg-gray-50'
+                            React.createElement('div', {
+                                key: 'social-share',
+                                className: 'space-y-3'
+                            }, [
+                                React.createElement('h4', {
+                                    key: 'title',
+                                    className: 'font-semibold'
+                                }, 'Share on Social Media'),
+                                React.createElement('div', {
+                                    key: 'buttons',
+                                    className: 'flex gap-3'
+                                }, [
+                                    ['Facebook', '📘', `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`],
+                                    ['Twitter', '🐦', `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=Check out our menu!`],
+                                    ['WhatsApp', '💬', `https://wa.me/?text=${encodeURIComponent(`Check out our menu: ${shareUrl}`)}`]
+                                ].map(([name, icon, url]) => 
+                                    React.createElement('a', {
+                                        key: name,
+                                        href: url,
+                                        target: '_blank',
+                                        rel: 'noopener noreferrer',
+                                        className: 'btn btn-secondary btn-sm flex items-center gap-2'
                                     }, [
-                                        React.createElement('div', {
-                                            key: 'header',
-                                            className: 'flex items-center justify-between mb-2'
-                                        }, [
-                                            React.createElement('h3', {
-                                                key: 'name',
-                                                className: 'font-medium'
-                                            }, section.name),
-                                            React.createElement('div', { key: 'actions', className: 'flex gap-1' }, [
-                                                React.createElement('button', {
-                                                    key: 'edit',
-                                                    className: 'text-blue-600 text-sm',
-                                                    onClick: () => {
-                                                        setEditingSection(section);
-                                                        setShowSectionModal(true);
-                                                    }
-                                                }, 'Edit'),
-                                                React.createElement('button', {
-                                                    key: 'delete',
-                                                    className: 'text-red-600 text-sm',
-                                                    onClick: () => deleteSection(section.id)
-                                                }, 'Delete')
-                                            ])
-                                        ]),
-                                        React.createElement('div', { key: 'items', className: 'space-y-1' }, [
-                                            ...section.items.map(item => 
-                                                React.createElement('div', {
-                                                    key: item.id,
-                                                    className: 'flex items-center justify-between text-sm bg-white p-2 rounded'
-                                                }, [
-                                                    React.createElement('span', { key: 'name' }, item.name),
-                                                    React.createElement('div', { key: 'actions', className: 'flex gap-1' }, [
-                                                        React.createElement('button', {
-                                                            key: 'edit',
-                                                            className: 'text-blue-600',
-                                                            onClick: () => {
-                                                                setEditingItem(item);
-                                                                setShowItemModal(true);
-                                                            }
-                                                        }, 'Edit'),
-                                                        React.createElement('button', {
-                                                            key: 'delete',
-                                                            className: 'text-red-600',
-                                                            onClick: () => deleteItem(section.id, item.id)
-                                                        }, 'Del')
-                                                    ])
-                                                ])
-                                            ),
-                                            React.createElement('button', {
-                                                key: 'add-item',
-                                                className: 'w-full text-left text-sm text-blue-600 p-2 hover:bg-white rounded',
-                                                onClick: () => {
-                                                    setCurrentSectionId(section.id);
-                                                    setEditingItem(null);
-                                                    setShowItemModal(true);
-                                                }
-                                            }, `+ ${t('addItem')}`)
-                                        ])
+                                        React.createElement('span', { key: 'icon' }, icon),
+                                        React.createElement('span', { key: 'name' }, name)
                                     ])
-                                )
-                            )
+                                ))
+                            ])
+                        ]),
+
+                        React.createElement('div', {
+                            key: 'export-section',
+                            className: 'card p-6'
+                        }, [
+                            React.createElement('h3', {
+                                key: 'title',
+                                className: 'text-xl font-bold mb-4'
+                            }, 'Export Options'),
+                            React.createElement('div', {
+                                key: 'options',
+                                className: 'space-y-3'
+                            }, [
+                                React.createElement('button', {
+                                    key: 'pdf',
+                                    className: 'btn btn-secondary w-full justify-start',
+                                    onClick: exportAsPDF
+                                }, [
+                                    React.createElement('span', { key: 'icon', className: 'mr-3' }, '📄'),
+                                    t('exportPDF')
+                                ]),
+                                React.createElement('button', {
+                                    key: 'print',
+                                    className: 'btn btn-secondary w-full justify-start',
+                                    onClick: printMenu
+                                }, [
+                                    React.createElement('span', { key: 'icon', className: 'mr-3' }, '🖨️'),
+                                    t('printMenu')
+                                ])
+                            ])
                         ])
                     ]),
 
-                    // Preview Area
                     React.createElement('div', {
-                        key: 'preview',
-                        className: 'flex-1 p-6 overflow-y-auto'
+                        key: 'right',
+                        className: 'card p-6'
                     }, [
-                        React.createElement(MenuPreview, {
-                            key: 'preview-component',
-                            menu: menu,
-                            sections: sections,
-                            isDesktop: isDesktop,
-                            language: language
-                        })
+                        React.createElement('h3', {
+                            key: 'title',
+                            className: 'text-xl font-bold mb-4 text-center'
+                        }, t('qrCode')),
+                        React.createElement('div', {
+                            key: 'qr-container',
+                            className: 'text-center'
+                        }, [
+                            isGeneratingQR ? React.createElement('div', {
+                                key: 'loading',
+                                className: 'flex flex-col items-center justify-center h-48'
+                            }, [
+                                React.createElement('div', {
+                                    key: 'spinner',
+                                    className: 'loader mb-3'
+                                }),
+                                React.createElement('p', {
+                                    key: 'text',
+                                    className: 'text-gray-600'
+                                }, 'Generating QR Code...')
+                            ]) : React.createElement('div', {
+                                key: 'qr-content',
+                                className: 'space-y-4'
+                            }, [
+                                React.createElement('div', {
+                                    key: 'qr-wrapper',
+                                    className: 'bg-white p-4 rounded-lg inline-block shadow-lg'
+                                }, [
+                                    React.createElement('canvas', {
+                                        key: 'canvas',
+                                        ref: canvasRef,
+                                        className: 'mx-auto'
+                                    })
+                                ]),
+                                qrCodeUrl && React.createElement('button', {
+                                    key: 'download',
+                                    className: 'btn btn-primary',
+                                    onClick: downloadQRCode
+                                }, t('downloadQR'))
+                            ])
+                        ]),
+                        React.createElement('div', {
+                            key: 'instructions',
+                            className: 'mt-6 p-4 bg-blue-50 rounded-lg'
+                        }, [
+                            React.createElement('h4', {
+                                key: 'title',
+                                className: 'font-semibold text-blue-800 mb-2'
+                            }, 'How to use:'),
+                            React.createElement('ul', {
+                                key: 'list',
+                                className: 'text-sm text-blue-700 space-y-1'
+                            }, [
+                                React.createElement('li', { key: '1' }, '• Print and place QR code on tables'),
+                                React.createElement('li', { key: '2' }, '• Customers scan to view menu'),
+                                React.createElement('li', { key: '3' }, '• Share link on social media'),
+                                React.createElement('li', { key: '4' }, '• Add to your website')
+                            ])
+                        ])
                     ])
-                ]),
-
-                // Modals
-                React.createElement(ItemEditModal, {
-                    key: 'item-modal',
-                    isOpen: showItemModal,
-                    onClose: () => setShowItemModal(false),
-                    onSave: editingItem ? editItem : addItem,
-                    item: editingItem
-                }),
-                React.createElement(SectionEditModal, {
-                    key: 'section-modal',
-                    isOpen: showSectionModal,
-                    onClose: () => setShowSectionModal(false),
-                    onSave: editingSection ? editSection : addSection,
-                    section: editingSection
-                }),
-                React.createElement(ShareModal, {
-                    key: 'share-modal',
-                    isOpen: showShareModal,
-                    onClose: () => setShowShareModal(false),
-                    menu: menu
-                })
+                ])
             ]);
         }
 
         // Main App Component
         function App() {
-            const { toggleLanguage, language, isRTL } = useLanguage();
-            const [currentStep, setCurrentStep] = useState('template');
-            const [selectedTemplate, setSelectedTemplate] = useState(null);
+            const [currentScreen, setCurrentScreen] = useState('welcome');
+            const [screenData, setScreenData] = useState(null);
+            const { user } = useAuth();
 
-            const handleSelectTemplate = (template) => {
-                setSelectedTemplate(template);
-                setCurrentStep('editor');
+            const navigate = (screen, data = null) => {
+                setCurrentScreen(screen);
+                setScreenData(data);
+                playSound('click');
             };
 
-            return React.createElement('div', { className: 'min-h-screen' }, [
-                // Language Toggle
-                React.createElement('div', {
-                    key: 'lang-toggle',
-                    className: 'fixed top-4 right-4 z-50'
-                }, [
-                    React.createElement('button', {
-                        key: 'toggle',
-                        className: 'btn btn-secondary',
-                        onClick: toggleLanguage
-                    }, language === 'en' ? 'العربية' : 'English')
-                ]),
+            useEffect(() => {
+                if (user && currentScreen === 'welcome') {
+                    setCurrentScreen('dashboard');
+                }
+            }, [user, currentScreen]);
 
+            const renderScreen = () => {
+                switch (currentScreen) {
+                    case 'welcome':
+                        return React.createElement(WelcomeScreen, {
+                            onComplete: () => navigate('dashboard')
+                        });
+                    case 'dashboard':
+                        return React.createElement(Dashboard, {
+                            onNavigate: navigate
+                        });
+                    case 'templates':
+                        return React.createElement(TemplateSelection, {
+                            onNavigate: navigate
+                        });
+                    case 'builder':
+                        return React.createElement(MenuBuilder, {
+                            onNavigate: navigate,
+                            template: screenData?.template
+                        });
+                    case 'export':
+                        return React.createElement(ExportScreen, {
+                            onNavigate: navigate,
+                            menu: screenData?.menu || {},
+                            sections: screenData?.sections || []
+                        });
+                    default:
+                        return React.createElement(Dashboard, {
+                            onNavigate: navigate
+                        });
+                }
+            };
+
+            return React.createElement('div', {
+                className: 'min-h-screen relative'
+            }, [
+                // Language Toggle
+                React.createElement(LanguageToggle, { key: 'lang-toggle' }),
+                
+                // Settings Toggle
+                React.createElement(SettingsToggle, { key: 'settings-toggle' }),
+                
                 // Main Content
-                React.createElement('div', { key: 'content' },
-                    currentStep === 'template' 
-                        ? React.createElement(TemplateSelection, {
-                            onSelectTemplate: handleSelectTemplate
-                        })
-                        : React.createElement(MenuEditor, {
-                            template: selectedTemplate,
-                            onBack: () => setCurrentStep('template')
-                        })
-                )
+                React.createElement('div', { key: 'content' }, renderScreen())
             ]);
         }
 
-        // Root App with Language Provider
+        // Language Toggle Component
+        function LanguageToggle() {
+            const { language, toggleLanguage } = useLanguage();
+            
+            return React.createElement('button', {
+                className: 'fixed top-4 right-4 z-50 glass-effect text-white px-4 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 transition-all',
+                onClick: () => {
+                    toggleLanguage();
+                    playSound('click');
+                }
+            }, language === 'en' ? '🇸🇦 العربية' : '🇺🇸 English');
+        }
+
+        // Settings Toggle Component
+        function SettingsToggle() {
+            const { t } = useLanguage();
+            const { toggleDark, toggleSound, toggleProfessionalMode, isDark, soundEnabled, professionalMode } = useTheme();
+            const [isOpen, setIsOpen] = useState(false);
+
+            const toggleSettings = () => {
+                setIsOpen(!isOpen);
+                playSound('click');
+            };
+
+            return React.createElement('div', {
+                className: 'fixed top-4 left-4 z-50'
+            }, [
+                React.createElement('button', {
+                    key: 'toggle',
+                    className: 'glass-effect text-white p-3 rounded-lg hover:bg-white hover:bg-opacity-20 transition-all',
+                    onClick: toggleSettings
+                }, '⚙️'),
+
+                isOpen && React.createElement('div', {
+                    key: 'panel',
+                    className: 'absolute top-16 left-0 glass-effect rounded-lg p-4 min-w-64 animate-scale-in'
+                }, [
+                    React.createElement('h3', {
+                        key: 'title',
+                        className: 'text-white font-bold mb-4'
+                    }, t('settings')),
+                    
+                    React.createElement('div', {
+                        key: 'controls',
+                        className: 'space-y-3'
+                    }, [
+                        React.createElement('label', {
+                            key: 'dark',
+                            className: 'flex items-center justify-between text-white cursor-pointer'
+                        }, [
+                            React.createElement('span', { key: 'label' }, t('darkMode')),
+                            React.createElement('input', {
+                                key: 'input',
+                                type: 'checkbox',
+                                checked: isDark,
+                                onChange: toggleDark,
+                                className: 'ml-2'
+                            })
+                        ]),
+                        
+                        React.createElement('label', {
+                            key: 'sound',
+                            className: 'flex items-center justify-between text-white cursor-pointer'
+                        }, [
+                            React.createElement('span', { key: 'label' }, t('soundEffects')),
+                            React.createElement('input', {
+                                key: 'input',
+                                type: 'checkbox',
+                                checked: soundEnabled,
+                                onChange: toggleSound,
+                                className: 'ml-2'
+                            })
+                        ]),
+                        
+                        React.createElement('label', {
+                            key: 'pro',
+                            className: 'flex items-center justify-between text-white cursor-pointer'
+                        }, [
+                            React.createElement('span', { key: 'label' }, t('professionalMode')),
+                            React.createElement('input', {
+                                key: 'input',
+                                type: 'checkbox',
+                                checked: professionalMode,
+                                onChange: toggleProfessionalMode,
+                                className: 'ml-2'
+                            })
+                        ])
+                    ])
+                ])
+            ]);
+        }
+
+        // Root App Component
         function RootApp() {
-            return React.createElement(LanguageProvider, null,
-                React.createElement(App)
+            return React.createElement(AuthProvider, null,
+                React.createElement(ThemeProvider, null,
+                    React.createElement(LanguageProvider, null,
+                        React.createElement(App)
+                    )
+                )
             );
         }
 
-        // Render the app
+        // Initialize the app
         ReactDOM.render(React.createElement(RootApp), document.getElementById('root'));
     </script>
 </body>
