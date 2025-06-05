@@ -1486,44 +1486,46 @@
         }
 
         .view-toggle-btn {
-            padding: 16px 28px;
+            padding: 12px 24px !important;
             border: none;
             background: rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.95);
-            border-radius: 16px;
+            color: rgba(255, 255, 255, 0.95) !important;
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            font-size: 14px;
-            font-weight: 700;
-            min-width: 140px;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            min-width: 120px !important;
             position: relative;
             z-index: 1;
-            text-transform: capitalize;
-            letter-spacing: 0.5px;
+            text-transform: none !important;
+            letter-spacing: 0.3px;
             border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
-        /* ALWAYS visible icon and label */
+        /* ALWAYS visible icon and label - FORCED VISIBILITY */
         .view-toggle-btn .view-icon {
-            font-size: 20px;
+            font-size: 18px !important;
             transition: all 0.3s ease;
-            display: block !important;
+            display: inline-block !important;
             opacity: 1 !important;
             visibility: visible !important;
+            flex-shrink: 0;
         }
 
         .view-toggle-btn .view-label {
-            font-weight: 700;
-            font-size: 14px;
-            display: block !important;
-            white-space: nowrap;
+            font-weight: 600 !important;
+            font-size: 13px !important;
+            display: inline-block !important;
+            white-space: nowrap !important;
             opacity: 1 !important;
             visibility: visible !important;
-            color: inherit;
+            color: inherit !important;
+            margin-left: 6px !important;
         }
 
         .view-toggle-btn:hover {
@@ -2154,7 +2156,7 @@
                 // Item properties
                 spicy: "Spicy 🌶️",
                 vegetarian: "Vegetarian 🌱",
-                vegan: "Vegan 🌿",
+                vegan: "Vegan   ��",
                 glutenFree: "Gluten Free",
                 popular: "Popular Choice",
                 
