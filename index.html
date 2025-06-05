@@ -16,7 +16,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Arabic:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@300;400;500;600;700&family=Lato:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Arabic:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
         
         * {
             margin: 0;
@@ -44,204 +44,35 @@
             font-family: system-ui, -apple-system, sans-serif;
         }
 
-        /* Enhanced Font Classes */
-        .font-inter { font-family: 'Inter', sans-serif; }
-        .font-poppins { font-family: 'Poppins', sans-serif; }
-        .font-playfair { font-family: 'Playfair Display', serif; }
-        .font-roboto { font-family: 'Roboto', sans-serif; }
-        .font-opensans { font-family: 'Open Sans', sans-serif; }
-        .font-lato { font-family: 'Lato', sans-serif; }
-
-        /* Card Layout Variations */
-        .card-layout-classic .menu-item {
-            border: 1px solid #e5e7eb;
-            padding: 20px;
-            margin: 16px 0;
-            border-radius: 8px;
-        }
-
-        .card-layout-modern .menu-item {
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-            border: none;
-            padding: 24px;
-            margin: 20px 0;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-        }
-
-        .card-layout-compact .menu-item {
-            border-left: 4px solid var(--primary);
-            padding: 12px 16px;
-            margin: 8px 0;
-            border-radius: 4px;
-            background: #fafafa;
-        }
-
-        /* Custom Background Support */
-        .custom-background {
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
-
-        /* Enhanced Button Styles */
-        .btn-custom {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-custom::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .btn-custom:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        /* Smooth Section Transitions */
-        .section-slide-in {
-            animation: slideInSection 0.6s ease-out;
-        }
-
-        @keyframes slideInSection {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Enhanced 3D Model Container */
-        .model-container {
-            position: relative;
-            border-radius: 12px;
-            overflow: hidden;
-            background: linear-gradient(45deg, #f3f4f6, #e5e7eb);
-        }
-
-        .model-loading {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .model-placeholder {
-            width: 100%;
-            height: 250px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(45deg, #f3f4f6, #e5e7eb);
-            border-radius: 12px;
-            border: 2px dashed #d1d5db;
-            color: #6b7280;
-            font-size: 48px;
-        }
-
-        /* Auth Modal Styles */
-        .auth-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            backdrop-filter: blur(10px);
-        }
-
-        .auth-content {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            max-width: 400px;
-            width: 90%;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-            animation: authSlideIn 0.4s ease-out;
-        }
-
-        @keyframes authSlideIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9) translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-
-        /* Enhanced Hover Effects */
+        /* Simple Enhanced Styles */
         .enhanced-hover {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
         }
 
         .enhanced-hover:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
 
-        /* RTL Improvements */
+        /* Smooth RTL/LTR Transitions */
         .rtl-smooth {
-            transition: direction 0.3s ease;
+            transition: all 0.3s ease;
         }
 
-        .rtl .section-card {
-            transform: scaleX(-1);
+        /* Gentle fade-in animation */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
         }
 
-        .rtl .section-card > * {
-            transform: scaleX(-1);
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        /* Customization Panel */
-        .customization-panel {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        .enhanced-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
-
-        /* Font Size Controls */
-        .font-size-small { font-size: 0.875rem; }
-        .font-size-normal { font-size: 1rem; }
-        .font-size-large { font-size: 1.125rem; }
-        .font-size-xl { font-size: 1.25rem; }
-        .font-size-2xl { font-size: 1.5rem; }
-
-        .title-size-small { font-size: 1.5rem; }
-        .title-size-normal { font-size: 2rem; }
-        .title-size-large { font-size: 2.5rem; }
-        .title-size-xl { font-size: 3rem; }
-
-        .price-size-small { font-size: 1rem; }
-        .price-size-normal { font-size: 1.25rem; }
-        .price-size-large { font-size: 1.5rem; }
-        .price-size-xl { font-size: 1.75rem; }
         
         .template-card {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
