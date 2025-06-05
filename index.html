@@ -4188,12 +4188,14 @@
                                     type: 'text',
                                     className: 'input-field',
                                     defaultValue: menu.restaurantName || '',
-                                    onInput: (e) => {
-                                        const value = e.target.value;
-                                        clearTimeout(window.nameTimeout);
-                                        window.nameTimeout = setTimeout(() => {
-                                            setMenu(prev => ({...prev, restaurantName: value}));
-                                        }, 300);
+                                    ref: (el) => {
+                                        if (el && !el.hasListener) {
+                                            el.hasListener = true;
+                                            el.addEventListener('input', (e) => {
+                                                // Update state without causing re-render during typing
+                                                menu.restaurantName = e.target.value;
+                                            });
+                                        }
                                     },
                                     placeholder: t('enterRestaurantName'),
                                     autoComplete: 'off',
@@ -4210,12 +4212,14 @@
                                     type: 'text',
                                     className: 'input-field',
                                     defaultValue: menu.tagline || '',
-                                    onInput: (e) => {
-                                        const value = e.target.value;
-                                        clearTimeout(window.taglineTimeout);
-                                        window.taglineTimeout = setTimeout(() => {
-                                            setMenu(prev => ({...prev, tagline: value}));
-                                        }, 300);
+                                    ref: (el) => {
+                                        if (el && !el.hasListener) {
+                                            el.hasListener = true;
+                                            el.addEventListener('input', (e) => {
+                                                // Update state without causing re-render during typing
+                                                menu.tagline = e.target.value;
+                                            });
+                                        }
                                     },
                                     placeholder: t('enterTagline'),
                                     autoComplete: 'off',
