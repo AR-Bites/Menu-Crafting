@@ -4911,14 +4911,14 @@
                 return schemes[scheme] || schemes.indigo;
             };
 
-            // Get font family that matches actual editing experience
-            const getFontFamily = (font) => {
-                const fonts = {
-                    inter: 'Inter, system-ui, sans-serif',
-                    serif: 'Playfair Display, Georgia, serif',
-                    sans: 'system-ui, -apple-system, sans-serif'
+            // Get font class that matches actual editing experience
+            const getFontClass = (font) => {
+                const fontClasses = {
+                    serif: 'font-serif',
+                    sans: 'font-sans',
+                    inter: ''
                 };
-                return fonts[font] || fonts.inter;
+                return fontClasses[font] || '';
             };
 
             // Get spacing that matches actual editing experience
@@ -4934,25 +4934,41 @@
             };
 
             const colors = getColorScheme(colorScheme);
-            const font = getFontFamily(fontFamily);
+            const fontClass = getFontClass(fontFamily);
             const paddingValue = getSpacing(spacing);
             
-            // Get actual gradient classes that match the editing interface
-            const getGradientClass = (colorScheme) => {
-                const gradients = {
-                    indigo: 'from-indigo-500 to-purple-600',
-                    emerald: 'from-emerald-500 to-teal-600', 
-                    amber: 'from-amber-500 to-orange-600',
-                    rose: 'from-rose-500 to-pink-600'
+            // Get exact color configurations that match the editing interface
+            const getColorConfig = (colorScheme) => {
+                const configs = {
+                    indigo: {
+                        gradient: 'from-indigo-500 to-purple-600',
+                        primary: '#6366f1',
+                        text: '#1e293b'
+                    },
+                    emerald: {
+                        gradient: 'from-emerald-500 to-teal-600',
+                        primary: '#10b981', 
+                        text: '#064e3b'
+                    },
+                    amber: {
+                        gradient: 'from-amber-500 to-orange-600',
+                        primary: '#f59e0b',
+                        text: '#92400e'
+                    },
+                    rose: {
+                        gradient: 'from-rose-500 to-pink-600',
+                        primary: '#e11d48',
+                        text: '#881337'
+                    }
                 };
-                return gradients[colorScheme] || gradients.indigo;
+                return configs[colorScheme] || configs.indigo;
             };
 
-            const gradientClass = getGradientClass(colorScheme);
+            const colorConfig = getColorConfig(colorScheme);
 
             // Template preview matching exact desktop editing interface
             return React.createElement('div', {
-                className: `realistic-preview h-80 relative overflow-hidden rounded-lg bg-white shadow-lg ${font}`,
+                className: `realistic-preview h-80 relative overflow-hidden rounded-lg bg-white shadow-lg ${fontClass}`,
                 style: {
                     maxWidth: '400px'
                 }
@@ -4960,7 +4976,7 @@
                 // Header exactly matching desktop editing interface
                 React.createElement('div', {
                     key: 'header',
-                    className: `p-8 text-white bg-gradient-to-r ${gradientClass}`
+                    className: `p-8 text-white bg-gradient-to-r ${colorConfig.gradient}`
                 }, [
                     React.createElement('h1', {
                         key: 'restaurant-name',
