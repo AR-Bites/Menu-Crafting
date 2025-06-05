@@ -2315,6 +2315,14 @@
                 enterDescription: "Describe this delicious item...",
                 enterPrice: "0.00",
                 
+                // Landing page features
+                beautifulTemplates: "Beautiful Templates",
+                beautifulTemplatesDesc: "Choose from professionally designed templates",
+                multilingualSupport: "Multilingual Support", 
+                multilingualSupportDesc: "Support for Arabic and English with RTL",
+                mobileFriendly: "Mobile Friendly",
+                mobileFriendlyDesc: "Perfect on all devices and screen sizes",
+                
                 // Empty states
                 noSections: "No menu sections yet. Start by adding your first section!",
                 noItems: "No items in this section. Add your first menu item!",
@@ -2441,6 +2449,14 @@
                 enterItemName: "مثال: سلمون مشوي",
                 enterDescription: "صف هذا الطبق اللذيذ...",
                 enterPrice: "0.00",
+                
+                // Landing page features
+                beautifulTemplates: "قوالب جميلة",
+                beautifulTemplatesDesc: "اختر من القوالب المصممة بشكل احترافي",
+                multilingualSupport: "دعم متعدد اللغات", 
+                multilingualSupportDesc: "دعم للعربية والإنجليزية مع اتجاه النص",
+                mobileFriendly: "متوافق مع الهاتف",
+                mobileFriendlyDesc: "مثالي على جميع الأجهزة وأحجام الشاشات",
                 
                 // Empty states
                 noSections: "لا توجد أقسام في القائمة بعد. ابدأ بإضافة قسمك الأول!",
@@ -4700,9 +4716,9 @@
                         key: 'features',
                         className: 'grid grid-cols-1 md:grid-cols-3 gap-8 mb-12'
                     }, [
-                        ['🎨', 'Beautiful Templates', 'Choose from professionally designed templates'],
-                        ['🌐', 'Multilingual Support', 'Support for Arabic and English with RTL'],
-                        ['📱', 'Mobile Friendly', 'Perfect on all devices and screen sizes']
+                        ['🎨', t('beautifulTemplates'), t('beautifulTemplatesDesc')],
+                        ['🌐', t('multilingualSupport'), t('multilingualSupportDesc')],
+                        ['📱', t('mobileFriendly'), t('mobileFriendlyDesc')]
                     ].map(([icon, title, desc], index) => 
                         React.createElement('div', {
                             key: index,
