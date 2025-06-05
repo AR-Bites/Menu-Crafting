@@ -918,42 +918,127 @@
             }
         }
         
-        /* CRITICAL FIX: Template Selection - Realistic Live Mini Previews */
-        .template-card-enhanced {
-            background: white;
+        /* Template Cards - Completely Different Designs */
+        .template-card-dark {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
             border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(0, 245, 255, 0.2);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
-            opacity: 0;
-            transform: translateY(60px) scale(0.9);
-            animation: slideInUp 0.8s ease-out forwards;
-            border: 4px solid transparent;
             position: relative;
             width: 100%;
-            height: 500px;
+            height: 480px;
             display: flex;
             flex-direction: column;
+            border: 2px solid rgba(0, 245, 255, 0.3);
         }
 
-        .template-card-enhanced:hover {
-            transform: translateY(-15px) scale(1.03);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.25);
-            border-color: rgba(59, 130, 246, 0.4);
+        .template-card-elegant {
+            background: linear-gradient(135deg, #f7f1e3 0%, #f5e6d3 100%);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(139, 69, 19, 0.15), inset 0 1px 0 rgba(212, 175, 55, 0.3);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            width: 100%;
+            height: 480px;
+            display: flex;
+            flex-direction: column;
+            border: 3px solid rgba(212, 175, 55, 0.4);
+        }
+
+        .template-card-vibrant {
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ffd23f 100%);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            width: 100%;
+            height: 480px;
+            display: flex;
+            flex-direction: column;
+            border: none;
+        }
+
+        .template-card-minimal {
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            width: 100%;
+            height: 480px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Hover Effects for Each Template Type */
+        .template-card-dark:hover {
+            transform: translateY(-20px) scale(1.05);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4), 
+                        0 0 40px rgba(0, 245, 255, 0.4),
+                        0 0 80px rgba(255, 0, 170, 0.3);
+            border-color: rgba(0, 245, 255, 0.6);
+        }
+
+        .template-card-elegant:hover {
+            transform: translateY(-15px) scale(1.03) rotateY(2deg);
+            box-shadow: 0 30px 60px rgba(139, 69, 19, 0.25), 
+                        0 0 30px rgba(212, 175, 55, 0.4),
+                        inset 0 1px 0 rgba(212, 175, 55, 0.5);
+            border-color: rgba(212, 175, 55, 0.7);
+        }
+
+        .template-card-vibrant:hover {
+            transform: translateY(-10px) scale(1.04) rotate(1deg);
+            box-shadow: 0 20px 40px rgba(255, 107, 53, 0.4),
+                        0 0 50px rgba(247, 147, 30, 0.3);
+        }
+
+        .template-card-minimal:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15), 
+                        0 5px 15px rgba(0,0,0,0.1);
+            border-color: #3b82f6;
         }
 
         .template-card-enhanced:hover .realistic-preview {
             transform: scale(1.02);
         }
 
-        /* INSTANT visual selection feedback with dramatic effects */
-        .template-card-enhanced.selected {
-            transform: translateY(-20px) scale(1.05) !important;
-            box-shadow: 0 0 0 6px #3b82f6, 0 40px 80px rgba(59, 130, 246, 0.5) !important;
-            border: 4px solid #3b82f6 !important;
-            background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%) !important;
-            animation: selectedPulse 2s ease-in-out infinite;
+        /* Selection States for Each Template Type */
+        .template-card-dark.selected {
+            transform: translateY(-25px) scale(1.08) !important;
+            box-shadow: 0 0 0 4px #00f5ff, 0 40px 80px rgba(0, 245, 255, 0.6) !important;
+            border-color: #00f5ff !important;
+            animation: selectedNeonPulse 2s ease-in-out infinite;
+        }
+
+        .template-card-elegant.selected {
+            transform: translateY(-20px) scale(1.06) !important;
+            box-shadow: 0 0 0 4px #d4af37, 0 35px 70px rgba(212, 175, 55, 0.5) !important;
+            border-color: #d4af37 !important;
+            animation: selectedGoldPulse 2s ease-in-out infinite;
+        }
+
+        .template-card-vibrant.selected {
+            transform: translateY(-15px) scale(1.07) !important;
+            box-shadow: 0 0 0 4px #ff6b35, 0 30px 60px rgba(255, 107, 53, 0.6) !important;
+            animation: selectedVibrantPulse 2s ease-in-out infinite;
+        }
+
+        .template-card-minimal.selected {
+            transform: translateY(-18px) scale(1.05) !important;
+            box-shadow: 0 0 0 3px #3b82f6, 0 25px 50px rgba(59, 130, 246, 0.4) !important;
+            border-color: #3b82f6 !important;
+            animation: selectedMinimalPulse 2s ease-in-out infinite;
         }
 
         .template-card-enhanced.selected::after {
@@ -977,12 +1062,39 @@
             box-shadow: inset 0 0 0 3px rgba(59, 130, 246, 0.3);
         }
 
-        @keyframes selectedPulse {
+        @keyframes selectedNeonPulse {
             0%, 100% { 
-                box-shadow: 0 0 0 6px #3b82f6, 0 40px 80px rgba(59, 130, 246, 0.5);
+                box-shadow: 0 0 0 4px #00f5ff, 0 40px 80px rgba(0, 245, 255, 0.6);
             }
             50% { 
-                box-shadow: 0 0 0 8px #3b82f6, 0 45px 90px rgba(59, 130, 246, 0.6);
+                box-shadow: 0 0 0 6px #00f5ff, 0 45px 90px rgba(0, 245, 255, 0.8);
+            }
+        }
+
+        @keyframes selectedGoldPulse {
+            0%, 100% { 
+                box-shadow: 0 0 0 4px #d4af37, 0 35px 70px rgba(212, 175, 55, 0.5);
+            }
+            50% { 
+                box-shadow: 0 0 0 6px #d4af37, 0 40px 80px rgba(212, 175, 55, 0.7);
+            }
+        }
+
+        @keyframes selectedVibrantPulse {
+            0%, 100% { 
+                box-shadow: 0 0 0 4px #ff6b35, 0 30px 60px rgba(255, 107, 53, 0.6);
+            }
+            50% { 
+                box-shadow: 0 0 0 6px #ff6b35, 0 35px 70px rgba(255, 107, 53, 0.8);
+            }
+        }
+
+        @keyframes selectedMinimalPulse {
+            0%, 100% { 
+                box-shadow: 0 0 0 3px #3b82f6, 0 25px 50px rgba(59, 130, 246, 0.4);
+            }
+            50% { 
+                box-shadow: 0 0 0 5px #3b82f6, 0 30px 60px rgba(59, 130, 246, 0.6);
             }
         }
 
@@ -1983,6 +2095,20 @@
             .hero-logo-container {
                 margin-bottom: 2rem;
             }
+            
+            .template-card-dark,
+            .template-card-elegant,
+            .template-card-vibrant,
+            .template-card-minimal {
+                height: 420px;
+            }
+            
+            .template-card-dark:hover,
+            .template-card-elegant:hover,
+            .template-card-vibrant:hover,
+            .template-card-minimal:hover {
+                transform: translateY(-8px) scale(1.02);
+            }
         }
 
         .hero-title-redesigned {
@@ -2223,143 +2349,6 @@
 
         .preview-content {
             transition: all 0.3s ease;
-        }
-
-        /* Template Selection Responsive Grid */
-        .template-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-
-        @media (max-width: 768px) {
-            .template-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-                padding: 0 0.5rem;
-            }
-        }
-
-        @media (min-width: 1200px) {
-            .template-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-
-        /* Template Card Enhanced Styling */
-        .template-card-new {
-            background: rgba(255, 255, 255, 0.08);
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            border-radius: 24px;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(15px);
-            cursor: pointer;
-            position: relative;
-            min-height: 500px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .template-card-new:hover {
-            transform: translateY(-8px) scale(1.02);
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
-                        0 0 0 1px rgba(255, 255, 255, 0.1),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-
-        .template-card-new.selected {
-            border-color: #3b82f6;
-            background: rgba(59, 130, 246, 0.1);
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 25px 50px rgba(59, 130, 246, 0.3),
-                        0 0 0 2px #3b82f6;
-        }
-
-        .template-preview-section {
-            flex: 1;
-            position: relative;
-        }
-
-        .template-info-section {
-            padding: 1.5rem;
-            background: rgba(0, 0, 0, 0.2);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .template-name {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 0.5rem;
-        }
-
-        .template-description {
-            font-size: 0.875rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 1rem;
-            line-height: 1.5;
-        }
-
-        .template-features {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .feature-badge {
-            background: rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.9);
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .template-selection-container {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 2rem 0;
-        }
-
-        .template-header {
-            text-align: center;
-            margin-bottom: 3rem;
-            padding: 0 1rem;
-        }
-
-        .template-title {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 900;
-            color: white;
-            margin-bottom: 1rem;
-            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .template-subtitle {
-            font-size: clamp(1rem, 3vw, 1.5rem);
-            color: rgba(255, 255, 255, 0.9);
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        /* RTL Template Support */
-        [dir="rtl"] .template-grid {
-            direction: rtl;
-        }
-
-        [dir="rtl"] .template-info-section {
-            text-align: right;
-        }
-
-        [dir="rtl"] .template-features {
-            justify-content: flex-end;
         }
 
         /* Print Styles */
@@ -2821,15 +2810,15 @@
                         { 
                             name: 'CYBER STARTERS', 
                             items: [
-                                { name: 'Neural Nachos', price: '$18', featured: true },
-                                { name: 'Digital Dumplings', price: '$22' }
+                                { name: 'Neural Nachos', price: '8 JOD', featured: true },
+                                { name: 'Digital Dumplings', price: '12 JOD' }
                             ]
                         },
                         { 
                             name: 'MAIN PROTOCOL', 
                             items: [
-                                { name: 'Quantum Burger', price: '$28' },
-                                { name: 'Binary Pasta', price: '$24' }
+                                { name: 'Quantum Burger', price: '18 JOD' },
+                                { name: 'Binary Pasta', price: '15 JOD' }
                             ]
                         }
                     ]
@@ -2859,15 +2848,15 @@
                         { 
                             name: 'Les Entrées', 
                             items: [
-                                { name: 'Escargots de Bourgogne', price: '€24', special: true },
-                                { name: 'Pâté de Foie Gras', price: '€32' }
+                                { name: 'Escargots de Bourgogne', price: '16 JOD', special: true },
+                                { name: 'Pâté de Foie Gras', price: '22 JOD' }
                             ]
                         },
                         { 
                             name: 'Les Plats Principaux', 
                             items: [
-                                { name: 'Bouillabaisse Marseillaise', price: '€45' },
-                                { name: 'Bœuf Wellington', price: '€52' }
+                                { name: 'Bouillabaisse Marseillaise', price: '28 JOD' },
+                                { name: 'Bœuf Wellington', price: '35 JOD' }
                             ]
                         }
                     ]
@@ -2897,15 +2886,15 @@
                         { 
                             name: 'SIGNATURE BOWLS', 
                             items: [
-                                { name: 'Korean BBQ Bowl', price: '$16', hasImage: true },
-                                { name: 'Med Quinoa Bowl', price: '$14', hasImage: true }
+                                { name: 'Korean BBQ Bowl', price: '14 JOD', hasImage: true },
+                                { name: 'Med Quinoa Bowl', price: '12 JOD', hasImage: true }
                             ]
                         },
                         { 
                             name: 'CRAFT BURGERS', 
                             items: [
-                                { name: 'Truffle Burger', price: '$18', hasImage: true },
-                                { name: 'Spicy Jalapeño', price: '$16', hasImage: true }
+                                { name: 'Truffle Burger', price: '16 JOD', hasImage: true },
+                                { name: 'Spicy Jalapeño', price: '14 JOD', hasImage: true }
                             ]
                         }
                     ]
@@ -2935,15 +2924,15 @@
                         { 
                             name: 'starters', 
                             items: [
-                                { name: 'miso soup', price: '12' },
-                                { name: 'edamame', price: '8' }
+                                { name: 'miso soup', price: '8 JOD' },
+                                { name: 'edamame', price: '6 JOD' }
                             ]
                         },
                         { 
                             name: 'mains', 
                             items: [
-                                { name: 'salmon teriyaki', price: '28' },
-                                { name: 'vegetable ramen', price: '22' }
+                                { name: 'salmon teriyaki', price: '20 JOD' },
+                                { name: 'vegetable ramen', price: '16 JOD' }
                             ]
                         }
                     ]
@@ -5005,584 +4994,115 @@
             ]);
         }
 
-        // Template data with realistic menu content and JOD pricing
-        const templateData = {
-            'dark-neon': {
-                name: 'Dark Neon',
-                nameAr: 'نيون داكن',
-                description: 'Futuristic cyber restaurant with neon accents',
-                descriptionAr: 'مطعم سايبر مستقبلي مع لمسات نيون',
-                preview: {
-                    primaryColor: '#00ffff',
-                    secondaryColor: '#ff0080',
-                    backgroundColor: '#0a0a0a',
-                    fontFamily: 'monospace'
-                },
-                menuData: {
-                    restaurantName: 'CYBER BITES',
-                    restaurantNameAr: 'لقمات سايبر',
-                    tagline: 'Future Food Experience',
-                    taglineAr: 'تجربة طعام المستقبل',
-                    sections: [
-                        {
-                            name: 'STARTERS',
-                            nameAr: 'المقبلات',
-                            items: [
-                                { name: 'Digital Wings', nameAr: 'أجنحة رقمية', price: '4.50 JOD' },
-                                { name: 'Neon Nachos', nameAr: 'ناتشوز نيون', price: '3.75 JOD' }
-                            ]
-                        },
-                        {
-                            name: 'MAINS',
-                            nameAr: 'الأطباق الرئيسية',
-                            items: [
-                                { name: 'Quantum Burger', nameAr: 'برجر كمي', price: '8.25 JOD' },
-                                { name: 'Matrix Pasta', nameAr: 'معكرونة ماتريكس', price: '7.50 JOD' }
-                            ]
-                        }
-                    ]
-                }
-            },
-            'elegant-script': {
-                name: 'Elegant Script',
-                nameAr: 'خط أنيق',
-                description: 'Sophisticated French bistro style',
-                descriptionAr: 'أسلوب بيسترو فرنسي راقي',
-                preview: {
-                    primaryColor: '#d4af37',
-                    secondaryColor: '#2c1810',
-                    backgroundColor: '#faf8f3',
-                    fontFamily: 'serif'
-                },
-                menuData: {
-                    restaurantName: 'Le Jardin',
-                    restaurantNameAr: 'لو جاردن',
-                    tagline: 'Cuisine Française Authentique',
-                    taglineAr: 'مطبخ فرنسي أصيل',
-                    sections: [
-                        {
-                            name: 'Entrées',
-                            nameAr: 'المقبلات',
-                            items: [
-                                { name: 'Escargots de Bourgogne', nameAr: 'حلزون بورجوندي', price: '6.25 JOD' },
-                                { name: 'Pâté de Foie', nameAr: 'باتيه فوا', price: '5.75 JOD' }
-                            ]
-                        },
-                        {
-                            name: 'Plats Principaux',
-                            nameAr: 'الأطباق الرئيسية',
-                            items: [
-                                { name: 'Coq au Vin', nameAr: 'ديك بالنبيذ', price: '12.50 JOD' },
-                                { name: 'Bouillabaisse', nameAr: 'بويابيس', price: '14.25 JOD' }
-                            ]
-                        }
-                    ]
-                }
-            },
-            'minimal-zen': {
-                name: 'Minimal Zen',
-                nameAr: 'بساطة زين',
-                description: 'Clean Japanese-inspired design',
-                descriptionAr: 'تصميم نظيف مستوحى من اليابان',
-                preview: {
-                    primaryColor: '#2d3748',
-                    secondaryColor: '#4a5568',
-                    backgroundColor: '#ffffff',
-                    fontFamily: 'sans-serif'
-                },
-                menuData: {
-                    restaurantName: 'Sakura',
-                    restaurantNameAr: 'ساكورا',
-                    tagline: 'Pure Japanese Cuisine',
-                    taglineAr: 'مطبخ ياباني خالص',
-                    sections: [
-                        {
-                            name: 'Appetizers',
-                            nameAr: 'المقبلات',
-                            items: [
-                                { name: 'Gyoza', nameAr: 'جيوزا', price: '4.25 JOD' },
-                                { name: 'Edamame', nameAr: 'إيدامامي', price: '3.50 JOD' }
-                            ]
-                        },
-                        {
-                            name: 'Sushi & Sashimi',
-                            nameAr: 'سوشي وساشيمي',
-                            items: [
-                                { name: 'Salmon Sashimi', nameAr: 'ساشيمي سلمون', price: '9.75 JOD' },
-                                { name: 'Dragon Roll', nameAr: 'رول التنين', price: '8.50 JOD' }
-                            ]
-                        }
-                    ]
-                }
-            },
-            'vibrant-modern': {
-                name: 'Vibrant Modern',
-                nameAr: 'حديث نابض',
-                description: 'Bold colors and contemporary style',
-                descriptionAr: 'ألوان جريئة وأسلوب معاصر',
-                preview: {
-                    primaryColor: '#e53e3e',
-                    secondaryColor: '#38a169',
-                    backgroundColor: '#f7fafc',
-                    fontFamily: 'sans-serif'
-                },
-                menuData: {
-                    restaurantName: 'Fresh Kitchen',
-                    restaurantNameAr: 'مطبخ طازج',
-                    tagline: 'Farm to Table Experience',
-                    taglineAr: 'من المزرعة إلى المائدة',
-                    sections: [
-                        {
-                            name: 'Fresh Starters',
-                            nameAr: 'مقبلات طازجة',
-                            items: [
-                                { name: 'Avocado Toast', nameAr: 'توست أفوكادو', price: '4.75 JOD' },
-                                { name: 'Quinoa Salad', nameAr: 'سلطة كينوا', price: '5.25 JOD' }
-                            ]
-                        },
-                        {
-                            name: 'Healthy Mains',
-                            nameAr: 'أطباق صحية رئيسية',
-                            items: [
-                                { name: 'Grilled Salmon', nameAr: 'سلمون مشوي', price: '11.50 JOD' },
-                                { name: 'Buddha Bowl', nameAr: 'وعاء بوذا', price: '8.75 JOD' }
-                            ]
-                        }
-                    ]
-                }
-            }
-        };
-
-        // Realistic Template Preview Component
-        function RealisticTemplatePreview({ templateId, language }) {
-            const template = templateData[templateId];
-            if (!template) return null;
+        // Realistic Template Preview Component - Accurate Mini Layouts
+        function RealisticTemplatePreview({ template }) {
+            const { mockData, preview } = template;
             
-            const isRTL = language === 'ar';
-            const menuData = template.menuData;
-            const preview = template.preview;
-            
-            const restaurantName = isRTL ? menuData.restaurantNameAr : menuData.restaurantName;
-            const tagline = isRTL ? menuData.taglineAr : menuData.tagline;
-
-            return React.createElement('div', {
-                className: `realistic-preview h-80 relative overflow-hidden rounded-xl border-2 transition-all duration-300`,
-                style: {
-                    backgroundColor: preview.backgroundColor,
-                    borderColor: preview.primaryColor + '30',
-                    fontFamily: preview.fontFamily,
-                    direction: isRTL ? 'rtl' : 'ltr',
-                    boxShadow: `0 4px 15px rgba(0,0,0,0.1), 0 0 0 1px ${preview.primaryColor}20`
-                }
-            }, [
-                // Template-specific styling
-                templateId === 'dark-neon' && React.createElement('div', {
-                    key: 'neon-bg',
-                    className: 'absolute inset-0',
+            // Dark Neon Template
+            if (template.id === 'dark-neon') {
+                return React.createElement('div', {
+                    className: 'realistic-preview h-80 relative overflow-hidden rounded-lg',
                     style: {
-                        background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%)',
-                        backgroundImage: `radial-gradient(circle at 25% 25%, ${preview.primaryColor}20 0%, transparent 50%)`
+                        background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)',
+                        fontFamily: 'Inter, sans-serif'
                     }
-                }),
-                
-                // Header section
-                React.createElement('div', {
-                    key: 'header',
-                    className: 'p-4 text-center relative z-10'
                 }, [
-                    React.createElement('h1', {
-                        key: 'name',
-                        className: 'text-lg font-bold mb-1',
+                    // Neon grid background
+                    React.createElement('div', {
+                        key: 'grid',
+                        className: 'absolute inset-0 opacity-20',
                         style: {
-                            color: templateId === 'dark-neon' ? preview.primaryColor : preview.primaryColor,
-                            textShadow: templateId === 'dark-neon' ? `0 0 10px ${preview.primaryColor}80` : 'none',
-                            fontFamily: preview.fontFamily
+                            backgroundImage: `linear-gradient(${preview.accentColor}40 1px, transparent 1px), linear-gradient(90deg, ${preview.accentColor}40 1px, transparent 1px)`,
+                            backgroundSize: '20px 20px'
                         }
-                    }, restaurantName),
-                    React.createElement('p', {
-                        key: 'tagline',
-                        className: 'text-xs opacity-80',
-                        style: {
-                            color: templateId === 'dark-neon' ? preview.secondaryColor : preview.secondaryColor
-                        }
-                    }, tagline)
-                ]),
-                
-                // Menu sections
-                React.createElement('div', {
-                    key: 'menu',
-                    className: 'px-4 space-y-3'
-                }, menuData.sections.map((section, sIndex) =>
-                    React.createElement('div', {
-                        key: sIndex,
-                        className: 'menu-section'
-                    }, [
-                        React.createElement('h3', {
-                            key: 'section-title',
-                            className: 'text-sm font-semibold mb-2',
-                            style: {
-                                color: preview.primaryColor,
-                                borderBottom: `1px solid ${preview.primaryColor}40`
-                            }
-                        }, isRTL ? section.nameAr : section.name),
-                        React.createElement('div', {
-                            key: 'items',
-                            className: 'space-y-1'
-                        }, section.items.map((item, iIndex) =>
-                            React.createElement('div', {
-                                key: iIndex,
-                                className: 'flex justify-between items-center text-xs',
-                                style: {
-                                    padding: '4px 8px',
-                                    backgroundColor: templateId === 'dark-neon' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.02)',
-                                    borderRadius: '4px',
-                                    border: templateId === 'dark-neon' ? `1px solid ${preview.primaryColor}20` : 'none'
-                                }
-                            }, [
-                                React.createElement('span', {
-                                    key: 'name',
-                                    style: {
-                                        color: templateId === 'dark-neon' ? '#ffffff' : preview.secondaryColor,
-                                        fontWeight: '500'
-                                    }
-                                }, isRTL ? item.nameAr : item.name),
-                                React.createElement('span', {
-                                    key: 'price',
-                                    className: 'font-mono',
-                                    style: {
-                                        color: preview.primaryColor,
-                                        fontWeight: 'bold'
-                                    }
-                                }, item.price)
-                            ])
-                        ))
-                    ])
-                ))
-            ]);
-        }
-
-        // Complete Template Selection Component
-        function TemplateSelection() {
-            const { language, t } = useLanguage();
-            const [selectedTemplate, setSelectedTemplate] = React.useState(null);
-            const [showConfirmation, setShowConfirmation] = React.useState(false);
-            
-            const isRTL = language === 'ar';
-            
-            const templates = [
-                {
-                    id: 'dark-neon',
-                    name: language === 'ar' ? 'نيون داكن' : 'Dark Neon',
-                    description: language === 'ar' ? 'مطعم سايبر مستقبلي مع لمسات نيون' : 'Futuristic cyber restaurant with neon accents',
-                    category: language === 'ar' ? 'حديث' : 'Modern'
-                },
-                {
-                    id: 'elegant-script',
-                    name: language === 'ar' ? 'خط أنيق' : 'Elegant Script',
-                    description: language === 'ar' ? 'أسلوب بيسترو فرنسي راقي' : 'Sophisticated French bistro style',
-                    category: language === 'ar' ? 'كلاسيكي' : 'Classic'
-                },
-                {
-                    id: 'minimal-zen',
-                    name: language === 'ar' ? 'بساطة زين' : 'Minimal Zen',
-                    description: language === 'ar' ? 'تصميم نظيف مستوحى من اليابان' : 'Clean Japanese-inspired design',
-                    category: language === 'ar' ? 'نظيف' : 'Clean'
-                },
-                {
-                    id: 'vibrant-modern',
-                    name: language === 'ar' ? 'حديث نابض' : 'Vibrant Modern',
-                    description: language === 'ar' ? 'ألوان جريئة وأسلوب معاصر' : 'Bold colors and contemporary style',
-                    category: language === 'ar' ? 'جريء' : 'Bold'
-                }
-            ];
-
-            const handleTemplateSelect = (templateId) => {
-                setSelectedTemplate(templateId);
-                setShowConfirmation(true);
-                
-                setTimeout(() => {
-                    const confirmSection = document.getElementById('template-confirmation');
-                    if (confirmSection) {
-                        confirmSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
-                }, 100);
-            };
-
-            const handleContinueToEditor = () => {
-                // Transition to editor with selected template
-                window.location.hash = '#editor';
-            };
-
-            return React.createElement('div', {
-                className: 'template-selection-container',
-                dir: isRTL ? 'rtl' : 'ltr'
-            }, [
-                // Header Section
-                React.createElement('div', {
-                    key: 'header',
-                    className: 'template-header'
-                }, [
-                    React.createElement('h1', {
-                        key: 'title',
-                        className: 'template-title'
-                    }, language === 'ar' ? 'اختر القالب المناسب' : 'Choose Your Template'),
-                    React.createElement('p', {
-                        key: 'subtitle',
-                        className: 'template-subtitle'
-                    }, language === 'ar' ? 'اختر تصميماً يعكس شخصية مطعمك' : 'Select a design that reflects your restaurant\'s personality')
-                ]),
-
-                // Template Grid
-                React.createElement('div', {
-                    key: 'templates',
-                    className: 'template-grid'
-                }, templates.map((template, index) =>
-                    React.createElement('div', {
-                        key: template.id,
-                        className: `template-card-new ${selectedTemplate === template.id ? 'selected' : ''}`,
-                        onClick: () => handleTemplateSelect(template.id),
-                        style: {
-                            animationDelay: `${index * 150}ms`
-                        }
-                    }, [
-                        // Preview Section
-                        React.createElement('div', {
-                            key: 'preview',
-                            className: 'template-preview-section'
-                        }, [
-                            React.createElement(RealisticTemplatePreview, {
-                                key: 'realistic-preview',
-                                templateId: template.id,
-                                language: language
-                            })
-                        ]),
-
-                        // Info Section
-                        React.createElement('div', {
-                            key: 'info',
-                            className: 'template-info-section'
-                        }, [
-                            React.createElement('h3', {
-                                key: 'name',
-                                className: 'template-name'
-                            }, template.name),
-                            React.createElement('p', {
-                                key: 'description',
-                                className: 'template-description'
-                            }, template.description),
-                            React.createElement('div', {
-                                key: 'features',
-                                className: 'template-features'
-                            }, [
-                                React.createElement('span', {
-                                    key: 'category',
-                                    className: 'feature-badge'
-                                }, template.category),
-                                React.createElement('span', {
-                                    key: 'responsive',
-                                    className: 'feature-badge'
-                                }, language === 'ar' ? 'متجاوب' : 'Responsive'),
-                                React.createElement('span', {
-                                    key: 'multilingual',
-                                    className: 'feature-badge'
-                                }, language === 'ar' ? 'متعدد اللغات' : 'Multilingual')
-                            ])
-                        ])
-                    ])
-                )),
-
-                // Confirmation Section
-                showConfirmation && React.createElement('div', {
-                    key: 'confirmation',
-                    id: 'template-confirmation',
-                    className: 'text-center mt-16 mb-8'
-                }, [
-                    React.createElement('div', {
-                        key: 'confirmation-content',
-                        className: 'bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-8 max-w-md mx-auto border border-white border-opacity-20'
-                    }, [
-                        React.createElement('div', {
-                            key: 'check-icon',
-                            className: 'text-6xl mb-4'
-                        }, '✓'),
-                        React.createElement('h3', {
-                            key: 'title',
-                            className: 'text-2xl font-bold text-white mb-4'
-                        }, language === 'ar' ? 'تم اختيار القالب!' : 'Template Selected!'),
-                        React.createElement('p', {
-                            key: 'selected-name',
-                            className: 'text-white opacity-90 mb-6'
-                        }, (language === 'ar' ? 'تم اختيار: ' : 'You selected: ') + 
-                           templates.find(t => t.id === selectedTemplate)?.name),
-                        React.createElement('div', {
-                            key: 'actions',
-                            className: 'flex gap-4 justify-center'
-                        }, [
-                            React.createElement('button', {
-                                key: 'continue',
-                                className: 'btn btn-primary px-6 py-3',
-                                onClick: handleContinueToEditor
-                            }, language === 'ar' ? 'ابدأ التصميم' : 'Start Building'),
-                            React.createElement('button', {
-                                key: 'change',
-                                className: 'btn btn-secondary px-6 py-3',
-                                onClick: () => {
-                                    setSelectedTemplate(null);
-                                    setShowConfirmation(false);
-                                }
-                            }, language === 'ar' ? 'اختر آخر' : 'Choose Different')
-                        ])
-                    ])
-                ])
-            ]);
-        }
-
-        // Main App Component with Template Selection Integration
-        function App() {
-            const { language, toggleLanguage } = useLanguage();
-            const [currentScreen, setCurrentScreen] = React.useState('landing'); // 'landing', 'templates', 'editor'
-            const [selectedTemplate, setSelectedTemplate] = React.useState(null);
-            
-            const handleGetStarted = () => {
-                setCurrentScreen('templates');
-            };
-            
-            const handleTemplateSelected = (template) => {
-                setSelectedTemplate(template);
-                setCurrentScreen('editor');
-            };
-
-            return React.createElement('div', {
-                className: 'app-container'
-            }, [
-                // Language Toggle (Always Visible)
-                React.createElement(LanguageToggle, {
-                    key: 'lang-toggle'
-                }),
-
-                // Screen Routing
-                currentScreen === 'landing' && React.createElement(LandingScreen, {
-                    key: 'landing',
-                    onGetStarted: handleGetStarted
-                }),
-
-                currentScreen === 'templates' && React.createElement(TemplateSelection, {
-                    key: 'templates',
-                    onTemplateSelected: handleTemplateSelected
-                }),
-
-                currentScreen === 'editor' && selectedTemplate && React.createElement(MenuEditor, {
-                    key: 'editor',
-                    template: selectedTemplate,
-                    onBack: () => setCurrentScreen('templates')
-                })
-            ]);
-        }
-
-        // Updated Landing Screen to integrate with new flow
-        function LandingScreen({ onGetStarted }) {
-            const { language, t } = useLanguage();
-            const [showWelcomeModal, setShowWelcomeModal] = React.useState(false);
-            const [userName, setUserName] = React.useState('');
-            
-            const isRTL = language === 'ar';
-
-            const handleGetStartedClick = () => {
-                setShowWelcomeModal(true);
-            };
-
-            const handleUserSubmit = (e) => {
-                e.preventDefault();
-                if (userName.trim()) {
-                    setShowWelcomeModal(false);
-                    onGetStarted();
-                }
-            };
-
-            return React.createElement('div', {
-                className: `screen min-h-screen relative overflow-hidden ${isRTL ? 'rtl' : ''}`,
-                dir: isRTL ? 'rtl' : 'ltr',
-                style: {
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-                }
-            }, [
-                // Hero Section with ARbites Logo
-                React.createElement('div', {
-                    key: 'hero',
-                    className: 'text-center py-20 px-8'
-                }, [
-                    React.createElement('div', {
-                        key: 'hero-logo',
-                        className: 'hero-logo-container mb-8'
-                    }, React.createElement('img', {
-                        src: '/attached_assets/Bubble3dARbites_1749133962372.png',
-                        alt: 'ARbites Logo',
-                        className: 'hero-3d-logo'
-                    })),
+                    }),
                     
-                    React.createElement('h1', {
-                        key: 'title',
-                        className: 'text-6xl font-bold text-white mb-6 leading-tight'
-                    }, t('title')),
-                    React.createElement('p', {
-                        key: 'subtitle',
-                        className: 'text-xl text-white opacity-90 mb-12 max-w-2xl mx-auto'
-                    }, t('subtitle')),
-                    React.createElement('button', {
-                        key: 'get-started',
-                        className: 'btn btn-primary text-xl px-12 py-4 rounded-full font-semibold',
-                        onClick: handleGetStartedClick
-                    }, t('getStarted'))
-                ]),
-
-                // Welcome Modal
-                showWelcomeModal && React.createElement('div', {
-                    key: 'welcome-modal',
-                    className: 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4'
-                }, [
+                    // Header
                     React.createElement('div', {
-                        key: 'modal-content',
-                        className: 'bg-white rounded-2xl p-8 max-w-md w-full'
+                        key: 'header',
+                        className: 'p-4 text-center relative z-10'
                     }, [
-                        React.createElement('h3', {
-                            key: 'modal-title',
-                            className: 'text-2xl font-bold mb-4 text-center'
-                        }, t('welcome')),
-                        React.createElement('form', {
-                            key: 'form',
-                            onSubmit: handleUserSubmit
-                        }, [
-                            React.createElement('label', {
-                                key: 'label',
-                                className: 'block text-sm font-medium mb-2'
-                            }, t('enterName')),
-                            React.createElement('input', {
-                                key: 'input',
-                                type: 'text',
-                                className: 'input-field',
-                                value: userName,
-                                onChange: (e) => setUserName(e.target.value),
-                                placeholder: t('enterName'),
-                                required: true
-                            }),
-                            React.createElement('button', {
-                                key: 'submit',
-                                type: 'submit',
-                                className: 'btn btn-primary w-full mt-4',
-                                disabled: !userName.trim()
-                            }, t('continueToTemplates'))
-                        ])
-                    ])
-                ])
-            ]);
-        }
-
-        // Root render with corrected structure
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(React.createElement(LanguageProvider, {}, React.createElement(App, {})));
-    </script>
-</body>
-</html>
+                        React.createElement('h1', {
+                            key: 'title',
+                            className: 'text-2xl font-bold text-white mb-1',
+                            style: {
+                                color: preview.accentColor,
+                                textShadow: `0 0 20px ${preview.accentColor}80`,
+                                letterSpacing: '2px'
+                            }
+                        }, mockData.restaurantName),
+                        React.createElement('div', {
+                            key: 'tagline',
+                            className: 'text-xs',
+                            style: { color: preview.secondaryColor }
+                        }, mockData.tagline)
+                    ]),
+                    
+                    // Menu grid
+                    React.createElement('div', {
+                        key: 'menu',
+                        className: 'px-4 pb-4 grid grid-cols-2 gap-2'
+                    }, mockData.sections.flatMap(section => 
+                        section.items.slice(0, 2).map((item, i) =>
+                            React.createElement('div', {
+                                key: i,
+                                className: 'neon-card p-3 rounded-lg',
+                                style: {
+                                    background: 'rgba(255,255,255,0.05)',
+                                    border: `1px solid ${preview.accentColor}40`,
+                                    backdropFilter: 'blur(10px)'
+                                }
+                            }, [
+                                React.createElement('div', {
+                                    key: 'name',
+                                    className: 'text-white text-xs font-semibold mb-1'
+                                }, item.name),
+                                React.createElement('div', {
+                                    key: 'price',
+                                    className: 'text-xs font-mono',
+                                    style: { color: preview.secondaryColor }
+                                }, item.price),
+                                item.featured && React.createElement('div', {
+                                    key: 'glow',
+                                    className: 'absolute inset-0 rounded-lg pointer-events-none',
+                                    style: {
+                                        boxShadow: `inset 0 0 20px ${preview.accentColor}30`
+                                    }
+                                })
+                            ])
+                        )
+                    ))
+                ]);
+            }
+            
+            // Elegant Script Template
+            if (template.id === 'elegant-script') {
+                return React.createElement('div', {
+                    className: 'realistic-preview h-80 relative overflow-hidden rounded-lg',
+                    style: {
+                        background: 'linear-gradient(135deg, #f7f1e3 0%, #f5e6d3 50%, #e8d5b7 100%)',
+                        fontFamily: 'Playfair Display, serif'
+                    }
+                }, [
+                    // Elegant pattern
+                    React.createElement('div', {
+                        key: 'pattern',
+                        className: 'absolute inset-0 opacity-10',
+                        style: {
+                            backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20c0-11.046-8.954-20-20-20v20h20z' fill='%23d4af37'/%3E%3C/svg%3E")`
+                        }
+                    }),
+                    
+                    // Decorative border
+                    React.createElement('div', {
+                        key: 'border',
+                        className: 'absolute inset-2 border-2 border-amber-300/40 rounded-lg'
+                    }),
+                    
+                    // Header with ornate styling
+                    React.createElement('div', {
+                        key: 'header',
+                        className: 'p-6 text-center'
                     }, [
                         React.createElement('h1', {
                             key: 'title',
@@ -5830,7 +5350,7 @@
                     editorContainer.style.setProperty('--template-font', template.preview.typography);
                 }
                 
-                // Visual confirmation with smooth scroll
+                // Smooth scroll to "Use This Template" button
                 setTimeout(() => {
                     const confirmationElement = document.getElementById('template-confirmation');
                     if (confirmationElement) {
@@ -5839,7 +5359,7 @@
                             block: 'center'
                         });
                     }
-                }, 50);
+                }, 300);
             };
 
             const handleConfirmSelection = () => {
@@ -5876,11 +5396,17 @@
                 React.createElement('div', {
                     key: 'templates',
                     className: 'max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 mb-16'
-                }, templates.map((template, index) => 
-                    React.createElement('div', {
+                }, templates.map((template, index) => {
+                    // Define unique card class based on template type
+                    let cardClass = 'template-card-dark';
+                    if (template.id === 'elegant-script') cardClass = 'template-card-elegant';
+                    else if (template.id === 'image-grid') cardClass = 'template-card-vibrant';
+                    else if (template.id === 'minimal-zen') cardClass = 'template-card-minimal';
+                    
+                    return React.createElement('div', {
                         key: template.id,
                         'data-template-id': template.id,
-                        className: `template-card-enhanced ${
+                        className: `${cardClass} ${
                             selectedTemplate === template.id ? 'selected' : ''
                         }`,
                         style: { 
@@ -5890,12 +5416,268 @@
                     }, [
                         React.createElement('div', {
                             key: 'preview-container',
-                            className: 'template-preview-container'
+                            className: 'template-preview-container flex-1'
                         }, [
-                            React.createElement(RealisticTemplatePreview, {
-                                key: 'preview',
-                                template: template
-                            }),
+                            // Custom preview based on template type
+                            template.id === 'dark-neon' ? React.createElement('div', {
+                                key: 'dark-preview',
+                                className: 'h-full p-6 text-white relative overflow-hidden',
+                                style: { 
+                                    background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%)',
+                                    fontFamily: 'Inter'
+                                }
+                            }, [
+                                React.createElement('div', {
+                                    key: 'neon-header',
+                                    className: 'text-center mb-6'
+                                }, [
+                                    React.createElement('h2', {
+                                        key: 'title',
+                                        className: 'text-lg font-bold mb-1',
+                                        style: { 
+                                            color: '#00f5ff',
+                                            textShadow: '0 0 10px #00f5ff, 0 0 20px #00f5ff'
+                                        }
+                                    }, 'NEON BISTRO'),
+                                    React.createElement('p', {
+                                        key: 'tagline',
+                                        className: 'text-xs',
+                                        style: { color: '#ff00aa' }
+                                    }, 'Future of Dining')
+                                ]),
+                                React.createElement('div', {
+                                    key: 'menu-section',
+                                    className: 'space-y-4'
+                                }, [
+                                    React.createElement('h3', {
+                                        key: 'section-title',
+                                        className: 'text-sm font-semibold uppercase tracking-wide',
+                                        style: { 
+                                            color: '#00f5ff',
+                                            borderBottom: '1px solid #00f5ff40'
+                                        }
+                                    }, 'CYBER STARTERS'),
+                                    React.createElement('div', {
+                                        key: 'item',
+                                        className: 'flex justify-between items-center p-2 rounded border',
+                                        style: { 
+                                            borderColor: '#00f5ff30',
+                                            background: 'rgba(0, 245, 255, 0.05)'
+                                        }
+                                    }, [
+                                        React.createElement('span', {
+                                            key: 'name',
+                                            className: 'text-sm font-medium'
+                                        }, 'Neural Nachos'),
+                                        React.createElement('span', {
+                                            key: 'price',
+                                            className: 'text-sm font-bold',
+                                            style: { color: '#ff00aa' }
+                                        }, '8 JOD')
+                                    ])
+                                ])
+                            ]) :
+                            
+                            template.id === 'elegant-script' ? React.createElement('div', {
+                                key: 'elegant-preview',
+                                className: 'h-full p-6 relative overflow-hidden',
+                                style: { 
+                                    background: 'linear-gradient(135deg, #f7f1e3 0%, #f5e6d3 100%)',
+                                    fontFamily: 'serif'
+                                }
+                            }, [
+                                React.createElement('div', {
+                                    key: 'elegant-header',
+                                    className: 'text-center mb-6'
+                                }, [
+                                    React.createElement('h2', {
+                                        key: 'title',
+                                        className: 'text-lg font-bold mb-1',
+                                        style: { 
+                                            color: '#d4af37',
+                                            fontStyle: 'italic'
+                                        }
+                                    }, 'La Belle Époque'),
+                                    React.createElement('p', {
+                                        key: 'tagline',
+                                        className: 'text-xs',
+                                        style: { color: '#8b4513' }
+                                    }, 'Fine French Cuisine Since 1889')
+                                ]),
+                                React.createElement('div', {
+                                    key: 'menu-section',
+                                    className: 'space-y-4'
+                                }, [
+                                    React.createElement('h3', {
+                                        key: 'section-title',
+                                        className: 'text-sm font-semibold italic',
+                                        style: { 
+                                            color: '#d4af37',
+                                            borderBottom: '1px solid #d4af3750'
+                                        }
+                                    }, 'Les Entrées'),
+                                    React.createElement('div', {
+                                        key: 'item',
+                                        className: 'flex justify-between items-start p-3 rounded',
+                                        style: { 
+                                            background: 'rgba(212, 175, 55, 0.1)',
+                                            border: '1px solid rgba(212, 175, 55, 0.3)'
+                                        }
+                                    }, [
+                                        React.createElement('div', {
+                                            key: 'info'
+                                        }, [
+                                            React.createElement('span', {
+                                                key: 'name',
+                                                className: 'text-sm font-medium block',
+                                                style: { color: '#8b4513' }
+                                            }, 'Escargots de Bourgogne'),
+                                            React.createElement('span', {
+                                                key: 'special',
+                                                className: 'text-xs italic',
+                                                style: { color: '#d4af37' }
+                                            }, 'Chef Special')
+                                        ]),
+                                        React.createElement('span', {
+                                            key: 'price',
+                                            className: 'text-sm font-bold',
+                                            style: { color: '#d4af37' }
+                                        }, '16 JOD')
+                                    ])
+                                ])
+                            ]) :
+                            
+                            template.id === 'image-grid' ? React.createElement('div', {
+                                key: 'vibrant-preview',
+                                className: 'h-full p-5 text-white relative overflow-hidden',
+                                style: { 
+                                    background: 'linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ffd23f 100%)',
+                                    fontFamily: 'sans-serif'
+                                }
+                            }, [
+                                React.createElement('div', {
+                                    key: 'vibrant-header',
+                                    className: 'text-center mb-5'
+                                }, [
+                                    React.createElement('h2', {
+                                        key: 'title',
+                                        className: 'text-xl font-black mb-1'
+                                    }, 'STREET KITCHEN'),
+                                    React.createElement('p', {
+                                        key: 'tagline',
+                                        className: 'text-sm font-semibold'
+                                    }, 'Bold Flavors, Fresh Ingredients')
+                                ]),
+                                React.createElement('div', {
+                                    key: 'menu-grid',
+                                    className: 'grid grid-cols-2 gap-3'
+                                }, [
+                                    React.createElement('div', {
+                                        key: 'item1',
+                                        className: 'bg-white bg-opacity-20 rounded-lg p-3'
+                                    }, [
+                                        React.createElement('div', {
+                                            key: 'img-placeholder',
+                                            className: 'w-full h-8 bg-white bg-opacity-30 rounded mb-2'
+                                        }),
+                                        React.createElement('h4', {
+                                            key: 'name',
+                                            className: 'text-xs font-bold'
+                                        }, 'Korean BBQ Bowl'),
+                                        React.createElement('p', {
+                                            key: 'price',
+                                            className: 'text-sm font-black'
+                                        }, '14 JOD')
+                                    ]),
+                                    React.createElement('div', {
+                                        key: 'item2',
+                                        className: 'bg-white bg-opacity-20 rounded-lg p-3'
+                                    }, [
+                                        React.createElement('div', {
+                                            key: 'img-placeholder',
+                                            className: 'w-full h-8 bg-white bg-opacity-30 rounded mb-2'
+                                        }),
+                                        React.createElement('h4', {
+                                            key: 'name',
+                                            className: 'text-xs font-bold'
+                                        }, 'Truffle Burger'),
+                                        React.createElement('p', {
+                                            key: 'price',
+                                            className: 'text-sm font-black'
+                                        }, '16 JOD')
+                                    ])
+                                ])
+                            ]) :
+                            
+                            // Minimal Zen template
+                            React.createElement('div', {
+                                key: 'minimal-preview',
+                                className: 'h-full p-6 relative overflow-hidden',
+                                style: { 
+                                    background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)',
+                                    fontFamily: 'Inter',
+                                    color: '#2d3748'
+                                }
+                            }, [
+                                React.createElement('div', {
+                                    key: 'minimal-header',
+                                    className: 'text-center mb-6 border-b pb-4',
+                                    style: { borderColor: '#e2e8f0' }
+                                }, [
+                                    React.createElement('h2', {
+                                        key: 'title',
+                                        className: 'text-lg font-light mb-1',
+                                        style: { letterSpacing: '0.1em' }
+                                    }, 'zen'),
+                                    React.createElement('p', {
+                                        key: 'tagline',
+                                        className: 'text-xs text-gray-500'
+                                    }, 'mindful dining')
+                                ]),
+                                React.createElement('div', {
+                                    key: 'menu-section',
+                                    className: 'space-y-4'
+                                }, [
+                                    React.createElement('h3', {
+                                        key: 'section-title',
+                                        className: 'text-sm font-light lowercase',
+                                        style: { color: '#718096' }
+                                    }, 'starters'),
+                                    React.createElement('div', {
+                                        key: 'items',
+                                        className: 'space-y-3'
+                                    }, [
+                                        React.createElement('div', {
+                                            key: 'item',
+                                            className: 'flex justify-between items-center py-2'
+                                        }, [
+                                            React.createElement('span', {
+                                                key: 'name',
+                                                className: 'text-sm font-light'
+                                            }, 'miso soup'),
+                                            React.createElement('span', {
+                                                key: 'price',
+                                                className: 'text-sm font-medium',
+                                                style: { color: '#4a5568' }
+                                            }, '8 JOD')
+                                        ]),
+                                        React.createElement('div', {
+                                            key: 'item2',
+                                            className: 'flex justify-between items-center py-2'
+                                        }, [
+                                            React.createElement('span', {
+                                                key: 'name',
+                                                className: 'text-sm font-light'
+                                            }, 'edamame'),
+                                            React.createElement('span', {
+                                                key: 'price',
+                                                className: 'text-sm font-medium',
+                                                style: { color: '#4a5568' }
+                                            }, '6 JOD')
+                                        ])
+                                    ])
+                                ])
+                            ]),
                             
                             // Overlay on hover
                             React.createElement('div', {
@@ -5931,34 +5713,90 @@
                             ])
                         ]),
                         
+                        // Custom info section based on template type
                         React.createElement('div', {
                             key: 'info',
-                            className: 'template-info'
+                            className: 'p-6',
+                            style: template.id === 'dark-neon' ? {
+                                background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%)',
+                                borderTop: '2px solid #00f5ff'
+                            } : template.id === 'elegant-script' ? {
+                                background: 'linear-gradient(135deg, #f7f1e3 0%, #f5e6d3 100%)',
+                                borderTop: '2px solid #d4af37'
+                            } : template.id === 'image-grid' ? {
+                                background: 'linear-gradient(135deg, #2c3e50 0%, #34495e 100%)',
+                                borderTop: '3px solid #ff6b35'
+                            } : {
+                                background: '#ffffff',
+                                borderTop: '1px solid #e2e8f0'
+                            }
                         }, [
                             React.createElement('h3', {
                                 key: 'name',
-                                className: 'template-name'
+                                className: 'text-lg font-bold mb-2',
+                                style: template.id === 'dark-neon' ? { color: '#00f5ff' } :
+                                      template.id === 'elegant-script' ? { color: '#d4af37', fontStyle: 'italic' } :
+                                      template.id === 'image-grid' ? { color: '#ff6b35', fontWeight: '900' } :
+                                      { color: '#2d3748', fontWeight: '300' }
                             }, template.name),
                             React.createElement('p', {
                                 key: 'desc',
-                                className: 'template-description'
+                                className: 'text-sm mb-4 leading-relaxed',
+                                style: template.id === 'dark-neon' ? { color: '#a0aec0' } :
+                                      template.id === 'elegant-script' ? { color: '#8b4513' } :
+                                      template.id === 'image-grid' ? { color: '#ecf0f1' } :
+                                      { color: '#718096' }
                             }, template.description),
                             React.createElement('div', {
                                 key: 'tags',
-                                className: 'template-tags'
+                                className: 'flex flex-wrap gap-2'
                             }, [
                                 React.createElement('span', {
                                     key: 'category',
-                                    className: 'template-tag'
+                                    className: 'px-3 py-1 rounded-full text-xs font-medium',
+                                    style: template.id === 'dark-neon' ? {
+                                        background: 'rgba(0, 245, 255, 0.2)',
+                                        color: '#00f5ff',
+                                        border: '1px solid rgba(0, 245, 255, 0.3)'
+                                    } : template.id === 'elegant-script' ? {
+                                        background: 'rgba(212, 175, 55, 0.2)',
+                                        color: '#d4af37',
+                                        border: '1px solid rgba(212, 175, 55, 0.3)'
+                                    } : template.id === 'image-grid' ? {
+                                        background: 'rgba(255, 107, 53, 0.2)',
+                                        color: '#ff6b35',
+                                        border: '1px solid rgba(255, 107, 53, 0.3)'
+                                    } : {
+                                        background: '#f7fafc',
+                                        color: '#4a5568',
+                                        border: '1px solid #e2e8f0'
+                                    }
                                 }, template.category),
                                 React.createElement('span', {
                                     key: 'theme',
-                                    className: 'template-tag'
+                                    className: 'px-3 py-1 rounded-full text-xs font-medium',
+                                    style: template.id === 'dark-neon' ? {
+                                        background: 'rgba(255, 0, 170, 0.2)',
+                                        color: '#ff00aa',
+                                        border: '1px solid rgba(255, 0, 170, 0.3)'
+                                    } : template.id === 'elegant-script' ? {
+                                        background: 'rgba(139, 69, 19, 0.2)',
+                                        color: '#8b4513',
+                                        border: '1px solid rgba(139, 69, 19, 0.3)'
+                                    } : template.id === 'image-grid' ? {
+                                        background: 'rgba(247, 147, 30, 0.2)',
+                                        color: '#f7931e',
+                                        border: '1px solid rgba(247, 147, 30, 0.3)'
+                                    } : {
+                                        background: '#edf2f7',
+                                        color: '#2d3748',
+                                        border: '1px solid #cbd5e0'
+                                    }
                                 }, template.preview.theme)
                             ])
                         ])
-                    ])
-                )),
+                    ]);
+                })),
                 
                 // Confirmation Section
                 showConfirmation && selectedTemplateData && React.createElement('div', {
