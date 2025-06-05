@@ -4966,20 +4966,25 @@
 
             const colorConfig = getColorConfig(colorScheme);
 
-            // Template preview matching exact desktop editing interface
+            // Template preview using EXACT container structure as editing interface
+            const containerClass = 'max-w-4xl mx-auto';
+            
             return React.createElement('div', {
-                className: `realistic-preview h-80 relative overflow-hidden rounded-lg bg-white shadow-lg ${fontClass}`,
+                className: `realistic-preview h-80 relative overflow-hidden ${containerClass} bg-white rounded-lg shadow-lg overflow-hidden ${fontClass}`,
                 style: {
-                    maxWidth: '400px'
+                    transform: 'scale(0.6)',
+                    transformOrigin: 'top left',
+                    width: '166.67%',
+                    height: '166.67%'
                 }
             }, [
-                // Header exactly matching desktop editing interface
+                // Header using EXACT editing interface structure
                 React.createElement('div', {
                     key: 'header',
                     className: `p-8 text-white bg-gradient-to-r ${colorConfig.gradient}`
                 }, [
                     React.createElement('h1', {
-                        key: 'restaurant-name',
+                        key: 'name',
                         className: 'text-4xl font-bold mb-3'
                     }, mockData?.restaurantName || 'Sample Restaurant'),
                     React.createElement('p', {
@@ -4987,29 +4992,24 @@
                         className: 'opacity-90 text-xl'
                     }, mockData?.tagline || 'Delicious cuisine awaits')
                 ]),
-
-                // Content matching exact desktop editing layout
+                
+                // Content using EXACT editing interface structure
                 React.createElement('div', {
                     key: 'content',
                     className: 'p-8'
                 }, [
-                    // Section with mb-10 matching desktop
                     React.createElement('div', {
                         key: 'section',
                         className: 'mb-10'
                     }, [
-                        // Section title exactly matching desktop editing
                         React.createElement('h2', {
                             key: 'title',
                             className: 'text-3xl font-bold text-gray-800 mb-4 border-b-2 border-gray-200 pb-3'
                         }, 'Appetizers'),
-
-                        // Items container with space-y-1
                         React.createElement('div', {
                             key: 'items',
                             className: 'space-y-1'
                         }, [
-                            // Menu item 1 exactly matching desktop structure
                             React.createElement('div', {
                                 key: 'item1',
                                 className: 'menu-item p-4 border-b border-gray-100 last:border-b-0'
@@ -5042,8 +5042,6 @@
                                     }, '$12.00')
                                 ])
                             ]),
-
-                            // Menu item 2
                             React.createElement('div', {
                                 key: 'item2',
                                 className: 'menu-item p-4 border-b border-gray-100 last:border-b-0'
