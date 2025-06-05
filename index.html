@@ -4187,9 +4187,13 @@
                                     key: 'restaurant-name-input',
                                     type: 'text',
                                     className: 'input-field',
-                                    value: menu.restaurantName || '',
-                                    onChange: (e) => {
-                                        setMenu(prev => ({...prev, restaurantName: e.target.value}));
+                                    defaultValue: menu.restaurantName || '',
+                                    onInput: (e) => {
+                                        const value = e.target.value;
+                                        clearTimeout(window.nameTimeout);
+                                        window.nameTimeout = setTimeout(() => {
+                                            setMenu(prev => ({...prev, restaurantName: value}));
+                                        }, 300);
                                     },
                                     placeholder: t('enterRestaurantName'),
                                     autoComplete: 'off',
@@ -4205,9 +4209,13 @@
                                     key: 'tagline-input',
                                     type: 'text',
                                     className: 'input-field',
-                                    value: menu.tagline || '',
-                                    onChange: (e) => {
-                                        setMenu(prev => ({...prev, tagline: e.target.value}));
+                                    defaultValue: menu.tagline || '',
+                                    onInput: (e) => {
+                                        const value = e.target.value;
+                                        clearTimeout(window.taglineTimeout);
+                                        window.taglineTimeout = setTimeout(() => {
+                                            setMenu(prev => ({...prev, tagline: value}));
+                                        }, 300);
                                     },
                                     placeholder: t('enterTagline'),
                                     autoComplete: 'off',
@@ -5105,27 +5113,29 @@
                         
                         React.createElement('div', {
                             key: 'info',
-                            className: 'template-info p-6'
+                            className: 'template-info'
                         }, [
-                            React.createElement('div', {
-                                key: 'header',
-                                className: 'flex items-center justify-between mb-3'
-                            }, [
-                                React.createElement('h3', {
-                                    key: 'name',
-                                    className: 'text-xl font-bold'
-                                }, template.name),
-                                React.createElement('div', {
-                                    key: 'indicator',
-                                    className: `selection-indicator ${
-                                        selectedTemplate === template.id ? 'selected' : ''
-                                    }`
-                                }, selectedTemplate === template.id ? '✓' : '○')
-                            ]),
+                            React.createElement('h3', {
+                                key: 'name',
+                                className: 'template-name'
+                            }, template.name),
                             React.createElement('p', {
                                 key: 'desc',
-                                className: 'text-gray-600 text-sm'
-                            }, template.description)
+                                className: 'template-description'
+                            }, template.description),
+                            React.createElement('div', {
+                                key: 'tags',
+                                className: 'template-tags'
+                            }, [
+                                React.createElement('span', {
+                                    key: 'category',
+                                    className: 'template-tag'
+                                }, template.category),
+                                React.createElement('span', {
+                                    key: 'theme',
+                                    className: 'template-tag'
+                                }, template.preview.theme)
+                            ])
                         ])
                     ])
                 )),
