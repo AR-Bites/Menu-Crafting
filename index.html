@@ -1909,208 +1909,6 @@
             50% { transform: translateY(-10px); }
         }
 
-        /* TEMPLATE SELECTOR REDESIGN - FIX BACKGROUND BUG + MOBILE + JOD */
-        .template-card-enhanced {
-            background: rgba(255, 255, 255, 0.08);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(15px);
-            animation: templateSlideIn 0.6s ease-out forwards;
-            opacity: 0;
-            transform: translateY(30px);
-            cursor: pointer;
-            position: relative;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-
-        @keyframes templateSlideIn {
-            from { opacity: 0; transform: translateY(40px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        .template-card-enhanced:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 25px 80px rgba(147, 51, 234, 0.4);
-            border-color: rgba(147, 51, 234, 0.6);
-            background: rgba(255, 255, 255, 0.12);
-        }
-
-        .template-card-enhanced.selected {
-            border-color: rgba(147, 51, 234, 0.8);
-            background: rgba(147, 51, 234, 0.1);
-            box-shadow: 0 15px 60px rgba(147, 51, 234, 0.5);
-            transform: translateY(-5px);
-        }
-
-        /* REALISTIC PREVIEW - PREVENT BACKGROUND-ONLY CARDS */
-        .realistic-preview {
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-            transition: all 0.3s ease;
-            position: relative;
-            background-clip: padding-box;
-            min-height: 300px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .template-preview-container {
-            position: relative;
-            overflow: hidden;
-            border-radius: 16px;
-            min-height: 300px;
-        }
-
-        .template-info {
-            padding: 1.5rem;
-            background: rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-        }
-
-        .template-name {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 0.5rem;
-        }
-
-        .template-description {
-            font-size: 0.875rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 1rem;
-            line-height: 1.4;
-        }
-
-        .template-tags {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .template-tag {
-            background: rgba(147, 51, 234, 0.2);
-            color: rgba(147, 51, 234, 1);
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            border: 1px solid rgba(147, 51, 234, 0.3);
-        }
-
-        .template-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(147, 51, 234, 0.9), rgba(236, 72, 153, 0.9));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .template-card-enhanced:hover .template-overlay {
-            opacity: 1;
-        }
-
-        .overlay-content {
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .feature-badge {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        /* MOBILE RESPONSIVE - 100% MOBILE FRIENDLY */
-        @media (max-width: 768px) {
-            .template-card-enhanced {
-                margin-bottom: 1.5rem;
-                border-radius: 16px;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-            }
-            
-            .template-card-enhanced:active {
-                transform: scale(0.98);
-                transition: transform 0.1s ease;
-            }
-            
-            .realistic-preview {
-                height: 240px !important;
-                min-height: 240px;
-                border-radius: 12px;
-            }
-            
-            .template-grid-mobile {
-                grid-template-columns: 1fr !important;
-                gap: 1.5rem;
-                padding: 0 1rem;
-            }
-            
-            .template-info {
-                padding: 1rem;
-            }
-            
-            .template-name {
-                font-size: 1.125rem;
-            }
-            
-            .template-description {
-                font-size: 0.8rem;
-            }
-        }
-
-        /* ARABIC/ENGLISH BILINGUAL SUPPORT */
-        .font-cairo {
-            font-family: 'Cairo', 'Amiri', 'Noto Sans Arabic', sans-serif;
-            font-weight: 600;
-        }
-
-        [dir="rtl"] .template-preview-container {
-            direction: rtl;
-        }
-
-        [dir="rtl"] .realistic-preview {
-            text-align: right;
-        }
-
-        [dir="rtl"] .template-tags {
-            justify-content: flex-end;
-        }
-
-        /* CONFIRMATION SECTION */
-        .confirmation-section {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(147, 51, 234, 0.3);
-            border-radius: 20px;
-            padding: 2rem;
-            backdrop-filter: blur(15px);
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        .confirmation-content {
-            text-align: center;
-        }
-
-        .confirmation-icon {
-            font-size: 3rem;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
         /* REDESIGNED LANDING PAGE - Fullscreen Hero */
         .hero-landing-redesigned {
             position: relative;
@@ -2605,7 +2403,7 @@
                 "dark-neonDesc": "تصميم مستقبلي داكن مع لمسات نيون وتصميم سايبر",
                 "elegant-scriptDesc": "مطعم فرنسي راقي مع لمسات ذهبية وخطوط أنيقة",
                 "image-gridDesc": "تخطيط يركز على الصور مع طباعة جريئة وألوان نابضة بالحياة",
-                "minimal-zenDesc": "تصميم نظيف وواسع مع c�ساطة واعية",
+                "minimal-zenDesc": "تصميم نظيف وواسع مع بساطة واعية",
                 useTemplate: "استخدم هذا القالب",
                 chooseTemplate: "اختر هذا القالب",
                 templateSelected: "تم اختيار القالب!",
@@ -2860,155 +2658,219 @@
             ]);
         }
 
-        // Visually Unique Templates with Live Previews
+        // Realistic Templates with JOD pricing and Arabic/English support
         const templates = [
             {
-                id: 'dark-neon',
-                name: 'Dark Neon',
-                description: 'Modern dark theme with neon accents and futuristic vibes',
-                colorScheme: 'indigo',
-                fontFamily: 'inter',
-                headerStyle: 'gradient',
-                spacing: 3,
-                category: 'modern',
-                preview: {
-                    theme: 'dark',
-                    headerBg: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)',
-                    accentColor: '#00f5ff',
-                    secondaryColor: '#ff00aa',
-                    typography: 'Inter',
-                    buttonStyle: 'neon'
-                },
-                mockData: {
-                    restaurantName: 'NEON BISTRO',
-                    tagline: 'Future of Dining',
-                    sections: [
-                        { 
-                            name: 'CYBER STARTERS', 
-                            items: [
-                                { name: 'Neural Nachos', price: '$18', featured: true },
-                                { name: 'Digital Dumplings', price: '$22' }
-                            ]
-                        },
-                        { 
-                            name: 'MAIN PROTOCOL', 
-                            items: [
-                                { name: 'Quantum Burger', price: '$28' },
-                                { name: 'Binary Pasta', price: '$24' }
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                id: 'elegant-script',
-                name: 'Elegant Script',
-                description: 'Sophisticated script fonts with gold accents and classic elegance',
-                colorScheme: 'rose',
+                id: 'levantine-premium',
+                name: 'Levantine Premium',
+                nameAr: 'شامي راقي',
+                description: 'Elegant Middle Eastern design with traditional patterns and gold accents',
+                descriptionAr: 'تصميم شرق أوسطي راقي مع أنماط تقليدية ولمسات ذهبية',
+                colorScheme: 'amber',
                 fontFamily: 'serif',
-                headerStyle: 'image',
+                headerStyle: 'gradient',
                 spacing: 4,
-                category: 'elegant',
+                category: 'premium',
                 preview: {
-                    theme: 'light',
-                    headerBg: 'linear-gradient(135deg, #f7f1e3 0%, #f5e6d3 50%, #e8d5b7 100%)',
+                    theme: 'elegant',
+                    headerBg: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
                     accentColor: '#d4af37',
-                    secondaryColor: '#8b4513',
+                    secondaryColor: '#c4a374',
                     typography: 'Playfair Display',
                     buttonStyle: 'classic'
                 },
                 mockData: {
-                    restaurantName: 'La Belle Époque',
-                    tagline: 'Fine French Cuisine Since 1889',
+                    restaurantName: 'بيت الشام',
+                    restaurantNameEn: 'Beit Al Sham',
+                    tagline: 'أصالة الطعم الشامي',
+                    taglineEn: 'Authentic Levantine Flavors',
                     sections: [
                         { 
-                            name: 'Les Entrées', 
+                            name: 'المقبلات',
+                            nameEn: 'Appetizers',
                             items: [
-                                { name: 'Escargots de Bourgogne', price: '€24', special: true },
-                                { name: 'Pâté de Foie Gras', price: '€32' }
+                                { name: 'حمص بالطحينة', nameEn: 'Hummus with Tahini', price: '3.50 JOD' },
+                                { name: 'متبل باذنجان', nameEn: 'Baba Ghanoush', price: '4.00 JOD' },
+                                { name: 'فتوش لبناني', nameEn: 'Lebanese Fattoush', price: '5.50 JOD' }
                             ]
                         },
                         { 
-                            name: 'Les Plats Principaux', 
+                            name: 'الأطباق الرئيسية',
+                            nameEn: 'Main Dishes',
                             items: [
-                                { name: 'Bouillabaisse Marseillaise', price: '€45' },
-                                { name: 'Bœuf Wellington', price: '€52' }
+                                { name: 'منسف أردني', nameEn: 'Jordanian Mansaf', price: '12.50 JOD' },
+                                { name: 'مقلوبة دجاج', nameEn: 'Chicken Maqluba', price: '10.00 JOD' },
+                                { name: 'كباب حلبي', nameEn: 'Aleppo Kebab', price: '11.00 JOD' }
+                            ]
+                        },
+                        { 
+                            name: 'الحلويات',
+                            nameEn: 'Desserts',
+                            items: [
+                                { name: 'كنافة نابلسية', nameEn: 'Nabulsi Knafeh', price: '4.50 JOD' },
+                                { name: 'بقلاوة بالفستق', nameEn: 'Pistachio Baklava', price: '3.50 JOD' }
                             ]
                         }
                     ]
                 }
             },
             {
-                id: 'image-grid',
-                name: 'Image Grid',
-                description: 'Photo-focused layout with bold typography and vibrant colors',
-                colorScheme: 'amber',
+                id: 'modern-minimalist',
+                name: 'Modern Minimalist',
+                nameAr: 'عصري بسيط',
+                description: 'Clean lines and contemporary design for upscale casual dining',
+                descriptionAr: 'خطوط نظيفة وتصميم معاصر للمطاعم العصرية',
+                colorScheme: 'indigo',
+                fontFamily: 'sans',
+                headerStyle: 'solid',
+                spacing: 3,
+                category: 'modern',
+                preview: {
+                    theme: 'minimal',
+                    headerBg: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%)',
+                    accentColor: '#1e293b',
+                    secondaryColor: '#64748b',
+                    typography: 'Inter',
+                    buttonStyle: 'modern'
+                },
+                mockData: {
+                    restaurantName: 'Fusion',
+                    restaurantNameAr: 'فيوجن',
+                    tagline: 'Contemporary Middle Eastern Cuisine',
+                    taglineAr: 'مطبخ شرق أوسطي معاصر',
+                    sections: [
+                        { 
+                            name: 'Starters',
+                            nameAr: 'المقبلات',
+                            items: [
+                                { name: 'Truffle Hummus', nameAr: 'حمص بالكمأة', price: '6.50 JOD' },
+                                { name: 'Spicy Muhammara', nameAr: 'محمرة حارة', price: '5.00 JOD' },
+                                { name: 'Quinoa Tabbouleh', nameAr: 'تبولة الكينوا', price: '7.00 JOD' }
+                            ]
+                        },
+                        { 
+                            name: 'Mains',
+                            nameAr: 'الأطباق الرئيسية',
+                            items: [
+                                { name: 'Saffron Lamb Shank', nameAr: 'ساق خروف بالزعفران', price: '16.50 JOD' },
+                                { name: 'Za\'atar Crusted Salmon', nameAr: 'سلمون بقشرة الزعتر', price: '14.00 JOD' },
+                                { name: 'Pomegranate Chicken', nameAr: 'دجاج بالرمان', price: '12.50 JOD' }
+                            ]
+                        },
+                        { 
+                            name: 'Desserts',
+                            nameAr: 'الحلويات',
+                            items: [
+                                { name: 'Date Cheesecake', nameAr: 'تشيز كيك التمر', price: '5.50 JOD' },
+                                { name: 'Rosewater Panna Cotta', nameAr: 'بانا كوتا ماء الورد', price: '4.50 JOD' }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                id: 'street-casual',
+                name: 'Street Casual',
+                nameAr: 'شارع كاجوال',
+                description: 'Vibrant street food design with bold colors and playful typography',
+                descriptionAr: 'تصميم طعام شارع نابض بألوان جريئة وخطوط مرحة',
+                colorScheme: 'orange',
                 fontFamily: 'sans',
                 headerStyle: 'image',
                 spacing: 2,
-                category: 'visual',
+                category: 'casual',
                 preview: {
                     theme: 'vibrant',
                     headerBg: 'linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ffd23f 100%)',
                     accentColor: '#ff6b35',
                     secondaryColor: '#2c3e50',
-                    typography: 'Montserrat',
+                    typography: 'Poppins',
                     buttonStyle: 'bold'
                 },
                 mockData: {
-                    restaurantName: 'STREET KITCHEN',
-                    tagline: 'Bold Flavors, Fresh Ingredients',
+                    restaurantName: 'زاوية الشارع',
+                    restaurantNameEn: 'Street Corner',
+                    tagline: 'طعام الشارع الأصيل',
+                    taglineEn: 'Authentic Street Food',
                     sections: [
                         { 
-                            name: 'SIGNATURE BOWLS', 
+                            name: 'ساندويش',
+                            nameEn: 'Sandwiches',
                             items: [
-                                { name: 'Korean BBQ Bowl', price: '$16', hasImage: true },
-                                { name: 'Med Quinoa Bowl', price: '$14', hasImage: true }
+                                { name: 'شاورما لحم', nameEn: 'Beef Shawarma', price: '3.50 JOD' },
+                                { name: 'شاورما دجاج', nameEn: 'Chicken Shawarma', price: '3.00 JOD' },
+                                { name: 'فلافل', nameEn: 'Falafel', price: '2.00 JOD' },
+                                { name: 'كباب عربي', nameEn: 'Arabic Kebab', price: '4.00 JOD' }
                             ]
                         },
                         { 
-                            name: 'CRAFT BURGERS', 
+                            name: 'وجبات كاملة',
+                            nameEn: 'Complete Meals',
                             items: [
-                                { name: 'Truffle Burger', price: '$18', hasImage: true },
-                                { name: 'Spicy Jalapeño', price: '$16', hasImage: true }
+                                { name: 'صحن شاورما لحم', nameEn: 'Beef Shawarma Plate', price: '7.50 JOD' },
+                                { name: 'صحن دجاج مشوي', nameEn: 'Grilled Chicken Plate', price: '8.00 JOD' },
+                                { name: 'صحن مشكل مشاوي', nameEn: 'Mixed Grill Plate', price: '12.00 JOD' }
+                            ]
+                        },
+                        { 
+                            name: 'مشروبات',
+                            nameEn: 'Drinks',
+                            items: [
+                                { name: 'عصير برتقال طازج', nameEn: 'Fresh Orange Juice', price: '2.50 JOD' },
+                                { name: 'ليمونادة', nameEn: 'Lemonade', price: '2.00 JOD' }
                             ]
                         }
                     ]
                 }
             },
             {
-                id: 'minimal-zen',
-                name: 'Minimal Zen',
-                description: 'Clean, spacious design with subtle elegance and mindful simplicity',
+                id: 'elegant-fine-dining',
+                name: 'Elegant Fine Dining',
+                nameAr: 'راقي فاخر',
+                description: 'Luxurious design with sophisticated styling for upscale restaurants',
+                descriptionAr: 'تصميم فاخر مع تنسيق راقي للمطاعم الراقية',
                 colorScheme: 'emerald',
-                fontFamily: 'sans',
-                headerStyle: 'solid',
+                fontFamily: 'serif',
+                headerStyle: 'gradient',
                 spacing: 5,
-                category: 'minimal',
+                category: 'premium',
                 preview: {
-                    theme: 'minimal',
-                    headerBg: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #e9ecef 100%)',
-                    accentColor: '#2d3748',
-                    secondaryColor: '#718096',
-                    typography: 'Inter',
-                    buttonStyle: 'minimal'
+                    theme: 'dark-elegant',
+                    headerBg: 'linear-gradient(135deg, #064e3b 0%, #047857 50%, #059669 100%)',
+                    accentColor: '#10b981',
+                    secondaryColor: '#6ee7b7',
+                    typography: 'Crimson Text',
+                    buttonStyle: 'elegant'
                 },
                 mockData: {
-                    restaurantName: 'zen',
-                    tagline: 'mindful dining',
+                    restaurantName: 'The Royal Table',
+                    restaurantNameAr: 'المائدة الملكية',
+                    tagline: 'Exquisite Dining Experience',
+                    taglineAr: 'تجربة طعام استثنائية',
                     sections: [
                         { 
-                            name: 'starters', 
+                            name: 'Amuse-Bouche',
+                            nameAr: 'فاتح الشهية',
                             items: [
-                                { name: 'miso soup', price: '12' },
-                                { name: 'edamame', price: '8' }
+                                { name: 'Caviar Pearls', nameAr: 'لؤلؤ الكافيار', price: '15.00 JOD' },
+                                { name: 'Truffle Foam', nameAr: 'رغوة الكمأة', price: '12.00 JOD' }
                             ]
                         },
                         { 
-                            name: 'mains', 
+                            name: 'Chef\'s Selection',
+                            nameAr: 'اختيار الشيف',
                             items: [
-                                { name: 'salmon teriyaki', price: '28' },
-                                { name: 'vegetable ramen', price: '22' }
+                                { name: 'Wagyu Beef Tenderloin', nameAr: 'فيليه لحم الواغيو', price: '45.00 JOD' },
+                                { name: 'Lobster Thermidor', nameAr: 'لوبستر ثيرميدور', price: '38.00 JOD' },
+                                { name: 'Duck Confit', nameAr: 'بط مطبوخ بدهنه', price: '28.50 JOD' }
+                            ]
+                        },
+                        { 
+                            name: 'Dessert Experience',
+                            nameAr: 'تجربة الحلوى',
+                            items: [
+                                { name: 'Chocolate Soufflé', nameAr: 'سوفليه الشوكولاتة', price: '9.50 JOD' },
+                                { name: 'Crème Brûlée Trio', nameAr: 'ثلاثية الكريم برولي', price: '8.50 JOD' }
                             ]
                         }
                     ]
@@ -5070,230 +4932,17 @@
             ]);
         }
 
-        // Realistic Template Preview Component - Accurate Mini Layouts with JOD Pricing
+        // Realistic Template Preview Component - Accurate Mini Layouts
         function RealisticTemplatePreview({ template }) {
-            const { language } = useLanguage();
-            const isRTL = language === 'ar';
+            const { mockData, preview } = template;
             
-            // Template-specific realistic menu data with JOD pricing
-            const getTemplateMenuData = (templateId, lang) => {
-                const templateMenus = {
-                    'neon-modern': {
-                        en: {
-                            restaurantName: 'Neon Bistro',
-                            tagline: 'Modern Fusion Cuisine',
-                            sections: [
-                                {
-                                    name: 'Starters',
-                                    items: [
-                                        { name: 'Truffle Hummus', price: '4.50 JOD', featured: true },
-                                        { name: 'Crispy Halloumi', price: '3.75 JOD' },
-                                        { name: 'Fusion Meze', price: '6.00 JOD' },
-                                        { name: 'Avocado Toast', price: '5.25 JOD' }
-                                    ]
-                                },
-                                {
-                                    name: 'Mains',
-                                    items: [
-                                        { name: 'Wagyu Burger', price: '12.50 JOD', featured: true },
-                                        { name: 'Grilled Salmon', price: '11.00 JOD' },
-                                        { name: 'Duck Confit', price: '15.00 JOD' },
-                                        { name: 'Pasta Arrabiata', price: '8.75 JOD' }
-                                    ]
-                                }
-                            ]
-                        },
-                        ar: {
-                            restaurantName: 'نيون بيسترو',
-                            tagline: 'المأكولات العصرية المدمجة',
-                            sections: [
-                                {
-                                    name: 'المقبلات',
-                                    items: [
-                                        { name: 'حمص بالكمأة', price: '4.50 دينار', featured: true },
-                                        { name: 'حلوم مقرمش', price: '3.75 دينار' },
-                                        { name: 'مزة مدمجة', price: '6.00 دينار' },
-                                        { name: 'توست الأفوكادو', price: '5.25 دينار' }
-                                    ]
-                                },
-                                {
-                                    name: 'الأطباق الرئيسية',
-                                    items: [
-                                        { name: 'برغر واغيو', price: '12.50 دينار', featured: true },
-                                        { name: 'سلمون مشوي', price: '11.00 دينار' },
-                                        { name: 'بط كونفي', price: '15.00 دينار' },
-                                        { name: 'باستا أرابياتا', price: '8.75 دينار' }
-                                    ]
-                                }
-                            ]
-                        }
-                    },
-                    'elegant-script': {
-                        en: {
-                            restaurantName: 'La Belle Époque',
-                            tagline: 'Fine French Dining',
-                            sections: [
-                                {
-                                    name: 'Entrées',
-                                    items: [
-                                        { name: 'Escargot', price: '6.50 JOD', featured: true },
-                                        { name: 'Foie Gras', price: '8.75 JOD' },
-                                        { name: 'French Onion Soup', price: '4.25 JOD' },
-                                        { name: 'Oysters', price: '7.50 JOD' }
-                                    ]
-                                },
-                                {
-                                    name: 'Plats Principaux',
-                                    items: [
-                                        { name: 'Beef Bourguignon', price: '16.50 JOD', featured: true },
-                                        { name: 'Coq au Vin', price: '14.00 JOD' },
-                                        { name: 'Bouillabaisse', price: '18.50 JOD' },
-                                        { name: 'Rack of Lamb', price: '19.75 JOD' }
-                                    ]
-                                }
-                            ]
-                        },
-                        ar: {
-                            restaurantName: 'لا بيل إيبوك',
-                            tagline: 'المأكولات الفرنسية الراقية',
-                            sections: [
-                                {
-                                    name: 'المقبلات',
-                                    items: [
-                                        { name: 'حلزون', price: '6.50 دينار', featured: true },
-                                        { name: 'كبد الإوز', price: '8.75 دينار' },
-                                        { name: 'شوربة البصل', price: '4.25 دينار' },
-                                        { name: 'المحار', price: '7.50 دينار' }
-                                    ]
-                                },
-                                {
-                                    name: 'الأطباق الرئيسية',
-                                    items: [
-                                        { name: 'لحم بورغيجنون', price: '16.50 دينار', featured: true },
-                                        { name: 'ديك بالنبيذ', price: '14.00 دينار' },
-                                        { name: 'بويابيز', price: '18.50 دينار' },
-                                        { name: 'رف الخروف', price: '19.75 دينار' }
-                                    ]
-                                }
-                            ]
-                        }
-                    },
-                    'minimalist-clean': {
-                        en: {
-                            restaurantName: 'Pure Kitchen',
-                            tagline: 'Simple. Fresh. Delicious.',
-                            sections: [
-                                {
-                                    name: 'Fresh Starts',
-                                    items: [
-                                        { name: 'Garden Salad', price: '3.50 JOD', featured: true },
-                                        { name: 'Quinoa Bowl', price: '4.75 JOD' },
-                                        { name: 'Daily Soup', price: '3.25 JOD' },
-                                        { name: 'Bruschetta', price: '5.00 JOD' }
-                                    ]
-                                },
-                                {
-                                    name: 'Main Dishes',
-                                    items: [
-                                        { name: 'Grilled Chicken', price: '9.50 JOD', featured: true },
-                                        { name: 'Pan-Seared Fish', price: '11.25 JOD' },
-                                        { name: 'Veggie Risotto', price: '8.00 JOD' },
-                                        { name: 'Beef Tenderloin', price: '14.75 JOD' }
-                                    ]
-                                }
-                            ]
-                        },
-                        ar: {
-                            restaurantName: 'المطبخ النقي',
-                            tagline: 'بساطة. طازج. لذيذ.',
-                            sections: [
-                                {
-                                    name: 'البدايات الطازجة',
-                                    items: [
-                                        { name: 'سلطة الحديقة', price: '3.50 دينار', featured: true },
-                                        { name: 'وعاء الكينوا', price: '4.75 دينار' },
-                                        { name: 'شوربة اليوم', price: '3.25 دينار' },
-                                        { name: 'بروشيتا', price: '5.00 دينار' }
-                                    ]
-                                },
-                                {
-                                    name: 'الأطباق الرئيسية',
-                                    items: [
-                                        { name: 'دجاج مشوي', price: '9.50 دينار', featured: true },
-                                        { name: 'سمك محمر', price: '11.25 دينار' },
-                                        { name: 'ريزوتو نباتي', price: '8.00 دينار' },
-                                        { name: 'متن اللحم', price: '14.75 دينار' }
-                                    ]
-                                }
-                            ]
-                        }
-                    },
-                    'vintage-rustic': {
-                        en: {
-                            restaurantName: 'The Old Mill',
-                            tagline: 'Traditional Comfort Food',
-                            sections: [
-                                {
-                                    name: 'Country Starters',
-                                    items: [
-                                        { name: 'Homemade Bread', price: '2.50 JOD', featured: true },
-                                        { name: 'Farm Cheese', price: '4.25 JOD' },
-                                        { name: 'Pickled Veggies', price: '3.00 JOD' },
-                                        { name: 'Hearty Soup', price: '3.75 JOD' }
-                                    ]
-                                },
-                                {
-                                    name: 'Hearty Mains',
-                                    items: [
-                                        { name: 'Slow-Cooked Stew', price: '10.50 JOD', featured: true },
-                                        { name: 'Roasted Chicken', price: '9.25 JOD' },
-                                        { name: 'Lamb Chops', price: '13.75 JOD' },
-                                        { name: 'Shepherd\'s Pie', price: '8.50 JOD' }
-                                    ]
-                                }
-                            ]
-                        },
-                        ar: {
-                            restaurantName: 'الطاحونة القديمة',
-                            tagline: 'الطعام التقليدي المريح',
-                            sections: [
-                                {
-                                    name: 'مقبلات ريفية',
-                                    items: [
-                                        { name: 'خبز منزلي', price: '2.50 دينار', featured: true },
-                                        { name: 'جبنة المزرعة', price: '4.25 دينار' },
-                                        { name: 'خضار مخللة', price: '3.00 دينار' },
-                                        { name: 'شوربة دسمة', price: '3.75 دينار' }
-                                    ]
-                                },
-                                {
-                                    name: 'أطباق رئيسية دسمة',
-                                    items: [
-                                        { name: 'يخنة بطيئة', price: '10.50 دينار', featured: true },
-                                        { name: 'دجاج محمص', price: '9.25 دينار' },
-                                        { name: 'قطع خروف', price: '13.75 دينار' },
-                                        { name: 'فطيرة الراعي', price: '8.50 دينار' }
-                                    ]
-                                }
-                            ]
-                        }
-                    }
-                };
-                
-                return templateMenus[templateId] ? templateMenus[templateId][lang] : templateMenus['neon-modern'][lang];
-            };
-            
-            const mockData = getTemplateMenuData(template.id, language);
-            const preview = template.preview;
-            
-            // Neon Modern Template
-            if (template.id === 'neon-modern') {
+            // Dark Neon Template
+            if (template.id === 'dark-neon') {
                 return React.createElement('div', {
-                    className: `realistic-preview h-80 relative overflow-hidden rounded-lg ${isRTL ? 'text-right' : 'text-left'}`,
-                    dir: isRTL ? 'rtl' : 'ltr',
+                    className: 'realistic-preview h-80 relative overflow-hidden rounded-lg',
                     style: {
                         background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)',
-                        fontFamily: isRTL ? 'Cairo, sans-serif' : 'Inter, sans-serif'
+                        fontFamily: 'Inter, sans-serif'
                     }
                 }, [
                     // Neon grid background
@@ -5364,12 +5013,156 @@
                 ]);
             }
             
-            // Elegant Script Template
-            if (template.id === 'elegant-script') {
+            // Modern Minimalist Template
+            if (template.id === 'modern-minimalist') {
                 return React.createElement('div', {
-                    className: 'realistic-preview h-80 relative overflow-hidden rounded-lg',
+                    className: `realistic-preview h-80 relative overflow-hidden rounded-lg ${isRTL ? 'rtl' : ''}`,
+                    dir: isRTL ? 'rtl' : 'ltr',
                     style: {
-                        background: 'linear-gradient(135deg, #f7f1e3 0%, #f5e6d3 50%, #e8d5b7 100%)',
+                        background: preview.headerBg,
+                        fontFamily: preview.typography
+                    }
+                }, [
+                    // Clean minimal header
+                    React.createElement('div', {
+                        key: 'header',
+                        className: 'p-4 text-center border-b border-slate-200'
+                    }, [
+                        React.createElement('h1', {
+                            key: 'title',
+                            className: 'text-xl font-bold mb-1',
+                            style: {
+                                color: preview.accentColor,
+                                fontFamily: 'Inter, sans-serif'
+                            }
+                        }, getLocalizedText('restaurantName', 'Restaurant Name')),
+                        React.createElement('p', {
+                            key: 'tagline',
+                            className: 'text-xs',
+                            style: { color: preview.secondaryColor }
+                        }, getLocalizedText('tagline', 'Tagline'))
+                    ]),
+                    
+                    // Clean menu layout
+                    React.createElement('div', {
+                        key: 'menu',
+                        className: 'px-4 py-3 space-y-3'
+                    }, mockData.sections.slice(0, 2).map((section, sIndex) =>
+                        React.createElement('div', {
+                            key: sIndex,
+                            className: 'section'
+                        }, [
+                            React.createElement('h3', {
+                                key: 'section-title',
+                                className: 'text-sm font-semibold mb-2',
+                                style: { color: preview.accentColor }
+                            }, getLocalizedName(section)),
+                            React.createElement('div', {
+                                key: 'items',
+                                className: 'space-y-2'
+                            }, section.items.slice(0, 2).map((item, iIndex) =>
+                                React.createElement('div', {
+                                    key: iIndex,
+                                    className: `flex justify-between items-center text-xs p-2 rounded ${isRTL ? 'flex-row-reverse' : ''}`,
+                                    style: { backgroundColor: 'rgba(148, 163, 184, 0.1)' }
+                                }, [
+                                    React.createElement('span', {
+                                        key: 'name',
+                                        style: { color: preview.accentColor }
+                                    }, getLocalizedName(item)),
+                                    React.createElement('span', {
+                                        key: 'price',
+                                        className: 'font-bold',
+                                        style: { color: preview.secondaryColor }
+                                    }, item.price)
+                                ])
+                            ))
+                        ])
+                    ))
+                ]);
+            }
+            
+            // Street Casual Template
+            if (template.id === 'street-casual') {
+                return React.createElement('div', {
+                    className: `realistic-preview h-80 relative overflow-hidden rounded-lg ${isRTL ? 'rtl' : ''}`,
+                    dir: isRTL ? 'rtl' : 'ltr',
+                    style: {
+                        background: preview.headerBg,
+                        fontFamily: preview.typography
+                    }
+                }, [
+                    // Vibrant header
+                    React.createElement('div', {
+                        key: 'header',
+                        className: 'p-4 text-center'
+                    }, [
+                        React.createElement('h1', {
+                            key: 'title',
+                            className: 'text-xl font-bold mb-1',
+                            style: {
+                                color: 'white',
+                                textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+                                fontFamily: 'Poppins, sans-serif'
+                            }
+                        }, getLocalizedText('restaurantName', 'Restaurant Name')),
+                        React.createElement('p', {
+                            key: 'tagline',
+                            className: 'text-xs font-semibold',
+                            style: { color: preview.secondaryColor }
+                        }, getLocalizedText('tagline', 'Tagline'))
+                    ]),
+                    
+                    // Bold menu layout
+                    React.createElement('div', {
+                        key: 'menu',
+                        className: 'px-4 py-3 space-y-3'
+                    }, mockData.sections.slice(0, 2).map((section, sIndex) =>
+                        React.createElement('div', {
+                            key: sIndex,
+                            className: 'section'
+                        }, [
+                            React.createElement('h3', {
+                                key: 'section-title',
+                                className: 'text-sm font-bold mb-2 uppercase',
+                                style: { color: preview.secondaryColor }
+                            }, getLocalizedName(section)),
+                            React.createElement('div', {
+                                key: 'items',
+                                className: 'grid grid-cols-2 gap-2'
+                            }, section.items.slice(0, 4).map((item, iIndex) =>
+                                React.createElement('div', {
+                                    key: iIndex,
+                                    className: 'text-xs p-2 rounded-lg text-center',
+                                    style: { 
+                                        backgroundColor: 'rgba(255,255,255,0.9)',
+                                        border: `2px solid ${preview.accentColor}`
+                                    }
+                                }, [
+                                    React.createElement('div', {
+                                        key: 'name',
+                                        className: 'font-bold mb-1',
+                                        style: { color: preview.secondaryColor }
+                                    }, getLocalizedName(item)),
+                                    React.createElement('div', {
+                                        key: 'price',
+                                        className: 'font-bold',
+                                        style: { color: preview.accentColor }
+                                    }, item.price)
+                                ])
+                            ))
+                        ])
+                    ))
+                ]);
+            }
+            
+            // Elegant Fine Dining Template
+            if (template.id === 'elegant-fine-dining') {
+                return React.createElement('div', {
+                    className: `realistic-preview h-80 relative overflow-hidden rounded-lg ${isRTL ? 'rtl' : ''}`,
+                    dir: isRTL ? 'rtl' : 'ltr',
+                    style: {
+                        background: preview.headerBg,
                         fontFamily: 'Playfair Display, serif'
                     }
                 }, [
@@ -5400,7 +5193,7 @@
                                 color: preview.accentColor,
                                 fontFamily: 'Playfair Display, serif'
                             }
-                        }, mockData.restaurantName),
+                        }, getLocalizedText('restaurantName', 'Restaurant Name')),
                         React.createElement('div', {
                             key: 'ornament',
                             className: 'w-16 h-px mx-auto my-2',
@@ -5684,7 +5477,7 @@
                 
                 React.createElement('div', {
                     key: 'templates',
-                    className: 'max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 template-grid-mobile'
+                    className: 'max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 mb-16'
                 }, templates.map((template, index) => 
                     React.createElement('div', {
                         key: template.id,
