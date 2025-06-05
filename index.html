@@ -4116,26 +4116,42 @@
                                 key: 'view-toggle',
                                 className: 'view-toggle'
                             }, [
-                                ['desktop', '💻', t('desktop')],
-                                ['tablet', '📱', t('tablet')], 
-                                ['mobile', '📱', t('mobile')]
+                                ['desktop', '💻', 'Desktop'],
+                                ['tablet', '📱', 'Tablet'], 
+                                ['mobile', '📱', 'Mobile']
                             ].map(([mode, icon, label]) => 
                                 React.createElement('button', {
                                     key: mode,
                                     className: `view-toggle-btn ${viewMode === mode ? 'active' : ''}`,
                                     onClick: () => handleViewModeChange(mode),
                                     disabled: isViewSwitching,
-                                    'aria-label': `${t('switchTo')} ${label}`,
+                                    'aria-label': `Switch to ${label}`,
                                     'data-mode': mode,
-                                    type: 'button'
+                                    type: 'button',
+                                    style: {
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '8px',
+                                        minWidth: '120px',
+                                        justifyContent: 'center'
+                                    }
                                 }, [
                                     React.createElement('span', { 
                                         key: 'icon', 
-                                        className: 'view-icon'
+                                        className: 'view-icon',
+                                        style: {
+                                            display: 'block',
+                                            fontSize: '18px'
+                                        }
                                     }, icon),
                                     React.createElement('span', { 
                                         key: 'label', 
-                                        className: 'view-label'
+                                        className: 'view-label',
+                                        style: {
+                                            display: 'block',
+                                            fontWeight: '600',
+                                            fontSize: '14px'
+                                        }
                                     }, label)
                                 ])
                             )),
