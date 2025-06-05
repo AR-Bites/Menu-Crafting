@@ -2225,6 +2225,143 @@
             transition: all 0.3s ease;
         }
 
+        /* Template Selection Responsive Grid */
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .template-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 0 0.5rem;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .template-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* Template Card Enhanced Styling */
+        .template-card-new {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(15px);
+            cursor: pointer;
+            position: relative;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .template-card-new:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
+                        0 0 0 1px rgba(255, 255, 255, 0.1),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .template-card-new.selected {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 25px 50px rgba(59, 130, 246, 0.3),
+                        0 0 0 2px #3b82f6;
+        }
+
+        .template-preview-section {
+            flex: 1;
+            position: relative;
+        }
+
+        .template-info-section {
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .template-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .template-description {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .template-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .feature-badge {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.9);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .template-selection-container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem 0;
+        }
+
+        .template-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 0 1rem;
+        }
+
+        .template-title {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .template-subtitle {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* RTL Template Support */
+        [dir="rtl"] .template-grid {
+            direction: rtl;
+        }
+
+        [dir="rtl"] .template-info-section {
+            text-align: right;
+        }
+
+        [dir="rtl"] .template-features {
+            justify-content: flex-end;
+        }
+
         /* Print Styles */
         @media print {
             .sidebar, .language-toggle, .btn {
@@ -2658,219 +2795,155 @@
             ]);
         }
 
-        // Realistic Templates with JOD pricing and Arabic/English support
+        // Visually Unique Templates with Live Previews
         const templates = [
             {
-                id: 'levantine-premium',
-                name: 'Levantine Premium',
-                nameAr: 'شامي راقي',
-                description: 'Elegant Middle Eastern design with traditional patterns and gold accents',
-                descriptionAr: 'تصميم شرق أوسطي راقي مع أنماط تقليدية ولمسات ذهبية',
-                colorScheme: 'amber',
-                fontFamily: 'serif',
+                id: 'dark-neon',
+                name: 'Dark Neon',
+                description: 'Modern dark theme with neon accents and futuristic vibes',
+                colorScheme: 'indigo',
+                fontFamily: 'inter',
                 headerStyle: 'gradient',
-                spacing: 4,
-                category: 'premium',
+                spacing: 3,
+                category: 'modern',
                 preview: {
-                    theme: 'elegant',
-                    headerBg: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
+                    theme: 'dark',
+                    headerBg: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)',
+                    accentColor: '#00f5ff',
+                    secondaryColor: '#ff00aa',
+                    typography: 'Inter',
+                    buttonStyle: 'neon'
+                },
+                mockData: {
+                    restaurantName: 'NEON BISTRO',
+                    tagline: 'Future of Dining',
+                    sections: [
+                        { 
+                            name: 'CYBER STARTERS', 
+                            items: [
+                                { name: 'Neural Nachos', price: '$18', featured: true },
+                                { name: 'Digital Dumplings', price: '$22' }
+                            ]
+                        },
+                        { 
+                            name: 'MAIN PROTOCOL', 
+                            items: [
+                                { name: 'Quantum Burger', price: '$28' },
+                                { name: 'Binary Pasta', price: '$24' }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                id: 'elegant-script',
+                name: 'Elegant Script',
+                description: 'Sophisticated script fonts with gold accents and classic elegance',
+                colorScheme: 'rose',
+                fontFamily: 'serif',
+                headerStyle: 'image',
+                spacing: 4,
+                category: 'elegant',
+                preview: {
+                    theme: 'light',
+                    headerBg: 'linear-gradient(135deg, #f7f1e3 0%, #f5e6d3 50%, #e8d5b7 100%)',
                     accentColor: '#d4af37',
-                    secondaryColor: '#c4a374',
+                    secondaryColor: '#8b4513',
                     typography: 'Playfair Display',
                     buttonStyle: 'classic'
                 },
                 mockData: {
-                    restaurantName: 'بيت الشام',
-                    restaurantNameEn: 'Beit Al Sham',
-                    tagline: 'أصالة الطعم الشامي',
-                    taglineEn: 'Authentic Levantine Flavors',
+                    restaurantName: 'La Belle Époque',
+                    tagline: 'Fine French Cuisine Since 1889',
                     sections: [
                         { 
-                            name: 'المقبلات',
-                            nameEn: 'Appetizers',
+                            name: 'Les Entrées', 
                             items: [
-                                { name: 'حمص بالطحينة', nameEn: 'Hummus with Tahini', price: '3.50 JOD' },
-                                { name: 'متبل باذنجان', nameEn: 'Baba Ghanoush', price: '4.00 JOD' },
-                                { name: 'فتوش لبناني', nameEn: 'Lebanese Fattoush', price: '5.50 JOD' }
+                                { name: 'Escargots de Bourgogne', price: '€24', special: true },
+                                { name: 'Pâté de Foie Gras', price: '€32' }
                             ]
                         },
                         { 
-                            name: 'الأطباق الرئيسية',
-                            nameEn: 'Main Dishes',
+                            name: 'Les Plats Principaux', 
                             items: [
-                                { name: 'منسف أردني', nameEn: 'Jordanian Mansaf', price: '12.50 JOD' },
-                                { name: 'مقلوبة دجاج', nameEn: 'Chicken Maqluba', price: '10.00 JOD' },
-                                { name: 'كباب حلبي', nameEn: 'Aleppo Kebab', price: '11.00 JOD' }
-                            ]
-                        },
-                        { 
-                            name: 'الحلويات',
-                            nameEn: 'Desserts',
-                            items: [
-                                { name: 'كنافة نابلسية', nameEn: 'Nabulsi Knafeh', price: '4.50 JOD' },
-                                { name: 'بقلاوة بالفستق', nameEn: 'Pistachio Baklava', price: '3.50 JOD' }
+                                { name: 'Bouillabaisse Marseillaise', price: '€45' },
+                                { name: 'Bœuf Wellington', price: '€52' }
                             ]
                         }
                     ]
                 }
             },
             {
-                id: 'modern-minimalist',
-                name: 'Modern Minimalist',
-                nameAr: 'عصري بسيط',
-                description: 'Clean lines and contemporary design for upscale casual dining',
-                descriptionAr: 'خطوط نظيفة وتصميم معاصر للمطاعم العصرية',
-                colorScheme: 'indigo',
-                fontFamily: 'sans',
-                headerStyle: 'solid',
-                spacing: 3,
-                category: 'modern',
-                preview: {
-                    theme: 'minimal',
-                    headerBg: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%)',
-                    accentColor: '#1e293b',
-                    secondaryColor: '#64748b',
-                    typography: 'Inter',
-                    buttonStyle: 'modern'
-                },
-                mockData: {
-                    restaurantName: 'Fusion',
-                    restaurantNameAr: 'فيوجن',
-                    tagline: 'Contemporary Middle Eastern Cuisine',
-                    taglineAr: 'مطبخ شرق أوسطي معاصر',
-                    sections: [
-                        { 
-                            name: 'Starters',
-                            nameAr: 'المقبلات',
-                            items: [
-                                { name: 'Truffle Hummus', nameAr: 'حمص بالكمأة', price: '6.50 JOD' },
-                                { name: 'Spicy Muhammara', nameAr: 'محمرة حارة', price: '5.00 JOD' },
-                                { name: 'Quinoa Tabbouleh', nameAr: 'تبولة الكينوا', price: '7.00 JOD' }
-                            ]
-                        },
-                        { 
-                            name: 'Mains',
-                            nameAr: 'الأطباق الرئيسية',
-                            items: [
-                                { name: 'Saffron Lamb Shank', nameAr: 'ساق خروف بالزعفران', price: '16.50 JOD' },
-                                { name: 'Za\'atar Crusted Salmon', nameAr: 'سلمون بقشرة الزعتر', price: '14.00 JOD' },
-                                { name: 'Pomegranate Chicken', nameAr: 'دجاج بالرمان', price: '12.50 JOD' }
-                            ]
-                        },
-                        { 
-                            name: 'Desserts',
-                            nameAr: 'الحلويات',
-                            items: [
-                                { name: 'Date Cheesecake', nameAr: 'تشيز كيك التمر', price: '5.50 JOD' },
-                                { name: 'Rosewater Panna Cotta', nameAr: 'بانا كوتا ماء الورد', price: '4.50 JOD' }
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                id: 'street-casual',
-                name: 'Street Casual',
-                nameAr: 'شارع كاجوال',
-                description: 'Vibrant street food design with bold colors and playful typography',
-                descriptionAr: 'تصميم طعام شارع نابض بألوان جريئة وخطوط مرحة',
-                colorScheme: 'orange',
+                id: 'image-grid',
+                name: 'Image Grid',
+                description: 'Photo-focused layout with bold typography and vibrant colors',
+                colorScheme: 'amber',
                 fontFamily: 'sans',
                 headerStyle: 'image',
                 spacing: 2,
-                category: 'casual',
+                category: 'visual',
                 preview: {
                     theme: 'vibrant',
                     headerBg: 'linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ffd23f 100%)',
                     accentColor: '#ff6b35',
                     secondaryColor: '#2c3e50',
-                    typography: 'Poppins',
+                    typography: 'Montserrat',
                     buttonStyle: 'bold'
                 },
                 mockData: {
-                    restaurantName: 'زاوية الشارع',
-                    restaurantNameEn: 'Street Corner',
-                    tagline: 'طعام الشارع الأصيل',
-                    taglineEn: 'Authentic Street Food',
+                    restaurantName: 'STREET KITCHEN',
+                    tagline: 'Bold Flavors, Fresh Ingredients',
                     sections: [
                         { 
-                            name: 'ساندويش',
-                            nameEn: 'Sandwiches',
+                            name: 'SIGNATURE BOWLS', 
                             items: [
-                                { name: 'شاورما لحم', nameEn: 'Beef Shawarma', price: '3.50 JOD' },
-                                { name: 'شاورما دجاج', nameEn: 'Chicken Shawarma', price: '3.00 JOD' },
-                                { name: 'فلافل', nameEn: 'Falafel', price: '2.00 JOD' },
-                                { name: 'كباب عربي', nameEn: 'Arabic Kebab', price: '4.00 JOD' }
+                                { name: 'Korean BBQ Bowl', price: '$16', hasImage: true },
+                                { name: 'Med Quinoa Bowl', price: '$14', hasImage: true }
                             ]
                         },
                         { 
-                            name: 'وجبات كاملة',
-                            nameEn: 'Complete Meals',
+                            name: 'CRAFT BURGERS', 
                             items: [
-                                { name: 'صحن شاورما لحم', nameEn: 'Beef Shawarma Plate', price: '7.50 JOD' },
-                                { name: 'صحن دجاج مشوي', nameEn: 'Grilled Chicken Plate', price: '8.00 JOD' },
-                                { name: 'صحن مشكل مشاوي', nameEn: 'Mixed Grill Plate', price: '12.00 JOD' }
-                            ]
-                        },
-                        { 
-                            name: 'مشروبات',
-                            nameEn: 'Drinks',
-                            items: [
-                                { name: 'عصير برتقال طازج', nameEn: 'Fresh Orange Juice', price: '2.50 JOD' },
-                                { name: 'ليمونادة', nameEn: 'Lemonade', price: '2.00 JOD' }
+                                { name: 'Truffle Burger', price: '$18', hasImage: true },
+                                { name: 'Spicy Jalapeño', price: '$16', hasImage: true }
                             ]
                         }
                     ]
                 }
             },
             {
-                id: 'elegant-fine-dining',
-                name: 'Elegant Fine Dining',
-                nameAr: 'راقي فاخر',
-                description: 'Luxurious design with sophisticated styling for upscale restaurants',
-                descriptionAr: 'تصميم فاخر مع تنسيق راقي للمطاعم الراقية',
+                id: 'minimal-zen',
+                name: 'Minimal Zen',
+                description: 'Clean, spacious design with subtle elegance and mindful simplicity',
                 colorScheme: 'emerald',
-                fontFamily: 'serif',
-                headerStyle: 'gradient',
+                fontFamily: 'sans',
+                headerStyle: 'solid',
                 spacing: 5,
-                category: 'premium',
+                category: 'minimal',
                 preview: {
-                    theme: 'dark-elegant',
-                    headerBg: 'linear-gradient(135deg, #064e3b 0%, #047857 50%, #059669 100%)',
-                    accentColor: '#10b981',
-                    secondaryColor: '#6ee7b7',
-                    typography: 'Crimson Text',
-                    buttonStyle: 'elegant'
+                    theme: 'minimal',
+                    headerBg: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #e9ecef 100%)',
+                    accentColor: '#2d3748',
+                    secondaryColor: '#718096',
+                    typography: 'Inter',
+                    buttonStyle: 'minimal'
                 },
                 mockData: {
-                    restaurantName: 'The Royal Table',
-                    restaurantNameAr: 'المائدة الملكية',
-                    tagline: 'Exquisite Dining Experience',
-                    taglineAr: 'تجربة طعام استثنائية',
+                    restaurantName: 'zen',
+                    tagline: 'mindful dining',
                     sections: [
                         { 
-                            name: 'Amuse-Bouche',
-                            nameAr: 'فاتح الشهية',
+                            name: 'starters', 
                             items: [
-                                { name: 'Caviar Pearls', nameAr: 'لؤلؤ الكافيار', price: '15.00 JOD' },
-                                { name: 'Truffle Foam', nameAr: 'رغوة الكمأة', price: '12.00 JOD' }
+                                { name: 'miso soup', price: '12' },
+                                { name: 'edamame', price: '8' }
                             ]
                         },
                         { 
-                            name: 'Chef\'s Selection',
-                            nameAr: 'اختيار الشيف',
+                            name: 'mains', 
                             items: [
-                                { name: 'Wagyu Beef Tenderloin', nameAr: 'فيليه لحم الواغيو', price: '45.00 JOD' },
-                                { name: 'Lobster Thermidor', nameAr: 'لوبستر ثيرميدور', price: '38.00 JOD' },
-                                { name: 'Duck Confit', nameAr: 'بط مطبوخ بدهنه', price: '28.50 JOD' }
-                            ]
-                        },
-                        { 
-                            name: 'Dessert Experience',
-                            nameAr: 'تجربة الحلوى',
-                            items: [
-                                { name: 'Chocolate Soufflé', nameAr: 'سوفليه الشوكولاتة', price: '9.50 JOD' },
-                                { name: 'Crème Brûlée Trio', nameAr: 'ثلاثية الكريم برولي', price: '8.50 JOD' }
+                                { name: 'salmon teriyaki', price: '28' },
+                                { name: 'vegetable ramen', price: '22' }
                             ]
                         }
                     ]
@@ -4932,259 +5005,584 @@
             ]);
         }
 
-        // Realistic Template Preview Component - Accurate Mini Layouts
-        function RealisticTemplatePreview({ template }) {
-            const { mockData, preview } = template;
-            
-            // Dark Neon Template
-            if (template.id === 'dark-neon') {
-                return React.createElement('div', {
-                    className: 'realistic-preview h-80 relative overflow-hidden rounded-lg',
-                    style: {
-                        background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)',
-                        fontFamily: 'Inter, sans-serif'
-                    }
-                }, [
-                    // Neon grid background
-                    React.createElement('div', {
-                        key: 'grid',
-                        className: 'absolute inset-0 opacity-20',
-                        style: {
-                            backgroundImage: `linear-gradient(${preview.accentColor}40 1px, transparent 1px), linear-gradient(90deg, ${preview.accentColor}40 1px, transparent 1px)`,
-                            backgroundSize: '20px 20px'
+        // Template data with realistic menu content and JOD pricing
+        const templateData = {
+            'dark-neon': {
+                name: 'Dark Neon',
+                nameAr: 'نيون داكن',
+                description: 'Futuristic cyber restaurant with neon accents',
+                descriptionAr: 'مطعم سايبر مستقبلي مع لمسات نيون',
+                preview: {
+                    primaryColor: '#00ffff',
+                    secondaryColor: '#ff0080',
+                    backgroundColor: '#0a0a0a',
+                    fontFamily: 'monospace'
+                },
+                menuData: {
+                    restaurantName: 'CYBER BITES',
+                    restaurantNameAr: 'لقمات سايبر',
+                    tagline: 'Future Food Experience',
+                    taglineAr: 'تجربة طعام المستقبل',
+                    sections: [
+                        {
+                            name: 'STARTERS',
+                            nameAr: 'المقبلات',
+                            items: [
+                                { name: 'Digital Wings', nameAr: 'أجنحة رقمية', price: '4.50 JOD' },
+                                { name: 'Neon Nachos', nameAr: 'ناتشوز نيون', price: '3.75 JOD' }
+                            ]
+                        },
+                        {
+                            name: 'MAINS',
+                            nameAr: 'الأطباق الرئيسية',
+                            items: [
+                                { name: 'Quantum Burger', nameAr: 'برجر كمي', price: '8.25 JOD' },
+                                { name: 'Matrix Pasta', nameAr: 'معكرونة ماتريكس', price: '7.50 JOD' }
+                            ]
                         }
-                    }),
-                    
-                    // Header
+                    ]
+                }
+            },
+            'elegant-script': {
+                name: 'Elegant Script',
+                nameAr: 'خط أنيق',
+                description: 'Sophisticated French bistro style',
+                descriptionAr: 'أسلوب بيسترو فرنسي راقي',
+                preview: {
+                    primaryColor: '#d4af37',
+                    secondaryColor: '#2c1810',
+                    backgroundColor: '#faf8f3',
+                    fontFamily: 'serif'
+                },
+                menuData: {
+                    restaurantName: 'Le Jardin',
+                    restaurantNameAr: 'لو جاردن',
+                    tagline: 'Cuisine Française Authentique',
+                    taglineAr: 'مطبخ فرنسي أصيل',
+                    sections: [
+                        {
+                            name: 'Entrées',
+                            nameAr: 'المقبلات',
+                            items: [
+                                { name: 'Escargots de Bourgogne', nameAr: 'حلزون بورجوندي', price: '6.25 JOD' },
+                                { name: 'Pâté de Foie', nameAr: 'باتيه فوا', price: '5.75 JOD' }
+                            ]
+                        },
+                        {
+                            name: 'Plats Principaux',
+                            nameAr: 'الأطباق الرئيسية',
+                            items: [
+                                { name: 'Coq au Vin', nameAr: 'ديك بالنبيذ', price: '12.50 JOD' },
+                                { name: 'Bouillabaisse', nameAr: 'بويابيس', price: '14.25 JOD' }
+                            ]
+                        }
+                    ]
+                }
+            },
+            'minimal-zen': {
+                name: 'Minimal Zen',
+                nameAr: 'بساطة زين',
+                description: 'Clean Japanese-inspired design',
+                descriptionAr: 'تصميم نظيف مستوحى من اليابان',
+                preview: {
+                    primaryColor: '#2d3748',
+                    secondaryColor: '#4a5568',
+                    backgroundColor: '#ffffff',
+                    fontFamily: 'sans-serif'
+                },
+                menuData: {
+                    restaurantName: 'Sakura',
+                    restaurantNameAr: 'ساكورا',
+                    tagline: 'Pure Japanese Cuisine',
+                    taglineAr: 'مطبخ ياباني خالص',
+                    sections: [
+                        {
+                            name: 'Appetizers',
+                            nameAr: 'المقبلات',
+                            items: [
+                                { name: 'Gyoza', nameAr: 'جيوزا', price: '4.25 JOD' },
+                                { name: 'Edamame', nameAr: 'إيدامامي', price: '3.50 JOD' }
+                            ]
+                        },
+                        {
+                            name: 'Sushi & Sashimi',
+                            nameAr: 'سوشي وساشيمي',
+                            items: [
+                                { name: 'Salmon Sashimi', nameAr: 'ساشيمي سلمون', price: '9.75 JOD' },
+                                { name: 'Dragon Roll', nameAr: 'رول التنين', price: '8.50 JOD' }
+                            ]
+                        }
+                    ]
+                }
+            },
+            'vibrant-modern': {
+                name: 'Vibrant Modern',
+                nameAr: 'حديث نابض',
+                description: 'Bold colors and contemporary style',
+                descriptionAr: 'ألوان جريئة وأسلوب معاصر',
+                preview: {
+                    primaryColor: '#e53e3e',
+                    secondaryColor: '#38a169',
+                    backgroundColor: '#f7fafc',
+                    fontFamily: 'sans-serif'
+                },
+                menuData: {
+                    restaurantName: 'Fresh Kitchen',
+                    restaurantNameAr: 'مطبخ طازج',
+                    tagline: 'Farm to Table Experience',
+                    taglineAr: 'من المزرعة إلى المائدة',
+                    sections: [
+                        {
+                            name: 'Fresh Starters',
+                            nameAr: 'مقبلات طازجة',
+                            items: [
+                                { name: 'Avocado Toast', nameAr: 'توست أفوكادو', price: '4.75 JOD' },
+                                { name: 'Quinoa Salad', nameAr: 'سلطة كينوا', price: '5.25 JOD' }
+                            ]
+                        },
+                        {
+                            name: 'Healthy Mains',
+                            nameAr: 'أطباق صحية رئيسية',
+                            items: [
+                                { name: 'Grilled Salmon', nameAr: 'سلمون مشوي', price: '11.50 JOD' },
+                                { name: 'Buddha Bowl', nameAr: 'وعاء بوذا', price: '8.75 JOD' }
+                            ]
+                        }
+                    ]
+                }
+            }
+        };
+
+        // Realistic Template Preview Component
+        function RealisticTemplatePreview({ templateId, language }) {
+            const template = templateData[templateId];
+            if (!template) return null;
+            
+            const isRTL = language === 'ar';
+            const menuData = template.menuData;
+            const preview = template.preview;
+            
+            const restaurantName = isRTL ? menuData.restaurantNameAr : menuData.restaurantName;
+            const tagline = isRTL ? menuData.taglineAr : menuData.tagline;
+
+            return React.createElement('div', {
+                className: `realistic-preview h-80 relative overflow-hidden rounded-xl border-2 transition-all duration-300`,
+                style: {
+                    backgroundColor: preview.backgroundColor,
+                    borderColor: preview.primaryColor + '30',
+                    fontFamily: preview.fontFamily,
+                    direction: isRTL ? 'rtl' : 'ltr',
+                    boxShadow: `0 4px 15px rgba(0,0,0,0.1), 0 0 0 1px ${preview.primaryColor}20`
+                }
+            }, [
+                // Template-specific styling
+                templateId === 'dark-neon' && React.createElement('div', {
+                    key: 'neon-bg',
+                    className: 'absolute inset-0',
+                    style: {
+                        background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%)',
+                        backgroundImage: `radial-gradient(circle at 25% 25%, ${preview.primaryColor}20 0%, transparent 50%)`
+                    }
+                }),
+                
+                // Header section
+                React.createElement('div', {
+                    key: 'header',
+                    className: 'p-4 text-center relative z-10'
+                }, [
+                    React.createElement('h1', {
+                        key: 'name',
+                        className: 'text-lg font-bold mb-1',
+                        style: {
+                            color: templateId === 'dark-neon' ? preview.primaryColor : preview.primaryColor,
+                            textShadow: templateId === 'dark-neon' ? `0 0 10px ${preview.primaryColor}80` : 'none',
+                            fontFamily: preview.fontFamily
+                        }
+                    }, restaurantName),
+                    React.createElement('p', {
+                        key: 'tagline',
+                        className: 'text-xs opacity-80',
+                        style: {
+                            color: templateId === 'dark-neon' ? preview.secondaryColor : preview.secondaryColor
+                        }
+                    }, tagline)
+                ]),
+                
+                // Menu sections
+                React.createElement('div', {
+                    key: 'menu',
+                    className: 'px-4 space-y-3'
+                }, menuData.sections.map((section, sIndex) =>
                     React.createElement('div', {
-                        key: 'header',
-                        className: 'p-4 text-center relative z-10'
+                        key: sIndex,
+                        className: 'menu-section'
                     }, [
-                        React.createElement('h1', {
-                            key: 'title',
-                            className: 'text-2xl font-bold text-white mb-1',
+                        React.createElement('h3', {
+                            key: 'section-title',
+                            className: 'text-sm font-semibold mb-2',
                             style: {
-                                color: preview.accentColor,
-                                textShadow: `0 0 20px ${preview.accentColor}80`,
-                                letterSpacing: '2px'
+                                color: preview.primaryColor,
+                                borderBottom: `1px solid ${preview.primaryColor}40`
                             }
-                        }, mockData.restaurantName),
+                        }, isRTL ? section.nameAr : section.name),
                         React.createElement('div', {
-                            key: 'tagline',
-                            className: 'text-xs',
-                            style: { color: preview.secondaryColor }
-                        }, mockData.tagline)
-                    ]),
-                    
-                    // Menu grid
-                    React.createElement('div', {
-                        key: 'menu',
-                        className: 'px-4 pb-4 grid grid-cols-2 gap-2'
-                    }, mockData.sections.flatMap(section => 
-                        section.items.slice(0, 2).map((item, i) =>
+                            key: 'items',
+                            className: 'space-y-1'
+                        }, section.items.map((item, iIndex) =>
                             React.createElement('div', {
-                                key: i,
-                                className: 'neon-card p-3 rounded-lg',
+                                key: iIndex,
+                                className: 'flex justify-between items-center text-xs',
                                 style: {
-                                    background: 'rgba(255,255,255,0.05)',
-                                    border: `1px solid ${preview.accentColor}40`,
-                                    backdropFilter: 'blur(10px)'
+                                    padding: '4px 8px',
+                                    backgroundColor: templateId === 'dark-neon' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.02)',
+                                    borderRadius: '4px',
+                                    border: templateId === 'dark-neon' ? `1px solid ${preview.primaryColor}20` : 'none'
                                 }
                             }, [
-                                React.createElement('div', {
+                                React.createElement('span', {
                                     key: 'name',
-                                    className: 'text-white text-xs font-semibold mb-1'
-                                }, item.name),
-                                React.createElement('div', {
-                                    key: 'price',
-                                    className: 'text-xs font-mono',
-                                    style: { color: preview.secondaryColor }
-                                }, item.price),
-                                item.featured && React.createElement('div', {
-                                    key: 'glow',
-                                    className: 'absolute inset-0 rounded-lg pointer-events-none',
                                     style: {
-                                        boxShadow: `inset 0 0 20px ${preview.accentColor}30`
+                                        color: templateId === 'dark-neon' ? '#ffffff' : preview.secondaryColor,
+                                        fontWeight: '500'
                                     }
-                                })
+                                }, isRTL ? item.nameAr : item.name),
+                                React.createElement('span', {
+                                    key: 'price',
+                                    className: 'font-mono',
+                                    style: {
+                                        color: preview.primaryColor,
+                                        fontWeight: 'bold'
+                                    }
+                                }, item.price)
                             ])
-                        )
-                    ))
-                ]);
-            }
+                        ))
+                    ])
+                ))
+            ]);
+        }
+
+        // Complete Template Selection Component
+        function TemplateSelection() {
+            const { language, t } = useLanguage();
+            const [selectedTemplate, setSelectedTemplate] = React.useState(null);
+            const [showConfirmation, setShowConfirmation] = React.useState(false);
             
-            // Modern Minimalist Template
-            if (template.id === 'modern-minimalist') {
-                return React.createElement('div', {
-                    className: `realistic-preview h-80 relative overflow-hidden rounded-lg ${isRTL ? 'rtl' : ''}`,
-                    dir: isRTL ? 'rtl' : 'ltr',
-                    style: {
-                        background: preview.headerBg,
-                        fontFamily: preview.typography
-                    }
-                }, [
-                    // Clean minimal header
-                    React.createElement('div', {
-                        key: 'header',
-                        className: 'p-4 text-center border-b border-slate-200'
-                    }, [
-                        React.createElement('h1', {
-                            key: 'title',
-                            className: 'text-xl font-bold mb-1',
-                            style: {
-                                color: preview.accentColor,
-                                fontFamily: 'Inter, sans-serif'
-                            }
-                        }, getLocalizedText('restaurantName', 'Restaurant Name')),
-                        React.createElement('p', {
-                            key: 'tagline',
-                            className: 'text-xs',
-                            style: { color: preview.secondaryColor }
-                        }, getLocalizedText('tagline', 'Tagline'))
-                    ]),
-                    
-                    // Clean menu layout
-                    React.createElement('div', {
-                        key: 'menu',
-                        className: 'px-4 py-3 space-y-3'
-                    }, mockData.sections.slice(0, 2).map((section, sIndex) =>
-                        React.createElement('div', {
-                            key: sIndex,
-                            className: 'section'
-                        }, [
-                            React.createElement('h3', {
-                                key: 'section-title',
-                                className: 'text-sm font-semibold mb-2',
-                                style: { color: preview.accentColor }
-                            }, getLocalizedName(section)),
-                            React.createElement('div', {
-                                key: 'items',
-                                className: 'space-y-2'
-                            }, section.items.slice(0, 2).map((item, iIndex) =>
-                                React.createElement('div', {
-                                    key: iIndex,
-                                    className: `flex justify-between items-center text-xs p-2 rounded ${isRTL ? 'flex-row-reverse' : ''}`,
-                                    style: { backgroundColor: 'rgba(148, 163, 184, 0.1)' }
-                                }, [
-                                    React.createElement('span', {
-                                        key: 'name',
-                                        style: { color: preview.accentColor }
-                                    }, getLocalizedName(item)),
-                                    React.createElement('span', {
-                                        key: 'price',
-                                        className: 'font-bold',
-                                        style: { color: preview.secondaryColor }
-                                    }, item.price)
-                                ])
-                            ))
-                        ])
-                    ))
-                ]);
-            }
+            const isRTL = language === 'ar';
             
-            // Street Casual Template
-            if (template.id === 'street-casual') {
-                return React.createElement('div', {
-                    className: `realistic-preview h-80 relative overflow-hidden rounded-lg ${isRTL ? 'rtl' : ''}`,
-                    dir: isRTL ? 'rtl' : 'ltr',
-                    style: {
-                        background: preview.headerBg,
-                        fontFamily: preview.typography
+            const templates = [
+                {
+                    id: 'dark-neon',
+                    name: language === 'ar' ? 'نيون داكن' : 'Dark Neon',
+                    description: language === 'ar' ? 'مطعم سايبر مستقبلي مع لمسات نيون' : 'Futuristic cyber restaurant with neon accents',
+                    category: language === 'ar' ? 'حديث' : 'Modern'
+                },
+                {
+                    id: 'elegant-script',
+                    name: language === 'ar' ? 'خط أنيق' : 'Elegant Script',
+                    description: language === 'ar' ? 'أسلوب بيسترو فرنسي راقي' : 'Sophisticated French bistro style',
+                    category: language === 'ar' ? 'كلاسيكي' : 'Classic'
+                },
+                {
+                    id: 'minimal-zen',
+                    name: language === 'ar' ? 'بساطة زين' : 'Minimal Zen',
+                    description: language === 'ar' ? 'تصميم نظيف مستوحى من اليابان' : 'Clean Japanese-inspired design',
+                    category: language === 'ar' ? 'نظيف' : 'Clean'
+                },
+                {
+                    id: 'vibrant-modern',
+                    name: language === 'ar' ? 'حديث نابض' : 'Vibrant Modern',
+                    description: language === 'ar' ? 'ألوان جريئة وأسلوب معاصر' : 'Bold colors and contemporary style',
+                    category: language === 'ar' ? 'جريء' : 'Bold'
+                }
+            ];
+
+            const handleTemplateSelect = (templateId) => {
+                setSelectedTemplate(templateId);
+                setShowConfirmation(true);
+                
+                setTimeout(() => {
+                    const confirmSection = document.getElementById('template-confirmation');
+                    if (confirmSection) {
+                        confirmSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
+                }, 100);
+            };
+
+            const handleContinueToEditor = () => {
+                // Transition to editor with selected template
+                window.location.hash = '#editor';
+            };
+
+            return React.createElement('div', {
+                className: 'template-selection-container',
+                dir: isRTL ? 'rtl' : 'ltr'
+            }, [
+                // Header Section
+                React.createElement('div', {
+                    key: 'header',
+                    className: 'template-header'
                 }, [
-                    // Vibrant header
+                    React.createElement('h1', {
+                        key: 'title',
+                        className: 'template-title'
+                    }, language === 'ar' ? 'اختر القالب المناسب' : 'Choose Your Template'),
+                    React.createElement('p', {
+                        key: 'subtitle',
+                        className: 'template-subtitle'
+                    }, language === 'ar' ? 'اختر تصميماً يعكس شخصية مطعمك' : 'Select a design that reflects your restaurant\'s personality')
+                ]),
+
+                // Template Grid
+                React.createElement('div', {
+                    key: 'templates',
+                    className: 'template-grid'
+                }, templates.map((template, index) =>
                     React.createElement('div', {
-                        key: 'header',
-                        className: 'p-4 text-center'
-                    }, [
-                        React.createElement('h1', {
-                            key: 'title',
-                            className: 'text-xl font-bold mb-1',
-                            style: {
-                                color: 'white',
-                                textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
-                                fontFamily: 'Poppins, sans-serif'
-                            }
-                        }, getLocalizedText('restaurantName', 'Restaurant Name')),
-                        React.createElement('p', {
-                            key: 'tagline',
-                            className: 'text-xs font-semibold',
-                            style: { color: preview.secondaryColor }
-                        }, getLocalizedText('tagline', 'Tagline'))
-                    ]),
-                    
-                    // Bold menu layout
-                    React.createElement('div', {
-                        key: 'menu',
-                        className: 'px-4 py-3 space-y-3'
-                    }, mockData.sections.slice(0, 2).map((section, sIndex) =>
-                        React.createElement('div', {
-                            key: sIndex,
-                            className: 'section'
-                        }, [
-                            React.createElement('h3', {
-                                key: 'section-title',
-                                className: 'text-sm font-bold mb-2 uppercase',
-                                style: { color: preview.secondaryColor }
-                            }, getLocalizedName(section)),
-                            React.createElement('div', {
-                                key: 'items',
-                                className: 'grid grid-cols-2 gap-2'
-                            }, section.items.slice(0, 4).map((item, iIndex) =>
-                                React.createElement('div', {
-                                    key: iIndex,
-                                    className: 'text-xs p-2 rounded-lg text-center',
-                                    style: { 
-                                        backgroundColor: 'rgba(255,255,255,0.9)',
-                                        border: `2px solid ${preview.accentColor}`
-                                    }
-                                }, [
-                                    React.createElement('div', {
-                                        key: 'name',
-                                        className: 'font-bold mb-1',
-                                        style: { color: preview.secondaryColor }
-                                    }, getLocalizedName(item)),
-                                    React.createElement('div', {
-                                        key: 'price',
-                                        className: 'font-bold',
-                                        style: { color: preview.accentColor }
-                                    }, item.price)
-                                ])
-                            ))
-                        ])
-                    ))
-                ]);
-            }
-            
-            // Elegant Fine Dining Template
-            if (template.id === 'elegant-fine-dining') {
-                return React.createElement('div', {
-                    className: `realistic-preview h-80 relative overflow-hidden rounded-lg ${isRTL ? 'rtl' : ''}`,
-                    dir: isRTL ? 'rtl' : 'ltr',
-                    style: {
-                        background: preview.headerBg,
-                        fontFamily: 'Playfair Display, serif'
-                    }
-                }, [
-                    // Elegant pattern
-                    React.createElement('div', {
-                        key: 'pattern',
-                        className: 'absolute inset-0 opacity-10',
+                        key: template.id,
+                        className: `template-card-new ${selectedTemplate === template.id ? 'selected' : ''}`,
+                        onClick: () => handleTemplateSelect(template.id),
                         style: {
-                            backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20c0-11.046-8.954-20-20-20v20h20z' fill='%23d4af37'/%3E%3C/svg%3E")`
+                            animationDelay: `${index * 150}ms`
                         }
-                    }),
-                    
-                    // Decorative border
+                    }, [
+                        // Preview Section
+                        React.createElement('div', {
+                            key: 'preview',
+                            className: 'template-preview-section'
+                        }, [
+                            React.createElement(RealisticTemplatePreview, {
+                                key: 'realistic-preview',
+                                templateId: template.id,
+                                language: language
+                            })
+                        ]),
+
+                        // Info Section
+                        React.createElement('div', {
+                            key: 'info',
+                            className: 'template-info-section'
+                        }, [
+                            React.createElement('h3', {
+                                key: 'name',
+                                className: 'template-name'
+                            }, template.name),
+                            React.createElement('p', {
+                                key: 'description',
+                                className: 'template-description'
+                            }, template.description),
+                            React.createElement('div', {
+                                key: 'features',
+                                className: 'template-features'
+                            }, [
+                                React.createElement('span', {
+                                    key: 'category',
+                                    className: 'feature-badge'
+                                }, template.category),
+                                React.createElement('span', {
+                                    key: 'responsive',
+                                    className: 'feature-badge'
+                                }, language === 'ar' ? 'متجاوب' : 'Responsive'),
+                                React.createElement('span', {
+                                    key: 'multilingual',
+                                    className: 'feature-badge'
+                                }, language === 'ar' ? 'متعدد اللغات' : 'Multilingual')
+                            ])
+                        ])
+                    ])
+                )),
+
+                // Confirmation Section
+                showConfirmation && React.createElement('div', {
+                    key: 'confirmation',
+                    id: 'template-confirmation',
+                    className: 'text-center mt-16 mb-8'
+                }, [
                     React.createElement('div', {
-                        key: 'border',
-                        className: 'absolute inset-2 border-2 border-amber-300/40 rounded-lg'
-                    }),
-                    
-                    // Header with ornate styling
+                        key: 'confirmation-content',
+                        className: 'bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-8 max-w-md mx-auto border border-white border-opacity-20'
+                    }, [
+                        React.createElement('div', {
+                            key: 'check-icon',
+                            className: 'text-6xl mb-4'
+                        }, '✓'),
+                        React.createElement('h3', {
+                            key: 'title',
+                            className: 'text-2xl font-bold text-white mb-4'
+                        }, language === 'ar' ? 'تم اختيار القالب!' : 'Template Selected!'),
+                        React.createElement('p', {
+                            key: 'selected-name',
+                            className: 'text-white opacity-90 mb-6'
+                        }, (language === 'ar' ? 'تم اختيار: ' : 'You selected: ') + 
+                           templates.find(t => t.id === selectedTemplate)?.name),
+                        React.createElement('div', {
+                            key: 'actions',
+                            className: 'flex gap-4 justify-center'
+                        }, [
+                            React.createElement('button', {
+                                key: 'continue',
+                                className: 'btn btn-primary px-6 py-3',
+                                onClick: handleContinueToEditor
+                            }, language === 'ar' ? 'ابدأ التصميم' : 'Start Building'),
+                            React.createElement('button', {
+                                key: 'change',
+                                className: 'btn btn-secondary px-6 py-3',
+                                onClick: () => {
+                                    setSelectedTemplate(null);
+                                    setShowConfirmation(false);
+                                }
+                            }, language === 'ar' ? 'اختر آخر' : 'Choose Different')
+                        ])
+                    ])
+                ])
+            ]);
+        }
+
+        // Main App Component with Template Selection Integration
+        function App() {
+            const { language, toggleLanguage } = useLanguage();
+            const [currentScreen, setCurrentScreen] = React.useState('landing'); // 'landing', 'templates', 'editor'
+            const [selectedTemplate, setSelectedTemplate] = React.useState(null);
+            
+            const handleGetStarted = () => {
+                setCurrentScreen('templates');
+            };
+            
+            const handleTemplateSelected = (template) => {
+                setSelectedTemplate(template);
+                setCurrentScreen('editor');
+            };
+
+            return React.createElement('div', {
+                className: 'app-container'
+            }, [
+                // Language Toggle (Always Visible)
+                React.createElement(LanguageToggle, {
+                    key: 'lang-toggle'
+                }),
+
+                // Screen Routing
+                currentScreen === 'landing' && React.createElement(LandingScreen, {
+                    key: 'landing',
+                    onGetStarted: handleGetStarted
+                }),
+
+                currentScreen === 'templates' && React.createElement(TemplateSelection, {
+                    key: 'templates',
+                    onTemplateSelected: handleTemplateSelected
+                }),
+
+                currentScreen === 'editor' && selectedTemplate && React.createElement(MenuEditor, {
+                    key: 'editor',
+                    template: selectedTemplate,
+                    onBack: () => setCurrentScreen('templates')
+                })
+            ]);
+        }
+
+        // Updated Landing Screen to integrate with new flow
+        function LandingScreen({ onGetStarted }) {
+            const { language, t } = useLanguage();
+            const [showWelcomeModal, setShowWelcomeModal] = React.useState(false);
+            const [userName, setUserName] = React.useState('');
+            
+            const isRTL = language === 'ar';
+
+            const handleGetStartedClick = () => {
+                setShowWelcomeModal(true);
+            };
+
+            const handleUserSubmit = (e) => {
+                e.preventDefault();
+                if (userName.trim()) {
+                    setShowWelcomeModal(false);
+                    onGetStarted();
+                }
+            };
+
+            return React.createElement('div', {
+                className: `screen min-h-screen relative overflow-hidden ${isRTL ? 'rtl' : ''}`,
+                dir: isRTL ? 'rtl' : 'ltr',
+                style: {
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                }
+            }, [
+                // Hero Section with ARbites Logo
+                React.createElement('div', {
+                    key: 'hero',
+                    className: 'text-center py-20 px-8'
+                }, [
                     React.createElement('div', {
-                        key: 'header',
-                        className: 'p-6 text-center'
+                        key: 'hero-logo',
+                        className: 'hero-logo-container mb-8'
+                    }, React.createElement('img', {
+                        src: '/attached_assets/Bubble3dARbites_1749133962372.png',
+                        alt: 'ARbites Logo',
+                        className: 'hero-3d-logo'
+                    })),
+                    
+                    React.createElement('h1', {
+                        key: 'title',
+                        className: 'text-6xl font-bold text-white mb-6 leading-tight'
+                    }, t('title')),
+                    React.createElement('p', {
+                        key: 'subtitle',
+                        className: 'text-xl text-white opacity-90 mb-12 max-w-2xl mx-auto'
+                    }, t('subtitle')),
+                    React.createElement('button', {
+                        key: 'get-started',
+                        className: 'btn btn-primary text-xl px-12 py-4 rounded-full font-semibold',
+                        onClick: handleGetStartedClick
+                    }, t('getStarted'))
+                ]),
+
+                // Welcome Modal
+                showWelcomeModal && React.createElement('div', {
+                    key: 'welcome-modal',
+                    className: 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4'
+                }, [
+                    React.createElement('div', {
+                        key: 'modal-content',
+                        className: 'bg-white rounded-2xl p-8 max-w-md w-full'
+                    }, [
+                        React.createElement('h3', {
+                            key: 'modal-title',
+                            className: 'text-2xl font-bold mb-4 text-center'
+                        }, t('welcome')),
+                        React.createElement('form', {
+                            key: 'form',
+                            onSubmit: handleUserSubmit
+                        }, [
+                            React.createElement('label', {
+                                key: 'label',
+                                className: 'block text-sm font-medium mb-2'
+                            }, t('enterName')),
+                            React.createElement('input', {
+                                key: 'input',
+                                type: 'text',
+                                className: 'input-field',
+                                value: userName,
+                                onChange: (e) => setUserName(e.target.value),
+                                placeholder: t('enterName'),
+                                required: true
+                            }),
+                            React.createElement('button', {
+                                key: 'submit',
+                                type: 'submit',
+                                className: 'btn btn-primary w-full mt-4',
+                                disabled: !userName.trim()
+                            }, t('continueToTemplates'))
+                        ])
+                    ])
+                ])
+            ]);
+        }
+
+        // Root render with corrected structure
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(React.createElement(LanguageProvider, {}, React.createElement(App, {})));
+    </script>
+</body>
+</html>
                     }, [
                         React.createElement('h1', {
                             key: 'title',
@@ -5193,7 +5591,7 @@
                                 color: preview.accentColor,
                                 fontFamily: 'Playfair Display, serif'
                             }
-                        }, getLocalizedText('restaurantName', 'Restaurant Name')),
+                        }, mockData.restaurantName),
                         React.createElement('div', {
                             key: 'ornament',
                             className: 'w-16 h-px mx-auto my-2',
