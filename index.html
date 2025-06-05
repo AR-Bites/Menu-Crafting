@@ -1211,69 +1211,150 @@
             position: relative;
         }
 
+        /* Enhanced Input Field Styles */
+        .input-field {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 14px;
+            background: white;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            color: #374151;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1), 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-1px);
+        }
+
+        .input-field:hover:not(:focus) {
+            border-color: #9ca3af;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .input-field::placeholder {
+            color: #9ca3af;
+            font-weight: 400;
+        }
+
         .enhanced-select select {
             width: 100%;
-            padding: 12px 16px;
+            padding: 14px 18px;
             border: 2px solid #e5e7eb;
-            border-radius: 8px;
+            border-radius: 12px;
             background: white;
             font-size: 14px;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             appearance: none;
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
-            background-position: right 12px center;
+            background-position: right 16px center;
             background-repeat: no-repeat;
             background-size: 16px;
+            font-weight: 500;
+            color: #374151;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .enhanced-select select:focus {
             outline: none;
             border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1), 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-1px);
         }
 
-        /* View Toggle Enhanced Styles */
+        .enhanced-select select:hover:not(:focus) {
+            border-color: #9ca3af;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        /* Enhanced View Toggle with Clear Labels */
         .view-toggle {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            padding: 4px;
+            border-radius: 16px;
+            padding: 6px;
             display: flex;
-            gap: 4px;
+            gap: 6px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
 
         .view-toggle-btn {
-            padding: 8px 16px;
+            padding: 12px 20px;
             border: none;
             background: transparent;
-            color: rgba(255, 255, 255, 0.7);
-            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
             gap: 8px;
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
+            min-width: 100px;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .view-toggle-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .view-toggle-btn:hover::before {
+            left: 100%;
         }
 
         .view-toggle-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
             color: white;
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
         }
 
         .view-toggle-btn.active {
             background: white;
             color: #1e293b;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.2);
+            transform: translateY(-3px);
+        }
+
+        .view-toggle-btn.active::before {
+            display: none;
         }
 
         .view-toggle-btn:disabled {
-            opacity: 0.5;
+            opacity: 0.6;
             cursor: not-allowed;
+            transform: none;
+        }
+
+        .view-icon {
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .view-toggle-btn:hover .view-icon {
+            transform: scale(1.1);
+        }
+
+        .view-label {
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         /* Preview Device Animation */
@@ -1351,15 +1432,21 @@
                 getStarted: "Get Started",
                 
                 // Templates
-                modern: "Modern",
-                elegant: "Elegant", 
-                casual: "Casual",
-                premium: "Premium",
-                modernDesc: "Clean, contemporary design perfect for modern establishments",
-                elegantDesc: "Sophisticated styling ideal for fine dining restaurants",
-                casualDesc: "Friendly, approachable design for family restaurants",
-                premiumDesc: "Luxurious experience with golden accents and premium feel",
+                "dark-neon": "Dark Neon",
+                "elegant-script": "Elegant Script",
+                "image-grid": "Image Grid", 
+                "minimal-zen": "Minimal Zen",
+                "dark-neonDesc": "Futuristic dark theme with neon accents and cyber styling",
+                "elegant-scriptDesc": "Sophisticated French restaurant with gold accents and script fonts",
+                "image-gridDesc": "Photo-focused layout with bold typography and vibrant colors",
+                "minimal-zenDesc": "Clean, spacious design with mindful simplicity",
                 useTemplate: "Use This Template",
+                chooseTemplate: "Choose This Template",
+                templateSelected: "Template Selected!",
+                perfectChoice: "Perfect Choice!",
+                selectedTemplate: "You selected",
+                chooseDifferent: "Choose Different",
+                startBuilding: "Start Building",
                 
                 // Editor
                 menuEditor: "Menu Editor",
@@ -1408,9 +1495,12 @@
                 headerStyle: "Header Style",
                 
                 // Preview modes
-                desktop: "Desktop View",
-                mobile: "Mobile View",
-                tablet: "Tablet View",
+                desktop: "Desktop",
+                mobile: "Mobile",
+                tablet: "Tablet",
+                desktopView: "Desktop View",
+                mobileView: "Mobile View",
+                tabletView: "Tablet View",
                 
                 // Sharing
                 published: "🎉 Menu Published Successfully!",
@@ -1469,15 +1559,21 @@
                 getStarted: "ابدأ الآن",
                 
                 // Templates
-                modern: "عصري",
-                elegant: "أنيق",
-                casual: "عادي", 
-                premium: "فاخر",
-                modernDesc: "تصميم نظيف ومعاصر مثالي للمؤسسات الحديثة",
-                elegantDesc: "تصميم راقي مثالي للمطاعم الفاخرة",
-                casualDesc: "تصميم ودود ومألوف للمطاعم العائلية",
-                premiumDesc: "تجربة فاخرة مع لمسات ذهبية وشعور مميز",
+                "dark-neon": "نيون داكن",
+                "elegant-script": "خط أنيق",
+                "image-grid": "شبكة صور",
+                "minimal-zen": "بساطة زين",
+                "dark-neonDesc": "تصميم مستقبلي داكن مع لمسات نيون وتصميم سايبر",
+                "elegant-scriptDesc": "مطعم فرنسي راقي مع لمسات ذهبية وخطوط أنيقة",
+                "image-gridDesc": "تخطيط يركز على الصور مع طباعة جريئة وألوان نابضة بالحياة",
+                "minimal-zenDesc": "تصميم نظيف وواسع مع بساطة واعية",
                 useTemplate: "استخدم هذا القالب",
+                chooseTemplate: "اختر هذا القالب",
+                templateSelected: "تم اختيار القالب!",
+                perfectChoice: "اختيار مثالي!",
+                selectedTemplate: "لقد اخترت",
+                chooseDifferent: "اختر قالب مختلف",
+                startBuilding: "ابدأ البناء",
                 
                 // Editor
                 menuEditor: "محرر القائمة",
@@ -1490,7 +1586,7 @@
                 restaurantName: "اسم المطعم",
                 tagline: "شعار المطعم",
                 addSection: "إضافة قسم",
-                addItem: "إضافة عنصر قائمة",
+                addItem: "إضافة ع �صر قائمة",
                 editItem: "تعديل عنصر القائمة",
                 editSection: "تعديل القسم",
                 
@@ -1526,9 +1622,12 @@
                 headerStyle: "نمط الرأس",
                 
                 // Preview modes
-                desktop: "عرض سطح المكتب",
-                mobile: "عرض الجوال",
-                tablet: "عرض الجهاز اللوحي",
+                desktop: "سطح المكتب",
+                mobile: "الهاتف",
+                tablet: "اللوحي",
+                desktopView: "عرض سطح المكتب",
+                mobileView: "عرض الهاتف المحمول",
+                tabletView: "عرض الجهاز اللوحي",
                 
                 // Sharing
                 published: "🎉 تم نشر القائمة بنجاح!",
@@ -3304,18 +3403,19 @@
                                 key: 'view-toggle',
                                 className: 'view-toggle'
                             }, [
-                                ['desktop', '🖥️'],
-                                ['tablet', '📱'], 
-                                ['mobile', '📱']
-                            ].map(([mode, icon]) => 
+                                ['desktop', '🖥️', 'desktopView'],
+                                ['tablet', '📱', 'tabletView'], 
+                                ['mobile', '📱', 'mobileView']
+                            ].map(([mode, icon, labelKey]) => 
                                 React.createElement('button', {
                                     key: mode,
                                     className: `view-toggle-btn ${viewMode === mode ? 'active' : ''}`,
                                     onClick: () => handleViewModeChange(mode),
-                                    disabled: isViewSwitching
+                                    disabled: isViewSwitching,
+                                    title: t(labelKey)
                                 }, [
-                                    React.createElement('span', { key: 'icon' }, icon),
-                                    React.createElement('span', { key: 'text' }, t(mode))
+                                    React.createElement('span', { key: 'icon', className: 'view-icon' }, icon),
+                                    React.createElement('span', { key: 'text', className: 'view-label' }, t(mode))
                                 ])
                             )),
                             
@@ -4298,11 +4398,11 @@
                         React.createElement('h2', {
                             key: 'title',
                             className: 'text-3xl font-bold text-white mb-4'
-                        }, 'Perfect Choice!'),
+                        }, t('perfectChoice')),
                         React.createElement('p', {
                             key: 'desc',
                             className: 'text-xl text-white opacity-90 mb-8'
-                        }, `You selected "${selectedTemplateData.name}" template`),
+                        }, `${t('selectedTemplate')} "${t(selectedTemplateData.id)}" ${t('useTemplate').toLowerCase()}`),
                         React.createElement('div', {
                             key: 'actions',
                             className: 'flex gap-4 justify-center'
@@ -4314,13 +4414,13 @@
                                     setSelectedTemplate(null);
                                     setShowConfirmation(false);
                                 }
-                            }, 'Choose Different'),
+                            }, t('chooseDifferent')),
                             React.createElement('button', {
                                 key: 'confirm',
                                 className: `btn btn-primary ${isSelecting ? 'loading' : ''}`,
                                 onClick: handleConfirmSelection,
                                 disabled: isSelecting
-                            }, isSelecting ? 'Loading...' : 'Start Building →')
+                            }, isSelecting ? t('loading') : t('startBuilding') + ' →')
                         ])
                     ])
                 ])
