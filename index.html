@@ -4868,11 +4868,11 @@
             ]);
         }
 
-        // Template Preview - EXACT copy of MenuPreview structure 
+        // Realistic Template Preview Component - Exact Match to Editing Experience
         function RealisticTemplatePreview({ template }) {
-            const { mockData, preview, colorScheme, fontFamily, spacing, headerStyle } = template;
+            const { colorScheme, fontFamily, spacing, headerStyle } = template;
             
-            // Get color scheme that matches actual editing experience
+            // Get exact color schemes that match editing experience
             const getColorScheme = (scheme) => {
                 const schemes = {
                     indigo: { 
@@ -4911,164 +4911,206 @@
                 return schemes[scheme] || schemes.indigo;
             };
 
-            // Get font class that matches actual editing experience
-            const getFontClass = (font) => {
-                const fontClasses = {
-                    serif: 'font-serif',
-                    sans: 'font-sans',
-                    inter: ''
+            // Get exact font families that match editing experience
+            const getFontFamily = (font) => {
+                const fonts = {
+                    inter: 'Inter, system-ui, sans-serif',
+                    serif: 'Playfair Display, Georgia, serif',
+                    sans: 'system-ui, -apple-system, sans-serif'
                 };
-                return fontClasses[font] || '';
+                return fonts[font] || fonts.inter;
             };
 
-            // Get spacing that matches actual editing experience
+            // Get exact spacing that matches editing experience  
             const getSpacing = (sp) => {
                 const spacingValues = {
-                    1: '0.5rem',
-                    2: '0.75rem', 
-                    3: '1rem',
-                    4: '1.5rem',
-                    5: '2rem'
+                    1: '8px',
+                    2: '12px', 
+                    3: '16px',
+                    4: '24px',
+                    5: '32px'
                 };
                 return spacingValues[sp] || spacingValues[3];
             };
 
             const colors = getColorScheme(colorScheme);
-            const fontClass = getFontClass(fontFamily);
+            const font = getFontFamily(fontFamily);
             const paddingValue = getSpacing(spacing);
             
-            // Get exact color configurations that match the editing interface
-            const getColorConfig = (colorScheme) => {
-                const configs = {
-                    indigo: {
-                        gradient: 'from-indigo-500 to-purple-600',
-                        primary: '#6366f1',
-                        text: '#1e293b'
-                    },
-                    emerald: {
-                        gradient: 'from-emerald-500 to-teal-600',
-                        primary: '#10b981', 
-                        text: '#064e3b'
-                    },
-                    amber: {
-                        gradient: 'from-amber-500 to-orange-600',
-                        primary: '#f59e0b',
-                        text: '#92400e'
-                    },
-                    rose: {
-                        gradient: 'from-rose-500 to-pink-600',
-                        primary: '#e11d48',
-                        text: '#881337'
-                    }
-                };
-                return configs[colorScheme] || configs.indigo;
-            };
-
-            // EXACT COPY of MenuPreview variables and logic
-            const containerClass = 'max-w-4xl mx-auto';
-            const fontClass = fontFamily === 'serif' ? 'font-serif' : 
-                             fontFamily === 'sans' ? 'font-sans' : '';
-            const colorGradient = colorScheme === 'indigo' ? 'from-indigo-500 to-purple-600' :
-                                 colorScheme === 'emerald' ? 'from-emerald-500 to-teal-600' :
-                                 colorScheme === 'amber' ? 'from-amber-500 to-orange-600' :
-                                 'from-rose-500 to-pink-600';
-
-            // Mock menu and sections data
-            const menu = {
-                restaurantName: mockData?.restaurantName || 'Sample Restaurant',
-                tagline: mockData?.tagline || 'Delicious cuisine awaits'
-            };
-
-            const sections = [{
-                id: 1,
-                name: 'Appetizers',
-                items: [
-                    { id: 1, name: 'Caesar Salad', description: 'Fresh romaine lettuce, parmesan cheese', price: '12.00' },
-                    { id: 2, name: 'Bruschetta', description: 'Grilled bread with tomato and basil', price: '8.00' }
-                ]
-            }];
-
-            // Template preview container with scaling
+            // Create exact mini-preview that matches applied template
             return React.createElement('div', {
-                className: 'template-preview-wrapper',
+                className: 'realistic-preview h-80 relative overflow-hidden rounded-lg',
                 style: {
-                    height: '320px',
-                    overflow: 'hidden',
-                    transform: 'scale(0.5)',
-                    transformOrigin: 'top left',
-                    width: '200%'
+                    background: colors.background,
+                    fontFamily: font,
+                    border: `1px solid ${colors.primary}20`,
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
                 }
             }, [
-                // EXACT COPY of MenuPreview return structure
+                // Header that exactly matches editing experience
                 React.createElement('div', {
-                    key: 'menu-preview',
-                    className: `${containerClass} bg-white rounded-lg shadow-lg overflow-hidden ${fontClass}`,
-                    dir: 'ltr'
+                    key: 'header',
+                    style: {
+                        background: headerStyle === 'gradient' 
+                            ? `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`
+                            : headerStyle === 'solid' 
+                                ? colors.primary
+                                : `linear-gradient(135deg, ${colors.primary}, ${colors.accent})`,
+                        padding: paddingValue,
+                        textAlign: 'center',
+                        height: spacing === 5 ? '100px' : spacing === 4 ? '90px' : '80px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center'
+                    }
                 }, [
+                    React.createElement('h1', {
+                        key: 'restaurant-name',
+                        style: { 
+                            color: 'white',
+                            fontSize: fontFamily === 'serif' ? '16px' : '14px',
+                            fontWeight: fontFamily === 'serif' ? '400' : '600',
+                            letterSpacing: fontFamily === 'inter' ? '0.5px' : '0',
+                            marginBottom: '4px',
+                            fontFamily: font
+                        }
+                    }, 'Bella Vista'),
+                    React.createElement('p', {
+                        key: 'tagline',
+                        style: { 
+                            color: 'rgba(255,255,255,0.9)',
+                            fontSize: '10px',
+                            fontFamily: font
+                        }
+                    }, 'Authentic Italian Cuisine')
+                ]),
+
+                // Menu content that exactly matches editing layout
+                React.createElement('div', {
+                    key: 'content',
+                    style: { 
+                        padding: paddingValue,
+                        backgroundColor: colors.surface,
+                        height: `calc(100% - ${spacing === 5 ? '100px' : spacing === 4 ? '90px' : '80px'})`
+                    }
+                }, [
+                    // Section title exactly as in editor
+                    React.createElement('h2', {
+                        key: 'section-title',
+                        style: { 
+                            color: colors.text,
+                            fontFamily: font,
+                            fontSize: '12px',
+                            fontWeight: '600',
+                            marginBottom: paddingValue,
+                            paddingBottom: `${parseInt(paddingValue) * 0.5}px`,
+                            borderBottom: `1px solid ${colors.primary}20`
+                        }
+                    }, 'Antipasti'),
+
+                    // Menu items with exact layout as editor
                     React.createElement('div', {
-                        key: 'header',
-                        className: `p-8 text-white bg-gradient-to-r ${colorGradient}`
+                        key: 'items',
+                        style: { marginTop: paddingValue }
                     }, [
-                        React.createElement('h1', {
-                            key: 'name',
-                            className: 'text-4xl font-bold mb-3'
-                        }, menu.restaurantName),
-                        menu.tagline && React.createElement('p', {
-                            key: 'tagline',
-                            className: 'opacity-90 text-xl'
-                        }, menu.tagline)
-                    ]),
-                    React.createElement('div', {
-                        key: 'content',
-                        className: 'p-8'
-                    }, sections.map(section => 
+                        // First item - exact match to editor
                         React.createElement('div', {
-                            key: section.id,
-                            className: 'mb-10'
+                            key: 'item1',
+                            style: {
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'flex-start',
+                                padding: `${parseInt(paddingValue) * 0.75}px`,
+                                backgroundColor: colors.background,
+                                borderRadius: '8px',
+                                border: `1px solid ${colors.primary}15`,
+                                marginBottom: `${parseInt(paddingValue) * 0.5}px`
+                            }
                         }, [
-                            React.createElement('h2', {
-                                key: 'title',
-                                className: 'text-3xl font-bold text-gray-800 mb-4 border-b-2 border-gray-200 pb-3'
-                            }, section.name),
                             React.createElement('div', {
-                                key: 'items',
-                                className: 'space-y-1'
-                            }, section.items.map(item =>
+                                key: 'item-info',
+                                style: { flex: 1 }
+                            }, [
                                 React.createElement('div', {
-                                    key: item.id,
-                                    className: 'menu-item p-4 border-b border-gray-100 last:border-b-0'
-                                }, [
-                                    React.createElement('div', {
-                                        key: 'content',
-                                        className: 'flex justify-between items-start gap-4'
-                                    }, [
-                                        React.createElement('div', {
-                                            key: 'left',
-                                            className: 'flex-1'
-                                        }, [
-                                            React.createElement('div', {
-                                                key: 'header',
-                                                className: 'flex items-center gap-2 mb-2'
-                                            }, [
-                                                React.createElement('h4', {
-                                                    key: 'name',
-                                                    className: 'font-semibold text-gray-800 text-lg'
-                                                }, item.name)
-                                            ]),
-                                            React.createElement('p', {
-                                                key: 'desc',
-                                                className: 'text-gray-600 mb-3 leading-relaxed'
-                                            }, item.description)
-                                        ]),
-                                        React.createElement('div', {
-                                            key: 'price',
-                                            className: 'font-bold text-xl text-gray-800 flex-shrink-0'
-                                        }, `$${item.price}`)
-                                    ])
-                                ])
-                            ))
+                                    key: 'name',
+                                    style: { 
+                                        color: colors.text,
+                                        fontSize: '11px',
+                                        fontWeight: '500',
+                                        fontFamily: font,
+                                        marginBottom: '2px'
+                                    }
+                                }, 'Bruschetta al Pomodoro'),
+                                React.createElement('div', {
+                                    key: 'desc',
+                                    style: { 
+                                        color: colors.text,
+                                        opacity: 0.7,
+                                        fontSize: '9px',
+                                        fontFamily: font
+                                    }
+                                }, 'Grilled bread, fresh tomatoes, basil')
+                            ]),
+                            React.createElement('div', {
+                                key: 'price',
+                                style: { 
+                                    color: colors.accent,
+                                    fontSize: '11px',
+                                    fontWeight: '700',
+                                    fontFamily: font
+                                }
+                            }, '€8')
+                        ]),
+
+                        // Second item
+                        React.createElement('div', {
+                            key: 'item2',
+                            style: {
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'flex-start',
+                                padding: `${parseInt(paddingValue) * 0.75}px`,
+                                backgroundColor: colors.background,
+                                borderRadius: '8px',
+                                border: `1px solid ${colors.primary}15`,
+                                marginBottom: `${parseInt(paddingValue) * 0.5}px`
+                            }
+                        }, [
+                            React.createElement('div', {
+                                key: 'item-info',
+                                style: { flex: 1 }
+                            }, [
+                                React.createElement('div', {
+                                    key: 'name',
+                                    style: { 
+                                        color: colors.text,
+                                        fontSize: '11px',
+                                        fontWeight: '500',
+                                        fontFamily: font,
+                                        marginBottom: '2px'
+                                    }
+                                }, 'Antipasto Misto'),
+                                React.createElement('div', {
+                                    key: 'desc',
+                                    style: { 
+                                        color: colors.text,
+                                        opacity: 0.7,
+                                        fontSize: '9px',
+                                        fontFamily: font
+                                    }
+                                }, 'Selection of Italian cured meats')
+                            ]),
+                            React.createElement('div', {
+                                key: 'price',
+                                style: { 
+                                    color: colors.accent,
+                                    fontSize: '11px',
+                                    fontWeight: '700',
+                                    fontFamily: font
+                                }
+                            }, '€14')
                         ])
-                    ))
+                    ])
                 ])
             ]);
         }
