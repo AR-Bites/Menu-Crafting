@@ -4868,7 +4868,7 @@
             ]);
         }
 
-        // Realistic Template Preview Component - Exact Match to Editing Experience
+        // Template Preview - EXACT copy of MenuPreview structure 
         function RealisticTemplatePreview({ template }) {
             const { mockData, preview, colorScheme, fontFamily, spacing, headerStyle } = template;
             
@@ -4964,118 +4964,111 @@
                 return configs[colorScheme] || configs.indigo;
             };
 
-            const colorConfig = getColorConfig(colorScheme);
-
-            // Template preview using EXACT container structure as editing interface
+            // EXACT COPY of MenuPreview variables and logic
             const containerClass = 'max-w-4xl mx-auto';
-            
+            const fontClass = fontFamily === 'serif' ? 'font-serif' : 
+                             fontFamily === 'sans' ? 'font-sans' : '';
+            const colorGradient = colorScheme === 'indigo' ? 'from-indigo-500 to-purple-600' :
+                                 colorScheme === 'emerald' ? 'from-emerald-500 to-teal-600' :
+                                 colorScheme === 'amber' ? 'from-amber-500 to-orange-600' :
+                                 'from-rose-500 to-pink-600';
+
+            // Mock menu and sections data
+            const menu = {
+                restaurantName: mockData?.restaurantName || 'Sample Restaurant',
+                tagline: mockData?.tagline || 'Delicious cuisine awaits'
+            };
+
+            const sections = [{
+                id: 1,
+                name: 'Appetizers',
+                items: [
+                    { id: 1, name: 'Caesar Salad', description: 'Fresh romaine lettuce, parmesan cheese', price: '12.00' },
+                    { id: 2, name: 'Bruschetta', description: 'Grilled bread with tomato and basil', price: '8.00' }
+                ]
+            }];
+
+            // Template preview container with scaling
             return React.createElement('div', {
-                className: `realistic-preview h-80 relative overflow-hidden ${containerClass} bg-white rounded-lg shadow-lg overflow-hidden ${fontClass}`,
+                className: 'template-preview-wrapper',
                 style: {
-                    transform: 'scale(0.6)',
+                    height: '320px',
+                    overflow: 'hidden',
+                    transform: 'scale(0.5)',
                     transformOrigin: 'top left',
-                    width: '166.67%',
-                    height: '166.67%'
+                    width: '200%'
                 }
             }, [
-                // Header using EXACT editing interface structure
+                // EXACT COPY of MenuPreview return structure
                 React.createElement('div', {
-                    key: 'header',
-                    className: `p-8 text-white bg-gradient-to-r ${colorConfig.gradient}`
-                }, [
-                    React.createElement('h1', {
-                        key: 'name',
-                        className: 'text-4xl font-bold mb-3'
-                    }, mockData?.restaurantName || 'Sample Restaurant'),
-                    React.createElement('p', {
-                        key: 'tagline',
-                        className: 'opacity-90 text-xl'
-                    }, mockData?.tagline || 'Delicious cuisine awaits')
-                ]),
-                
-                // Content using EXACT editing interface structure
-                React.createElement('div', {
-                    key: 'content',
-                    className: 'p-8'
+                    key: 'menu-preview',
+                    className: `${containerClass} bg-white rounded-lg shadow-lg overflow-hidden ${fontClass}`,
+                    dir: 'ltr'
                 }, [
                     React.createElement('div', {
-                        key: 'section',
-                        className: 'mb-10'
+                        key: 'header',
+                        className: `p-8 text-white bg-gradient-to-r ${colorGradient}`
                     }, [
-                        React.createElement('h2', {
-                            key: 'title',
-                            className: 'text-3xl font-bold text-gray-800 mb-4 border-b-2 border-gray-200 pb-3'
-                        }, 'Appetizers'),
+                        React.createElement('h1', {
+                            key: 'name',
+                            className: 'text-4xl font-bold mb-3'
+                        }, menu.restaurantName),
+                        menu.tagline && React.createElement('p', {
+                            key: 'tagline',
+                            className: 'opacity-90 text-xl'
+                        }, menu.tagline)
+                    ]),
+                    React.createElement('div', {
+                        key: 'content',
+                        className: 'p-8'
+                    }, sections.map(section => 
                         React.createElement('div', {
-                            key: 'items',
-                            className: 'space-y-1'
+                            key: section.id,
+                            className: 'mb-10'
                         }, [
+                            React.createElement('h2', {
+                                key: 'title',
+                                className: 'text-3xl font-bold text-gray-800 mb-4 border-b-2 border-gray-200 pb-3'
+                            }, section.name),
                             React.createElement('div', {
-                                key: 'item1',
-                                className: 'menu-item p-4 border-b border-gray-100 last:border-b-0'
-                            }, [
+                                key: 'items',
+                                className: 'space-y-1'
+                            }, section.items.map(item =>
                                 React.createElement('div', {
-                                    key: 'content',
-                                    className: 'flex justify-between items-start gap-4'
+                                    key: item.id,
+                                    className: 'menu-item p-4 border-b border-gray-100 last:border-b-0'
                                 }, [
                                     React.createElement('div', {
-                                        key: 'left',
-                                        className: 'flex-1'
+                                        key: 'content',
+                                        className: 'flex justify-between items-start gap-4'
                                     }, [
                                         React.createElement('div', {
-                                            key: 'header',
-                                            className: 'flex items-center gap-2 mb-2'
+                                            key: 'left',
+                                            className: 'flex-1'
                                         }, [
-                                            React.createElement('h4', {
-                                                key: 'name',
-                                                className: 'font-semibold text-gray-800 text-lg'
-                                            }, 'Caesar Salad')
+                                            React.createElement('div', {
+                                                key: 'header',
+                                                className: 'flex items-center gap-2 mb-2'
+                                            }, [
+                                                React.createElement('h4', {
+                                                    key: 'name',
+                                                    className: 'font-semibold text-gray-800 text-lg'
+                                                }, item.name)
+                                            ]),
+                                            React.createElement('p', {
+                                                key: 'desc',
+                                                className: 'text-gray-600 mb-3 leading-relaxed'
+                                            }, item.description)
                                         ]),
-                                        React.createElement('p', {
-                                            key: 'desc',
-                                            className: 'text-gray-600 mb-3 leading-relaxed'
-                                        }, 'Fresh romaine lettuce, parmesan cheese')
-                                    ]),
-                                    React.createElement('div', {
-                                        key: 'price',
-                                        className: 'font-bold text-xl text-gray-800 flex-shrink-0'
-                                    }, '$12.00')
-                                ])
-                            ]),
-                            React.createElement('div', {
-                                key: 'item2',
-                                className: 'menu-item p-4 border-b border-gray-100 last:border-b-0'
-                            }, [
-                                React.createElement('div', {
-                                    key: 'content',
-                                    className: 'flex justify-between items-start gap-4'
-                                }, [
-                                    React.createElement('div', {
-                                        key: 'left',
-                                        className: 'flex-1'
-                                    }, [
                                         React.createElement('div', {
-                                            key: 'header',
-                                            className: 'flex items-center gap-2 mb-2'
-                                        }, [
-                                            React.createElement('h4', {
-                                                key: 'name',
-                                                className: 'font-semibold text-gray-800 text-lg'
-                                            }, 'Bruschetta')
-                                        ]),
-                                        React.createElement('p', {
-                                            key: 'desc',
-                                            className: 'text-gray-600 mb-3 leading-relaxed'
-                                        }, 'Grilled bread with tomato and basil')
-                                    ]),
-                                    React.createElement('div', {
-                                        key: 'price',
-                                        className: 'font-bold text-xl text-gray-800 flex-shrink-0'
-                                    }, '$8.00')
+                                            key: 'price',
+                                            className: 'font-bold text-xl text-gray-800 flex-shrink-0'
+                                        }, `$${item.price}`)
+                                    ])
                                 ])
-                            ])
+                            ))
                         ])
-                    ])
+                    ))
                 ])
             ]);
         }
