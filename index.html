@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Menu Builder - Create Beautiful Digital Menus</title>
+    <title>MenuCraft - Professional Digital Menu Builder</title>
     <meta name="description" content="Create stunning restaurant menus with modern design, 3D models, multilingual support, and responsive layouts.">
     
     <!-- External Dependencies -->
@@ -15,7 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Arabic:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Arabic:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
         
         * {
             margin: 0;
@@ -35,190 +35,317 @@
             font-family: 'Noto Sans Arabic', sans-serif;
         }
         
-        /* Enhanced modern design system */
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        /* Enhanced animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
         }
         
-        .gradient-bg {
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.6); }
+        }
+        
+        @keyframes phoneFloat {
+            0%, 100% { transform: translateY(0px) rotateX(10deg); }
+            50% { transform: translateY(-10px) rotateX(10deg); }
+        }
+        
+        /* Landing page styles */
+        .hero-section {
+            min-height: 100vh;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
         }
         
-        .gradient-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .hero-bg-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.5;
+            animation: floating 6s ease-in-out infinite;
+        }
+        
+        .hero-content {
+            text-align: center;
+            color: white;
+            z-index: 10;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .logo {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #e0e7ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         
-        /* Enhanced animations */
-        .smooth-transition {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        .tagline {
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+            font-weight: 400;
         }
         
-        .fade-in {
-            animation: fadeIn 0.6s ease-out;
-        }
-        
-        .slide-up {
-            animation: slideUp 0.5s ease-out;
-        }
-        
-        .scale-in {
-            animation: scaleIn 0.4s ease-out;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes scaleIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        
-        /* Modern button system */
-        .btn {
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
+        .cta-button {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            padding: 1.5rem 3rem;
             border: none;
-            outline: none;
-            position: relative;
-            overflow: hidden;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+            animation: glow 2s ease-in-out infinite alternate;
         }
         
-        .btn::before {
-            content: '';
-            position: absolute;
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.4);
+        }
+        
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
             top: 0;
-            left: -100%;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
         }
         
-        .btn:hover::before {
-            left: 100%;
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal-overlay.show .modal-content {
+            transform: scale(1);
+        }
+        
+        /* Form styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #374151;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f9fafb;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
         }
         
         .btn-primary {
             background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
             color: white;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
         }
         
         .btn-primary:hover {
-            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
         }
         
         .btn-secondary {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            color: #475569;
-            border: 1px solid #e2e8f0;
+            background: #f3f4f6;
+            color: #374151;
+            border: 2px solid #e5e7eb;
         }
         
         .btn-secondary:hover {
-            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
-            transform: translateY(-1px);
+            background: #e5e7eb;
         }
         
         .btn-ghost {
             background: transparent;
-            color: #64748b;
+            color: #6b7280;
             border: 1px solid transparent;
         }
         
         .btn-ghost:hover {
-            background: rgba(148, 163, 184, 0.1);
-            color: #334155;
+            background: #f3f4f6;
         }
         
-        .btn-sm {
-            padding: 8px 16px;
-            font-size: 12px;
+        /* App interface styles */
+        .app-interface {
+            display: none;
+            min-height: 100vh;
+            background: #f8fafc;
+        }
+        
+        .app-interface.show {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .app-header {
+            background: white;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: between;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .app-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-item {
+            padding: 0.5rem 1rem;
             border-radius: 8px;
-        }
-        
-        .btn-lg {
-            padding: 16px 32px;
-            font-size: 16px;
-            border-radius: 16px;
-        }
-        
-        /* Enhanced form elements */
-        .input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.9);
-        }
-        
-        .input:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-            background: white;
-        }
-        
-        .textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-        
-        /* Enhanced cards */
-        .card {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-        
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
-        
-        .card-hover {
             cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
         }
         
-        .card-hover:hover {
-            transform: translateY(-6px) scale(1.02);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        .nav-item.active {
+            background: #3b82f6;
+            color: white;
         }
         
-        /* Template cards with unique designs */
+        .nav-item:hover:not(.active) {
+            background: #f3f4f6;
+        }
+        
+        .app-content {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+        
+        /* Sidebar styles */
+        .sidebar {
+            width: 350px;
+            background: white;
+            border-right: 1px solid #e5e7eb;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 2rem;
+        }
+        
+        .sidebar-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+        
+        /* Template cards */
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+        }
+        
+        .template-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .template-card:hover {
+            transform: translateY(-8px) rotateY(5deg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
         .template-preview {
             height: 200px;
-            border-radius: 12px;
-            overflow: hidden;
             position: relative;
+            overflow: hidden;
         }
         
         .template-dark {
@@ -251,53 +378,166 @@
             color: white;
         }
         
-        /* Mobile responsive design */
-        @media (max-width: 768px) {
-            .btn {
-                padding: 12px 20px;
-                font-size: 14px;
-                min-height: 48px;
-            }
-            
-            .input {
-                padding: 14px;
-                font-size: 16px;
-                min-height: 48px;
-            }
-            
-            .mobile-menu {
-                position: fixed;
-                top: 0;
-                left: -100%;
-                width: 100%;
-                height: 100vh;
-                background: white;
-                z-index: 1000;
-                transition: left 0.3s ease;
-                overflow-y: auto;
-            }
-            
-            .mobile-menu.open {
-                left: 0;
-            }
-            
-            .mobile-menu-overlay {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100vh;
-                background: rgba(0, 0, 0, 0.5);
-                z-index: 999;
-                opacity: 0;
-                visibility: hidden;
-                transition: all 0.3s ease;
-            }
-            
-            .mobile-menu-overlay.open {
-                opacity: 1;
-                visibility: visible;
-            }
+        /* Mobile phone preview */
+        .phone-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        }
+        
+        .phone-frame {
+            width: 300px;
+            height: 600px;
+            background: #1f2937;
+            border-radius: 40px;
+            padding: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: phoneFloat 4s ease-in-out infinite;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+        
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .phone-notch {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 25px;
+            background: #1f2937;
+            border-radius: 15px;
+            z-index: 10;
+        }
+        
+        .menu-preview {
+            height: 100%;
+            overflow-y: auto;
+            padding: 40px 20px 20px 20px;
+            background: var(--preview-bg, white);
+            color: var(--preview-text, #1f2937);
+        }
+        
+        .menu-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .menu-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .menu-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .menu-section {
+            margin-bottom: 25px;
+        }
+        
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--accent-color, #3b82f6);
+            padding-bottom: 5px;
+        }
+        
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            background: var(--item-bg, #f8fafc);
+            border-left: 3px solid var(--accent-color, #3b82f6);
+        }
+        
+        .item-info {
+            flex: 1;
+        }
+        
+        .item-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .item-description {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+        
+        .item-price {
+            font-weight: 700;
+            color: var(--accent-color, #3b82f6);
+            margin-left: 10px;
+        }
+        
+        /* Customization panel */
+        .customization-panel {
+            position: fixed;
+            right: -400px;
+            top: 0;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            transition: right 0.3s ease;
+            z-index: 100;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+        
+        .customization-panel.open {
+            right: 0;
+        }
+        
+        .color-picker {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .color-picker:hover {
+            transform: scale(1.1);
+        }
+        
+        .slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #e5e7eb;
+            outline: none;
+            margin: 10px 0;
+        }
+        
+        .font-selector {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
         }
         
         /* Language toggle */
@@ -307,13 +547,13 @@
             right: 20px;
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
-            padding: 10px 16px;
-            border-radius: 20px;
+            padding: 10px 20px;
+            border-radius: 25px;
             border: none;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s ease;
-            z-index: 100;
+            z-index: 200;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
         
@@ -322,19 +562,41 @@
             transform: scale(1.05);
         }
         
-        /* Loading spinner */
-        .spinner {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #e5e7eb;
-            border-top: 2px solid #3b82f6;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -350px;
+                z-index: 50;
+                transition: left 0.3s ease;
+            }
+            
+            .sidebar.open {
+                left: 0;
+            }
+            
+            .phone-frame {
+                width: 250px;
+                height: 500px;
+            }
+            
+            .customization-panel {
+                width: 100%;
+                right: -100%;
+            }
+            
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .tagline {
+                font-size: 1.2rem;
+            }
+            
+            .template-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
         }
         
         /* Toast notifications */
@@ -343,2097 +605,857 @@
             bottom: 20px;
             right: 20px;
             background: white;
-            padding: 16px 20px;
+            padding: 1rem 1.5rem;
             border-radius: 12px;
             box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-            z-index: 1001;
-            animation: slideInToast 0.3s ease-out;
-        }
-        
-        @keyframes slideInToast {
-            from { opacity: 0; transform: translateX(100%); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        
-        .toast-success {
+            z-index: 1000;
+            animation: slideInRight 0.3s ease-out;
             border-left: 4px solid #10b981;
         }
         
-        .toast-error {
-            border-left: 4px solid #ef4444;
+        .hidden {
+            display: none !important;
         }
         
-        /* Modal system */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #e5e7eb;
+            border-top: 2px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
         }
         
-        .modal-overlay.open {
-            opacity: 1;
-            visibility: visible;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
-        .modal-content {
-            background: white;
-            padding: 24px;
-            border-radius: 16px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
-        }
-        
-        .modal-overlay.open .modal-content {
-            transform: scale(1);
-        }
-        
-        /* Sidebar styles */
-        .sidebar {
-            width: 320px;
-            background: white;
-            border-right: 1px solid #e5e7eb;
-            height: 100vh;
-            overflow-y: auto;
-            transition: all 0.3s ease;
-        }
-        
-        @media (max-width: 768px) {
-            .sidebar {
-                position: fixed;
-                left: -320px;
-                z-index: 1000;
-                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            }
-            
-            .sidebar.open {
-                left: 0;
-            }
-        }
-        
-        /* Enhanced menu item styles */
-        .menu-item-card {
-            background: white;
-            border-radius: 12px;
-            padding: 16px;
-            border: 2px solid #f1f5f9;
-            transition: all 0.3s ease;
-            margin-bottom: 12px;
-        }
-        
-        .menu-item-card:hover {
-            border-color: #3b82f6;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* 3D model viewer enhancements */
-        .model-viewer-container {
-            border-radius: 12px;
-            overflow: hidden;
-            background: #f8fafc;
+        /* Menu item editing */
+        .menu-item-editable {
+            border: 2px dashed #3b82f6;
+            cursor: pointer;
             position: relative;
         }
         
-        .model-loading {
+        .menu-item-editable:hover::after {
+            content: '✏️ Edit';
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
+            background: rgba(59, 130, 246, 0.9);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+        }
+        
+        .add-item-btn {
+            width: 100%;
+            padding: 20px;
+            border: 2px dashed #3b82f6;
+            background: transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            color: #3b82f6;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .add-item-btn:hover {
+            background: #3b82f6;
+            color: white;
         }
     </style>
 </head>
 <body>
-    <div id="root"></div>
+    <!-- Language Toggle -->
+    <button class="lang-toggle" onclick="toggleLanguage()">
+        <span id="lang-text">🇸🇦 العربية</span>
+    </button>
+
+    <!-- Landing Page -->
+    <section id="landing-page" class="hero-section">
+        <div class="hero-bg-animation"></div>
+        <div class="hero-content">
+            <h1 class="logo" data-en="MenuCraft" data-ar="منشئ القوائم">MenuCraft</h1>
+            <p class="tagline" data-en="Craft your perfect menu in minutes" data-ar="اصنع قائمتك المثالية في دقائق">
+                Craft your perfect menu in minutes
+            </p>
+            <button class="cta-button" onclick="showAuthModal()" data-en="Start Creating Now" data-ar="ابدأ الإنشاء الآن">
+                Start Creating Now
+            </button>
+        </div>
+    </section>
+
+    <!-- Authentication Modal -->
+    <div id="auth-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div id="auth-tabs" style="display: flex; margin-bottom: 2rem; border-bottom: 1px solid #e5e7eb;">
+                <button class="nav-item active" onclick="switchAuthTab('login')" data-en="Sign In" data-ar="تسجيل الدخول">Sign In</button>
+                <button class="nav-item" onclick="switchAuthTab('signup')" data-en="Sign Up" data-ar="إنشاء حساب">Sign Up</button>
+            </div>
+            
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form">
+                <div class="form-group">
+                    <label class="form-label" data-en="Email Address" data-ar="البريد الإلكتروني">Email Address</label>
+                    <input type="email" class="form-input" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-en="Password" data-ar="كلمة المرور">Password</label>
+                    <input type="password" class="form-input" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 1rem;" data-en="Sign In" data-ar="تسجيل الدخول">
+                    Sign In
+                </button>
+            </form>
+            
+            <!-- Signup Form -->
+            <form id="signup-form" class="auth-form hidden">
+                <div class="form-group">
+                    <label class="form-label" data-en="Full Name" data-ar="الاسم الكامل">Full Name</label>
+                    <input type="text" class="form-input" required placeholder="John Smith">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-en="Email Address" data-ar="البريد الإلكتروني">Email Address</label>
+                    <input type="email" class="form-input" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-en="Password" data-ar="كلمة المرور">Password</label>
+                    <input type="password" class="form-input" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 1rem;" data-en="Create Account" data-ar="إنشاء حساب">
+                    Create Account
+                </button>
+            </form>
+            
+            <div style="text-align: center; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
+                <button class="btn btn-secondary" onclick="continueAsGuest()" data-en="Continue as Guest" data-ar="متابعة كضيف">
+                    Continue as Guest
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App Interface -->
+    <div id="app-interface" class="app-interface">
+        <!-- App Header -->
+        <header class="app-header">
+            <div class="app-nav">
+                <div class="nav-item active" onclick="switchTab('templates')" data-en="Templates" data-ar="القوالب">Templates</div>
+                <div class="nav-item" onclick="switchTab('editor')" data-en="Editor" data-ar="المحرر">Editor</div>
+                <div class="nav-item" onclick="switchTab('preview')" data-en="Preview" data-ar="معاينة">Preview</div>
+            </div>
+            <div style="margin-left: auto; display: flex; gap: 1rem; align-items: center;">
+                <button class="btn btn-ghost" onclick="toggleCustomization()" data-en="Customize" data-ar="تخصيص">🎨 Customize</button>
+                <button class="btn btn-primary" onclick="saveMenu()" data-en="Save Menu" data-ar="حفظ القائمة">💾 Save Menu</button>
+                <span id="user-name" style="color: #6b7280; font-weight: 500;"></span>
+            </div>
+        </header>
+
+        <!-- App Content -->
+        <div class="app-content">
+            <!-- Templates Section -->
+            <div id="templates-section" class="template-grid">
+                <div class="template-card" onclick="selectTemplate('dark')" data-template="dark">
+                    <div class="template-preview template-dark">
+                        <div style="padding: 1rem; text-align: center;">
+                            <h3 style="margin-bottom: 0.5rem;">Restaurant Name</h3>
+                            <p style="opacity: 0.8; font-size: 0.9rem;">Fine Dining Experience</p>
+                        </div>
+                        <div style="padding: 0 1rem 1rem;">
+                            <div style="margin-bottom: 0.5rem; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 0.25rem;">Appetizers</div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.5rem;">
+                                <span>Signature Dish</span><span style="color: #8b5cf6;">$12</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
+                                <span>Special Item</span><span style="color: #8b5cf6;">$8</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding: 1rem;">
+                        <h3 style="font-weight: 600; margin-bottom: 0.5rem;" data-en="Modern Dark" data-ar="عصري داكن">Modern Dark</h3>
+                        <p style="color: #6b7280; font-size: 0.9rem;" data-en="Professional dark theme with purple accents" data-ar="موضوع داكن احترافي مع لمسات بنفسجية">Professional dark theme with purple accents</p>
+                    </div>
+                </div>
+
+                <div class="template-card" onclick="selectTemplate('light')" data-template="light">
+                    <div class="template-preview template-light">
+                        <div style="padding: 1rem; text-align: center;">
+                            <h3 style="margin-bottom: 0.5rem; color: #1e293b;">Restaurant Name</h3>
+                            <p style="opacity: 0.8; font-size: 0.9rem; color: #1e293b;">Fine Dining Experience</p>
+                        </div>
+                        <div style="padding: 0 1rem 1rem;">
+                            <div style="margin-bottom: 0.5rem; font-weight: 600; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.25rem; color: #1e293b;">Appetizers</div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.5rem; color: #1e293b;">
+                                <span>Signature Dish</span><span style="color: #3b82f6;">$12</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #1e293b;">
+                                <span>Special Item</span><span style="color: #3b82f6;">$8</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding: 1rem;">
+                        <h3 style="font-weight: 600; margin-bottom: 0.5rem;" data-en="Minimalist Light" data-ar="بسيط فاتح">Minimalist Light</h3>
+                        <p style="color: #6b7280; font-size: 0.9rem;" data-en="Clean and elegant design with blue accents" data-ar="تصميم نظيف وأنيق مع لمسات زرقاء">Clean and elegant design with blue accents</p>
+                    </div>
+                </div>
+
+                <div class="template-card" onclick="selectTemplate('vibrant')" data-template="vibrant">
+                    <div class="template-preview template-vibrant">
+                        <div style="padding: 1rem; text-align: center;">
+                            <h3 style="margin-bottom: 0.5rem;">Restaurant Name</h3>
+                            <p style="opacity: 0.8; font-size: 0.9rem;">Fine Dining Experience</p>
+                        </div>
+                        <div style="padding: 0 1rem 1rem;">
+                            <div style="margin-bottom: 0.5rem; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 0.25rem;">Appetizers</div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.5rem;">
+                                <span>Signature Dish</span><span style="color: #fed7d7;">$12</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
+                                <span>Special Item</span><span style="color: #fed7d7;">$8</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding: 1rem;">
+                        <h3 style="font-weight: 600; margin-bottom: 0.5rem;" data-en="Vibrant Food Focus" data-ar="طعام نابض بالحياة">Vibrant Food Focus</h3>
+                        <p style="color: #6b7280; font-size: 0.9rem;" data-en="Bold orange-red theme perfect for showcasing dishes" data-ar="موضوع برتقالي أحمر جريء مثالي لعرض الأطباق">Bold orange-red theme perfect for showcasing dishes</p>
+                    </div>
+                </div>
+
+                <div class="template-card" onclick="selectTemplate('luxury')" data-template="luxury">
+                    <div class="template-preview template-luxury">
+                        <div style="padding: 1rem; text-align: center;">
+                            <h3 style="margin-bottom: 0.5rem; color: #7c2d12;">Restaurant Name</h3>
+                            <p style="opacity: 0.8; font-size: 0.9rem; color: #7c2d12;">Fine Dining Experience</p>
+                        </div>
+                        <div style="padding: 0 1rem 1rem;">
+                            <div style="margin-bottom: 0.5rem; font-weight: 600; border-bottom: 1px solid #fde68a; padding-bottom: 0.25rem; color: #7c2d12;">Appetizers</div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.5rem; color: #7c2d12;">
+                                <span>Signature Dish</span><span style="color: #d97706;">$12</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #7c2d12;">
+                                <span>Special Item</span><span style="color: #d97706;">$8</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding: 1rem;">
+                        <h3 style="font-weight: 600; margin-bottom: 0.5rem;" data-en="Luxury Gold" data-ar="ذهبي فاخر">Luxury Gold</h3>
+                        <p style="color: #6b7280; font-size: 0.9rem;" data-en="Sophisticated gold and cream design for premium restaurants" data-ar="تصميم ذهبي وكريمي متطور للمطاعم الفاخرة">Sophisticated gold and cream design for premium restaurants</p>
+                    </div>
+                </div>
+
+                <div class="template-card" onclick="selectTemplate('nature')" data-template="nature">
+                    <div class="template-preview template-nature">
+                        <div style="padding: 1rem; text-align: center;">
+                            <h3 style="margin-bottom: 0.5rem;">Restaurant Name</h3>
+                            <p style="opacity: 0.8; font-size: 0.9rem;">Fine Dining Experience</p>
+                        </div>
+                        <div style="padding: 0 1rem 1rem;">
+                            <div style="margin-bottom: 0.5rem; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 0.25rem;">Appetizers</div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.5rem;">
+                                <span>Signature Dish</span><span style="color: #bbf7d0;">$12</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
+                                <span>Special Item</span><span style="color: #bbf7d0;">$8</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding: 1rem;">
+                        <h3 style="font-weight: 600; margin-bottom: 0.5rem;" data-en="Fresh Green" data-ar="أخضر طازج">Fresh Green</h3>
+                        <p style="color: #6b7280; font-size: 0.9rem;" data-en="Natural green theme perfect for organic and healthy food" data-ar="موضوع أخضر طبيعي مثالي للطعام العضوي والصحي">Natural green theme perfect for organic and healthy food</p>
+                    </div>
+                </div>
+
+                <div class="template-card" onclick="selectTemplate('ocean')" data-template="ocean">
+                    <div class="template-preview template-ocean">
+                        <div style="padding: 1rem; text-align: center;">
+                            <h3 style="margin-bottom: 0.5rem;">Restaurant Name</h3>
+                            <p style="opacity: 0.8; font-size: 0.9rem;">Fine Dining Experience</p>
+                        </div>
+                        <div style="padding: 0 1rem 1rem;">
+                            <div style="margin-bottom: 0.5rem; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 0.25rem;">Appetizers</div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.5rem;">
+                                <span>Signature Dish</span><span style="color: #bfdbfe;">$12</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
+                                <span>Special Item</span><span style="color: #bfdbfe;">$8</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding: 1rem;">
+                        <h3 style="font-weight: 600; margin-bottom: 0.5rem;" data-en="Ocean Blue" data-ar="أزرق المحيط">Ocean Blue</h3>
+                        <p style="color: #6b7280; font-size: 0.9rem;" data-en="Deep blue elegant design perfect for seafood restaurants" data-ar="تصميم أزرق عميق أنيق مثالي لمطاعم المأكولات البحرية">Deep blue elegant design perfect for seafood restaurants</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Editor Section -->
+            <div id="editor-section" class="hidden" style="display: flex; flex: 1;">
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title" data-en="Restaurant Information" data-ar="معلومات المطعم">Restaurant Information</h3>
+                        <div class="form-group">
+                            <label class="form-label" data-en="Restaurant Name" data-ar="اسم المطعم">Restaurant Name</label>
+                            <input type="text" class="form-input" id="restaurant-name" placeholder="Your Restaurant Name" oninput="updatePreview()">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-en="Menu Title" data-ar="عنوان القائمة">Menu Title</label>
+                            <input type="text" class="form-input" id="menu-title" placeholder="Dinner Menu" oninput="updatePreview()">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-en="Tagline" data-ar="الشعار">Tagline</label>
+                            <input type="text" class="form-input" id="menu-tagline" placeholder="Fine dining experience" oninput="updatePreview()">
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title" data-en="Menu Sections" data-ar="أقسام القائمة">Menu Sections</h3>
+                        <div id="sections-list">
+                            <div class="form-group">
+                                <button class="btn btn-primary" onclick="addSection()" data-en="+ Add Section" data-ar="+ إضافة قسم">+ Add Section</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phone Preview -->
+                <div class="phone-container">
+                    <div class="phone-frame">
+                        <div class="phone-notch"></div>
+                        <div class="phone-screen">
+                            <div id="menu-preview" class="menu-preview">
+                                <div class="menu-header">
+                                    <div class="menu-title" id="preview-restaurant">Your Restaurant Name</div>
+                                    <div class="menu-subtitle" id="preview-title">Menu</div>
+                                    <div style="font-size: 0.8rem; opacity: 0.8; margin-top: 5px;" id="preview-tagline">Fine dining experience</div>
+                                </div>
+                                <div id="preview-sections">
+                                    <div class="menu-section">
+                                        <div class="section-title">Sample Section</div>
+                                        <div class="menu-item menu-item-editable" onclick="editItem(this)">
+                                            <div class="item-info">
+                                                <div class="item-name">Sample Dish</div>
+                                                <div class="item-description">Click to edit this item</div>
+                                            </div>
+                                            <div class="item-price">$12</div>
+                                        </div>
+                                        <button class="add-item-btn" onclick="addItem(this)" data-en="+ Add Menu Item" data-ar="+ إضافة عنصر">+ Add Menu Item</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview Section -->
+            <div id="preview-section" class="hidden phone-container">
+                <div class="phone-frame">
+                    <div class="phone-notch"></div>
+                    <div class="phone-screen">
+                        <div class="menu-preview" id="final-preview">
+                            <!-- Content will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customization Panel -->
+    <div id="customization-panel" class="customization-panel">
+        <h3 style="margin-bottom: 2rem; font-weight: 700;" data-en="Customize Design" data-ar="تخصيص التصميم">Customize Design</h3>
+        
+        <div style="margin-bottom: 2rem;">
+            <h4 style="margin-bottom: 1rem; font-weight: 600;" data-en="Colors" data-ar="الألوان">Colors</h4>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;" data-en="Background" data-ar="الخلفية">Background</label>
+                    <input type="color" class="color-picker" id="bg-color" value="#ffffff" onchange="updateCustomization()">
+                </div>
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;" data-en="Text Color" data-ar="لون النص">Text Color</label>
+                    <input type="color" class="color-picker" id="text-color" value="#1f2937" onchange="updateCustomization()">
+                </div>
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;" data-en="Accent Color" data-ar="اللون المميز">Accent Color</label>
+                    <input type="color" class="color-picker" id="accent-color" value="#3b82f6" onchange="updateCustomization()">
+                </div>
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;" data-en="Item Background" data-ar="خلفية العنصر">Item Background</label>
+                    <input type="color" class="color-picker" id="item-bg-color" value="#f8fafc" onchange="updateCustomization()">
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-bottom: 2rem;">
+            <h4 style="margin-bottom: 1rem; font-weight: 600;" data-en="Typography" data-ar="الخطوط">Typography</h4>
+            <div>
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;" data-en="Font Family" data-ar="عائلة الخط">Font Family</label>
+                <select class="font-selector" id="font-family" onchange="updateCustomization()">
+                    <option value="Inter">Inter (Default)</option>
+                    <option value="Playfair Display">Playfair Display</option>
+                    <option value="Poppins">Poppins</option>
+                    <option value="Dancing Script">Dancing Script</option>
+                    <option value="Roboto">Roboto</option>
+                </select>
+            </div>
+            <div style="margin-top: 1rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;" data-en="Font Size" data-ar="حجم الخط">Font Size</label>
+                <input type="range" class="slider" id="font-size" min="12" max="24" value="16" onchange="updateCustomization()">
+                <div style="text-align: center; color: #6b7280; margin-top: 0.5rem;"><span id="font-size-value">16</span>px</div>
+            </div>
+        </div>
+
+        <div style="margin-bottom: 2rem;">
+            <h4 style="margin-bottom: 1rem; font-weight: 600;" data-en="Layout" data-ar="التخطيط">Layout</h4>
+            <div>
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;" data-en="Spacing" data-ar="التباعد">Spacing</label>
+                <input type="range" class="slider" id="spacing" min="10" max="30" value="20" onchange="updateCustomization()">
+                <div style="text-align: center; color: #6b7280; margin-top: 0.5rem;"><span id="spacing-value">20</span>px</div>
+            </div>
+        </div>
+
+        <button class="btn btn-secondary" onclick="resetCustomization()" style="width: 100%; margin-bottom: 1rem;" data-en="Reset to Default" data-ar="إعادة تعيين إلى الافتراضي">Reset to Default</button>
+        <button class="btn btn-ghost" onclick="toggleCustomization()" style="width: 100%;" data-en="Close" data-ar="إغلاق">Close</button>
+    </div>
+
+    <!-- Item Edit Modal -->
+    <div id="item-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 style="margin-bottom: 1.5rem; font-weight: 700;" data-en="Edit Menu Item" data-ar="تحرير عنصر القائمة">Edit Menu Item</h3>
+            <form id="item-form">
+                <div class="form-group">
+                    <label class="form-label" data-en="Item Name" data-ar="اسم العنصر">Item Name</label>
+                    <input type="text" class="form-input" id="item-name" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-en="Description" data-ar="الوصف">Description</label>
+                    <textarea class="form-input" id="item-description" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-en="Price" data-ar="السعر">Price</label>
+                    <input type="text" class="form-input" id="item-price" placeholder="$12.99" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-en="Image URL" data-ar="رابط الصورة">Image URL</label>
+                    <input type="url" class="form-input" id="item-image" placeholder="https://example.com/image.jpg">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-en="3D Model URL (.glb)" data-ar="رابط النموذج ثلاثي الأبعاد (.glb)">3D Model URL (.glb)</label>
+                    <input type="url" class="form-input" id="item-model" placeholder="https://example.com/model.glb">
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button type="submit" class="btn btn-primary" style="flex: 1;" data-en="Save Item" data-ar="حفظ العنصر">Save Item</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeItemModal()" data-en="Cancel" data-ar="إلغاء">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <script type="text/babel">
-        const { useState, useEffect, useContext, createContext, useRef } = React;
-
-        // Enhanced storage utility
-        const storage = {
-            save: (key, data) => {
-                try {
-                    localStorage.setItem(key, JSON.stringify(data));
-                    return true;
-                } catch (error) {
-                    console.error('Storage save error:', error);
-                    return false;
-                }
-            },
-            load: (key) => {
-                try {
-                    const data = localStorage.getItem(key);
-                    return data ? JSON.parse(data) : null;
-                } catch (error) {
-                    console.error('Storage load error:', error);
-                    return null;
-                }
-            },
-            remove: (key) => {
-                try {
-                    localStorage.removeItem(key);
-                    return true;
-                } catch (error) {
-                    console.error('Storage remove error:', error);
-                    return false;
-                }
-            }
-        };
-
-        // Enhanced translations
-        const translations = {
-            en: {
-                // Auth
-                welcome: 'Welcome to Menu Builder',
-                login: 'Sign In',
-                signup: 'Sign Up',
-                email: 'Email Address',
-                password: 'Password',
-                confirmPassword: 'Confirm Password',
-                fullName: 'Full Name',
-                continueAsGuest: 'Continue as Guest',
-                createAccount: 'Create your account',
-                alreadyHaveAccount: 'Already have an account?',
-                dontHaveAccount: "Don't have an account?",
-                signInToAccount: 'Sign in to your account',
-                
-                // Navigation
-                menuBuilder: 'Menu Builder',
-                selectTemplate: 'Choose Template',
-                dashboard: 'Dashboard',
-                templates: 'Templates',
-                myMenus: 'My Menus',
-                settings: 'Settings',
-                logout: 'Logout',
-                
-                // Templates
-                modernDark: 'Modern Dark',
-                minimalistLight: 'Minimalist Light',
-                vibrantFood: 'Vibrant Food Focus',
-                luxuryGold: 'Luxury Gold',
-                freshGreen: 'Fresh Green',
-                oceanBlue: 'Ocean Blue',
-                useTemplate: 'Use This Template',
-                previewTemplate: 'Preview Template',
-                
-                // Menu Builder
-                restaurantInfo: 'Restaurant Information',
-                restaurantName: 'Restaurant Name',
-                menuTitle: 'Menu Title',
-                tagline: 'Tagline or Description',
-                addSection: 'Add Section',
-                addItem: 'Add Item',
-                editSection: 'Edit Section',
-                editItem: 'Edit Item',
-                deleteSection: 'Delete Section',
-                deleteItem: 'Delete Item',
-                
-                // Forms
-                sectionName: 'Section Name',
-                itemName: 'Item Name',
-                itemNameAr: 'Item Name (Arabic)',
-                price: 'Price',
-                description: 'Description',
-                descriptionAr: 'Description (Arabic)',
-                imageUrl: 'Image URL',
-                model3dUrl: '3D Model URL (.glb)',
-                
-                // Actions
-                save: 'Save',
-                cancel: 'Cancel',
-                publish: 'Publish Menu',
-                preview: 'Preview',
-                back: 'Back',
-                edit: 'Edit',
-                delete: 'Delete',
-                apply: 'Apply',
-                close: 'Close',
-                
-                // View modes
-                desktop: 'Desktop',
-                tablet: 'Tablet',
-                mobile: 'Mobile',
-                
-                // Status
-                saving: 'Saving...',
-                loading: 'Loading...',
-                saved: 'Saved successfully!',
-                published: 'Menu published successfully!',
-                error: 'An error occurred',
-                
-                // Sharing
-                shareMenu: 'Share Menu',
-                shareUrl: 'Share URL',
-                qrCode: 'QR Code',
-                copyLink: 'Copy Link'
-            },
-            ar: {
-                // Auth
-                welcome: 'مرحباً بك في منشئ القوائم',
-                login: 'تسجيل الدخول',
-                signup: 'إنشاء حساب',
-                email: 'البريد الإلكتروني',
-                password: 'كلمة المرور',
-                confirmPassword: 'تأكيد كلمة المرور',
-                fullName: 'الاسم الكامل',
-                continueAsGuest: 'متابعة كضيف',
-                createAccount: 'إنشاء حسابك',
-                alreadyHaveAccount: 'لديك حساب بالفعل؟',
-                dontHaveAccount: 'ليس لديك حساب؟',
-                signInToAccount: 'تسجيل الدخول إلى حسابك',
-                
-                // Navigation
-                menuBuilder: 'منشئ القائمة',
-                selectTemplate: 'اختر قالب',
-                dashboard: 'لوحة التحكم',
-                templates: 'القوالب',
-                myMenus: 'قوائمي',
-                settings: 'الإعدادات',
-                logout: 'تسجيل الخروج',
-                
-                // Templates
-                modernDark: 'عصري داكن',
-                minimalistLight: 'بسيط فاتح',
-                vibrantFood: 'طعام نابض بالحياة',
-                luxuryGold: 'ذهبي فاخر',
-                freshGreen: 'أخضر طازج',
-                oceanBlue: 'أزرق المحيط',
-                useTemplate: 'استخدم هذا القالب',
-                previewTemplate: 'معاينة القالب',
-                
-                // Menu Builder
-                restaurantInfo: 'معلومات المطعم',
-                restaurantName: 'اسم المطعم',
-                menuTitle: 'عنوان القائمة',
-                tagline: 'شعار أو وصف',
-                addSection: 'إضافة قسم',
-                addItem: 'إضافة عنصر',
-                editSection: 'تحرير القسم',
-                editItem: 'تحرير العنصر',
-                deleteSection: 'حذف القسم',
-                deleteItem: 'حذف العنصر',
-                
-                // Forms
-                sectionName: 'اسم القسم',
-                itemName: 'اسم العنصر',
-                itemNameAr: 'اسم العنصر (عربي)',
-                price: 'السعر',
-                description: 'الوصف',
-                descriptionAr: 'الوصف (عربي)',
-                imageUrl: 'رابط الصورة',
-                model3dUrl: 'رابط النموذج ثلاثي الأبعاد (.glb)',
-                
-                // Actions
-                save: 'حفظ',
-                cancel: 'إلغاء',
-                publish: 'نشر القائمة',
-                preview: 'معاينة',
-                back: 'رجوع',
-                edit: 'تحرير',
-                delete: 'حذف',
-                apply: 'تطبيق',
-                close: 'إغلاق',
-                
-                // View modes
-                desktop: 'سطح المكتب',
-                tablet: 'جهاز لوحي',
-                mobile: 'جوال',
-                
-                // Status
-                saving: 'جاري الحفظ...',
-                loading: 'جاري التحميل...',
-                saved: 'تم الحفظ بنجاح!',
-                published: 'تم نشر القائمة بنجاح!',
-                error: 'حدث خطأ',
-                
-                // Sharing
-                shareMenu: 'مشاركة القائمة',
-                shareUrl: 'رابط المشاركة',
-                qrCode: 'رمز الاستجابة السريعة',
-                copyLink: 'نسخ الرابط'
-            }
-        };
-
-        // Language Context
-        const LanguageContext = createContext();
-
-        function LanguageProvider({ children }) {
-            const [language, setLanguage] = useState('en');
-
-            const toggleLanguage = () => {
-                const newLang = language === 'en' ? 'ar' : 'en';
-                setLanguage(newLang);
-                storage.save('language', newLang);
-            };
-
-            const t = (key) => translations[language][key] || key;
-
-            useEffect(() => {
-                const savedLang = storage.load('language');
-                if (savedLang && translations[savedLang]) {
-                    setLanguage(savedLang);
-                }
-            }, []);
-
-            return React.createElement(LanguageContext.Provider, {
-                value: { 
-                    language, 
-                    toggleLanguage, 
-                    t, 
-                    isRTL: language === 'ar' 
-                }
-            }, children);
-        }
-
-        function useLanguage() {
-            const context = useContext(LanguageContext);
-            if (!context) {
-                console.error('useLanguage must be used within LanguageProvider');
-                return {
-                    language: 'en',
-                    toggleLanguage: () => {},
-                    t: (key) => key,
-                    isRTL: false
-                };
-            }
-            return context;
-        }
-
-        // Toast Context
-        const ToastContext = createContext();
-
-        function ToastProvider({ children }) {
-            const [toasts, setToasts] = useState([]);
-
-            const addToast = (message, type = 'success') => {
-                const id = Date.now();
-                setToasts(prev => [...prev, { id, message, type }]);
-                setTimeout(() => removeToast(id), 4000);
-            };
-
-            const removeToast = (id) => {
-                setToasts(prev => prev.filter(toast => toast.id !== id));
-            };
-
-            return React.createElement(ToastContext.Provider, {
-                value: { addToast, removeToast }
-            }, children);
-        }
-
-        function useToast() {
-            const context = useContext(ToastContext);
-            if (!context) {
-                console.error('useToast must be used within ToastProvider');
-                return {
-                    addToast: () => {},
-                    removeToast: () => {},
-                    toasts: []
-                };
-            }
-            return context;
-        }
-
-        // Enhanced template data
-        const templates = [
-            {
-                id: 'modern-dark',
-                name: 'modernDark',
-                category: 'modern',
-                preview: {
-                    headerBg: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
-                    contentBg: '#0f172a',
-                    itemBg: '#1e293b',
-                    textColor: '#ffffff',
-                    accentColor: '#8b5cf6',
-                    borderColor: '#374151'
-                },
-                className: 'template-dark'
-            },
-            {
-                id: 'minimalist-light',
-                name: 'minimalistLight',
-                category: 'elegant',
-                preview: {
-                    headerBg: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-                    contentBg: '#ffffff',
-                    itemBg: '#f8fafc',
-                    textColor: '#1e293b',
-                    accentColor: '#3b82f6',
-                    borderColor: '#e2e8f0'
-                },
-                className: 'template-light'
-            },
-            {
-                id: 'vibrant-food',
-                name: 'vibrantFood',
-                category: 'casual',
-                preview: {
-                    headerBg: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)',
-                    contentBg: '#fff5f5',
-                    itemBg: '#ffffff',
-                    textColor: '#7c2d12',
-                    accentColor: '#dc2626',
-                    borderColor: '#fed7d7'
-                },
-                className: 'template-vibrant'
-            },
-            {
-                id: 'luxury-gold',
-                name: 'luxuryGold',
-                category: 'premium',
-                preview: {
-                    headerBg: 'linear-gradient(135deg, #d4af37 0%, #ffd700 100%)',
-                    contentBg: '#fffbeb',
-                    itemBg: '#ffffff',
-                    textColor: '#7c2d12',
-                    accentColor: '#d97706',
-                    borderColor: '#fde68a'
-                },
-                className: 'template-luxury'
-            },
-            {
-                id: 'fresh-green',
-                name: 'freshGreen',
-                category: 'natural',
-                preview: {
-                    headerBg: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-                    contentBg: '#f0fdf4',
-                    itemBg: '#ffffff',
-                    textColor: '#14532d',
-                    accentColor: '#16a34a',
-                    borderColor: '#bbf7d0'
-                },
-                className: 'template-nature'
-            },
-            {
-                id: 'ocean-blue',
-                name: 'oceanBlue',
-                category: 'elegant',
-                preview: {
-                    headerBg: 'linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%)',
-                    contentBg: '#eff6ff',
-                    itemBg: '#ffffff',
-                    textColor: '#1e3a8a',
-                    accentColor: '#2563eb',
-                    borderColor: '#bfdbfe'
-                },
-                className: 'template-ocean'
-            }
-        ];
-
-        // Language Toggle Component
-        function LanguageToggle() {
-            const { language, toggleLanguage } = useLanguage();
-            
-            return React.createElement('button', {
-                className: 'lang-toggle smooth-transition',
-                onClick: toggleLanguage
-            }, language === 'en' ? '🇸🇦 العربية' : '🇺🇸 English');
-        }
-
-        // Toast Container
-        function ToastContainer() {
-            const { toasts, removeToast } = useToast();
-
-            if (!toasts || toasts.length === 0) {
-                return null;
-            }
-
-            return React.createElement('div', {
-                className: 'fixed bottom-4 right-4 z-50 space-y-2'
-            }, toasts.map(toast =>
-                React.createElement('div', {
-                    key: toast.id,
-                    className: `toast toast-${toast.type} scale-in`,
-                    onClick: () => removeToast(toast.id)
-                }, [
-                    React.createElement('span', { key: 'message' }, toast.message),
-                    React.createElement('button', {
-                        key: 'close',
-                        className: 'ml-3 text-gray-500 hover:text-gray-700 font-bold',
-                        onClick: (e) => {
-                            e.stopPropagation();
-                            removeToast(toast.id);
+        // Global state
+        let currentLanguage = 'en';
+        let currentUser = null;
+        let currentTemplate = 'light';
+        let menuData = {
+            restaurantName: 'Your Restaurant Name',
+            menuTitle: 'Menu',
+            tagline: 'Fine dining experience',
+            sections: [
+                {
+                    id: 1,
+                    name: 'Sample Section',
+                    items: [
+                        {
+                            id: 1,
+                            name: 'Sample Dish',
+                            description: 'Click to edit this item',
+                            price: '$12',
+                            image: '',
+                            model: ''
                         }
-                    }, '×')
-                ])
-            ));
+                    ]
+                }
+            ]
+        };
+        let currentEditingItem = null;
+        let customization = {
+            bgColor: '#ffffff',
+            textColor: '#1f2937',
+            accentColor: '#3b82f6',
+            itemBgColor: '#f8fafc',
+            fontFamily: 'Inter',
+            fontSize: 16,
+            spacing: 20
+        };
+
+        // Template configurations
+        const templates = {
+            dark: {
+                bgColor: '#0f172a',
+                textColor: '#ffffff',
+                accentColor: '#8b5cf6',
+                itemBgColor: '#1e293b'
+            },
+            light: {
+                bgColor: '#ffffff',
+                textColor: '#1e293b',
+                accentColor: '#3b82f6',
+                itemBgColor: '#f8fafc'
+            },
+            vibrant: {
+                bgColor: '#fff5f5',
+                textColor: '#7c2d12',
+                accentColor: '#dc2626',
+                itemBgColor: '#ffffff'
+            },
+            luxury: {
+                bgColor: '#fffbeb',
+                textColor: '#7c2d12',
+                accentColor: '#d97706',
+                itemBgColor: '#ffffff'
+            },
+            nature: {
+                bgColor: '#f0fdf4',
+                textColor: '#14532d',
+                accentColor: '#16a34a',
+                itemBgColor: '#ffffff'
+            },
+            ocean: {
+                bgColor: '#eff6ff',
+                textColor: '#1e3a8a',
+                accentColor: '#2563eb',
+                itemBgColor: '#ffffff'
+            }
+        };
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            updateLanguage();
+            applyTemplate();
+        });
+
+        // Language functions
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'en' ? 'ar' : 'en';
+            updateLanguage();
         }
 
-        // Enhanced Authentication Screen
-        function AuthScreen({ onAuthenticated }) {
-            const { t, isRTL } = useLanguage();
-            const { addToast } = useToast();
-            const [isLogin, setIsLogin] = useState(true);
-            const [isLoading, setIsLoading] = useState(false);
-            const [formData, setFormData] = useState({
-                email: '',
-                password: '',
-                confirmPassword: '',
-                fullName: ''
-            });
-
-            const handleSubmit = async (e) => {
-                e.preventDefault();
-                setIsLoading(true);
-
-                // Simulate authentication
-                await new Promise(resolve => setTimeout(resolve, 1500));
-
-                if (!isLogin && formData.password !== formData.confirmPassword) {
-                    addToast('Passwords do not match', 'error');
-                    setIsLoading(false);
-                    return;
-                }
-
-                if (!formData.email || !formData.password) {
-                    addToast('Please fill in all required fields', 'error');
-                    setIsLoading(false);
-                    return;
-                }
-
-                const userData = {
-                    email: formData.email,
-                    name: formData.fullName || formData.email.split('@')[0],
-                    authenticated: true,
-                    joinDate: new Date().toISOString()
-                };
-                
-                storage.save('currentUser', userData);
-                addToast(isLogin ? 'Welcome back!' : 'Account created successfully!');
-                setIsLoading(false);
-                onAuthenticated(userData);
-            };
-
-            const handleGuestContinue = () => {
-                const guestData = {
-                    email: 'guest@menubuilder.com',
-                    name: 'Guest User',
-                    authenticated: false,
-                    joinDate: new Date().toISOString()
-                };
-                storage.save('currentUser', guestData);
-                onAuthenticated(guestData);
-            };
-
-            return React.createElement('div', {
-                className: `min-h-screen flex items-center justify-center p-4 ${isRTL ? 'rtl' : ''}`,
-                dir: isRTL ? 'rtl' : 'ltr'
-            }, React.createElement('div', {
-                className: 'glass-card rounded-3xl p-8 w-full max-w-md fade-in'
-            }, [
-                // Header
-                React.createElement('div', {
-                    key: 'header',
-                    className: 'text-center mb-8'
-                }, [
-                    React.createElement('div', {
-                        key: 'logo',
-                        className: 'w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl mx-auto mb-4 flex items-center justify-center'
-                    }, React.createElement('span', {
-                        className: 'text-2xl font-bold text-white'
-                    }, '🍽️')),
-                    React.createElement('h1', {
-                        key: 'title',
-                        className: 'text-3xl font-bold gradient-text mb-2'
-                    }, t('welcome')),
-                    React.createElement('p', {
-                        key: 'subtitle',
-                        className: 'text-gray-600'
-                    }, isLogin ? t('signInToAccount') : t('createAccount'))
-                ]),
-
-                // Form
-                React.createElement('form', {
-                    key: 'form',
-                    onSubmit: handleSubmit,
-                    className: 'space-y-6'
-                }, [
-                    // Full Name (signup only)
-                    !isLogin && React.createElement('div', {
-                        key: 'fullName',
-                        className: 'slide-up'
-                    }, [
-                        React.createElement('label', {
-                            key: 'label',
-                            className: 'block text-sm font-semibold text-gray-700 mb-2'
-                        }, t('fullName')),
-                        React.createElement('input', {
-                            key: 'input',
-                            type: 'text',
-                            className: 'input',
-                            value: formData.fullName,
-                            onChange: (e) => setFormData(prev => ({ ...prev, fullName: e.target.value })),
-                            required: !isLogin,
-                            placeholder: 'John Smith'
-                        })
-                    ]),
-
-                    // Email
-                    React.createElement('div', { key: 'email' }, [
-                        React.createElement('label', {
-                            key: 'label',
-                            className: 'block text-sm font-semibold text-gray-700 mb-2'
-                        }, t('email')),
-                        React.createElement('input', {
-                            key: 'input',
-                            type: 'email',
-                            className: 'input',
-                            value: formData.email,
-                            onChange: (e) => setFormData(prev => ({ ...prev, email: e.target.value })),
-                            required: true,
-                            placeholder: 'john@example.com'
-                        })
-                    ]),
-
-                    // Password
-                    React.createElement('div', { key: 'password' }, [
-                        React.createElement('label', {
-                            key: 'label',
-                            className: 'block text-sm font-semibold text-gray-700 mb-2'
-                        }, t('password')),
-                        React.createElement('input', {
-                            key: 'input',
-                            type: 'password',
-                            className: 'input',
-                            value: formData.password,
-                            onChange: (e) => setFormData(prev => ({ ...prev, password: e.target.value })),
-                            required: true,
-                            placeholder: '••••••••'
-                        })
-                    ]),
-
-                    // Confirm Password (signup only)
-                    !isLogin && React.createElement('div', {
-                        key: 'confirmPassword',
-                        className: 'slide-up'
-                    }, [
-                        React.createElement('label', {
-                            key: 'label',
-                            className: 'block text-sm font-semibold text-gray-700 mb-2'
-                        }, t('confirmPassword')),
-                        React.createElement('input', {
-                            key: 'input',
-                            type: 'password',
-                            className: 'input',
-                            value: formData.confirmPassword,
-                            onChange: (e) => setFormData(prev => ({ ...prev, confirmPassword: e.target.value })),
-                            required: !isLogin,
-                            placeholder: '••••••••'
-                        })
-                    ]),
-
-                    // Submit Button
-                    React.createElement('button', {
-                        key: 'submit',
-                        type: 'submit',
-                        className: 'btn btn-primary btn-lg w-full',
-                        disabled: isLoading
-                    }, isLoading ? [
-                        React.createElement('div', {
-                            key: 'spinner',
-                            className: 'spinner mr-2'
-                        }),
-                        isLogin ? 'Signing in...' : 'Creating account...'
-                    ] : (isLogin ? t('login') : t('signup')))
-                ]),
-
-                // Toggle
-                React.createElement('div', {
-                    key: 'toggle',
-                    className: 'text-center mt-6 pt-6 border-t border-gray-200'
-                }, [
-                    React.createElement('p', {
-                        key: 'text',
-                        className: 'text-sm text-gray-600 mb-2'
-                    }, isLogin ? t('dontHaveAccount') : t('alreadyHaveAccount')),
-                    React.createElement('button', {
-                        key: 'link',
-                        type: 'button',
-                        className: 'btn btn-ghost',
-                        onClick: () => setIsLogin(!isLogin)
-                    }, isLogin ? t('signup') : t('login'))
-                ]),
-
-                // Guest Option
-                React.createElement('div', {
-                    key: 'guest',
-                    className: 'text-center mt-6 pt-6 border-t border-gray-200'
-                }, React.createElement('button', {
-                    type: 'button',
-                    className: 'btn btn-secondary w-full',
-                    onClick: handleGuestContinue
-                }, t('continueAsGuest')))
-            ]));
-        }
-
-        // Enhanced Template Selection
-        function TemplateSelection({ onSelectTemplate }) {
-            const { t, isRTL } = useLanguage();
-            const [selectedTemplate, setSelectedTemplate] = useState(null);
-            const [previewMode, setPreviewMode] = useState('grid');
-
-            const handleTemplateClick = (template) => {
-                setSelectedTemplate(template);
-            };
-
-            const handleUseTemplate = () => {
-                if (selectedTemplate) {
-                    onSelectTemplate(selectedTemplate);
-                }
-            };
-
-            return React.createElement('div', {
-                className: `min-h-screen p-4 md:p-8 ${isRTL ? 'rtl' : ''} fade-in`,
-                dir: isRTL ? 'rtl' : 'ltr'
-            }, [
-                React.createElement('div', {
-                    key: 'container',
-                    className: 'max-w-7xl mx-auto'
-                }, [
-                    // Header
-                    React.createElement('div', {
-                        key: 'header',
-                        className: 'text-center mb-8 md:mb-12'
-                    }, [
-                        React.createElement('h1', {
-                            key: 'title',
-                            className: 'text-4xl md:text-5xl font-bold text-white mb-4'
-                        }, t('selectTemplate')),
-                        React.createElement('p', {
-                            key: 'subtitle',
-                            className: 'text-xl text-white opacity-90 max-w-2xl mx-auto'
-                        }, 'Choose from our professionally designed templates to create your perfect menu')
-                    ]),
-                    
-                    // Templates Grid
-                    React.createElement('div', {
-                        key: 'templates',
-                        className: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'
-                    }, templates.map(template =>
-                        React.createElement('div', {
-                            key: template.id,
-                            className: `card card-hover ${selectedTemplate?.id === template.id ? 'ring-4 ring-blue-400 ring-opacity-60' : ''}`,
-                            onClick: () => handleTemplateClick(template)
-                        }, [
-                            // Preview
-                            React.createElement('div', {
-                                key: 'preview',
-                                className: `template-preview ${template.className}`,
-                                style: { background: template.preview.headerBg }
-                            }, [
-                                // Header section
-                                React.createElement('div', {
-                                    key: 'header',
-                                    className: 'p-4 text-center'
-                                }, [
-                                    React.createElement('h3', {
-                                        key: 'restaurant',
-                                        className: 'text-lg font-bold mb-1',
-                                        style: { color: template.preview.textColor }
-                                    }, 'Restaurant Name'),
-                                    React.createElement('p', {
-                                        key: 'tagline',
-                                        className: 'text-sm opacity-80',
-                                        style: { color: template.preview.textColor }
-                                    }, 'Fine Dining Experience')
-                                ]),
-                                
-                                // Content section
-                                React.createElement('div', {
-                                    key: 'content',
-                                    className: 'px-4 pb-4',
-                                    style: { backgroundColor: template.preview.contentBg }
-                                }, [
-                                    React.createElement('div', {
-                                        key: 'section',
-                                        className: 'mb-3'
-                                    }, [
-                                        React.createElement('h4', {
-                                            key: 'section-title',
-                                            className: 'text-sm font-semibold mb-2',
-                                            style: { color: template.preview.textColor }
-                                        }, 'Appetizers'),
-                                        React.createElement('div', {
-                                            key: 'items',
-                                            className: 'space-y-2'
-                                        }, [
-                                            React.createElement('div', {
-                                                key: 'item1',
-                                                className: 'p-2 rounded text-xs',
-                                                style: { 
-                                                    backgroundColor: template.preview.itemBg,
-                                                    borderLeft: `3px solid ${template.preview.accentColor}`
-                                                }
-                                            }, [
-                                                React.createElement('div', {
-                                                    key: 'content',
-                                                    className: 'flex justify-between'
-                                                }, [
-                                                    React.createElement('span', {
-                                                        key: 'name',
-                                                        style: { color: template.preview.textColor }
-                                                    }, 'Signature Dish'),
-                                                    React.createElement('span', {
-                                                        key: 'price',
-                                                        className: 'font-semibold',
-                                                        style: { color: template.preview.accentColor }
-                                                    }, '$12')
-                                                ])
-                                            ]),
-                                            React.createElement('div', {
-                                                key: 'item2',
-                                                className: 'p-2 rounded text-xs',
-                                                style: { 
-                                                    backgroundColor: template.preview.itemBg,
-                                                    borderLeft: `3px solid ${template.preview.accentColor}`
-                                                }
-                                            }, [
-                                                React.createElement('div', {
-                                                    key: 'content',
-                                                    className: 'flex justify-between'
-                                                }, [
-                                                    React.createElement('span', {
-                                                        key: 'name',
-                                                        style: { color: template.preview.textColor }
-                                                    }, 'Special Item'),
-                                                    React.createElement('span', {
-                                                        key: 'price',
-                                                        className: 'font-semibold',
-                                                        style: { color: template.preview.accentColor }
-                                                    }, '$8')
-                                                ])
-                                            ])
-                                        ])
-                                    ])
-                                ])
-                            ]),
-                            
-                            // Info
-                            React.createElement('div', {
-                                key: 'info',
-                                className: 'p-6'
-                            }, [
-                                React.createElement('h3', {
-                                    key: 'name',
-                                    className: 'text-xl font-semibold mb-2'
-                                }, t(template.name)),
-                                React.createElement('p', {
-                                    key: 'category',
-                                    className: 'text-gray-600 mb-4'
-                                }, `${template.category.charAt(0).toUpperCase() + template.category.slice(1)} Design`),
-                                selectedTemplate?.id === template.id && React.createElement('div', {
-                                    key: 'selected',
-                                    className: 'flex items-center text-blue-600 font-semibold'
-                                }, [
-                                    React.createElement('span', { key: 'icon', className: 'mr-2' }, '✓'),
-                                    React.createElement('span', { key: 'text' }, 'Selected')
-                                ])
-                            ])
-                        ])
-                    )),
-
-                    // Use Template Button
-                    selectedTemplate && React.createElement('div', {
-                        key: 'action',
-                        className: 'text-center mt-12'
-                    }, React.createElement('button', {
-                        className: 'btn btn-primary btn-lg scale-in',
-                        onClick: handleUseTemplate
-                    }, `${t('useTemplate')} - ${t(selectedTemplate.name)}`))
-                ])
-            ]);
-        }
-
-        // Enhanced Menu Preview
-        function MenuPreview({ menu, sections, viewMode, selectedTemplate }) {
-            const { t, language, isRTL } = useLanguage();
-            
-            const containerClass = viewMode === 'desktop' 
-                ? 'max-w-4xl mx-auto' 
-                : viewMode === 'tablet'
-                ? 'max-w-2xl mx-auto'
-                : 'max-w-md mx-auto';
-
-            const template = selectedTemplate || templates[0];
-
-            return React.createElement('div', {
-                className: `${containerClass} rounded-2xl shadow-2xl overflow-hidden smooth-transition`,
-                dir: isRTL ? 'rtl' : 'ltr',
-                style: { backgroundColor: template.preview.contentBg }
-            }, [
-                // Header
-                React.createElement('div', {
-                    key: 'header',
-                    className: 'p-6 md:p-8 text-center',
-                    style: { 
-                        background: template.preview.headerBg,
-                        color: template.preview.textColor
-                    }
-                }, [
-                    React.createElement('h1', {
-                        key: 'restaurant-name',
-                        className: 'text-2xl md:text-4xl font-bold mb-2'
-                    }, menu.restaurantName || 'Your Restaurant Name'),
-                    React.createElement('h2', {
-                        key: 'menu-title',
-                        className: 'text-lg md:text-xl opacity-90 mb-2'
-                    }, menu.name || 'Menu'),
-                    menu.tagline && React.createElement('p', {
-                        key: 'tagline',
-                        className: 'opacity-80'
-                    }, menu.tagline)
-                ]),
-
-                // Content
-                React.createElement('div', {
-                    key: 'content',
-                    className: 'p-4 md:p-8'
-                }, sections.length > 0 ? sections.map(section =>
-                    React.createElement('div', {
-                        key: section.id,
-                        className: 'mb-6 md:mb-8 fade-in'
-                    }, [
-                        React.createElement('h3', {
-                            key: 'section-title',
-                            className: 'text-xl md:text-2xl font-semibold mb-4',
-                            style: { color: template.preview.textColor }
-                        }, section.name),
-                        
-                        section.description && React.createElement('p', {
-                            key: 'section-description',
-                            className: 'mb-4 md:mb-6 opacity-75',
-                            style: { color: template.preview.textColor }
-                        }, section.description),
-
-                        React.createElement('div', {
-                            key: 'items',
-                            className: 'space-y-3 md:space-y-4'
-                        }, section.items.map(item =>
-                            React.createElement('div', {
-                                key: item.id,
-                                className: 'p-4 md:p-6 rounded-xl smooth-transition',
-                                style: { 
-                                    backgroundColor: template.preview.itemBg,
-                                    borderLeft: `4px solid ${template.preview.accentColor}`,
-                                    border: `1px solid ${template.preview.borderColor}`
-                                }
-                            }, [
-                                React.createElement('div', {
-                                    key: 'item-header',
-                                    className: 'flex flex-col md:flex-row md:justify-between md:items-start mb-2'
-                                }, [
-                                    React.createElement('h4', {
-                                        key: 'item-name',
-                                        className: 'text-lg md:text-xl font-semibold mb-1 md:mb-0',
-                                        style: { color: template.preview.textColor }
-                                    }, item.name),
-                                    React.createElement('span', {
-                                        key: 'item-price',
-                                        className: 'text-lg md:text-xl font-bold',
-                                        style: { color: template.preview.accentColor }
-                                    }, item.price)
-                                ]),
-                                
-                                item.description && React.createElement('p', {
-                                    key: 'item-description',
-                                    className: 'opacity-75 mb-3',
-                                    style: { color: template.preview.textColor }
-                                }, item.description),
-
-                                item.image && React.createElement('img', {
-                                    key: 'item-image',
-                                    src: item.image,
-                                    alt: item.name,
-                                    className: 'mt-3 w-full h-40 md:h-48 object-cover rounded-lg',
-                                    onError: (e) => { e.target.style.display = 'none'; }
-                                }),
-
-                                item.model3d && React.createElement('div', {
-                                    key: 'item-3d',
-                                    className: 'mt-3 model-viewer-container'
-                                }, React.createElement('model-viewer', {
-                                    src: item.model3d,
-                                    alt: item.name,
-                                    'auto-rotate': true,
-                                    'camera-controls': true,
-                                    style: { 
-                                        width: '100%', 
-                                        height: viewMode === 'desktop' ? '200px' : '150px',
-                                        borderRadius: '8px'
-                                    }
-                                }))
-                            ])
-                        ))
-                    ])
-                ) : React.createElement('div', {
-                    key: 'empty',
-                    className: 'text-center py-12'
-                }, [
-                    React.createElement('div', {
-                        key: 'icon',
-                        className: 'text-6xl mb-4 opacity-50'
-                    }, '🍽️'),
-                    React.createElement('p', {
-                        key: 'text',
-                        className: 'text-gray-500 text-lg'
-                    }, 'Add sections and items to see your menu preview')
-                ]))
-            ]);
-        }
-
-        // Modal Components
-        function Modal({ isOpen, onClose, children, size = 'md' }) {
-            const sizeClasses = {
-                sm: 'max-w-md',
-                md: 'max-w-lg',
-                lg: 'max-w-2xl',
-                xl: 'max-w-4xl'
-            };
-
-            return React.createElement('div', {
-                className: `modal-overlay ${isOpen ? 'open' : ''}`,
-                onClick: onClose
-            }, React.createElement('div', {
-                className: `modal-content ${sizeClasses[size]}`,
-                onClick: (e) => e.stopPropagation()
-            }, children));
-        }
-
-        function ItemModal({ isOpen, onClose, item, onSave }) {
-            const { t, isRTL } = useLanguage();
-            const { addToast } = useToast();
-            const [formData, setFormData] = useState({
-                name: '',
-                nameAr: '',
-                description: '',
-                descriptionAr: '',
-                price: '',
-                image: '',
-                model3d: ''
-            });
-
-            useEffect(() => {
-                if (item) {
-                    setFormData({ ...item });
-                } else {
-                    setFormData({
-                        name: '',
-                        nameAr: '',
-                        description: '',
-                        descriptionAr: '',
-                        price: '',
-                        image: '',
-                        model3d: ''
-                    });
-                }
-            }, [item]);
-
-            const handleSubmit = (e) => {
-                e.preventDefault();
-                if (!formData.name || !formData.price) {
-                    addToast('Please fill in required fields', 'error');
-                    return;
-                }
-                onSave(formData);
-                onClose();
-                addToast(item ? 'Item updated!' : 'Item added!');
-            };
-
-            return React.createElement(Modal, {
-                isOpen,
-                onClose,
-                size: 'lg'
-            }, [
-                React.createElement('div', {
-                    key: 'header',
-                    className: 'flex items-center justify-between mb-6'
-                }, [
-                    React.createElement('h2', {
-                        key: 'title',
-                        className: 'text-2xl font-bold gradient-text'
-                    }, item ? t('editItem') : t('addItem')),
-                    React.createElement('button', {
-                        key: 'close',
-                        className: 'btn btn-ghost btn-sm',
-                        onClick: onClose
-                    }, '✕')
-                ]),
-
-                React.createElement('form', {
-                    key: 'form',
-                    onSubmit: handleSubmit,
-                    className: 'space-y-6',
-                    dir: isRTL ? 'rtl' : 'ltr'
-                }, [
-                    // Names
-                    React.createElement('div', {
-                        key: 'names',
-                        className: 'grid grid-cols-1 md:grid-cols-2 gap-4'
-                    }, [
-                        React.createElement('div', { key: 'name-en' }, [
-                            React.createElement('label', {
-                                key: 'label',
-                                className: 'block text-sm font-semibold text-gray-700 mb-2'
-                            }, t('itemName') + ' *'),
-                            React.createElement('input', {
-                                key: 'input',
-                                type: 'text',
-                                className: 'input',
-                                value: formData.name,
-                                onChange: (e) => setFormData(prev => ({ ...prev, name: e.target.value })),
-                                required: true,
-                                placeholder: 'Delicious Pasta'
-                            })
-                        ]),
-                        React.createElement('div', { key: 'name-ar' }, [
-                            React.createElement('label', {
-                                key: 'label',
-                                className: 'block text-sm font-semibold text-gray-700 mb-2'
-                            }, t('itemNameAr')),
-                            React.createElement('input', {
-                                key: 'input',
-                                type: 'text',
-                                className: 'input',
-                                value: formData.nameAr,
-                                onChange: (e) => setFormData(prev => ({ ...prev, nameAr: e.target.value })),
-                                placeholder: 'معكرونة لذيذة'
-                            })
-                        ])
-                    ]),
-
-                    // Price
-                    React.createElement('div', { key: 'price' }, [
-                        React.createElement('label', {
-                            key: 'label',
-                            className: 'block text-sm font-semibold text-gray-700 mb-2'
-                        }, t('price') + ' *'),
-                        React.createElement('input', {
-                            key: 'input',
-                            type: 'text',
-                            className: 'input',
-                            value: formData.price,
-                            onChange: (e) => setFormData(prev => ({ ...prev, price: e.target.value })),
-                            required: true,
-                            placeholder: '$12.99'
-                        })
-                    ]),
-
-                    // Descriptions
-                    React.createElement('div', {
-                        key: 'descriptions',
-                        className: 'grid grid-cols-1 md:grid-cols-2 gap-4'
-                    }, [
-                        React.createElement('div', { key: 'desc-en' }, [
-                            React.createElement('label', {
-                                key: 'label',
-                                className: 'block text-sm font-semibold text-gray-700 mb-2'
-                            }, t('description')),
-                            React.createElement('textarea', {
-                                key: 'input',
-                                className: 'input textarea',
-                                value: formData.description,
-                                onChange: (e) => setFormData(prev => ({ ...prev, description: e.target.value })),
-                                placeholder: 'Fresh pasta with homemade sauce...'
-                            })
-                        ]),
-                        React.createElement('div', { key: 'desc-ar' }, [
-                            React.createElement('label', {
-                                key: 'label',
-                                className: 'block text-sm font-semibold text-gray-700 mb-2'
-                            }, t('descriptionAr')),
-                            React.createElement('textarea', {
-                                key: 'input',
-                                className: 'input textarea',
-                                value: formData.descriptionAr,
-                                onChange: (e) => setFormData(prev => ({ ...prev, descriptionAr: e.target.value })),
-                                placeholder: 'معكرونة طازجة مع صلصة منزلية...'
-                            })
-                        ])
-                    ]),
-
-                    // Media
-                    React.createElement('div', {
-                        key: 'media',
-                        className: 'grid grid-cols-1 md:grid-cols-2 gap-4'
-                    }, [
-                        React.createElement('div', { key: 'image' }, [
-                            React.createElement('label', {
-                                key: 'label',
-                                className: 'block text-sm font-semibold text-gray-700 mb-2'
-                            }, t('imageUrl')),
-                            React.createElement('input', {
-                                key: 'input',
-                                type: 'url',
-                                className: 'input',
-                                value: formData.image,
-                                onChange: (e) => setFormData(prev => ({ ...prev, image: e.target.value })),
-                                placeholder: 'https://example.com/image.jpg'
-                            })
-                        ]),
-                        React.createElement('div', { key: '3d-model' }, [
-                            React.createElement('label', {
-                                key: 'label',
-                                className: 'block text-sm font-semibold text-gray-700 mb-2'
-                            }, t('model3dUrl')),
-                            React.createElement('input', {
-                                key: 'input',
-                                type: 'url',
-                                className: 'input',
-                                value: formData.model3d,
-                                onChange: (e) => setFormData(prev => ({ ...prev, model3d: e.target.value })),
-                                placeholder: 'https://example.com/model.glb'
-                            })
-                        ])
-                    ]),
-
-                    // Actions
-                    React.createElement('div', {
-                        key: 'actions',
-                        className: 'flex gap-3 pt-4 border-t border-gray-200'
-                    }, [
-                        React.createElement('button', {
-                            key: 'cancel',
-                            type: 'button',
-                            className: 'btn btn-secondary flex-1',
-                            onClick: onClose
-                        }, t('cancel')),
-                        React.createElement('button', {
-                            key: 'save',
-                            type: 'submit',
-                            className: 'btn btn-primary flex-1'
-                        }, t('save'))
-                    ])
-                ])
-            ]);
-        }
-
-        function SectionModal({ isOpen, onClose, section, onSave }) {
-            const { t, isRTL } = useLanguage();
-            const { addToast } = useToast();
-            const [formData, setFormData] = useState({
-                name: '',
-                nameAr: '',
-                description: '',
-                descriptionAr: ''
-            });
-
-            useEffect(() => {
-                if (section) {
-                    setFormData({ ...section });
-                } else {
-                    setFormData({
-                        name: '',
-                        nameAr: '',
-                        description: '',
-                        descriptionAr: ''
-                    });
-                }
-            }, [section]);
-
-            const handleSubmit = (e) => {
-                e.preventDefault();
-                if (!formData.name) {
-                    addToast('Please enter a section name', 'error');
-                    return;
-                }
-                onSave(formData);
-                onClose();
-                addToast(section ? 'Section updated!' : 'Section added!');
-            };
-
-            return React.createElement(Modal, {
-                isOpen,
-                onClose
-            }, [
-                React.createElement('div', {
-                    key: 'header',
-                    className: 'flex items-center justify-between mb-6'
-                }, [
-                    React.createElement('h2', {
-                        key: 'title',
-                        className: 'text-2xl font-bold gradient-text'
-                    }, section ? t('editSection') : t('addSection')),
-                    React.createElement('button', {
-                        key: 'close',
-                        className: 'btn btn-ghost btn-sm',
-                        onClick: onClose
-                    }, '✕')
-                ]),
-
-                React.createElement('form', {
-                    key: 'form',
-                    onSubmit: handleSubmit,
-                    className: 'space-y-6',
-                    dir: isRTL ? 'rtl' : 'ltr'
-                }, [
-                    // Names
-                    React.createElement('div', {
-                        key: 'names',
-                        className: 'grid grid-cols-1 md:grid-cols-2 gap-4'
-                    }, [
-                        React.createElement('div', { key: 'name-en' }, [
-                            React.createElement('label', {
-                                key: 'label',
-                                className: 'block text-sm font-semibold text-gray-700 mb-2'
-                            }, t('sectionName') + ' *'),
-                            React.createElement('input', {
-                                key: 'input',
-                                type: 'text',
-                                className: 'input',
-                                value: formData.name,
-                                onChange: (e) => setFormData(prev => ({ ...prev, name: e.target.value })),
-                                required: true,
-                                placeholder: 'Appetizers'
-                            })
-                        ]),
-                        React.createElement('div', { key: 'name-ar' }, [
-                            React.createElement('label', {
-                                key: 'label',
-                                className: 'block text-sm font-semibold text-gray-700 mb-2'
-                            }, 'Section Name (Arabic)'),
-                            React.createElement('input', {
-                                key: 'input',
-                                type: 'text',
-                                className: 'input',
-                                value: formData.nameAr,
-                                onChange: (e) => setFormData(prev => ({ ...prev, nameAr: e.target.value })),
-                                placeholder: 'المقبلات'
-                            })
-                        ])
-                    ]),
-
-                    // Descriptions
-                    React.createElement('div', {
-                        key: 'descriptions',
-                        className: 'grid grid-cols-1 md:grid-cols-2 gap-4'
-                    }, [
-                        React.createElement('div', { key: 'desc-en' }, [
-                            React.createElement('label', {
-                                key: 'label',
-                                className: 'block text-sm font-semibold text-gray-700 mb-2'
-                            }, t('description')),
-                            React.createElement('textarea', {
-                                key: 'input',
-                                className: 'input textarea',
-                                value: formData.description,
-                                onChange: (e) => setFormData(prev => ({ ...prev, description: e.target.value })),
-                                placeholder: 'Perfect starters for your meal...'
-                            })
-                        ]),
-                        React.createElement('div', { key: 'desc-ar' }, [
-                            React.createElement('label', {
-                                key: 'label',
-                                className: 'block text-sm font-semibold text-gray-700 mb-2'
-                            }, t('descriptionAr')),
-                            React.createElement('textarea', {
-                                key: 'input',
-                                className: 'input textarea',
-                                value: formData.descriptionAr,
-                                onChange: (e) => setFormData(prev => ({ ...prev, descriptionAr: e.target.value })),
-                                placeholder: 'بدايات مثالية لوجبتك...'
-                            })
-                        ])
-                    ]),
-
-                    // Actions
-                    React.createElement('div', {
-                        key: 'actions',
-                        className: 'flex gap-3 pt-4 border-t border-gray-200'
-                    }, [
-                        React.createElement('button', {
-                            key: 'cancel',
-                            type: 'button',
-                            className: 'btn btn-secondary flex-1',
-                            onClick: onClose
-                        }, t('cancel')),
-                        React.createElement('button', {
-                            key: 'save',
-                            type: 'submit',
-                            className: 'btn btn-primary flex-1'
-                        }, t('save'))
-                    ])
-                ])
-            ]);
-        }
-
-        function ShareModal({ isOpen, onClose, menu }) {
-            const { t } = useLanguage();
-            const { addToast } = useToast();
-            const [qrCode, setQrCode] = useState('');
-            
-            const shareUrl = `${window.location.origin}/menu/${menu.id || 'preview'}`;
-
-            useEffect(() => {
-                if (isOpen && window.QRCode) {
-                    window.QRCode.toDataURL(shareUrl, { width: 200, margin: 2 }, (err, url) => {
-                        if (!err) setQrCode(url);
-                    });
-                }
-            }, [isOpen, shareUrl]);
-
-            const copyToClipboard = async () => {
-                try {
-                    await navigator.clipboard.writeText(shareUrl);
-                    addToast('Link copied to clipboard!');
-                } catch (err) {
-                    addToast('Failed to copy link', 'error');
-                }
-            };
-
-            return React.createElement(Modal, {
-                isOpen,
-                onClose
-            }, [
-                React.createElement('div', {
-                    key: 'header',
-                    className: 'flex items-center justify-between mb-6'
-                }, [
-                    React.createElement('h2', {
-                        key: 'title',
-                        className: 'text-2xl font-bold gradient-text'
-                    }, t('shareMenu')),
-                    React.createElement('button', {
-                        key: 'close',
-                        className: 'btn btn-ghost btn-sm',
-                        onClick: onClose
-                    }, '✕')
-                ]),
-
-                React.createElement('div', {
-                    key: 'content',
-                    className: 'space-y-6'
-                }, [
-                    // URL Section
-                    React.createElement('div', { key: 'url' }, [
-                        React.createElement('label', {
-                            key: 'label',
-                            className: 'block text-sm font-semibold text-gray-700 mb-2'
-                        }, t('shareUrl')),
-                        React.createElement('div', {
-                            key: 'input-group',
-                            className: 'flex'
-                        }, [
-                            React.createElement('input', {
-                                key: 'input',
-                                type: 'text',
-                                className: 'input flex-1 rounded-r-none',
-                                value: shareUrl,
-                                readOnly: true
-                            }),
-                            React.createElement('button', {
-                                key: 'copy',
-                                type: 'button',
-                                className: 'btn btn-primary rounded-l-none',
-                                onClick: copyToClipboard
-                            }, t('copyLink'))
-                        ])
-                    ]),
-
-                    // QR Code Section
-                    qrCode && React.createElement('div', {
-                        key: 'qr',
-                        className: 'text-center'
-                    }, [
-                        React.createElement('label', {
-                            key: 'label',
-                            className: 'block text-sm font-semibold text-gray-700 mb-4'
-                        }, t('qrCode')),
-                        React.createElement('div', {
-                            key: 'qr-container',
-                            className: 'inline-block p-4 bg-white rounded-xl shadow-lg'
-                        }, React.createElement('img', {
-                            key: 'qr-image',
-                            src: qrCode,
-                            alt: 'QR Code',
-                            className: 'w-48 h-48 mx-auto'
-                        }))
-                    ]),
-
-                    // Close Button
-                    React.createElement('button', {
-                        key: 'close-btn',
-                        className: 'btn btn-secondary w-full',
-                        onClick: onClose
-                    }, t('close'))
-                ])
-            ]);
-        }
-
-        // Enhanced Menu Editor
-        function MenuEditor({ template, onBack }) {
-            const { t, isRTL } = useLanguage();
-            const { addToast } = useToast();
-            
-            // State management
-            const [menu, setMenu] = useState({
-                templateId: template.id,
-                restaurantName: '',
-                name: '',
-                tagline: ''
+        function updateLanguage() {
+            const elements = document.querySelectorAll('[data-en][data-ar]');
+            elements.forEach(el => {
+                el.textContent = el.getAttribute('data-' + currentLanguage);
             });
             
-            const [sections, setSections] = useState([]);
-            const [viewMode, setViewMode] = useState('desktop');
-            const [showMobileSidebar, setShowMobileSidebar] = useState(false);
-            const [editingItem, setEditingItem] = useState(null);
-            const [editingSection, setEditingSection] = useState(null);
-            const [showItemModal, setShowItemModal] = useState(false);
-            const [showSectionModal, setShowSectionModal] = useState(false);
-            const [showShareModal, setShowShareModal] = useState(false);
-            const [currentSectionId, setCurrentSectionId] = useState(null);
-            const [isSaving, setIsSaving] = useState(false);
-
-            // Load saved data on component mount
-            useEffect(() => {
-                const savedMenu = storage.load('currentMenu');
-                const savedSections = storage.load('currentSections');
-                
-                if (savedMenu && savedMenu.templateId === template.id) {
-                    setMenu(savedMenu);
-                }
-                if (savedSections) {
-                    setSections(savedSections);
-                }
-            }, [template.id]);
-
-            // Auto-save functionality
-            useEffect(() => {
-                const timer = setTimeout(() => {
-                    storage.save('currentMenu', menu);
-                    storage.save('currentSections', sections);
-                }, 1000);
-
-                return () => clearTimeout(timer);
-            }, [menu, sections]);
-
-            // Menu operations
-            const updateMenu = (updates) => {
-                setMenu(prev => ({ ...prev, ...updates }));
-            };
-
-            // Section operations
-            const addSection = (sectionData) => {
-                const newSection = {
-                    id: Date.now(),
-                    ...sectionData,
-                    items: [],
-                    sortOrder: sections.length
-                };
-                setSections(prev => [...prev, newSection]);
-            };
-
-            const editSection = (sectionData) => {
-                setSections(prev => prev.map(section =>
-                    section.id === editingSection.id
-                        ? { ...section, ...sectionData }
-                        : section
-                ));
-            };
-
-            const deleteSection = (sectionId) => {
-                setSections(prev => prev.filter(section => section.id !== sectionId));
-            };
-
-            // Item operations
-            const addItem = (itemData) => {
-                const newItem = {
-                    id: Date.now(),
-                    ...itemData,
-                    sortOrder: 0
-                };
-                
-                setSections(prev => prev.map(section =>
-                    section.id === currentSectionId
-                        ? { ...section, items: [...section.items, newItem] }
-                        : section
-                ));
-            };
-
-            const editItem = (itemData) => {
-                setSections(prev => prev.map(section => ({
-                    ...section,
-                    items: section.items.map(item =>
-                        item.id === editingItem.id
-                            ? { ...item, ...itemData }
-                            : item
-                    )
-                })));
-            };
-
-            const deleteItem = (sectionId, itemId) => {
-                setSections(prev => prev.map(section =>
-                    section.id === sectionId
-                        ? { ...section, items: section.items.filter(item => item.id !== itemId) }
-                        : section
-                ));
-            };
-
-            // UI handlers
-            const handleAddSection = () => {
-                setEditingSection(null);
-                setShowSectionModal(true);
-            };
-
-            const handleEditSection = (section) => {
-                setEditingSection(section);
-                setShowSectionModal(true);
-            };
-
-            const handleAddItem = (sectionId) => {
-                setCurrentSectionId(sectionId);
-                setEditingItem(null);
-                setShowItemModal(true);
-            };
-
-            const handleEditItem = (item) => {
-                setEditingItem(item);
-                setShowItemModal(true);
-            };
-
-            const handleSave = async () => {
-                setIsSaving(true);
-                
-                // Simulate save operation
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                
-                addToast(t('saved'));
-                setIsSaving(false);
-            };
-
-            const handlePublish = () => {
-                setShowShareModal(true);
-                addToast(t('published'));
-            };
-
-            return React.createElement('div', {
-                className: `min-h-screen ${isRTL ? 'rtl' : ''}`
-            }, [
-                // Mobile menu button
-                React.createElement('button', {
-                    key: 'mobile-menu-btn',
-                    className: 'fixed top-4 left-4 z-50 btn btn-primary btn-sm md:hidden',
-                    onClick: () => setShowMobileSidebar(true)
-                }, '☰'),
-
-                // Header
-                React.createElement('div', {
-                    key: 'header',
-                    className: 'bg-white shadow-sm border-b border-gray-200'
-                }, React.createElement('div', {
-                    className: 'max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4'
-                }, React.createElement('div', {
-                    className: 'flex items-center justify-between'
-                }, [
-                    React.createElement('div', {
-                        key: 'left',
-                        className: 'flex items-center gap-2 md:gap-4'
-                    }, [
-                        React.createElement('button', {
-                            key: 'back',
-                            className: 'btn btn-ghost btn-sm md:btn',
-                            onClick: onBack
-                        }, '← ' + t('back')),
-                        React.createElement('h1', {
-                            key: 'title',
-                            className: 'text-lg md:text-2xl font-bold gradient-text'
-                        }, t('menuBuilder'))
-                    ]),
-                    
-                    React.createElement('div', {
-                        key: 'right',
-                        className: 'flex items-center gap-2 md:gap-4'
-                    }, [
-                        // View Mode Toggle (Desktop only)
-                        React.createElement('div', {
-                            key: 'view-toggle',
-                            className: 'hidden md:flex glass-effect rounded-lg p-1'
-                        }, [
-                            ['desktop', '🖥️'],
-                            ['tablet', '📱'],
-                            ['mobile', '📱']
-                        ].map(([mode, icon]) => 
-                            React.createElement('button', {
-                                key: mode,
-                                className: `px-3 py-2 rounded flex items-center gap-2 smooth-transition ${
-                                    viewMode === mode ? 'bg-white shadow text-blue-600' : 'text-gray-600 hover:text-gray-800'
-                                }`,
-                                onClick: () => setViewMode(mode)
-                            }, [
-                                React.createElement('span', { key: 'icon' }, icon),
-                                React.createElement('span', { key: 'text' }, t(mode))
-                            ])
-                        )),
-
-                        // Actions
-                        React.createElement('div', {
-                            key: 'actions',
-                            className: 'flex gap-2'
-                        }, [
-                            React.createElement('button', {
-                                key: 'save',
-                                className: 'btn btn-secondary btn-sm md:btn',
-                                onClick: handleSave,
-                                disabled: isSaving
-                            }, isSaving ? [
-                                React.createElement('div', {
-                                    key: 'spinner',
-                                    className: 'spinner mr-2'
-                                }),
-                                t('saving')
-                            ] : t('save')),
-                            
-                            React.createElement('button', {
-                                key: 'publish',
-                                className: 'btn btn-primary btn-sm md:btn',
-                                onClick: handlePublish
-                            }, t('publish'))
-                        ])
-                    ])
-                ]))),
-
-                // Main Content
-                React.createElement('div', {
-                    key: 'content',
-                    className: 'flex h-screen pt-16 md:pt-20'
-                }, [
-                    // Sidebar
-                    React.createElement('div', {
-                        key: 'sidebar',
-                        className: `sidebar ${showMobileSidebar ? 'open' : ''} desktop-sidebar`
-                    }, [
-                        // Mobile close button
-                        React.createElement('div', {
-                            key: 'mobile-header',
-                            className: 'md:hidden p-4 border-b border-gray-200 flex items-center justify-between'
-                        }, [
-                            React.createElement('h2', {
-                                key: 'title',
-                                className: 'text-lg font-semibold'
-                            }, 'Menu Editor'),
-                            React.createElement('button', {
-                                key: 'close',
-                                className: 'btn btn-ghost btn-sm',
-                                onClick: () => setShowMobileSidebar(false)
-                            }, '✕')
-                        ]),
-
-                        React.createElement('div', {
-                            key: 'content',
-                            className: 'p-4 md:p-6 space-y-6'
-                        }, [
-                            // Restaurant Information
-                            React.createElement('div', {
-                                key: 'restaurant-info',
-                                className: 'card p-6'
-                            }, [
-                                React.createElement('h2', {
-                                    key: 'title',
-                                    className: 'text-lg font-semibold mb-4'
-                                }, t('restaurantInfo')),
-                                React.createElement('div', {
-                                    key: 'form',
-                                    className: 'space-y-4'
-                                }, [
-                                    React.createElement('div', { key: 'name' }, [
-                                        React.createElement('label', {
-                                            key: 'label',
-                                            className: 'block text-sm font-semibold text-gray-700 mb-2'
-                                        }, t('restaurantName')),
-                                        React.createElement('input', {
-                                            key: 'input',
-                                            type: 'text',
-                                            className: 'input',
-                                            value: menu.restaurantName,
-                                            onChange: (e) => updateMenu({ restaurantName: e.target.value }),
-                                            placeholder: 'Your Restaurant Name'
-                                        })
-                                    ]),
-                                    React.createElement('div', { key: 'menu-name' }, [
-                                        React.createElement('label', {
-                                            key: 'label',
-                                            className: 'block text-sm font-semibold text-gray-700 mb-2'
-                                        }, t('menuTitle')),
-                                        React.createElement('input', {
-                                            key: 'input',
-                                            type: 'text',
-                                            className: 'input',
-                                            value: menu.name,
-                                            onChange: (e) => updateMenu({ name: e.target.value }),
-                                            placeholder: 'Dinner Menu'
-                                        })
-                                    ]),
-                                    React.createElement('div', { key: 'tagline' }, [
-                                        React.createElement('label', {
-                                            key: 'label',
-                                            className: 'block text-sm font-semibold text-gray-700 mb-2'
-                                        }, t('tagline')),
-                                        React.createElement('input', {
-                                            key: 'input',
-                                            type: 'text',
-                                            className: 'input',
-                                            value: menu.tagline,
-                                            onChange: (e) => updateMenu({ tagline: e.target.value }),
-                                            placeholder: 'Fine dining experience'
-                                        })
-                                    ])
-                                ])
-                            ]),
-
-                            // Sections
-                            React.createElement('div', {
-                                key: 'sections',
-                                className: 'card p-6'
-                            }, [
-                                React.createElement('div', {
-                                    key: 'header',
-                                    className: 'flex items-center justify-between mb-6'
-                                }, [
-                                    React.createElement('h2', {
-                                        key: 'title',
-                                        className: 'text-lg font-semibold'
-                                    }, 'Menu Sections'),
-                                    React.createElement('button', {
-                                        key: 'add',
-                                        className: 'btn btn-primary btn-sm',
-                                        onClick: handleAddSection
-                                    }, t('addSection'))
-                                ]),
-
-                                React.createElement('div', {
-                                    key: 'list',
-                                    className: 'space-y-4'
-                                }, sections.map(section =>
-                                    React.createElement('div', {
-                                        key: section.id,
-                                        className: 'menu-item-card'
-                                    }, [
-                                        React.createElement('div', {
-                                            key: 'header',
-                                            className: 'flex items-center justify-between mb-4'
-                                        }, [
-                                            React.createElement('h3', {
-                                                key: 'name',
-                                                className: 'font-semibold text-gray-800'
-                                            }, section.name),
-                                            React.createElement('div', {
-                                                key: 'actions',
-                                                className: 'flex gap-2'
-                                            }, [
-                                                React.createElement('button', {
-                                                    key: 'edit',
-                                                    className: 'btn btn-ghost btn-sm',
-                                                    onClick: () => handleEditSection(section)
-                                                }, t('edit')),
-                                                React.createElement('button', {
-                                                    key: 'delete',
-                                                    className: 'btn btn-ghost btn-sm text-red-600',
-                                                    onClick: () => deleteSection(section.id)
-                                                }, t('delete'))
-                                            ])
-                                        ]),
-
-                                        React.createElement('div', {
-                                            key: 'items',
-                                            className: 'space-y-2 mb-4'
-                                        }, section.items.map(item =>
-                                            React.createElement('div', {
-                                                key: item.id,
-                                                className: 'flex items-center justify-between py-2 px-3 bg-gray-50 rounded-lg text-sm'
-                                            }, [
-                                                React.createElement('div', {
-                                                    key: 'info',
-                                                    className: 'flex-1'
-                                                }, [
-                                                    React.createElement('span', {
-                                                        key: 'name',
-                                                        className: 'font-medium'
-                                                    }, item.name),
-                                                    React.createElement('span', {
-                                                        key: 'price',
-                                                        className: 'ml-2 text-blue-600 font-semibold'
-                                                    }, item.price)
-                                                ]),
-                                                React.createElement('div', {
-                                                    key: 'actions',
-                                                    className: 'flex gap-1'
-                                                }, [
-                                                    React.createElement('button', {
-                                                        key: 'edit',
-                                                        className: 'text-blue-600 hover:text-blue-800 text-xs px-2 py-1',
-                                                        onClick: () => handleEditItem(item)
-                                                    }, t('edit')),
-                                                    React.createElement('button', {
-                                                        key: 'delete',
-                                                        className: 'text-red-600 hover:text-red-800 text-xs px-2 py-1',
-                                                        onClick: () => deleteItem(section.id, item.id)
-                                                    }, t('delete'))
-                                                ])
-                                            ])
-                                        )),
-
-                                        React.createElement('button', {
-                                            key: 'add-item',
-                                            className: 'btn btn-ghost btn-sm w-full border-2 border-dashed border-gray-300',
-                                            onClick: () => handleAddItem(section.id)
-                                        }, t('addItem'))
-                                    ])
-                                ))
-                            ])
-                        ])
-                    ]),
-
-                    // Preview Area
-                    React.createElement('div', {
-                        key: 'preview',
-                        className: 'flex-1 bg-gray-50 p-4 md:p-8 overflow-y-auto'
-                    }, React.createElement(MenuPreview, {
-                        menu,
-                        sections,
-                        viewMode,
-                        selectedTemplate: template
-                    }))
-                ]),
-
-                // Mobile Sidebar Overlay
-                showMobileSidebar && React.createElement('div', {
-                    key: 'overlay',
-                    className: 'mobile-menu-overlay open',
-                    onClick: () => setShowMobileSidebar(false)
-                }),
-
-                // Modals
-                React.createElement(ItemModal, {
-                    key: 'item-modal',
-                    isOpen: showItemModal,
-                    onClose: () => setShowItemModal(false),
-                    onSave: editingItem ? editItem : addItem,
-                    item: editingItem
-                }),
-                React.createElement(SectionModal, {
-                    key: 'section-modal',
-                    isOpen: showSectionModal,
-                    onClose: () => setShowSectionModal(false),
-                    onSave: editingSection ? editSection : addSection,
-                    section: editingSection
-                }),
-                React.createElement(ShareModal, {
-                    key: 'share-modal',
-                    isOpen: showShareModal,
-                    onClose: () => setShowShareModal(false),
-                    menu: menu
-                })
-            ]);
+            document.querySelector('#lang-text').textContent = 
+                currentLanguage === 'en' ? '🇸🇦 العربية' : '🇺🇸 English';
+            
+            document.body.classList.toggle('rtl', currentLanguage === 'ar');
         }
 
-        // Main App Component
-        function App() {
-            const [currentStep, setCurrentStep] = useState('auth');
-            const [selectedTemplate, setSelectedTemplate] = useState(null);
-            const [currentUser, setCurrentUser] = useState(null);
+        // Authentication functions
+        function showAuthModal() {
+            document.getElementById('auth-modal').classList.add('show');
+        }
 
-            // Check for existing user on mount
-            useEffect(() => {
-                const savedUser = storage.load('currentUser');
-                if (savedUser) {
-                    setCurrentUser(savedUser);
-                    setCurrentStep('template');
-                }
-            }, []);
+        function hideAuthModal() {
+            document.getElementById('auth-modal').classList.remove('show');
+        }
 
-            const handleAuthenticated = (userData) => {
-                setCurrentUser(userData);
-                setCurrentStep('template');
+        function switchAuthTab(tab) {
+            document.querySelectorAll('#auth-tabs .nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            if (tab === 'login') {
+                document.getElementById('login-form').classList.remove('hidden');
+                document.getElementById('signup-form').classList.add('hidden');
+            } else {
+                document.getElementById('login-form').classList.add('hidden');
+                document.getElementById('signup-form').classList.remove('hidden');
+            }
+        }
+
+        function continueAsGuest() {
+            currentUser = { name: 'Guest User', email: 'guest@menucraft.com' };
+            showApp();
+        }
+
+        function showApp() {
+            document.getElementById('landing-page').style.display = 'none';
+            document.getElementById('app-interface').classList.add('show');
+            document.getElementById('user-name').textContent = currentUser.name;
+            hideAuthModal();
+        }
+
+        // Handle form submissions
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            currentUser = { name: email.split('@')[0], email: email };
+            showToast('Welcome back!');
+            showApp();
+        });
+
+        document.getElementById('signup-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = this.querySelector('input[type="text"]').value;
+            const email = this.querySelector('input[type="email"]').value;
+            currentUser = { name: name, email: email };
+            showToast('Account created successfully!');
+            showApp();
+        });
+
+        // App navigation
+        function switchTab(tab) {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            document.getElementById('templates-section').classList.toggle('hidden', tab !== 'templates');
+            document.getElementById('editor-section').classList.toggle('hidden', tab !== 'editor');
+            document.getElementById('preview-section').classList.toggle('hidden', tab !== 'preview');
+            
+            if (tab === 'preview') {
+                updateFinalPreview();
+            }
+        }
+
+        // Template functions
+        function selectTemplate(templateId) {
+            currentTemplate = templateId;
+            customization = { ...customization, ...templates[templateId] };
+            applyTemplate();
+            showToast('Template applied successfully!');
+            
+            // Auto-switch to editor
+            setTimeout(() => {
+                switchTab('editor');
+                document.querySelector('[onclick="switchTab(\'editor\')"]').classList.add('active');
+                document.querySelector('[onclick="switchTab(\'templates\')"]').classList.remove('active');
+            }, 500);
+        }
+
+        function applyTemplate() {
+            const preview = document.getElementById('menu-preview');
+            preview.style.setProperty('--preview-bg', customization.bgColor);
+            preview.style.setProperty('--preview-text', customization.textColor);
+            preview.style.setProperty('--accent-color', customization.accentColor);
+            preview.style.setProperty('--item-bg', customization.itemBgColor);
+            preview.style.fontFamily = customization.fontFamily;
+            
+            updateCustomizationInputs();
+        }
+
+        function updateCustomizationInputs() {
+            document.getElementById('bg-color').value = customization.bgColor;
+            document.getElementById('text-color').value = customization.textColor;
+            document.getElementById('accent-color').value = customization.accentColor;
+            document.getElementById('item-bg-color').value = customization.itemBgColor;
+            document.getElementById('font-family').value = customization.fontFamily;
+            document.getElementById('font-size').value = customization.fontSize;
+            document.getElementById('spacing').value = customization.spacing;
+            document.getElementById('font-size-value').textContent = customization.fontSize;
+            document.getElementById('spacing-value').textContent = customization.spacing;
+        }
+
+        // Preview functions
+        function updatePreview() {
+            const restaurantName = document.getElementById('restaurant-name').value || 'Your Restaurant Name';
+            const menuTitle = document.getElementById('menu-title').value || 'Menu';
+            const tagline = document.getElementById('menu-tagline').value || 'Fine dining experience';
+            
+            document.getElementById('preview-restaurant').textContent = restaurantName;
+            document.getElementById('preview-title').textContent = menuTitle;
+            document.getElementById('preview-tagline').textContent = tagline;
+            
+            menuData.restaurantName = restaurantName;
+            menuData.menuTitle = menuTitle;
+            menuData.tagline = tagline;
+        }
+
+        function updateFinalPreview() {
+            const finalPreview = document.getElementById('final-preview');
+            const currentPreview = document.getElementById('menu-preview');
+            finalPreview.innerHTML = currentPreview.innerHTML;
+            finalPreview.style.cssText = currentPreview.style.cssText;
+        }
+
+        // Menu editing functions
+        function addSection() {
+            const newSection = {
+                id: Date.now(),
+                name: 'New Section',
+                items: []
             };
+            menuData.sections.push(newSection);
+            renderSections();
+            showToast('Section added!');
+        }
 
-            const handleSelectTemplate = (template) => {
-                setSelectedTemplate(template);
-                setCurrentStep('editor');
+        function addItem(button) {
+            currentEditingItem = null;
+            showItemModal();
+        }
+
+        function editItem(itemElement) {
+            const itemName = itemElement.querySelector('.item-name').textContent;
+            const itemDescription = itemElement.querySelector('.item-description').textContent;
+            const itemPrice = itemElement.querySelector('.item-price').textContent;
+            
+            currentEditingItem = { name: itemName, description: itemDescription, price: itemPrice };
+            
+            document.getElementById('item-name').value = itemName;
+            document.getElementById('item-description').value = itemDescription;
+            document.getElementById('item-price').value = itemPrice;
+            
+            showItemModal();
+        }
+
+        function showItemModal() {
+            document.getElementById('item-modal').classList.add('show');
+        }
+
+        function closeItemModal() {
+            document.getElementById('item-modal').classList.remove('show');
+            currentEditingItem = null;
+        }
+
+        // Handle item form submission
+        document.getElementById('item-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const itemData = {
+                name: document.getElementById('item-name').value,
+                description: document.getElementById('item-description').value,
+                price: document.getElementById('item-price').value,
+                image: document.getElementById('item-image').value,
+                model: document.getElementById('item-model').value
             };
+            
+            if (currentEditingItem) {
+                // Update existing item
+                showToast('Item updated!');
+            } else {
+                // Add new item
+                showToast('Item added!');
+            }
+            
+            closeItemModal();
+            updatePreview();
+        });
 
-            const handleBackToTemplates = () => {
-                setCurrentStep('template');
-                setSelectedTemplate(null);
-                // Clear saved data
-                storage.remove('currentMenu');
-                storage.remove('currentSections');
+        // Customization functions
+        function toggleCustomization() {
+            document.getElementById('customization-panel').classList.toggle('open');
+        }
+
+        function updateCustomization() {
+            customization.bgColor = document.getElementById('bg-color').value;
+            customization.textColor = document.getElementById('text-color').value;
+            customization.accentColor = document.getElementById('accent-color').value;
+            customization.itemBgColor = document.getElementById('item-bg-color').value;
+            customization.fontFamily = document.getElementById('font-family').value;
+            customization.fontSize = document.getElementById('font-size').value;
+            customization.spacing = document.getElementById('spacing').value;
+            
+            document.getElementById('font-size-value').textContent = customization.fontSize;
+            document.getElementById('spacing-value').textContent = customization.spacing;
+            
+            applyTemplate();
+        }
+
+        function resetCustomization() {
+            customization = { ...templates[currentTemplate] };
+            customization.fontFamily = 'Inter';
+            customization.fontSize = 16;
+            customization.spacing = 20;
+            
+            updateCustomizationInputs();
+            applyTemplate();
+            showToast('Design reset to template defaults');
+        }
+
+        // Utility functions
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        function saveMenu() {
+            const menuToSave = {
+                ...menuData,
+                customization: customization,
+                template: currentTemplate
             };
+            
+            localStorage.setItem('menucraft-menu', JSON.stringify(menuToSave));
+            showToast('Menu saved successfully!');
+        }
 
-            const handleLogout = () => {
-                storage.remove('currentUser');
-                storage.remove('currentMenu');
-                storage.remove('currentSections');
-                setCurrentUser(null);
-                setCurrentStep('auth');
-            };
-
-            return React.createElement('div', { 
-                className: 'min-h-screen'
-            }, [
-                React.createElement(LanguageToggle, { key: 'lang-toggle' }),
-                React.createElement(ToastContainer, { key: 'toasts' }),
+        // Load saved menu on page load
+        function loadSavedMenu() {
+            const saved = localStorage.getItem('menucraft-menu');
+            if (saved) {
+                const data = JSON.parse(saved);
+                menuData = data;
+                customization = data.customization || customization;
+                currentTemplate = data.template || 'light';
                 
-                // User info when logged in
-                currentUser && currentStep !== 'auth' && React.createElement('div', {
-                    key: 'user-info',
-                    className: 'fixed top-4 right-20 md:right-4 z-40 glass-effect rounded-lg px-4 py-2 text-white text-sm'
-                }, [
-                    React.createElement('span', {
-                        key: 'welcome',
-                        className: 'mr-3'
-                    }, `${currentUser.name}`),
-                    React.createElement('button', {
-                        key: 'logout',
-                        className: 'text-white hover:text-gray-200 underline',
-                        onClick: handleLogout
-                    }, 'Logout')
-                ]),
-
-                React.createElement('div', { key: 'content' },
-                    currentStep === 'auth' 
-                        ? React.createElement(AuthScreen, {
-                            onAuthenticated: handleAuthenticated
-                        })
-                        : currentStep === 'template' 
-                        ? React.createElement(TemplateSelection, {
-                            onSelectTemplate: handleSelectTemplate
-                        })
-                        : React.createElement(MenuEditor, {
-                            template: selectedTemplate,
-                            onBack: handleBackToTemplates
-                        })
-                )
-            ]);
+                document.getElementById('restaurant-name').value = menuData.restaurantName;
+                document.getElementById('menu-title').value = menuData.menuTitle;
+                document.getElementById('menu-tagline').value = menuData.tagline;
+                
+                updatePreview();
+                applyTemplate();
+            }
         }
 
-        // Root App with Providers
-        function RootApp() {
-            return React.createElement(LanguageProvider, null,
-                React.createElement(ToastProvider, null,
-                    React.createElement(App)
-                )
-            );
+        // Mobile responsiveness
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('open');
         }
 
-        // Initialize the app
-        ReactDOM.render(React.createElement(RootApp), document.getElementById('root'));
+        // Add mobile menu button for small screens
+        window.addEventListener('resize', function() {
+            if (window.innerWidth <= 768) {
+                if (!document.querySelector('.mobile-menu-btn')) {
+                    const menuBtn = document.createElement('button');
+                    menuBtn.className = 'btn btn-primary mobile-menu-btn';
+                    menuBtn.textContent = '☰';
+                    menuBtn.style.cssText = 'position: fixed; top: 20px; left: 20px; z-index: 100; display: block;';
+                    menuBtn.onclick = toggleSidebar;
+                    document.body.appendChild(menuBtn);
+                }
+            } else {
+                const menuBtn = document.querySelector('.mobile-menu-btn');
+                if (menuBtn) menuBtn.remove();
+            }
+        });
+
+        // Auto-save functionality
+        setInterval(() => {
+            if (currentUser) {
+                saveMenu();
+            }
+        }, 30000); // Auto-save every 30 seconds
+
+        // Load menu when app starts
+        setTimeout(loadSavedMenu, 1000);
     </script>
 </body>
 </html>
