@@ -937,15 +937,72 @@
             animation: bounceIn 0.5s ease;
         }
 
-        /* Live Preview Styles */
-        .live-preview {
+        /* Realistic Preview Styles */
+        .realistic-preview {
             border-radius: 12px;
             box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .template-card-enhanced:hover .realistic-preview {
+            transform: scale(1.03);
+            box-shadow: inset 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        /* Dark Neon Template Specific Styles */
+        .template-card-enhanced:hover .realistic-preview[style*="0f0f23"] {
+            box-shadow: 
+                inset 0 4px 20px rgba(0,0,0,0.15),
+                0 0 30px rgba(0, 245, 255, 0.3),
+                0 0 60px rgba(255, 0, 170, 0.2);
+            animation: neonPulse 2s ease-in-out infinite;
+        }
+
+        .neon-card {
             transition: all 0.3s ease;
         }
 
-        .template-card-enhanced:hover .live-preview {
-            transform: scale(1.02);
+        .template-card-enhanced:hover .neon-card {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 245, 255, 0.3);
+        }
+
+        /* Elegant Template Specific Styles */
+        .template-card-enhanced:hover .realistic-preview[style*="f7f1e3"] {
+            box-shadow: 
+                inset 0 4px 20px rgba(0,0,0,0.1),
+                0 0 25px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Image Grid Template Specific Styles */
+        .template-card-enhanced:hover .realistic-preview[style*="ff6b35"] {
+            box-shadow: 
+                inset 0 4px 20px rgba(0,0,0,0.15),
+                0 0 30px rgba(255, 107, 53, 0.4);
+        }
+
+        /* Minimal Template Specific Styles */
+        .template-card-enhanced:hover .realistic-preview[style*="ffffff"] {
+            box-shadow: 
+                inset 0 4px 20px rgba(0,0,0,0.05),
+                0 0 20px rgba(45, 55, 72, 0.1);
+        }
+
+        @keyframes neonPulse {
+            0%, 100% {
+                box-shadow: 
+                    inset 0 4px 20px rgba(0,0,0,0.15),
+                    0 0 30px rgba(0, 245, 255, 0.3),
+                    0 0 60px rgba(255, 0, 170, 0.2);
+            }
+            50% {
+                box-shadow: 
+                    inset 0 4px 20px rgba(0,0,0,0.15),
+                    0 0 40px rgba(0, 245, 255, 0.5),
+                    0 0 80px rgba(255, 0, 170, 0.3);
+            }
         }
 
         .preview-header {
@@ -3760,156 +3817,330 @@
             ]);
         }
 
-        // Live Template Preview Component
-        function LiveTemplatePreview({ template }) {
-            const { isRTL } = useLanguage();
+        // Realistic Template Preview Component - Accurate Mini Layouts
+        function RealisticTemplatePreview({ template }) {
             const { mockData, preview } = template;
             
-            const getPreviewStyles = () => {
-                const styles = {
-                    dark: {
-                        background: preview.headerBg,
-                        color: '#ffffff',
-                        fontFamily: preview.typography
-                    },
-                    light: {
-                        background: preview.headerBg,
-                        color: preview.accentColor,
-                        fontFamily: preview.typography
-                    },
-                    vibrant: {
-                        background: preview.headerBg,
-                        color: '#ffffff',
-                        fontFamily: preview.typography
-                    },
-                    minimal: {
-                        background: preview.headerBg,
-                        color: preview.accentColor,
-                        fontFamily: preview.typography
-                    }
-                };
-                return styles[preview.theme] || styles.light;
-            };
-            
-            const previewStyles = getPreviewStyles();
-            
-            return React.createElement('div', {
-                className: 'live-preview h-80 relative overflow-hidden rounded-lg',
-                style: previewStyles
-            }, [
-                // Header Section
-                React.createElement('div', {
-                    key: 'header',
-                    className: `preview-header p-4 text-center ${preview.theme === 'dark' ? 'text-white' : ''}`
-                }, [
-                    React.createElement('h3', {
-                        key: 'name',
-                        className: `preview-restaurant-name ${
-                            preview.theme === 'dark' ? 'text-2xl font-bold' :
-                            preview.theme === 'elegant' ? 'text-3xl font-serif italic' :
-                            preview.theme === 'vibrant' ? 'text-2xl font-black uppercase' :
-                            'text-xl font-light lowercase'
-                        }`,
-                        style: { 
-                            color: preview.theme === 'dark' ? preview.accentColor : 
-                                   preview.theme === 'elegant' ? preview.accentColor :
-                                   preview.theme === 'minimal' ? preview.accentColor : '#ffffff'
-                        }
-                    }, mockData.restaurantName),
-                    mockData.tagline && React.createElement('p', {
-                        key: 'tagline',
-                        className: `preview-tagline text-sm opacity-90 mt-1 ${
-                            preview.theme === 'minimal' ? 'lowercase' : ''
-                        }`
-                    }, mockData.tagline)
-                ]),
-                
-                // Menu Content Section
-                React.createElement('div', {
-                    key: 'content',
-                    className: `preview-content p-4 ${
-                        preview.theme === 'dark' ? 'bg-gray-900/80' : 'bg-white/95'
-                    } backdrop-blur-sm`,
-                    style: { 
-                        position: 'absolute',
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        maxHeight: '60%',
-                        overflow: 'hidden'
-                    }
-                }, mockData.sections.slice(0, 2).map((section, sIndex) =>
-                    React.createElement('div', {
-                        key: sIndex,
-                        className: 'preview-section mb-3'
-                    }, [
-                        React.createElement('h4', {
-                            key: 'section-name',
-                            className: `preview-section-name font-semibold text-sm mb-2 ${
-                                preview.theme === 'dark' ? 'text-white' :
-                                preview.theme === 'elegant' ? 'text-amber-800' :
-                                preview.theme === 'vibrant' ? 'text-orange-800 uppercase' :
-                                'text-gray-700 lowercase'
-                            }`,
-                            style: { 
-                                color: preview.theme === 'dark' ? preview.accentColor : undefined
-                            }
-                        }, section.name),
-                        
-                        React.createElement('div', {
-                            key: 'items',
-                            className: 'preview-items space-y-1'
-                        }, section.items.slice(0, 2).map((item, iIndex) =>
-                            React.createElement('div', {
-                                key: iIndex,
-                                className: `preview-item flex justify-between items-center text-xs ${
-                                    preview.theme === 'dark' ? 'text-gray-300' :
-                                    preview.theme === 'elegant' ? 'text-gray-700' :
-                                    preview.theme === 'vibrant' ? 'text-gray-800' :
-                                    'text-gray-600'
-                                } ${item.featured || item.special ? 'font-semibold' : ''}`
-                            }, [
-                                React.createElement('span', {
-                                    key: 'name',
-                                    className: `flex items-center gap-1 ${
-                                        item.hasImage ? 'before:content-["📷"] before:text-xs' : ''
-                                    }`
-                                }, [
-                                    item.name,
-                                    (item.featured || item.special) && React.createElement('span', {
-                                        key: 'badge',
-                                        className: 'text-xs',
-                                        style: { color: preview.accentColor }
-                                    }, '★')
-                                ]),
-                                React.createElement('span', {
-                                    key: 'price',
-                                    className: 'font-mono',
-                                    style: { 
-                                        color: preview.theme === 'dark' ? preview.secondaryColor : 
-                                               preview.accentColor 
-                                    }
-                                }, item.price)
-                            ])
-                        ))
-                    ])
-                )),
-                
-                // Theme-specific decorations
-                preview.theme === 'dark' && React.createElement('div', {
-                    key: 'neon-effects',
-                    className: 'absolute inset-0 pointer-events-none',
+            // Dark Neon Template
+            if (template.id === 'dark-neon') {
+                return React.createElement('div', {
+                    className: 'realistic-preview h-80 relative overflow-hidden rounded-lg',
                     style: {
-                        background: `radial-gradient(circle at 20% 20%, ${preview.accentColor}20 0%, transparent 50%), radial-gradient(circle at 80% 80%, ${preview.secondaryColor}20 0%, transparent 50%)`,
-                        mixBlendMode: 'screen'
+                        background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)',
+                        fontFamily: 'Inter, sans-serif'
                     }
-                }),
-                
-                preview.theme === 'elegant' && React.createElement('div', {
-                    key: 'elegant-border',
-                    className: 'absolute inset-2 border border-amber-300/30 rounded pointer-events-none'
-                })
-            ]);
+                }, [
+                    // Neon grid background
+                    React.createElement('div', {
+                        key: 'grid',
+                        className: 'absolute inset-0 opacity-20',
+                        style: {
+                            backgroundImage: `linear-gradient(${preview.accentColor}40 1px, transparent 1px), linear-gradient(90deg, ${preview.accentColor}40 1px, transparent 1px)`,
+                            backgroundSize: '20px 20px'
+                        }
+                    }),
+                    
+                    // Header
+                    React.createElement('div', {
+                        key: 'header',
+                        className: 'p-4 text-center relative z-10'
+                    }, [
+                        React.createElement('h1', {
+                            key: 'title',
+                            className: 'text-2xl font-bold text-white mb-1',
+                            style: {
+                                color: preview.accentColor,
+                                textShadow: `0 0 20px ${preview.accentColor}80`,
+                                letterSpacing: '2px'
+                            }
+                        }, mockData.restaurantName),
+                        React.createElement('div', {
+                            key: 'tagline',
+                            className: 'text-xs',
+                            style: { color: preview.secondaryColor }
+                        }, mockData.tagline)
+                    ]),
+                    
+                    // Menu grid
+                    React.createElement('div', {
+                        key: 'menu',
+                        className: 'px-4 pb-4 grid grid-cols-2 gap-2'
+                    }, mockData.sections.flatMap(section => 
+                        section.items.slice(0, 2).map((item, i) =>
+                            React.createElement('div', {
+                                key: i,
+                                className: 'neon-card p-3 rounded-lg',
+                                style: {
+                                    background: 'rgba(255,255,255,0.05)',
+                                    border: `1px solid ${preview.accentColor}40`,
+                                    backdropFilter: 'blur(10px)'
+                                }
+                            }, [
+                                React.createElement('div', {
+                                    key: 'name',
+                                    className: 'text-white text-xs font-semibold mb-1'
+                                }, item.name),
+                                React.createElement('div', {
+                                    key: 'price',
+                                    className: 'text-xs font-mono',
+                                    style: { color: preview.secondaryColor }
+                                }, item.price),
+                                item.featured && React.createElement('div', {
+                                    key: 'glow',
+                                    className: 'absolute inset-0 rounded-lg pointer-events-none',
+                                    style: {
+                                        boxShadow: `inset 0 0 20px ${preview.accentColor}30`
+                                    }
+                                })
+                            ])
+                        )
+                    ))
+                ]);
+            }
+            
+            // Elegant Script Template
+            if (template.id === 'elegant-script') {
+                return React.createElement('div', {
+                    className: 'realistic-preview h-80 relative overflow-hidden rounded-lg',
+                    style: {
+                        background: 'linear-gradient(135deg, #f7f1e3 0%, #f5e6d3 50%, #e8d5b7 100%)',
+                        fontFamily: 'Playfair Display, serif'
+                    }
+                }, [
+                    // Elegant pattern
+                    React.createElement('div', {
+                        key: 'pattern',
+                        className: 'absolute inset-0 opacity-10',
+                        style: {
+                            backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20c0-11.046-8.954-20-20-20v20h20z' fill='%23d4af37'/%3E%3C/svg%3E")`
+                        }
+                    }),
+                    
+                    // Decorative border
+                    React.createElement('div', {
+                        key: 'border',
+                        className: 'absolute inset-2 border-2 border-amber-300/40 rounded-lg'
+                    }),
+                    
+                    // Header with ornate styling
+                    React.createElement('div', {
+                        key: 'header',
+                        className: 'p-6 text-center'
+                    }, [
+                        React.createElement('h1', {
+                            key: 'title',
+                            className: 'text-2xl font-bold italic mb-1',
+                            style: {
+                                color: preview.accentColor,
+                                fontFamily: 'Playfair Display, serif'
+                            }
+                        }, mockData.restaurantName),
+                        React.createElement('div', {
+                            key: 'ornament',
+                            className: 'w-16 h-px mx-auto my-2',
+                            style: { background: preview.accentColor }
+                        }),
+                        React.createElement('p', {
+                            key: 'tagline',
+                            className: 'text-xs italic',
+                            style: { color: preview.secondaryColor }
+                        }, mockData.tagline)
+                    ]),
+                    
+                    // Elegant menu layout
+                    React.createElement('div', {
+                        key: 'menu',
+                        className: 'px-6 space-y-3'
+                    }, mockData.sections.slice(0, 2).map((section, sIndex) =>
+                        React.createElement('div', {
+                            key: sIndex,
+                            className: 'section'
+                        }, [
+                            React.createElement('h3', {
+                                key: 'section-title',
+                                className: 'text-sm font-bold mb-2 text-center',
+                                style: { 
+                                    color: preview.accentColor,
+                                    fontFamily: 'Playfair Display, serif'
+                                }
+                            }, section.name),
+                            React.createElement('div', {
+                                key: 'items',
+                                className: 'space-y-1'
+                            }, section.items.slice(0, 2).map((item, iIndex) =>
+                                React.createElement('div', {
+                                    key: iIndex,
+                                    className: 'flex justify-between items-center py-1 border-b border-amber-200/30'
+                                }, [
+                                    React.createElement('span', {
+                                        key: 'name',
+                                        className: 'text-xs flex items-center gap-1',
+                                        style: { color: preview.secondaryColor }
+                                    }, [
+                                        item.name,
+                                        item.special && React.createElement('span', {
+                                            key: 'star',
+                                            style: { color: preview.accentColor }
+                                        }, '✦')
+                                    ]),
+                                    React.createElement('span', {
+                                        key: 'price',
+                                        className: 'text-xs font-semibold',
+                                        style: { color: preview.accentColor }
+                                    }, item.price)
+                                ])
+                            ))
+                        ])
+                    ))
+                ]);
+            }
+            
+            // Image Grid Template
+            if (template.id === 'image-grid') {
+                return React.createElement('div', {
+                    className: 'realistic-preview h-80 relative overflow-hidden rounded-lg',
+                    style: {
+                        background: 'linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ffd23f 100%)',
+                        fontFamily: 'Montserrat, sans-serif'
+                    }
+                }, [
+                    // Bold header
+                    React.createElement('div', {
+                        key: 'header',
+                        className: 'p-4 text-center text-white'
+                    }, [
+                        React.createElement('h1', {
+                            key: 'title',
+                            className: 'text-2xl font-black uppercase mb-1 tracking-wide',
+                            style: { textShadow: '2px 2px 4px rgba(0,0,0,0.3)' }
+                        }, mockData.restaurantName),
+                        React.createElement('p', {
+                            key: 'tagline',
+                            className: 'text-xs font-bold uppercase tracking-wider opacity-90'
+                        }, mockData.tagline)
+                    ]),
+                    
+                    // Image grid layout
+                    React.createElement('div', {
+                        key: 'grid',
+                        className: 'px-4 grid grid-cols-2 gap-2'
+                    }, mockData.sections.flatMap(section => 
+                        section.items.slice(0, 2).map((item, i) =>
+                            React.createElement('div', {
+                                key: i,
+                                className: 'relative rounded-lg overflow-hidden',
+                                style: {
+                                    background: 'linear-gradient(45deg, #2c3e50 0%, #34495e 100%)',
+                                    aspectRatio: '4/3'
+                                }
+                            }, [
+                                // Mock image placeholder
+                                React.createElement('div', {
+                                    key: 'image',
+                                    className: 'absolute inset-0 flex items-center justify-center text-4xl opacity-30'
+                                }, '🍽️'),
+                                
+                                // Item info overlay
+                                React.createElement('div', {
+                                    key: 'overlay',
+                                    className: 'absolute bottom-0 left-0 right-0 p-2',
+                                    style: {
+                                        background: 'linear-gradient(transparent, rgba(0,0,0,0.8))'
+                                    }
+                                }, [
+                                    React.createElement('div', {
+                                        key: 'name',
+                                        className: 'text-white text-xs font-bold'
+                                    }, item.name),
+                                    React.createElement('div', {
+                                        key: 'price',
+                                        className: 'text-xs font-black',
+                                        style: { color: preview.accentColor }
+                                    }, item.price)
+                                ])
+                            ])
+                        )
+                    ))
+                ]);
+            }
+            
+            // Minimal Zen Template
+            if (template.id === 'minimal-zen') {
+                return React.createElement('div', {
+                    className: 'realistic-preview h-80 relative overflow-hidden rounded-lg',
+                    style: {
+                        background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #e9ecef 100%)',
+                        fontFamily: 'Inter, sans-serif'
+                    }
+                }, [
+                    // Clean header
+                    React.createElement('div', {
+                        key: 'header',
+                        className: 'p-8 text-center'
+                    }, [
+                        React.createElement('h1', {
+                            key: 'title',
+                            className: 'text-xl font-light lowercase tracking-wide mb-2',
+                            style: { color: preview.accentColor }
+                        }, mockData.restaurantName),
+                        React.createElement('p', {
+                            key: 'tagline',
+                            className: 'text-xs lowercase tracking-wider',
+                            style: { color: preview.secondaryColor }
+                        }, mockData.tagline)
+                    ]),
+                    
+                    // Minimal menu layout with lots of space
+                    React.createElement('div', {
+                        key: 'menu',
+                        className: 'px-8 space-y-6'
+                    }, mockData.sections.slice(0, 2).map((section, sIndex) =>
+                        React.createElement('div', {
+                            key: sIndex,
+                            className: 'section'
+                        }, [
+                            React.createElement('h3', {
+                                key: 'section-title',
+                                className: 'text-sm font-medium lowercase tracking-wide mb-3 pb-1',
+                                style: { 
+                                    color: preview.accentColor,
+                                    borderBottom: `1px solid ${preview.secondaryColor}30`
+                                }
+                            }, section.name),
+                            React.createElement('div', {
+                                key: 'items',
+                                className: 'space-y-3'
+                            }, section.items.slice(0, 1).map((item, iIndex) =>
+                                React.createElement('div', {
+                                    key: iIndex,
+                                    className: 'flex justify-between items-baseline'
+                                }, [
+                                    React.createElement('span', {
+                                        key: 'name',
+                                        className: 'text-xs lowercase',
+                                        style: { color: preview.accentColor }
+                                    }, item.name),
+                                    React.createElement('div', {
+                                        key: 'dots',
+                                        className: 'flex-1 mx-2 border-b border-dotted',
+                                        style: { borderColor: preview.secondaryColor + '30' }
+                                    }),
+                                    React.createElement('span', {
+                                        key: 'price',
+                                        className: 'text-xs font-mono',
+                                        style: { color: preview.secondaryColor }
+                                    }, item.price)
+                                ])
+                            ))
+                        ])
+                    ))
+                ]);
+            }
+            
+            // Fallback
+            return React.createElement('div', {
+                className: 'realistic-preview h-80 bg-gray-100 rounded-lg flex items-center justify-center'
+            }, 'Template Preview');
         }
 
         // Enhanced Template Selection with Live Previews
@@ -3984,7 +4215,7 @@
                             key: 'preview-container',
                             className: 'template-preview-container'
                         }, [
-                            React.createElement(LiveTemplatePreview, {
+                            React.createElement(RealisticTemplatePreview, {
                                 key: 'preview',
                                 template: template
                             }),
