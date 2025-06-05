@@ -31,6 +31,57 @@
             overflow-x: hidden;
         }
         
+        /* Screen transition animations */
+        .screen {
+            min-height: 100vh;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .screen.hidden {
+            display: none;
+        }
+        
+        .screen.fade-in {
+            animation: fadeInScreen 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .screen.fade-out {
+            animation: fadeOutScreen 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes fadeInScreen {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        @keyframes fadeOutScreen {
+            from {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-30px) scale(0.98);
+            }
+        }
+        
+        /* Language switch animation */
+        .language-switch {
+            animation: languageSwitch 0.4s ease-in-out;
+        }
+        
+        @keyframes languageSwitch {
+            0% { opacity: 1; transform: translateX(0); }
+            50% { opacity: 0; transform: translateX(20px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+        
         .rtl {
             direction: rtl;
             font-family: 'Noto Sans Arabic', sans-serif;
@@ -45,10 +96,12 @@
         }
         
         .template-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             position: relative;
             overflow: hidden;
+            transform-style: preserve-3d;
+            perspective: 1000px;
         }
         
         .template-card::before {
@@ -58,18 +111,72 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(45deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 100%);
+            background: linear-gradient(135deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: all 0.4s ease;
+            z-index: 1;
+        }
+        
+        .template-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: inherit;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            opacity: 0;
+            transform: translateX(-100%);
+            transition: all 0.6s ease;
+            z-index: 2;
         }
         
         .template-card:hover::before {
             opacity: 1;
         }
         
+        .template-card:hover::after {
+            opacity: 1;
+            transform: translateX(100%);
+        }
+        
         .template-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            transform: translateY(-12px) scale(1.03) rotateX(5deg);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        
+        .template-card.selected {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 25px 50px rgba(102, 126, 234, 0.3);
+            border: 3px solid #667eea;
+            animation: selectedPulse 2s infinite;
+        }
+        
+        @keyframes selectedPulse {
+            0%, 100% { box-shadow: 0 25px 50px rgba(102, 126, 234, 0.3); }
+            50% { box-shadow: 0 25px 50px rgba(102, 126, 234, 0.5); }
+        }
+        
+        .template-card-content {
+            position: relative;
+            z-index: 3;
+            transition: transform 0.3s ease;
+        }
+        
+        .template-card:hover .template-card-content {
+            transform: translateZ(20px);
+        }
+        
+        .template-selecting {
+            animation: templateSelect 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes templateSelect {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1) rotateY(10deg); }
+            100% { transform: scale(1); }
         }
         
         .menu-item {
@@ -279,6 +386,190 @@
             box-shadow: 4px 0 20px rgba(0,0,0,0.1);
         }
         
+        /* Enhanced customization panel */
+        .customization-section {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .customization-section:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+        
+        .section-header {
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-bottom: 1px solid #e5e7eb;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: between;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .section-header:hover::before {
+            left: 100%;
+        }
+        
+        .section-header:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .section-title {
+            font-weight: 600;
+            font-size: 16px;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section-toggle {
+            font-size: 20px;
+            transition: transform 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section-toggle.expanded {
+            transform: rotate(180deg);
+        }
+        
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+        }
+        
+        .section-content.expanded {
+            max-height: 500px;
+            opacity: 1;
+            padding: 20px;
+        }
+        
+        /* Enhanced form controls */
+        .form-group {
+            margin-bottom: 20px;
+            animation: slideInUp 0.3s ease;
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .enhanced-select {
+            position: relative;
+            display: block;
+        }
+        
+        .enhanced-select select {
+            width: 100%;
+            padding: 12px 40px 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 16px;
+            background: white;
+            color: #374151;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            appearance: none;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xIDFMNiA2TDExIDEiIHN0cm9rZT0iIzY2NmVlYSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+');
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+        }
+        
+        .enhanced-select select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+        
+        .enhanced-select select:hover {
+            border-color: #9ca3af;
+        }
+        
+        /* Toggle switches */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #ccc;
+            transition: 0.4s;
+            border-radius: 34px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background: white;
+            transition: 0.4s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .toggle-switch input:checked + .toggle-slider {
+            background: #667eea;
+        }
+        
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+        
         .preview-area {
             background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
         }
@@ -333,17 +624,49 @@
             display: inline-block;
         }
         
-        .preview-phone {
+        /* Preview device animations */
+        .preview-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 600px;
+            position: relative;
+        }
+        
+        .preview-device {
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+        
+        .preview-device.desktop {
+            width: 100%;
+            max-width: 1000px;
+            height: 600px;
+            border: 16px solid #1a1a1a;
+            border-radius: 12px;
+        }
+        
+        .preview-device.tablet {
+            width: 600px;
+            height: 800px;
+            border: 12px solid #2d2d2d;
+            border-radius: 24px;
+        }
+        
+        .preview-device.mobile {
             width: 375px;
             height: 812px;
             background: #000;
             border-radius: 40px;
             padding: 8px;
-            position: relative;
             box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
         
-        .preview-phone::before {
+        .preview-device.mobile::before {
             content: '';
             position: absolute;
             top: 20px;
@@ -353,15 +676,101 @@
             height: 6px;
             background: #333;
             border-radius: 3px;
+            z-index: 10;
         }
         
-        .preview-phone-screen {
+        .preview-screen {
             width: 100%;
             height: 100%;
             background: white;
-            border-radius: 32px;
             overflow: hidden;
+            position: relative;
+        }
+        
+        .preview-device.mobile .preview-screen {
+            border-radius: 32px;
             padding-top: 40px;
+        }
+        
+        .preview-device.tablet .preview-screen {
+            border-radius: 12px;
+        }
+        
+        .preview-device.desktop .preview-screen {
+            border-radius: 4px;
+        }
+        
+        /* View mode transition animations */
+        .view-switching {
+            animation: viewModeSwitch 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes viewModeSwitch {
+            0% { transform: scale(1) rotateY(0deg); opacity: 1; }
+            50% { transform: scale(0.8) rotateY(90deg); opacity: 0.3; }
+            100% { transform: scale(1) rotateY(0deg); opacity: 1; }
+        }
+        
+        .preview-content {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            transition: all 0.4s ease;
+        }
+        
+        /* View toggle enhanced buttons */
+        .view-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 6px;
+            display: flex;
+            gap: 4px;
+        }
+        
+        .view-toggle-btn {
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: none;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .view-toggle-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .view-toggle-btn:hover::before {
+            left: 100%;
+        }
+        
+        .view-toggle-btn.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        
+        .view-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateY(-1px);
         }
         
         .toast {
@@ -617,7 +1026,7 @@
                 // Item properties
                 spicy: "حار 🌶️",
                 vegetarian: "نباتي 🌱",
-                vegan: "نباتي تماماً 🌿",
+                vegan: "نب �تي تماماً 🌿",
                 glutenFree: "خالي من الجلوتين",
                 popular: "الأكثر طلباً",
                 
@@ -2096,6 +2505,12 @@
             const [showShareModal, setShowShareModal] = useState(false);
             const [currentSectionId, setCurrentSectionId] = useState(null);
             const [isSaving, setIsSaving] = useState(false);
+            const [isViewSwitching, setIsViewSwitching] = useState(false);
+            const [expandedSections, setExpandedSections] = useState({
+                info: true,
+                design: true,
+                sections: true
+            });
 
             // Load saved data on component mount
             useEffect(() => {
@@ -2120,6 +2535,54 @@
                 const timeoutId = setTimeout(saveData, 1000);
                 return () => clearTimeout(timeoutId);
             }, [menu, sections]);
+
+            // View mode switching with animation
+            const handleViewModeChange = useCallback((newMode) => {
+                if (newMode === viewMode || isViewSwitching) return;
+                
+                setIsViewSwitching(true);
+                
+                setTimeout(() => {
+                    setViewMode(newMode);
+                    setIsViewSwitching(false);
+                }, 300);
+            }, [viewMode, isViewSwitching]);
+
+            // Toggle section expansion
+            const toggleSection = useCallback((sectionKey) => {
+                setExpandedSections(prev => ({
+                    ...prev,
+                    [sectionKey]: !prev[sectionKey]
+                }));
+            }, []);
+
+            // Enhanced customization section component
+            const CustomizationSection = ({ title, sectionKey, children }) => {
+                const isExpanded = expandedSections[sectionKey];
+                
+                return React.createElement('div', {
+                    className: 'customization-section'
+                }, [
+                    React.createElement('div', {
+                        key: 'header',
+                        className: 'section-header',
+                        onClick: () => toggleSection(sectionKey)
+                    }, [
+                        React.createElement('h3', {
+                            key: 'title',
+                            className: 'section-title'
+                        }, title),
+                        React.createElement('span', {
+                            key: 'toggle',
+                            className: `section-toggle ${isExpanded ? 'expanded' : ''}`
+                        }, '▼')
+                    ]),
+                    React.createElement('div', {
+                        key: 'content',
+                        className: `section-content ${isExpanded ? 'expanded' : ''}`
+                    }, children)
+                ]);
+            };
 
             // Section management
             const addSection = useCallback(async (sectionData) => {
@@ -2267,18 +2730,17 @@
                         }, [
                             React.createElement('div', {
                                 key: 'view-toggle',
-                                className: 'flex bg-gray-100 rounded-lg p-1'
+                                className: 'view-toggle'
                             }, [
                                 ['desktop', '🖥️'],
-                                ['tablet', '📱'],
+                                ['tablet', '📱'], 
                                 ['mobile', '📱']
                             ].map(([mode, icon]) => 
                                 React.createElement('button', {
                                     key: mode,
-                                    className: `px-3 py-2 rounded flex items-center gap-2 transition-all ${
-                                        viewMode === mode ? 'bg-white shadow text-blue-600' : 'text-gray-600 hover:text-gray-800'
-                                    }`,
-                                    onClick: () => setViewMode(mode)
+                                    className: `view-toggle-btn ${viewMode === mode ? 'active' : ''}`,
+                                    onClick: () => handleViewModeChange(mode),
+                                    disabled: isViewSwitching
                                 }, [
                                     React.createElement('span', { key: 'icon' }, icon),
                                     React.createElement('span', { key: 'text' }, t(mode))
@@ -2317,71 +2779,59 @@
                         key: 'sidebar',
                         className: 'sidebar w-80 p-6 h-screen overflow-y-auto sticky top-16'
                     }, [
-                        // Restaurant Info
-                        React.createElement('div', {
+                        // Restaurant Info Section
+                        React.createElement(CustomizationSection, {
                             key: 'restaurant-info',
-                            className: 'mb-8'
+                            title: t('restaurantInfo'),
+                            sectionKey: 'info'
                         }, [
-                            React.createElement('h2', {
-                                key: 'title',
-                                className: 'font-bold text-lg mb-4 text-gray-800'
-                            }, t('restaurantInfo')),
-                            React.createElement('div', {
-                                key: 'fields',
-                                className: 'space-y-4'
-                            }, [
-                                React.createElement('div', { key: 'name' }, [
-                                    React.createElement('label', {
-                                        key: 'label',
-                                        className: 'block text-sm font-semibold text-gray-700 mb-2'
-                                    }, t('restaurantName')),
-                                    React.createElement('input', {
-                                        key: 'input',
-                                        type: 'text',
-                                        className: 'input-field',
-                                        value: menu.restaurantName,
-                                        onChange: (e) => setMenu(prev => ({...prev, restaurantName: e.target.value})),
-                                        placeholder: t('enterRestaurantName')
-                                    })
-                                ]),
-                                React.createElement('div', { key: 'tagline' }, [
-                                    React.createElement('label', {
-                                        key: 'label',
-                                        className: 'block text-sm font-semibold text-gray-700 mb-2'
-                                    }, t('tagline')),
-                                    React.createElement('input', {
-                                        key: 'input',
-                                        type: 'text',
-                                        className: 'input-field',
-                                        value: menu.tagline,
-                                        onChange: (e) => setMenu(prev => ({...prev, tagline: e.target.value})),
-                                        placeholder: t('enterTagline')
-                                    })
-                                ])
+                            React.createElement('div', { key: 'name', className: 'form-group' }, [
+                                React.createElement('label', {
+                                    key: 'label',
+                                    className: 'form-label'
+                                }, t('restaurantName')),
+                                React.createElement('input', {
+                                    key: 'input',
+                                    type: 'text',
+                                    className: 'input-field',
+                                    value: menu.restaurantName,
+                                    onChange: (e) => setMenu(prev => ({...prev, restaurantName: e.target.value})),
+                                    placeholder: t('enterRestaurantName')
+                                })
+                            ]),
+                            React.createElement('div', { key: 'tagline', className: 'form-group' }, [
+                                React.createElement('label', {
+                                    key: 'label',
+                                    className: 'form-label'
+                                }, t('tagline')),
+                                React.createElement('input', {
+                                    key: 'input',
+                                    type: 'text',
+                                    className: 'input-field',
+                                    value: menu.tagline,
+                                    onChange: (e) => setMenu(prev => ({...prev, tagline: e.target.value})),
+                                    placeholder: t('enterTagline')
+                                })
                             ])
                         ]),
 
-                        // Design Settings
-                        React.createElement('div', {
+                        // Design Settings Section
+                        React.createElement(CustomizationSection, {
                             key: 'design',
-                            className: 'mb-8'
+                            title: t('design'),
+                            sectionKey: 'design'
                         }, [
-                            React.createElement('h2', {
-                                key: 'title',
-                                className: 'font-bold text-lg mb-4 text-gray-800'
-                            }, t('design')),
-                            React.createElement('div', {
-                                key: 'fields',
-                                className: 'space-y-4'
-                            }, [
-                                React.createElement('div', { key: 'color' }, [
-                                    React.createElement('label', {
-                                        key: 'label',
-                                        className: 'block text-sm font-semibold text-gray-700 mb-2'
-                                    }, t('colorScheme')),
+                            React.createElement('div', { key: 'color', className: 'form-group' }, [
+                                React.createElement('label', {
+                                    key: 'label',
+                                    className: 'form-label'
+                                }, t('colorScheme')),
+                                React.createElement('div', {
+                                    key: 'select-wrapper',
+                                    className: 'enhanced-select'
+                                }, [
                                     React.createElement('select', {
                                         key: 'select',
-                                        className: 'input-field',
                                         value: menu.colorScheme,
                                         onChange: (e) => setMenu(prev => ({...prev, colorScheme: e.target.value}))
                                     }, [
@@ -2390,15 +2840,19 @@
                                         React.createElement('option', { key: 'amber', value: 'amber' }, 'Amber Gold'),
                                         React.createElement('option', { key: 'rose', value: 'rose' }, 'Rose Pink')
                                     ])
-                                ]),
-                                React.createElement('div', { key: 'font' }, [
-                                    React.createElement('label', {
-                                        key: 'label',
-                                        className: 'block text-sm font-semibold text-gray-700 mb-2'
-                                    }, t('fontFamily')),
+                                ])
+                            ]),
+                            React.createElement('div', { key: 'font', className: 'form-group' }, [
+                                React.createElement('label', {
+                                    key: 'label',
+                                    className: 'form-label'
+                                }, t('fontFamily')),
+                                React.createElement('div', {
+                                    key: 'select-wrapper',
+                                    className: 'enhanced-select'
+                                }, [
                                     React.createElement('select', {
                                         key: 'select',
-                                        className: 'input-field',
                                         value: menu.fontFamily,
                                         onChange: (e) => setMenu(prev => ({...prev, fontFamily: e.target.value}))
                                     }, [
@@ -2411,15 +2865,15 @@
                         ]),
 
                         // Sections
-                        React.createElement('div', { key: 'sections' }, [
+                        React.createElement(CustomizationSection, {
+                            key: 'sections',
+                            title: t('sections'),
+                            sectionKey: 'sections'
+                        }, [
                             React.createElement('div', {
                                 key: 'header',
-                                className: 'flex items-center justify-between mb-4'
+                                className: 'flex justify-end mb-4'
                             }, [
-                                React.createElement('h2', {
-                                    key: 'title',
-                                    className: 'font-bold text-lg text-gray-800'
-                                }, t('sections')),
                                 React.createElement('button', {
                                     key: 'add',
                                     className: 'btn btn-primary text-sm',
@@ -2550,13 +3004,33 @@
                         key: 'preview',
                         className: 'preview-area flex-1 p-6 overflow-y-auto'
                     }, [
-                        React.createElement(MenuPreview, {
-                            key: 'preview-component',
-                            menu: menu,
-                            sections: sections,
-                            viewMode: viewMode,
-                            language: language
-                        })
+                        React.createElement('div', {
+                            key: 'preview-container',
+                            className: `preview-container ${isViewSwitching ? 'view-switching' : ''}`
+                        }, [
+                            React.createElement('div', {
+                                key: 'device',
+                                className: `preview-device ${viewMode}`
+                            }, [
+                                React.createElement('div', {
+                                    key: 'screen',
+                                    className: 'preview-screen'
+                                }, [
+                                    React.createElement('div', {
+                                        key: 'content',
+                                        className: 'preview-content'
+                                    }, [
+                                        React.createElement(MenuPreview, {
+                                            key: 'preview-component',
+                                            menu: menu,
+                                            sections: sections,
+                                            viewMode: viewMode,
+                                            language: language
+                                        })
+                                    ])
+                                ])
+                            ])
+                        ])
                     ])
                 ]),
 
@@ -2584,13 +3058,30 @@
             ]);
         }
 
-        // Language Toggle Component
+        // Enhanced Language Toggle Component
         function LanguageToggle() {
             const { language, toggleLanguage } = useLanguage();
+            const [isAnimating, setIsAnimating] = useState(false);
+            
+            const handleToggle = () => {
+                if (isAnimating) return;
+                
+                setIsAnimating(true);
+                
+                // Add language switch animation to body
+                document.body.classList.add('language-switch');
+                
+                setTimeout(() => {
+                    toggleLanguage();
+                    setIsAnimating(false);
+                    document.body.classList.remove('language-switch');
+                }, 200);
+            };
             
             return React.createElement('button', {
-                className: 'language-toggle',
-                onClick: toggleLanguage
+                className: `language-toggle ${isAnimating ? 'language-switch' : ''}`,
+                onClick: handleToggle,
+                disabled: isAnimating
             }, language === 'en' ? '🇸🇦 العربية' : '🇺🇸 English');
         }
 
@@ -2609,37 +3100,369 @@
             ));
         }
 
-        // Main App Component
-        function App() {
-            const [currentStep, setCurrentStep] = useState('template');
+        // Step management with guided flow
+        const STEPS = {
+            LANDING: 'landing',
+            AUTH: 'auth', 
+            TEMPLATE: 'template',
+            EDITOR: 'editor',
+            PREVIEW: 'preview',
+            SHARE: 'share'
+        };
+
+        // Landing Page Component
+        function LandingPage({ onContinue }) {
+            const { t, isRTL } = useLanguage();
+            
+            return React.createElement('div', {
+                className: `screen min-h-screen flex items-center justify-center p-8 ${isRTL ? 'rtl' : ''}`,
+                dir: isRTL ? 'rtl' : 'ltr'
+            }, [
+                React.createElement('div', {
+                    key: 'content',
+                    className: 'text-center max-w-4xl mx-auto animate-fade-in'
+                }, [
+                    React.createElement('div', {
+                        key: 'hero-icon',
+                        className: 'text-8xl mb-8 animate-bounce'
+                    }, '🍽️'),
+                    
+                    React.createElement('h1', {
+                        key: 'title',
+                        className: 'text-6xl font-bold text-white mb-6 leading-tight'
+                    }, t('title')),
+                    
+                    React.createElement('p', {
+                        key: 'subtitle',
+                        className: 'text-xl text-white opacity-90 mb-12 max-w-2xl mx-auto leading-relaxed'
+                    }, t('subtitle')),
+                    
+                    React.createElement('div', {
+                        key: 'features',
+                        className: 'grid grid-cols-1 md:grid-cols-3 gap-8 mb-12'
+                    }, [
+                        ['🎨', 'Beautiful Templates', 'Choose from professionally designed templates'],
+                        ['🌐', 'Multilingual Support', 'Support for Arabic and English with RTL'],
+                        ['📱', 'Mobile Friendly', 'Perfect on all devices and screen sizes']
+                    ].map(([icon, title, desc], index) => 
+                        React.createElement('div', {
+                            key: index,
+                            className: 'glass-effect p-6 rounded-2xl animate-slide-up',
+                            style: { animationDelay: `${index * 200}ms` }
+                        }, [
+                            React.createElement('div', {
+                                key: 'icon',
+                                className: 'text-4xl mb-4'
+                            }, icon),
+                            React.createElement('h3', {
+                                key: 'title',
+                                className: 'text-xl font-bold text-white mb-2'
+                            }, title),
+                            React.createElement('p', {
+                                key: 'desc',
+                                className: 'text-white opacity-80'
+                            }, desc)
+                        ])
+                    )),
+                    
+                    React.createElement('button', {
+                        key: 'cta',
+                        className: 'btn btn-primary text-xl px-12 py-6',
+                        onClick: onContinue
+                    }, t('getStarted'))
+                ])
+            ]);
+        }
+
+        // Auth Page Component (simplified for demo)
+        function AuthPage({ onContinue }) {
+            const { t, isRTL } = useLanguage();
+            const [userName, setUserName] = useState('');
+            
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                if (userName.trim()) {
+                    storage.save('userName', userName);
+                    onContinue();
+                }
+            };
+            
+            return React.createElement('div', {
+                className: `screen min-h-screen flex items-center justify-center p-8 ${isRTL ? 'rtl' : ''}`,
+                dir: isRTL ? 'rtl' : 'ltr'
+            }, [
+                React.createElement('div', {
+                    key: 'content',
+                    className: 'bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl animate-slide-up'
+                }, [
+                    React.createElement('div', {
+                        key: 'header',
+                        className: 'text-center mb-8'
+                    }, [
+                        React.createElement('div', {
+                            key: 'icon',
+                            className: 'text-5xl mb-4'
+                        }, '👋'),
+                        React.createElement('h2', {
+                            key: 'title',
+                            className: 'text-2xl font-bold text-gray-800 mb-2'
+                        }, 'Welcome!'),
+                        React.createElement('p', {
+                            key: 'subtitle',
+                            className: 'text-gray-600'
+                        }, 'Enter your name to get started')
+                    ]),
+                    
+                    React.createElement('form', {
+                        key: 'form',
+                        onSubmit: handleSubmit,
+                        className: 'space-y-6'
+                    }, [
+                        React.createElement('div', { key: 'input-group' }, [
+                            React.createElement('label', {
+                                key: 'label',
+                                className: 'block text-sm font-semibold text-gray-700 mb-2'
+                            }, 'Your Name'),
+                            React.createElement('input', {
+                                key: 'input',
+                                type: 'text',
+                                className: 'input-field',
+                                value: userName,
+                                onChange: (e) => setUserName(e.target.value),
+                                placeholder: 'Enter your name',
+                                required: true
+                            })
+                        ]),
+                        
+                        React.createElement('button', {
+                            key: 'submit',
+                            type: 'submit',
+                            className: 'btn btn-primary w-full',
+                            disabled: !userName.trim()
+                        }, 'Continue to Templates')
+                    ])
+                ])
+            ]);
+        }
+
+        // Enhanced Template Selection with animation
+        function EnhancedTemplateSelection({ onSelectTemplate }) {
+            const { t, isRTL } = useLanguage();
             const [selectedTemplate, setSelectedTemplate] = useState(null);
+            const [isSelecting, setIsSelecting] = useState(false);
+
+            const handleSelectTemplate = (template) => {
+                if (isSelecting) return;
+                
+                setSelectedTemplate(template.id);
+                setIsSelecting(true);
+                
+                // Add selecting animation
+                setTimeout(() => {
+                    onSelectTemplate(template);
+                }, 800);
+            };
+
+            return React.createElement('div', {
+                className: `screen min-h-screen p-8 ${isRTL ? 'rtl' : ''}`,
+                dir: isRTL ? 'rtl' : 'ltr'
+            }, [
+                React.createElement('div', {
+                    key: 'header',
+                    className: 'text-center mb-16 animate-fade-in'
+                }, [
+                    React.createElement('h1', {
+                        key: 'title',
+                        className: 'text-5xl font-bold text-white mb-6'
+                    }, t('selectTemplate')),
+                    React.createElement('p', {
+                        key: 'subtitle',
+                        className: 'text-xl text-white opacity-90 max-w-2xl mx-auto'
+                    }, 'Choose a template that matches your restaurant style')
+                ]),
+                
+                React.createElement('div', {
+                    key: 'templates',
+                    className: 'max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'
+                }, templates.map((template, index) => 
+                    React.createElement('div', {
+                        key: template.id,
+                        className: `template-card bg-white rounded-2xl overflow-hidden shadow-xl template-card-content ${
+                            selectedTemplate === template.id ? 'selected template-selecting' : ''
+                        }`,
+                        style: { animationDelay: `${index * 150}ms` },
+                        onClick: () => handleSelectTemplate(template)
+                    }, [
+                        React.createElement('div', {
+                            key: 'preview',
+                            className: 'h-64 relative overflow-hidden',
+                            style: { background: template.preview.headerBg }
+                        }, [
+                            React.createElement('div', {
+                                key: 'mock-header',
+                                className: 'absolute top-0 left-0 right-0 h-16 flex items-center justify-center text-white font-bold text-lg',
+                                style: { fontFamily: template.preview.typography }
+                            }, 'Restaurant Name'),
+                            
+                            React.createElement('div', {
+                                key: 'mock-content',
+                                className: 'absolute bottom-0 left-0 right-0 bg-white p-4 space-y-2'
+                            }, [
+                                React.createElement('div', {
+                                    key: 'section',
+                                    className: 'font-semibold text-gray-800 text-sm'
+                                }, 'Main Courses'),
+                                React.createElement('div', {
+                                    key: 'item1',
+                                    className: 'flex justify-between items-center text-xs'
+                                }, [
+                                    React.createElement('span', { key: 'name' }, 'Grilled Salmon'),
+                                    React.createElement('span', { key: 'price' }, '$24')
+                                ]),
+                                React.createElement('div', {
+                                    key: 'item2',
+                                    className: 'flex justify-between items-center text-xs'
+                                }, [
+                                    React.createElement('span', { key: 'name' }, 'Pasta Primavera'),
+                                    React.createElement('span', { key: 'price' }, '$18')
+                                ])
+                            ])
+                        ]),
+                        
+                        React.createElement('div', {
+                            key: 'content',
+                            className: 'p-6'
+                        }, [
+                            React.createElement('h3', {
+                                key: 'name',
+                                className: 'text-xl font-bold mb-2'
+                            }, t(template.name.toLowerCase())),
+                            React.createElement('p', {
+                                key: 'desc',
+                                className: 'text-gray-600 text-sm mb-4'
+                            }, t(template.name.toLowerCase() + 'Desc')),
+                            
+                            React.createElement('div', {
+                                key: 'features',
+                                className: 'space-y-2 mb-6'
+                            }, [
+                                React.createElement('div', {
+                                    key: 'color',
+                                    className: 'flex items-center text-sm text-gray-600'
+                                }, [
+                                    React.createElement('div', {
+                                        key: 'swatch',
+                                        className: 'w-3 h-3 rounded-full mr-2',
+                                        style: { backgroundColor: template.preview.accentColor }
+                                    }),
+                                    React.createElement('span', { key: 'label' }, 'Color Scheme')
+                                ]),
+                                React.createElement('div', {
+                                    key: 'font',
+                                    className: 'flex items-center text-sm text-gray-600'
+                                }, [
+                                    React.createElement('span', { key: 'icon', className: 'mr-2' }, '✨'),
+                                    React.createElement('span', { key: 'label' }, template.preview.typography)
+                                ])
+                            ]),
+                            
+                            React.createElement('button', {
+                                key: 'button',
+                                className: 'btn btn-primary w-full',
+                                disabled: isSelecting
+                            }, selectedTemplate === template.id ? 'Selected ✓' : t('useTemplate'))
+                        ])
+                    ])
+                ))
+            ]);
+        }
+
+        // Main App Component with guided flow
+        function App() {
+            const [currentStep, setCurrentStep] = useState(STEPS.LANDING);
+            const [selectedTemplate, setSelectedTemplate] = useState(null);
+            const [completedSteps, setCompletedSteps] = useState(new Set());
+            const [isTransitioning, setIsTransitioning] = useState(false);
+
+            // Step transition with animation
+            const transitionToStep = useCallback((nextStep) => {
+                if (isTransitioning) return;
+                
+                setIsTransitioning(true);
+                
+                // Add fade out animation
+                setTimeout(() => {
+                    setCurrentStep(nextStep);
+                    setCompletedSteps(prev => new Set([...prev, currentStep]));
+                    setIsTransitioning(false);
+                }, 300);
+            }, [currentStep, isTransitioning]);
+
+            // Step handlers
+            const handleLandingContinue = () => {
+                transitionToStep(STEPS.AUTH);
+            };
+
+            const handleAuthContinue = () => {
+                transitionToStep(STEPS.TEMPLATE);
+            };
 
             const handleSelectTemplate = (template) => {
                 setSelectedTemplate(template);
-                setCurrentStep('editor');
+                transitionToStep(STEPS.EDITOR);
             };
 
             const handleBackToTemplates = () => {
-                setCurrentStep('template');
+                transitionToStep(STEPS.TEMPLATE);
                 setSelectedTemplate(null);
-                // Clear saved data
                 storage.remove('currentMenu');
                 storage.remove('currentSections');
             };
 
-            return React.createElement('div', { className: 'min-h-screen' }, [
-                React.createElement(LanguageToggle, { key: 'lang-toggle' }),
-                React.createElement(ToastContainer, { key: 'toasts' }),
-                React.createElement('div', { key: 'content' },
-                    currentStep === 'template' 
-                        ? React.createElement(TemplateSelection, {
+            // Prevent skipping steps
+            const canAccessStep = (step) => {
+                const stepOrder = [STEPS.LANDING, STEPS.AUTH, STEPS.TEMPLATE, STEPS.EDITOR];
+                const stepIndex = stepOrder.indexOf(step);
+                const currentIndex = stepOrder.indexOf(currentStep);
+                
+                return stepIndex <= currentIndex + 1;
+            };
+
+            const renderCurrentStep = () => {
+                switch (currentStep) {
+                    case STEPS.LANDING:
+                        return React.createElement(LandingPage, {
+                            onContinue: handleLandingContinue
+                        });
+                    case STEPS.AUTH:
+                        return React.createElement(AuthPage, {
+                            onContinue: handleAuthContinue
+                        });
+                    case STEPS.TEMPLATE:
+                        return React.createElement(EnhancedTemplateSelection, {
                             onSelectTemplate: handleSelectTemplate
-                        })
-                        : React.createElement(MenuEditor, {
+                        });
+                    case STEPS.EDITOR:
+                        return React.createElement(MenuEditor, {
                             template: selectedTemplate,
                             onBack: handleBackToTemplates
-                        })
-                )
+                        });
+                    default:
+                        return React.createElement(LandingPage, {
+                            onContinue: handleLandingContinue
+                        });
+                }
+            };
+
+            return React.createElement('div', { 
+                className: `min-h-screen ${isTransitioning ? 'language-switch' : ''}` 
+            }, [
+                React.createElement(LanguageToggle, { key: 'lang-toggle' }),
+                React.createElement(ToastContainer, { key: 'toasts' }),
+                React.createElement('div', { 
+                    key: 'content',
+                    className: currentStep !== STEPS.LANDING ? 'fade-in' : ''
+                }, renderCurrentStep())
             ]);
         }
 
