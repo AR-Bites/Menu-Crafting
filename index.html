@@ -14,7 +14,7 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Arabic:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
@@ -2516,7 +2516,7 @@
                 // Section fields
                 sectionName: "اسم القسم (إنجليزي)",
                 sectionNameAr: "اسم القسم (عربي)",
-                sectionDesc: "وصف القسم (إنجليزي)",
+                sectionDesc: "وصف القسم (إنج �يزي)",
                 sectionDescAr: "وصف القسم (عربي)",
                 
                 // Validation
@@ -3901,15 +3901,15 @@
                     
                     addToast('Generating PDF...', 'info');
                     
-                    // Check if html2pdf is available
-                    if (typeof html2pdf === 'undefined') {
+                    // Check if jsPDF is available
+                    if (typeof window.jsPDF === 'undefined') {
                         addToast('PDF library not loaded. Please refresh the page and try again.', 'error');
                         return;
                     }
                     
                     console.log('Starting PDF generation with menu data:', menu);
                     
-                    // Build menu content from actual data instead of DOM cloning
+                    // Build menu content from actual data
                     const sections = menu.sections || [];
                     
                     if (!sections.length) {
@@ -3917,141 +3917,145 @@
                         return;
                     }
 
-                    // Create PDF container with proper A4 styling
-                    const pdfContainer = document.createElement('div');
-                    pdfContainer.style.cssText = `
-                        position: absolute;
-                        top: -9999px;
-                        left: -9999px;
-                        width: 794px;
-                        min-height: 1123px;
-                        background: white;
-                        padding: 40px;
-                        box-sizing: border-box;
-                        font-family: 'Inter', sans-serif;
-                        color: #1a1a1a;
-                        line-height: 1.6;
-                    `;
-
+                    // Create new PDF document
+                    const { jsPDF } = window.jsPDF;
+                    const doc = new jsPDF();
+                    
                     // Get template colors
                     const colorScheme = menu.designConfig?.colorScheme || 'indigo';
                     const colors = {
-                        indigo: { primary: '#4f46e5', light: '#e0e7ff', dark: '#1e1b4b' },
-                        emerald: { primary: '#059669', light: '#d1fae5', dark: '#064e3b' },
-                        amber: { primary: '#d97706', light: '#fef3c7', dark: '#92400e' },
-                        rose: { primary: '#e11d48', light: '#fce7f3', dark: '#9f1239' }
+                        indigo: { primary: [79, 70, 229], dark: [30, 27, 75] },
+                        emerald: { primary: [5, 150, 105], dark: [6, 78, 59] },
+                        amber: { primary: [217, 119, 6], dark: [146, 64, 14] },
+                        rose: { primary: [225, 29, 72], dark: [159, 18, 57] }
                     }[colorScheme];
 
-                    // Build HTML content from menu data
-                    let htmlContent = `
-                        <div style="text-align: center; margin-bottom: 40px; border-bottom: 3px solid ${colors.primary}; padding-bottom: 20px;">
-                            <h1 style="font-size: 36px; font-weight: 700; color: ${colors.primary}; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px;">
-                                ${menu.restaurantName || 'Restaurant Menu'}
-                            </h1>
-                            ${menu.tagline ? `<p style="font-size: 18px; color: ${colors.dark}; margin: 0; font-style: italic;">${menu.tagline}</p>` : ''}
-                        </div>
-                    `;
+                    let yPosition = 30;
+                    const pageWidth = doc.internal.pageSize.getWidth();
+                    const margin = 20;
+                    const contentWidth = pageWidth - (margin * 2);
 
-                    // Add each section
+                    // Add header
+                    doc.setTextColor(...colors.primary);
+                    doc.setFontSize(24);
+                    doc.setFont(undefined, 'bold');
+                    const title = menu.restaurantName || 'Restaurant Menu';
+                    const titleWidth = doc.getTextWidth(title);
+                    doc.text(title, (pageWidth - titleWidth) / 2, yPosition);
+                    yPosition += 10;
+
+                    if (menu.tagline) {
+                        doc.setTextColor(...colors.dark);
+                        doc.setFontSize(12);
+                        doc.setFont(undefined, 'italic');
+                        const taglineWidth = doc.getTextWidth(menu.tagline);
+                        doc.text(menu.tagline, (pageWidth - taglineWidth) / 2, yPosition);
+                        yPosition += 15;
+                    }
+
+                    // Add line separator
+                    doc.setDrawColor(...colors.primary);
+                    doc.setLineWidth(1);
+                    doc.line(margin, yPosition, pageWidth - margin, yPosition);
+                    yPosition += 20;
+
+                    // Add sections
                     sections.forEach(section => {
-                        htmlContent += `
-                            <div style="margin-bottom: 35px; page-break-inside: avoid;">
-                                <h2 style="font-size: 24px; font-weight: 600; color: ${colors.dark}; margin: 0 0 20px 0; padding: 10px 0; border-bottom: 2px solid ${colors.light};">
-                                    ${section.name || 'Menu Section'}
-                                </h2>
-                                ${section.description ? `<p style="font-size: 14px; color: #666; margin: 0 0 15px 0; font-style: italic;">${section.description}</p>` : ''}
-                        `;
+                        // Check if we need a new page
+                        if (yPosition > 250) {
+                            doc.addPage();
+                            yPosition = 30;
+                        }
 
-                        // Add items for this section
+                        // Section title
+                        doc.setTextColor(...colors.dark);
+                        doc.setFontSize(16);
+                        doc.setFont(undefined, 'bold');
+                        doc.text(section.name || 'Menu Section', margin, yPosition);
+                        yPosition += 8;
+
+                        // Section description
+                        if (section.description) {
+                            doc.setTextColor(100, 100, 100);
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'italic');
+                            const lines = doc.splitTextToSize(section.description, contentWidth);
+                            doc.text(lines, margin, yPosition);
+                            yPosition += lines.length * 4 + 5;
+                        }
+
+                        // Section separator
+                        doc.setDrawColor(...colors.primary);
+                        doc.setLineWidth(0.5);
+                        doc.line(margin, yPosition, pageWidth - margin, yPosition);
+                        yPosition += 10;
+
+                        // Add items
                         if (section.items && section.items.length > 0) {
                             section.items.forEach(item => {
+                                // Check if we need a new page
+                                if (yPosition > 270) {
+                                    doc.addPage();
+                                    yPosition = 30;
+                                }
+
+                                // Item name
+                                doc.setTextColor(0, 0, 0);
+                                doc.setFontSize(12);
+                                doc.setFont(undefined, 'bold');
+                                let itemName = item.name || 'Menu Item';
+                                if (item.isSpicy) itemName += ' 🌶️';
+                                if (item.isVegetarian) itemName += ' 🌱';
+                                doc.text(itemName, margin, yPosition);
+
+                                // Price
                                 const price = parseFloat(item.price || '0');
-                                const formattedPrice = isNaN(price) ? '0.00' : price.toFixed(2);
-                                
-                                htmlContent += `
-                                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; padding: 15px 0; border-bottom: 1px dotted #ccc;">
-                                        <div style="flex: 1; margin-right: 20px;">
-                                            <h3 style="font-size: 18px; font-weight: 500; color: #1a1a1a; margin: 0 0 8px 0;">
-                                                ${item.name || 'Menu Item'}
-                                                ${item.isSpicy ? ' 🌶️' : ''}
-                                                ${item.isVegetarian ? ' 🌱' : ''}
-                                            </h3>
-                                            ${item.description ? `<p style="font-size: 14px; color: #666; margin: 0; line-height: 1.5;">${item.description}</p>` : ''}
-                                        </div>
-                                        <div style="font-size: 18px; font-weight: 600; color: ${colors.primary}; white-space: nowrap;">
-                                            $${formattedPrice}
-                                        </div>
-                                    </div>
-                                `;
+                                const formattedPrice = `$${isNaN(price) ? '0.00' : price.toFixed(2)}`;
+                                doc.setTextColor(...colors.primary);
+                                doc.setFont(undefined, 'bold');
+                                const priceWidth = doc.getTextWidth(formattedPrice);
+                                doc.text(formattedPrice, pageWidth - margin - priceWidth, yPosition);
+                                yPosition += 6;
+
+                                // Item description
+                                if (item.description) {
+                                    doc.setTextColor(80, 80, 80);
+                                    doc.setFontSize(10);
+                                    doc.setFont(undefined, 'normal');
+                                    const lines = doc.splitTextToSize(item.description, contentWidth - 40);
+                                    doc.text(lines, margin, yPosition);
+                                    yPosition += lines.length * 4;
+                                }
+
+                                yPosition += 8;
                             });
                         }
 
-                        htmlContent += '</div>';
+                        yPosition += 10;
                     });
 
                     // Add footer
-                    htmlContent += `
-                        <div style="margin-top: 40px; text-align: center; padding-top: 20px; border-top: 2px solid ${colors.light}; color: #888; font-size: 12px;">
-                            Generated on ${new Date().toLocaleDateString()}
-                        </div>
-                    `;
+                    const pageCount = doc.internal.getNumberOfPages();
+                    for (let i = 1; i <= pageCount; i++) {
+                        doc.setPage(i);
+                        doc.setTextColor(150, 150, 150);
+                        doc.setFontSize(8);
+                        doc.setFont(undefined, 'normal');
+                        const footerText = `Generated on ${new Date().toLocaleDateString()}`;
+                        const footerWidth = doc.getTextWidth(footerText);
+                        doc.text(footerText, (pageWidth - footerWidth) / 2, 285);
+                    }
 
-                    pdfContainer.innerHTML = htmlContent;
-                    document.body.appendChild(pdfContainer);
-
-                    console.log('PDF content created, element:', pdfContainer);
-
-                    // Configure PDF options
-                    const opt = {
-                        margin: 10,
-                        filename: `${(menu.restaurantName || 'menu').replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-')}.pdf`,
-                        image: { type: 'jpeg', quality: 0.98 },
-                        html2canvas: { 
-                            scale: 2,
-                            useCORS: true,
-                            allowTaint: true,
-                            backgroundColor: '#ffffff',
-                            logging: false
-                        },
-                        jsPDF: { 
-                            unit: 'mm', 
-                            format: 'a4', 
-                            orientation: 'portrait'
-                        }
-                    };
-
-                    // Generate PDF with proper async handling
-                    console.log('Calling html2pdf with options:', opt);
-                    await new Promise((resolve, reject) => {
-                        html2pdf()
-                            .set(opt)
-                            .from(pdfContainer)
-                            .save()
-                            .then(() => {
-                                console.log('PDF generation completed successfully');
-                                resolve();
-                            })
-                            .catch((error) => {
-                                console.error('PDF generation error:', error);
-                                reject(error);
-                            });
-                    });
+                    // Save the PDF
+                    const filename = `${(menu.restaurantName || 'menu').replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-')}.pdf`;
+                    doc.save(filename);
                     
-                    // Cleanup
-                    document.body.removeChild(pdfContainer);
                     addToast('PDF downloaded successfully!', 'success');
+                    console.log('PDF generation completed successfully');
                     
                 } catch (error) {
                     console.error('PDF generation failed:', error);
                     addToast(`Failed to generate PDF: ${error.message}`, 'error');
-                    
-                    // Cleanup on error
-                    const containers = document.querySelectorAll('div[style*="position: absolute"][style*="top: -9999px"]');
-                    containers.forEach(container => {
-                        if (container.parentNode) {
-                            container.parentNode.removeChild(container);
-                        }
-                    });
                 }
             };
 
