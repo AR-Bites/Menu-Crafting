@@ -2516,7 +2516,7 @@
                 // Section fields
                 sectionName: "اسم القسم (إنجليزي)",
                 sectionNameAr: "اسم القسم (عربي)",
-                sectionDesc: "وصف القسم (إنج �يزي)",
+                sectionDesc: "وصف القسم (إنجليزي)",
                 sectionDescAr: "وصف القسم (عربي)",
                 
                 // Validation
@@ -4168,7 +4168,10 @@
                             React.createElement('button', {
                                 key: 'pdf-download',
                                 className: 'btn btn-primary w-full flex items-center justify-center gap-2',
-                                onClick: downloadMenuAsPDF
+                                onClick: (e) => {
+                                    console.log('PDF button clicked');
+                                    downloadMenuAsPDF(e);
+                                }
                             }, [
                                 React.createElement('span', { key: 'icon' }, '📄'),
                                 React.createElement('span', { key: 'text' }, isRTL ? 'تحميل القائمة كـ PDF' : 'Download Menu as PDF')
