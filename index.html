@@ -14,7 +14,7 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Arabic:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
@@ -3902,7 +3902,7 @@
                     addToast('Generating PDF...', 'info');
                     
                     // Check if jsPDF is available
-                    if (typeof window.jsPDF === 'undefined') {
+                    if (typeof window.jspdf === 'undefined' && typeof jsPDF === 'undefined') {
                         addToast('PDF library not loaded. Please refresh the page and try again.', 'error');
                         return;
                     }
@@ -3918,8 +3918,7 @@
                     }
 
                     // Create new PDF document
-                    const { jsPDF } = window.jsPDF;
-                    const doc = new jsPDF();
+                    const doc = new (window.jspdf?.jsPDF || jsPDF)();
                     
                     // Get template colors
                     const colorScheme = menu.designConfig?.colorScheme || 'indigo';
