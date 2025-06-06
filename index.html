@@ -14,7 +14,7 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
-    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Arabic:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
@@ -3891,171 +3891,155 @@
                 }
             };
 
-            const downloadMenuAsPDF = async (event) => {
+            const downloadMenuAsPDF = async () => {
                 try {
-                    // Prevent multiple clicks
-                    if (event) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    
                     addToast('Generating PDF...', 'info');
                     
-                    // Check if jsPDF is available
-                    if (typeof window.jspdf === 'undefined' && typeof jsPDF === 'undefined') {
-                        addToast('PDF library not loaded. Please refresh the page and try again.', 'error');
-                        return;
-                    }
+                    // Create a clean, full-page PDF version of the menu
+                    const pdfContent = createPDFMenuContent(menu);
                     
-                    console.log('Starting PDF generation with menu data:', menu);
-                    
-                    // Build menu content from actual data
-                    const sections = menu.sections || [];
-                    
-                    if (!sections.length) {
-                        addToast('No menu sections found. Please add content to your menu first.', 'error');
-                        return;
-                    }
+                    // Create a temporary container for PDF generation
+                    const tempContainer = document.createElement('div');
+                    tempContainer.innerHTML = pdfContent;
+                    tempContainer.style.cssText = `
+                        position: fixed;
+                        top: -10000px;
+                        left: -10000px;
+                        width: 8.27in;
+                        min-height: 11.69in;
+                        background: white;
+                        font-family: ${getFontFamily()};
+                        color: black;
+                        padding: 0.75in;
+                        box-sizing: border-box;
+                        z-index: -1;
+                    `;
+                    document.body.appendChild(tempContainer);
 
-                    // Create new PDF document
-                    const doc = new (window.jspdf?.jsPDF || jsPDF)();
-                    
-                    // Get template colors
-                    const colorScheme = menu.designConfig?.colorScheme || 'indigo';
-                    const colors = {
-                        indigo: { primary: [79, 70, 229], dark: [30, 27, 75] },
-                        emerald: { primary: [5, 150, 105], dark: [6, 78, 59] },
-                        amber: { primary: [217, 119, 6], dark: [146, 64, 14] },
-                        rose: { primary: [225, 29, 72], dark: [159, 18, 57] }
-                    }[colorScheme];
-
-                    let yPosition = 30;
-                    const pageWidth = doc.internal.pageSize.getWidth();
-                    const margin = 20;
-                    const contentWidth = pageWidth - (margin * 2);
-
-                    // Add header
-                    doc.setTextColor(...colors.primary);
-                    doc.setFontSize(24);
-                    doc.setFont(undefined, 'bold');
-                    const title = menu.restaurantName || 'Restaurant Menu';
-                    const titleWidth = doc.getTextWidth(title);
-                    doc.text(title, (pageWidth - titleWidth) / 2, yPosition);
-                    yPosition += 10;
-
-                    if (menu.tagline) {
-                        doc.setTextColor(...colors.dark);
-                        doc.setFontSize(12);
-                        doc.setFont(undefined, 'italic');
-                        const taglineWidth = doc.getTextWidth(menu.tagline);
-                        doc.text(menu.tagline, (pageWidth - taglineWidth) / 2, yPosition);
-                        yPosition += 15;
-                    }
-
-                    // Add line separator
-                    doc.setDrawColor(...colors.primary);
-                    doc.setLineWidth(1);
-                    doc.line(margin, yPosition, pageWidth - margin, yPosition);
-                    yPosition += 20;
-
-                    // Add sections
-                    sections.forEach(section => {
-                        // Check if we need a new page
-                        if (yPosition > 250) {
-                            doc.addPage();
-                            yPosition = 30;
+                    // Configure PDF options for professional output
+                    const opt = {
+                        margin: 0,
+                        filename: `${menu.restaurantName?.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-') || 'menu'}.pdf`,
+                        image: { type: 'jpeg', quality: 0.98 },
+                        html2canvas: { 
+                            scale: 2,
+                            useCORS: true,
+                            allowTaint: true,
+                            backgroundColor: '#ffffff',
+                            logging: false,
+                            width: 595, // A4 width in pixels at 72 DPI
+                            height: 842, // A4 height in pixels at 72 DPI
+                            scrollX: 0,
+                            scrollY: 0,
+                            windowWidth: 595,
+                            windowHeight: 842
+                        },
+                        jsPDF: { 
+                            unit: 'pt', 
+                            format: 'a4', 
+                            orientation: 'portrait',
+                            compress: true
                         }
+                    };
 
-                        // Section title
-                        doc.setTextColor(...colors.dark);
-                        doc.setFontSize(16);
-                        doc.setFont(undefined, 'bold');
-                        doc.text(section.name || 'Menu Section', margin, yPosition);
-                        yPosition += 8;
-
-                        // Section description
-                        if (section.description) {
-                            doc.setTextColor(100, 100, 100);
-                            doc.setFontSize(10);
-                            doc.setFont(undefined, 'italic');
-                            const lines = doc.splitTextToSize(section.description, contentWidth);
-                            doc.text(lines, margin, yPosition);
-                            yPosition += lines.length * 4 + 5;
-                        }
-
-                        // Section separator
-                        doc.setDrawColor(...colors.primary);
-                        doc.setLineWidth(0.5);
-                        doc.line(margin, yPosition, pageWidth - margin, yPosition);
-                        yPosition += 10;
-
-                        // Add items
-                        if (section.items && section.items.length > 0) {
-                            section.items.forEach(item => {
-                                // Check if we need a new page
-                                if (yPosition > 270) {
-                                    doc.addPage();
-                                    yPosition = 30;
-                                }
-
-                                // Item name
-                                doc.setTextColor(0, 0, 0);
-                                doc.setFontSize(12);
-                                doc.setFont(undefined, 'bold');
-                                let itemName = item.name || 'Menu Item';
-                                if (item.isSpicy) itemName += ' 🌶️';
-                                if (item.isVegetarian) itemName += ' 🌱';
-                                doc.text(itemName, margin, yPosition);
-
-                                // Price
-                                const price = parseFloat(item.price || '0');
-                                const formattedPrice = `$${isNaN(price) ? '0.00' : price.toFixed(2)}`;
-                                doc.setTextColor(...colors.primary);
-                                doc.setFont(undefined, 'bold');
-                                const priceWidth = doc.getTextWidth(formattedPrice);
-                                doc.text(formattedPrice, pageWidth - margin - priceWidth, yPosition);
-                                yPosition += 6;
-
-                                // Item description
-                                if (item.description) {
-                                    doc.setTextColor(80, 80, 80);
-                                    doc.setFontSize(10);
-                                    doc.setFont(undefined, 'normal');
-                                    const lines = doc.splitTextToSize(item.description, contentWidth - 40);
-                                    doc.text(lines, margin, yPosition);
-                                    yPosition += lines.length * 4;
-                                }
-
-                                yPosition += 8;
-                            });
-                        }
-
-                        yPosition += 10;
-                    });
-
-                    // Add footer
-                    const pageCount = doc.internal.getNumberOfPages();
-                    for (let i = 1; i <= pageCount; i++) {
-                        doc.setPage(i);
-                        doc.setTextColor(150, 150, 150);
-                        doc.setFontSize(8);
-                        doc.setFont(undefined, 'normal');
-                        const footerText = `Generated on ${new Date().toLocaleDateString()}`;
-                        const footerWidth = doc.getTextWidth(footerText);
-                        doc.text(footerText, (pageWidth - footerWidth) / 2, 285);
-                    }
-
-                    // Save the PDF
-                    const filename = `${(menu.restaurantName || 'menu').replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-')}.pdf`;
-                    doc.save(filename);
+                    // Generate and download PDF
+                    await html2pdf().set(opt).from(tempContainer).save();
                     
+                    // Clean up
+                    document.body.removeChild(tempContainer);
                     addToast('PDF downloaded successfully!', 'success');
-                    console.log('PDF generation completed successfully');
                     
                 } catch (error) {
                     console.error('PDF generation failed:', error);
-                    addToast(`Failed to generate PDF: ${error.message}`, 'error');
+                    addToast('Failed to generate PDF. Please try again.', 'error');
                 }
+            };
+
+            // Helper function to get current font family
+            const getFontFamily = () => {
+                const config = JSON.parse(localStorage.getItem('designConfig') || '{}');
+                switch(config.fontFamily) {
+                    case 'serif': return "'Playfair Display', serif";
+                    case 'sans': return "'Inter', sans-serif";
+                    default: return "'Inter', sans-serif";
+                }
+            };
+
+            // Helper function to get current color scheme
+            const getColorScheme = () => {
+                const config = JSON.parse(localStorage.getItem('designConfig') || '{}');
+                const schemes = {
+                    indigo: { primary: '#4f46e5', secondary: '#e0e7ff', text: '#1e1b4b' },
+                    emerald: { primary: '#059669', secondary: '#d1fae5', text: '#064e3b' },
+                    amber: { primary: '#d97706', secondary: '#fef3c7', text: '#92400e' },
+                    rose: { primary: '#e11d48', secondary: '#fce7f3', text: '#9f1239' }
+                };
+                return schemes[config.colorScheme] || schemes.indigo;
+            };
+
+            // Create clean PDF menu content
+            const createPDFMenuContent = (menu) => {
+                const colors = getColorScheme();
+                const sections = JSON.parse(localStorage.getItem('menuSections') || '[]');
+                
+                let html = `
+                    <div style="width: 100%; max-width: 100%; font-size: 14px; line-height: 1.6;">
+                        <!-- Header -->
+                        <div style="text-align: center; margin-bottom: 40px; border-bottom: 3px solid ${colors.primary}; padding-bottom: 30px;">
+                            <h1 style="font-size: 36px; font-weight: bold; color: ${colors.primary}; margin: 0 0 10px 0; letter-spacing: 1px;">
+                                ${menu.restaurantName || 'Our Menu'}
+                            </h1>
+                            ${menu.tagline ? `<p style="font-size: 18px; color: ${colors.text}; margin: 0; font-style: italic;">${menu.tagline}</p>` : ''}
+                        </div>
+                `;
+
+                // Add sections
+                sections.forEach((section, index) => {
+                    const items = JSON.parse(localStorage.getItem(`section_${section.id}_items`) || '[]');
+                    
+                    html += `
+                        <div style="margin-bottom: 50px; ${index > 0 ? 'page-break-inside: avoid;' : ''}">
+                            <h2 style="font-size: 24px; font-weight: bold; color: ${colors.primary}; margin: 0 0 20px 0; padding-bottom: 10px; border-bottom: 2px solid ${colors.secondary};">
+                                ${section.name}
+                            </h2>
+                            ${section.description ? `<p style="color: ${colors.text}; margin: 0 0 25px 0; font-size: 16px; font-style: italic;">${section.description}</p>` : ''}
+                            
+                            <div style="display: grid; gap: 20px;">
+                    `;
+
+                    items.forEach(item => {
+                        html += `
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; padding: 15px 0; border-bottom: 1px dotted #ddd;">
+                                <div style="flex: 1; padding-right: 20px;">
+                                    <h3 style="font-size: 18px; font-weight: 600; color: ${colors.text}; margin: 0 0 8px 0;">
+                                        ${item.name}
+                                        ${item.isSpicy ? ' 🌶️' : ''}
+                                        ${item.isVegetarian ? ' 🌱' : ''}
+                                    </h3>
+                                    ${item.description ? `<p style="color: #666; margin: 0; font-size: 14px; line-height: 1.5;">${item.description}</p>` : ''}
+                                </div>
+                                <div style="font-size: 18px; font-weight: bold; color: ${colors.primary}; white-space: nowrap;">
+                                    $${parseFloat(item.price || 0).toFixed(2)}
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                });
+
+                // Footer
+                html += `
+                        <div style="text-align: center; margin-top: 60px; padding-top: 30px; border-top: 2px solid ${colors.secondary}; color: #888; font-size: 12px;">
+                            <p style="margin: 0;">Generated by Restaurant Menu Builder</p>
+                        </div>
+                    </div>
+                `;
+
+                return html;
             };
 
             if (!isOpen) return null;
@@ -4167,10 +4151,7 @@
                             React.createElement('button', {
                                 key: 'pdf-download',
                                 className: 'btn btn-primary w-full flex items-center justify-center gap-2',
-                                onClick: (e) => {
-                                    console.log('PDF button clicked');
-                                    downloadMenuAsPDF(e);
-                                }
+                                onClick: downloadMenuAsPDF
                             }, [
                                 React.createElement('span', { key: 'icon' }, '📄'),
                                 React.createElement('span', { key: 'text' }, isRTL ? 'تحميل القائمة كـ PDF' : 'Download Menu as PDF')
