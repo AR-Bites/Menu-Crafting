@@ -909,13 +909,45 @@
             }
             
             .btn {
-                padding: 10px 20px;
-                font-size: 14px;
+                padding: 1rem 1.5rem;
+                font-size: 1rem;
+                min-height: 48px;
+                min-width: 48px;
+                border-radius: 8px;
+            }
+            
+            .view-toggle-btn {
+                padding: 0.75rem 1rem;
+                min-height: 44px;
+                min-width: 44px;
+                font-size: 0.875rem;
+            }
+            
+            /* Mobile-friendly form inputs */
+            .form-group input,
+            .form-group textarea,
+            .form-group select {
+                padding: 0.875rem;
+                font-size: 1rem;
+                min-height: 44px;
+                border-radius: 8px;
             }
             
             .sidebar {
                 width: 100%;
                 max-width: none;
+                padding: 1rem;
+                border-radius: 12px;
+            }
+            
+            /* Mobile warning animation */
+            .animate-fade-in {
+                animation: fadeIn 0.3s ease-in-out;
+            }
+            
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(-10px); }
+                to { opacity: 1; transform: translateY(0); }
             }
         }
         
@@ -3895,151 +3927,51 @@
                 try {
                     addToast('Generating PDF...', 'info');
                     
-                    // Create a clean, full-page PDF version of the menu
-                    const pdfContent = createPDFMenuContent(menu);
+                    // Find the menu preview element - try multiple selectors
+                    const previewElement = document.querySelector('.preview-panel') || 
+                                         document.querySelector('.preview-container') || 
+                                         document.querySelector('.menu-preview') || 
+                                         document.querySelector('[data-preview="true"]') ||
+                                         document.querySelector('.flex.max-w-7xl.mx-auto.min-h-screen > div:last-child');
                     
-                    // Create a temporary container for PDF generation
-                    const tempContainer = document.createElement('div');
-                    tempContainer.innerHTML = pdfContent;
-                    tempContainer.style.cssText = `
-                        position: fixed;
-                        top: -10000px;
-                        left: -10000px;
-                        width: 8.27in;
-                        min-height: 11.69in;
-                        background: white;
-                        font-family: ${getFontFamily()};
-                        color: black;
-                        padding: 0.75in;
-                        box-sizing: border-box;
-                        z-index: -1;
-                    `;
-                    document.body.appendChild(tempContainer);
+                    if (!previewElement) {
+                        addToast('Preview not found. Please ensure the menu preview is visible.', 'error');
+                        return;
+                    }
 
-                    // Configure PDF options for professional output
+                    // Configure PDF options for A4 size with proper margins
                     const opt = {
-                        margin: 0,
-                        filename: `${menu.restaurantName?.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-') || 'menu'}.pdf`,
-                        image: { type: 'jpeg', quality: 0.98 },
+                        margin: [0.5, 0.5, 0.5, 0.5],
+                        filename: `${menu.restaurantName?.replace(/[^a-zA-Z0-9]/g, '-') || 'menu'}.pdf`,
+                        image: { type: 'jpeg', quality: 0.95 },
                         html2canvas: { 
                             scale: 2,
                             useCORS: true,
                             allowTaint: true,
                             backgroundColor: '#ffffff',
                             logging: false,
-                            width: 595, // A4 width in pixels at 72 DPI
-                            height: 842, // A4 height in pixels at 72 DPI
+                            width: previewElement.scrollWidth,
+                            height: previewElement.scrollHeight,
                             scrollX: 0,
-                            scrollY: 0,
-                            windowWidth: 595,
-                            windowHeight: 842
+                            scrollY: 0
                         },
                         jsPDF: { 
-                            unit: 'pt', 
+                            unit: 'in', 
                             format: 'a4', 
                             orientation: 'portrait',
                             compress: true
-                        }
+                        },
+                        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
                     };
 
                     // Generate and download PDF
-                    await html2pdf().set(opt).from(tempContainer).save();
-                    
-                    // Clean up
-                    document.body.removeChild(tempContainer);
+                    await html2pdf().set(opt).from(previewElement).save();
                     addToast('PDF downloaded successfully!', 'success');
                     
                 } catch (error) {
                     console.error('PDF generation failed:', error);
                     addToast('Failed to generate PDF. Please try again.', 'error');
                 }
-            };
-
-            // Helper function to get current font family
-            const getFontFamily = () => {
-                const config = JSON.parse(localStorage.getItem('designConfig') || '{}');
-                switch(config.fontFamily) {
-                    case 'serif': return "'Playfair Display', serif";
-                    case 'sans': return "'Inter', sans-serif";
-                    default: return "'Inter', sans-serif";
-                }
-            };
-
-            // Helper function to get current color scheme
-            const getColorScheme = () => {
-                const config = JSON.parse(localStorage.getItem('designConfig') || '{}');
-                const schemes = {
-                    indigo: { primary: '#4f46e5', secondary: '#e0e7ff', text: '#1e1b4b' },
-                    emerald: { primary: '#059669', secondary: '#d1fae5', text: '#064e3b' },
-                    amber: { primary: '#d97706', secondary: '#fef3c7', text: '#92400e' },
-                    rose: { primary: '#e11d48', secondary: '#fce7f3', text: '#9f1239' }
-                };
-                return schemes[config.colorScheme] || schemes.indigo;
-            };
-
-            // Create clean PDF menu content
-            const createPDFMenuContent = (menu) => {
-                const colors = getColorScheme();
-                const sections = JSON.parse(localStorage.getItem('menuSections') || '[]');
-                
-                let html = `
-                    <div style="width: 100%; max-width: 100%; font-size: 14px; line-height: 1.6;">
-                        <!-- Header -->
-                        <div style="text-align: center; margin-bottom: 40px; border-bottom: 3px solid ${colors.primary}; padding-bottom: 30px;">
-                            <h1 style="font-size: 36px; font-weight: bold; color: ${colors.primary}; margin: 0 0 10px 0; letter-spacing: 1px;">
-                                ${menu.restaurantName || 'Our Menu'}
-                            </h1>
-                            ${menu.tagline ? `<p style="font-size: 18px; color: ${colors.text}; margin: 0; font-style: italic;">${menu.tagline}</p>` : ''}
-                        </div>
-                `;
-
-                // Add sections
-                sections.forEach((section, index) => {
-                    const items = JSON.parse(localStorage.getItem(`section_${section.id}_items`) || '[]');
-                    
-                    html += `
-                        <div style="margin-bottom: 50px; ${index > 0 ? 'page-break-inside: avoid;' : ''}">
-                            <h2 style="font-size: 24px; font-weight: bold; color: ${colors.primary}; margin: 0 0 20px 0; padding-bottom: 10px; border-bottom: 2px solid ${colors.secondary};">
-                                ${section.name}
-                            </h2>
-                            ${section.description ? `<p style="color: ${colors.text}; margin: 0 0 25px 0; font-size: 16px; font-style: italic;">${section.description}</p>` : ''}
-                            
-                            <div style="display: grid; gap: 20px;">
-                    `;
-
-                    items.forEach(item => {
-                        html += `
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start; padding: 15px 0; border-bottom: 1px dotted #ddd;">
-                                <div style="flex: 1; padding-right: 20px;">
-                                    <h3 style="font-size: 18px; font-weight: 600; color: ${colors.text}; margin: 0 0 8px 0;">
-                                        ${item.name}
-                                        ${item.isSpicy ? ' 🌶️' : ''}
-                                        ${item.isVegetarian ? ' 🌱' : ''}
-                                    </h3>
-                                    ${item.description ? `<p style="color: #666; margin: 0; font-size: 14px; line-height: 1.5;">${item.description}</p>` : ''}
-                                </div>
-                                <div style="font-size: 18px; font-weight: bold; color: ${colors.primary}; white-space: nowrap;">
-                                    $${parseFloat(item.price || 0).toFixed(2)}
-                                </div>
-                            </div>
-                        `;
-                    });
-
-                    html += `
-                            </div>
-                        </div>
-                    `;
-                });
-
-                // Footer
-                html += `
-                        <div style="text-align: center; margin-top: 60px; padding-top: 30px; border-top: 2px solid ${colors.secondary}; color: #888; font-size: 12px;">
-                            <p style="margin: 0;">Generated by Restaurant Menu Builder</p>
-                        </div>
-                    </div>
-                `;
-
-                return html;
             };
 
             if (!isOpen) return null;
@@ -4202,6 +4134,24 @@
             const { t, isRTL, language } = useLanguage();
             const { addToast } = useToast();
             
+            // Mobile device detection and responsive behavior
+            useEffect(() => {
+                const checkMobileDevice = () => {
+                    const isMobile = window.innerWidth < 768;
+                    setIsMobileDevice(isMobile);
+                    
+                    // Force mobile view on mobile devices
+                    if (isMobile && viewMode !== 'mobile') {
+                        setViewMode('mobile');
+                    }
+                };
+
+                checkMobileDevice();
+                window.addEventListener('resize', checkMobileDevice);
+                
+                return () => window.removeEventListener('resize', checkMobileDevice);
+            }, []);
+            
             // State management - Initialize with template settings
             const [menu, setMenu] = useState({
                 restaurantName: template.name || '',
@@ -4222,6 +4172,8 @@
             const [currentSectionId, setCurrentSectionId] = useState(null);
             const [isSaving, setIsSaving] = useState(false);
             const [isViewSwitching, setIsViewSwitching] = useState(false);
+            const [isMobileDevice, setIsMobileDevice] = useState(false);
+            const [showMobileWarning, setShowMobileWarning] = useState(false);
             const [expandedSections, setExpandedSections] = useState({
                 info: true,
                 design: true,
@@ -4270,6 +4222,13 @@
             // ENHANCED DEVICE VIEW SWITCHING WITH ULTRA-SMOOTH TRANSITIONS
             const handleViewModeChange = useCallback((newMode) => {
                 if (newMode === viewMode || isViewSwitching) return;
+                
+                // Prevent switching to desktop/tablet on mobile devices
+                if (isMobileDevice && newMode !== 'mobile') {
+                    setShowMobileWarning(true);
+                    setTimeout(() => setShowMobileWarning(false), 3000);
+                    return;
+                }
                 
                 setIsViewSwitching(true);
                 
@@ -4495,29 +4454,37 @@
                                 key: 'view-toggle',
                                 className: 'view-toggle'
                             }, [
-                                ['desktop', '🖥️', t('desktop')],
-                                ['tablet', '📱', t('tablet')], 
-                                ['mobile', '📱', t('mobile')]
-                            ].map(([mode, icon, label]) => 
-                                React.createElement('button', {
-                                    key: mode,
-                                    className: `view-toggle-btn ${viewMode === mode ? 'active' : ''}`,
-                                    onClick: () => handleViewModeChange(mode),
-                                    disabled: isViewSwitching,
-                                    'aria-label': `${t('switchTo')} ${label}`,
-                                    'data-mode': mode,
-                                    type: 'button'
-                                }, [
-                                    React.createElement('span', { 
-                                        key: 'icon', 
-                                        className: 'view-icon'
-                                    }, icon),
-                                    React.createElement('span', { 
-                                        key: 'label', 
-                                        className: 'view-label'
-                                    }, label)
-                                ])
-                            )),
+                                // Show all view options on desktop, only mobile on mobile devices
+                                ...(isMobileDevice ? 
+                                    [['mobile', '📱', t('mobile')]] :
+                                    [['desktop', '🖥️', t('desktop')], ['tablet', '📱', t('tablet')], ['mobile', '📱', t('mobile')]]
+                                ).map(([mode, icon, label]) => 
+                                    React.createElement('button', {
+                                        key: mode,
+                                        className: `view-toggle-btn ${viewMode === mode ? 'active' : ''} ${isMobileDevice && mode !== 'mobile' ? 'opacity-50 cursor-not-allowed' : ''}`,
+                                        onClick: () => handleViewModeChange(mode),
+                                        disabled: isViewSwitching || (isMobileDevice && mode !== 'mobile'),
+                                        'aria-label': `${t('switchTo')} ${label}`,
+                                        'data-mode': mode,
+                                        type: 'button'
+                                    }, [
+                                        React.createElement('span', { 
+                                            key: 'icon', 
+                                            className: 'view-icon'
+                                        }, icon),
+                                        React.createElement('span', { 
+                                            key: 'label', 
+                                            className: 'view-label'
+                                        }, label)
+                                    ])
+                                ),
+                                
+                                // Mobile warning notification
+                                showMobileWarning && React.createElement('div', {
+                                    key: 'mobile-warning',
+                                    className: 'absolute top-full left-0 right-0 mt-2 bg-orange-100 border border-orange-200 text-orange-800 px-3 py-2 rounded-lg text-sm z-50 animate-fade-in'
+                                }, isRTL ? 'أنت تستخدم جهازاً محمولاً. لعرض معاينات الجهاز اللوحي أو سطح المكتب، يرجى فتح التطبيق على شاشة أكبر.' : 'You are using a mobile device. To view tablet or desktop previews, please open the app on a larger screen.')
+                            ]),
                             
                             React.createElement('button', {
                                 key: 'save',
@@ -4544,12 +4511,12 @@
                 // Main Content
                 React.createElement('div', {
                     key: 'main',
-                    className: 'flex max-w-7xl mx-auto min-h-screen'
+                    className: `flex max-w-7xl mx-auto min-h-screen ${isMobileDevice ? 'flex-col' : ''}`
                 }, [
-                    // Sidebar
+                    // Sidebar - collapsible on mobile
                     React.createElement('div', {
                         key: 'sidebar',
-                        className: 'sidebar w-80 p-6 h-screen overflow-y-auto sticky top-16'
+                        className: `sidebar ${isMobileDevice ? 'w-full border-b border-gray-200 max-h-96 overflow-y-auto' : 'w-80 h-screen overflow-y-auto sticky top-16'} p-6`
                     }, [
                         // Restaurant Info Section
                         React.createElement(CustomizationSection, {
@@ -4810,10 +4777,10 @@
                         ])
                     ]),
 
-                    // Preview Area
+                    // Preview Area - responsive for mobile
                     React.createElement('div', {
                         key: 'preview',
-                        className: 'preview-area flex-1 p-6 overflow-y-auto'
+                        className: `preview-area flex-1 ${isMobileDevice ? 'p-3' : 'p-6'} overflow-y-auto`
                     }, [
                         React.createElement('div', {
                             key: 'preview-container',
