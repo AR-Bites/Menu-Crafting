@@ -909,45 +909,13 @@
             }
             
             .btn {
-                padding: 1rem 1.5rem;
-                font-size: 1rem;
-                min-height: 48px;
-                min-width: 48px;
-                border-radius: 8px;
-            }
-            
-            .view-toggle-btn {
-                padding: 0.75rem 1rem;
-                min-height: 44px;
-                min-width: 44px;
-                font-size: 0.875rem;
-            }
-            
-            /* Mobile-friendly form inputs */
-            .form-group input,
-            .form-group textarea,
-            .form-group select {
-                padding: 0.875rem;
-                font-size: 1rem;
-                min-height: 44px;
-                border-radius: 8px;
+                padding: 10px 20px;
+                font-size: 14px;
             }
             
             .sidebar {
                 width: 100%;
                 max-width: none;
-                padding: 1rem;
-                border-radius: 12px;
-            }
-            
-            /* Mobile warning animation */
-            .animate-fade-in {
-                animation: fadeIn 0.3s ease-in-out;
-            }
-            
-            @keyframes fadeIn {
-                from { opacity: 0; transform: translateY(-10px); }
-                to { opacity: 1; transform: translateY(0); }
             }
         }
         
@@ -2269,6 +2237,213 @@
                 background: white !important;
             }
         }
+
+        /* Mobile-first responsive design */
+        @media (max-width: 767px) {
+            /* Mobile: Phone screen becomes the preview */
+            body {
+                background: #ffffff;
+                padding: 0;
+                margin: 0;
+            }
+            
+            .mobile-editor {
+                padding: 0;
+                background: #ffffff;
+                min-height: 100vh;
+            }
+            
+            .mobile-preview-frame {
+                min-height: 100vh;
+                padding: 16px;
+                margin: 0;
+                background: #ffffff;
+                padding-bottom: 80px; /* Space for mobile controls */
+            }
+            
+            .mobile-controls {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(20px);
+                border-top: 1px solid #e5e7eb;
+                padding: 20px;
+                z-index: 1000;
+                max-height: 70vh;
+                overflow-y: auto;
+                transform: translateY(100%);
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                border-radius: 20px 20px 0 0;
+                box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
+            }
+            
+            .mobile-controls.open {
+                transform: translateY(0);
+            }
+            
+            .mobile-fab {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+                color: white;
+                border: none;
+                box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 24px;
+                z-index: 1001;
+                cursor: pointer;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            .mobile-fab:hover,
+            .mobile-fab:active {
+                transform: scale(1.05);
+                box-shadow: 0 12px 40px rgba(59, 130, 246, 0.5);
+            }
+            
+            .mobile-thumb-controls {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+                margin-bottom: 16px;
+            }
+            
+            .mobile-thumb-btn {
+                padding: 18px 12px;
+                border-radius: 16px;
+                border: none;
+                background: #f8fafc;
+                color: #374151;
+                font-size: 14px;
+                font-weight: 600;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 6px;
+                cursor: pointer;
+                transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+                min-height: 70px;
+                border: 2px solid transparent;
+            }
+            
+            .mobile-thumb-btn:hover,
+            .mobile-thumb-btn:active {
+                background: #e2e8f0;
+                transform: scale(0.98);
+                border-color: #3b82f6;
+            }
+            
+            .mobile-thumb-btn.primary {
+                background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+                color: white;
+                box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            }
+            
+            .mobile-thumb-btn.primary:hover {
+                background: linear-gradient(135deg, #2563eb, #7c3aed);
+                transform: scale(0.98);
+                box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+            }
+            
+            /* Hide desktop elements on mobile */
+            .desktop-only {
+                display: none !important;
+            }
+            
+            /* Mobile warning for desktop/tablet views */
+            .mobile-view-warning {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(0, 0, 0, 0.9);
+                color: white;
+                padding: 24px;
+                border-radius: 16px;
+                text-align: center;
+                z-index: 2000;
+                max-width: 300px;
+                backdrop-filter: blur(10px);
+            }
+            
+            /* Optimize form controls for mobile */
+            .mobile-form-control {
+                padding: 16px;
+                border-radius: 12px;
+                border: 2px solid #e5e7eb;
+                font-size: 16px; /* Prevent zoom on iOS */
+                width: 100%;
+                margin-bottom: 12px;
+                background: #ffffff;
+                transition: all 0.2s ease;
+            }
+            
+            .mobile-form-control:focus {
+                border-color: #3b82f6;
+                outline: none;
+                box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            }
+
+            /* Mobile-specific sidebars and panels */
+            .sidebar {
+                display: none !important;
+            }
+            
+            .main-editor-content {
+                width: 100% !important;
+                padding: 0 !important;
+            }
+            
+            /* Device view restrictions on mobile */
+            .device-controls {
+                display: none !important;
+            }
+            
+            /* Mobile-optimized modals */
+            .modal-content {
+                margin: 0;
+                width: 100%;
+                height: 100vh;
+                max-height: 100vh;
+                border-radius: 0;
+                overflow-y: auto;
+            }
+        }
+
+        /* Tablet optimizations */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .tablet-optimized {
+                padding: 20px;
+            }
+            
+            .tablet-sidebar {
+                width: 300px;
+                min-width: 300px;
+            }
+            
+            .mobile-fab,
+            .mobile-controls {
+                display: none !important;
+            }
+        }
+
+        /* Desktop and larger screens */
+        @media (min-width: 1025px) {
+            .mobile-controls,
+            .mobile-fab,
+            .mobile-view-warning {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -2872,6 +3047,42 @@
                     console.error('Failed to remove from localStorage:', error);
                 }
             }
+        };
+
+        // Mobile detection utility
+        const useMobileDetection = () => {
+            const [isMobile, setIsMobile] = useState(false);
+            const [isTablet, setIsTablet] = useState(false);
+            
+            useEffect(() => {
+                const checkDevice = () => {
+                    const width = window.innerWidth;
+                    const userAgent = navigator.userAgent.toLowerCase();
+                    
+                    // Mobile detection: phones (width < 768px)
+                    const mobileWidth = width < 768;
+                    const mobileUserAgent = /android|webos|iphone|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+                    const mobileTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+                    
+                    // Tablet detection: medium screens (768px - 1024px)  
+                    const tabletWidth = width >= 768 && width <= 1024;
+                    const tabletUserAgent = /ipad|android(?!.*mobile)/i.test(userAgent);
+                    
+                    setIsMobile(mobileWidth || (mobileUserAgent && mobileTouch && width < 900));
+                    setIsTablet(tabletWidth || tabletUserAgent);
+                };
+                
+                checkDevice();
+                window.addEventListener('resize', checkDevice);
+                window.addEventListener('orientationchange', checkDevice);
+                
+                return () => {
+                    window.removeEventListener('resize', checkDevice);
+                    window.removeEventListener('orientationchange', checkDevice);
+                };
+            }, []);
+            
+            return { isMobile, isTablet, isDesktop: !isMobile && !isTablet };
         };
 
         // Enhanced File Upload Component with drag & drop
@@ -4133,24 +4344,7 @@
         function MenuEditor({ template, onBack }) {
             const { t, isRTL, language } = useLanguage();
             const { addToast } = useToast();
-            
-            // Mobile device detection and responsive behavior
-            useEffect(() => {
-                const checkMobileDevice = () => {
-                    const isMobile = window.innerWidth < 768;
-                    setIsMobileDevice(isMobile);
-                    
-                    // Force mobile view on mobile devices
-                    if (isMobile && viewMode !== 'mobile') {
-                        setViewMode('mobile');
-                    }
-                };
-
-                checkMobileDevice();
-                window.addEventListener('resize', checkMobileDevice);
-                
-                return () => window.removeEventListener('resize', checkMobileDevice);
-            }, []);
+            const { isMobile, isTablet, isDesktop } = useMobileDetection();
             
             // State management - Initialize with template settings
             const [menu, setMenu] = useState({
@@ -4172,13 +4366,15 @@
             const [currentSectionId, setCurrentSectionId] = useState(null);
             const [isSaving, setIsSaving] = useState(false);
             const [isViewSwitching, setIsViewSwitching] = useState(false);
-            const [isMobileDevice, setIsMobileDevice] = useState(false);
-            const [showMobileWarning, setShowMobileWarning] = useState(false);
             const [expandedSections, setExpandedSections] = useState({
                 info: true,
                 design: true,
                 sections: true
             });
+            
+            // Mobile-specific state
+            const [mobileControlsOpen, setMobileControlsOpen] = useState(false);
+            const [showViewWarning, setShowViewWarning] = useState(false);
 
             // Load saved data on component mount
             useEffect(() => {
@@ -4223,10 +4419,10 @@
             const handleViewModeChange = useCallback((newMode) => {
                 if (newMode === viewMode || isViewSwitching) return;
                 
-                // Prevent switching to desktop/tablet on mobile devices
-                if (isMobileDevice && newMode !== 'mobile') {
-                    setShowMobileWarning(true);
-                    setTimeout(() => setShowMobileWarning(false), 3000);
+                // Mobile restriction: prevent desktop/tablet view switching
+                if (isMobile && (newMode === 'desktop' || newMode === 'tablet')) {
+                    setShowViewWarning(true);
+                    setTimeout(() => setShowViewWarning(false), 3000);
                     return;
                 }
                 
@@ -4454,37 +4650,29 @@
                                 key: 'view-toggle',
                                 className: 'view-toggle'
                             }, [
-                                // Show all view options on desktop, only mobile on mobile devices
-                                ...(isMobileDevice ? 
-                                    [['mobile', '📱', t('mobile')]] :
-                                    [['desktop', '🖥️', t('desktop')], ['tablet', '📱', t('tablet')], ['mobile', '📱', t('mobile')]]
-                                ).map(([mode, icon, label]) => 
-                                    React.createElement('button', {
-                                        key: mode,
-                                        className: `view-toggle-btn ${viewMode === mode ? 'active' : ''} ${isMobileDevice && mode !== 'mobile' ? 'opacity-50 cursor-not-allowed' : ''}`,
-                                        onClick: () => handleViewModeChange(mode),
-                                        disabled: isViewSwitching || (isMobileDevice && mode !== 'mobile'),
-                                        'aria-label': `${t('switchTo')} ${label}`,
-                                        'data-mode': mode,
-                                        type: 'button'
-                                    }, [
-                                        React.createElement('span', { 
-                                            key: 'icon', 
-                                            className: 'view-icon'
-                                        }, icon),
-                                        React.createElement('span', { 
-                                            key: 'label', 
-                                            className: 'view-label'
-                                        }, label)
-                                    ])
-                                ),
-                                
-                                // Mobile warning notification
-                                showMobileWarning && React.createElement('div', {
-                                    key: 'mobile-warning',
-                                    className: 'absolute top-full left-0 right-0 mt-2 bg-orange-100 border border-orange-200 text-orange-800 px-3 py-2 rounded-lg text-sm z-50 animate-fade-in'
-                                }, isRTL ? 'أنت تستخدم جهازاً محمولاً. لعرض معاينات الجهاز اللوحي أو سطح المكتب، يرجى فتح التطبيق على شاشة أكبر.' : 'You are using a mobile device. To view tablet or desktop previews, please open the app on a larger screen.')
-                            ]),
+                                ['desktop', '🖥️', t('desktop')],
+                                ['tablet', '📱', t('tablet')], 
+                                ['mobile', '📱', t('mobile')]
+                            ].map(([mode, icon, label]) => 
+                                React.createElement('button', {
+                                    key: mode,
+                                    className: `view-toggle-btn ${viewMode === mode ? 'active' : ''}`,
+                                    onClick: () => handleViewModeChange(mode),
+                                    disabled: isViewSwitching,
+                                    'aria-label': `${t('switchTo')} ${label}`,
+                                    'data-mode': mode,
+                                    type: 'button'
+                                }, [
+                                    React.createElement('span', { 
+                                        key: 'icon', 
+                                        className: 'view-icon'
+                                    }, icon),
+                                    React.createElement('span', { 
+                                        key: 'label', 
+                                        className: 'view-label'
+                                    }, label)
+                                ])
+                            )),
                             
                             React.createElement('button', {
                                 key: 'save',
@@ -4511,12 +4699,12 @@
                 // Main Content
                 React.createElement('div', {
                     key: 'main',
-                    className: `flex max-w-7xl mx-auto min-h-screen ${isMobileDevice ? 'flex-col' : ''}`
+                    className: `${isMobile ? 'mobile-editor' : 'flex max-w-7xl mx-auto min-h-screen'}`
                 }, [
-                    // Sidebar - collapsible on mobile
-                    React.createElement('div', {
+                    // Sidebar (hidden on mobile)
+                    !isMobile && React.createElement('div', {
                         key: 'sidebar',
-                        className: `sidebar ${isMobileDevice ? 'w-full border-b border-gray-200 max-h-96 overflow-y-auto' : 'w-80 h-screen overflow-y-auto sticky top-16'} p-6`
+                        className: `sidebar w-80 p-6 h-screen overflow-y-auto sticky top-16 ${isTablet ? 'tablet-sidebar' : ''}`
                     }, [
                         // Restaurant Info Section
                         React.createElement(CustomizationSection, {
@@ -4777,15 +4965,45 @@
                         ])
                     ]),
 
-                    // Preview Area - responsive for mobile
+                    // Preview Area - Mobile: full screen, Desktop: contained
                     React.createElement('div', {
                         key: 'preview',
-                        className: `preview-area flex-1 ${isMobileDevice ? 'p-3' : 'p-6'} overflow-y-auto`
+                        className: isMobile ? 'mobile-preview-frame' : 'preview-area flex-1 p-6 overflow-y-auto'
                     }, [
+                        isMobile ? 
+                        // Mobile: Direct preview without device frame
+                        React.createElement(MenuPreview, {
+                            key: 'mobile-preview',
+                            menu: menu,
+                            sections: sections,
+                            viewMode: 'mobile', // Force mobile view on mobile devices
+                            language: language,
+                            isMobileDevice: true
+                        }) :
+                        // Desktop/Tablet: Device frame preview
                         React.createElement('div', {
                             key: 'preview-container',
                             className: `preview-container ${isViewSwitching ? 'view-switching' : ''}`
                         }, [
+                            // Device view toggle (desktop only)
+                            React.createElement('div', {
+                                key: 'device-controls',
+                                className: 'device-controls flex justify-center gap-2 mb-6'
+                            }, [
+                                ['desktop', '💻', t('desktop')],
+                                ['tablet', '📱', t('tablet')], 
+                                ['mobile', '📱', t('mobile')]
+                            ].map(([mode, icon, label]) =>
+                                React.createElement('button', {
+                                    key: mode,
+                                    className: `device-btn ${viewMode === mode ? 'active' : ''}`,
+                                    onClick: () => handleViewModeChange(mode)
+                                }, [
+                                    React.createElement('span', { key: 'icon' }, icon),
+                                    React.createElement('span', { key: 'label' }, label)
+                                ])
+                            )),
+                            
                             React.createElement('div', {
                                 key: 'device',
                                 className: `preview-device ${viewMode}`
@@ -4832,7 +5050,161 @@
                     isOpen: showShareModal,
                     onClose: () => setShowShareModal(false),
                     menu: menu
-                })
+                }),
+                
+                // Mobile Controls Interface
+                isMobile && React.createElement('div', {
+                    key: 'mobile-interface'
+                }, [
+                    // Mobile FAB Button
+                    React.createElement('button', {
+                        key: 'mobile-fab',
+                        className: 'mobile-fab',
+                        onClick: () => setMobileControlsOpen(!mobileControlsOpen)
+                    }, mobileControlsOpen ? '✕' : '⚙️'),
+                    
+                    // Mobile Controls Panel
+                    React.createElement('div', {
+                        key: 'mobile-controls',
+                        className: `mobile-controls ${mobileControlsOpen ? 'open' : ''}`
+                    }, [
+                        // Handle bar
+                        React.createElement('div', {
+                            key: 'handle',
+                            className: 'w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4'
+                        }),
+                        
+                        // Primary actions
+                        React.createElement('div', {
+                            key: 'primary-actions',
+                            className: 'mobile-thumb-controls'
+                        }, [
+                            React.createElement('button', {
+                                key: 'add-section',
+                                className: 'mobile-thumb-btn primary',
+                                onClick: () => {
+                                    setEditingSection(null);
+                                    setShowSectionModal(true);
+                                    setMobileControlsOpen(false);
+                                }
+                            }, [
+                                React.createElement('span', { key: 'icon' }, '📝'),
+                                React.createElement('span', { key: 'text' }, isRTL ? 'إضافة قسم' : 'Add Section')
+                            ]),
+                            
+                            React.createElement('button', {
+                                key: 'save-share',
+                                className: 'mobile-thumb-btn primary',
+                                onClick: () => {
+                                    setShowShareModal(true);
+                                    setMobileControlsOpen(false);
+                                }
+                            }, [
+                                React.createElement('span', { key: 'icon' }, '🚀'),
+                                React.createElement('span', { key: 'text' }, isRTL ? 'نشر' : 'Publish')
+                            ])
+                        ]),
+                        
+                        // Restaurant info
+                        React.createElement('div', {
+                            key: 'restaurant-info',
+                            className: 'mb-4'
+                        }, [
+                            React.createElement('h3', {
+                                key: 'title',
+                                className: 'font-semibold mb-3 text-gray-800'
+                            }, isRTL ? 'معلومات المطعم' : 'Restaurant Info'),
+                            
+                            React.createElement('input', {
+                                key: 'restaurant-name',
+                                type: 'text',
+                                className: 'mobile-form-control',
+                                placeholder: isRTL ? 'اسم المطعم' : 'Restaurant Name',
+                                defaultValue: menu.restaurantName || '',
+                                onInput: (e) => {
+                                    const value = e.target.value;
+                                    document.querySelectorAll('h1').forEach(h1 => {
+                                        if (h1.closest('[class*="preview"]')) {
+                                            h1.textContent = value || 'Restaurant Name';
+                                        }
+                                    });
+                                    clearTimeout(window.nameUpdateTimeout);
+                                    window.nameUpdateTimeout = setTimeout(() => {
+                                        menu.restaurantName = value;
+                                    }, 100);
+                                }
+                            }),
+                            
+                            React.createElement('input', {
+                                key: 'tagline',
+                                type: 'text',
+                                className: 'mobile-form-control',
+                                placeholder: isRTL ? 'شعار المطعم' : 'Restaurant Tagline',
+                                defaultValue: menu.tagline || '',
+                                onInput: (e) => {
+                                    const value = e.target.value;
+                                    document.querySelectorAll('p').forEach(p => {
+                                        if (p.closest('[class*="preview"]') && p.textContent.includes('tagline')) {
+                                            p.textContent = value || 'Your tagline here';
+                                        }
+                                    });
+                                    clearTimeout(window.taglineUpdateTimeout);
+                                    window.taglineUpdateTimeout = setTimeout(() => {
+                                        menu.tagline = value;
+                                    }, 100);
+                                }
+                            })
+                        ]),
+                        
+                        // Quick actions
+                        React.createElement('div', {
+                            key: 'quick-actions',
+                            className: 'grid grid-cols-2 gap-3'
+                        }, [
+                            React.createElement('button', {
+                                key: 'back',
+                                className: 'mobile-thumb-btn',
+                                onClick: () => {
+                                    setMobileControlsOpen(false);
+                                    onBack();
+                                }
+                            }, [
+                                React.createElement('span', { key: 'icon' }, '←'),
+                                React.createElement('span', { key: 'text' }, isRTL ? 'رجوع' : 'Back')
+                            ]),
+                            
+                            React.createElement('button', {
+                                key: 'help',
+                                className: 'mobile-thumb-btn',
+                                onClick: () => {
+                                    addToast(isRTL ? 'انقر على إضافة قسم لبدء إنشاء قائمتك!' : 'Tap "Add Section" to start building your menu!', 'info');
+                                    setMobileControlsOpen(false);
+                                }
+                            }, [
+                                React.createElement('span', { key: 'icon' }, '💡'),
+                                React.createElement('span', { key: 'text' }, isRTL ? 'مساعدة' : 'Help')
+                            ])
+                        ])
+                    ])
+                ]),
+                
+                // Mobile View Warning
+                showViewWarning && React.createElement('div', {
+                    key: 'view-warning',
+                    className: 'mobile-view-warning'
+                }, [
+                    React.createElement('h3', {
+                        key: 'title',
+                        className: 'font-bold mb-2'
+                    }, isRTL ? 'جهاز محمول مكتشف' : 'Mobile Device Detected'),
+                    React.createElement('p', {
+                        key: 'message',
+                        className: 'text-sm'
+                    }, isRTL ? 
+                        'أنت تستخدم جهازاً محمولاً. لمعاينة تخطيطات الكمبيوتر اللوحي أو سطح المكتب، يرجى فتح هذا الموقع على شاشة أكبر.' :
+                        "You're using a mobile device. To preview tablet or desktop layouts, please open this site on a larger screen."
+                    )
+                ])
             ]);
         }
 
