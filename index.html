@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Restaurant Menu Builder - Create Beautiful Digital Menus</title>
     <meta name="description" content="Create stunning restaurant menus with drag-and-drop interface, 3D models, multilingual support, and QR code generation. Perfect for modern restaurants.">
     
@@ -2235,41 +2235,84 @@
         }
 
         @media (max-width: 768px) {
+            /* Reset body and html for mobile */
+            html, body {
+                font-size: 14px;
+                overflow-x: hidden;
+                -webkit-text-size-adjust: 100%;
+                -ms-text-size-adjust: 100%;
+                touch-action: manipulation;
+            }
+
+            * {
+                -webkit-tap-highlight-color: transparent;
+                box-sizing: border-box;
+            }
+
+            /* Mobile header optimization */
+            .bg-white.shadow-sm.border-b {
+                padding: 8px 16px !important;
+                position: sticky;
+                top: 0;
+                z-index: 100;
+            }
+
+            .text-2xl {
+                font-size: 1.25rem !important;
+            }
+
             /* Mobile-optimized sidebar */
             .sidebar {
                 position: fixed;
                 top: 0;
                 left: 0;
-                right: 0;
-                bottom: 0;
+                width: 90vw;
+                height: 100vh;
                 z-index: 50;
                 transform: translateX(-100%);
                 transition: transform 0.3s ease;
                 overflow-y: auto;
-                max-height: 100vh;
+                padding: 16px !important;
+                background: white;
+                box-shadow: 2px 0 10px rgba(0,0,0,0.1);
             }
 
             .sidebar.open {
                 transform: translateX(0);
             }
 
+            /* Mobile main content layout */
+            .flex.max-w-7xl.mx-auto.min-h-screen {
+                flex-direction: column;
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
             /* Full-screen mobile preview */
             .preview-area {
+                width: 100vw;
+                height: calc(100vh - 60px);
                 padding: 0;
+                margin: 0;
+                overflow: hidden;
             }
 
             .preview-container {
                 width: 100%;
-                height: 100vh;
+                height: 100%;
                 margin: 0;
+                padding: 0;
             }
 
             .preview-device.mobile {
                 width: 100%;
                 height: 100%;
                 padding: 0;
+                margin: 0;
                 border-radius: 0;
                 box-shadow: none;
+                background: white;
             }
 
             .preview-phone {
@@ -2278,7 +2321,8 @@
                 padding: 0;
                 border-radius: 0;
                 box-shadow: none;
-                background: transparent;
+                background: white;
+                margin: 0;
             }
 
             .preview-phone-screen {
@@ -2287,34 +2331,31 @@
                 border-radius: 0;
                 border: none;
                 box-shadow: none;
+                overflow-y: auto;
             }
 
             /* Touch-friendly buttons */
             .btn {
-                min-height: 44px;
-                padding: 12px 20px;
+                min-height: 48px;
+                padding: 14px 20px;
                 font-size: 16px;
                 border-radius: 8px;
                 touch-action: manipulation;
+                margin: 4px 2px;
             }
 
             .view-toggle-btn {
-                min-height: 44px;
-                padding: 10px 16px;
-                font-size: 14px;
+                display: none !important;
             }
 
             /* Mobile-optimized form inputs */
             input, textarea, select {
-                min-height: 44px;
-                padding: 12px 16px;
+                min-height: 48px;
+                padding: 14px 16px;
                 font-size: 16px;
                 border-radius: 8px;
-            }
-
-            /* Hide desktop-specific elements on mobile */
-            .desktop-only {
-                display: none !important;
+                width: 100%;
+                box-sizing: border-box;
             }
 
             /* Optimize sections for mobile */
@@ -2323,15 +2364,56 @@
                 margin-bottom: 12px;
                 border-radius: 12px;
                 touch-action: manipulation;
+                width: 100%;
+                box-sizing: border-box;
             }
 
             /* Mobile-friendly modals */
             .modal-content {
-                width: calc(100vw - 32px);
+                width: calc(100vw - 16px);
                 max-width: none;
-                margin: 16px;
-                max-height: calc(100vh - 32px);
+                margin: 8px;
+                max-height: calc(100vh - 16px);
                 overflow-y: auto;
+                border-radius: 12px;
+            }
+
+            /* Mobile form groups */
+            .form-group {
+                margin-bottom: 16px;
+                width: 100%;
+            }
+
+            .form-label {
+                font-size: 14px;
+                margin-bottom: 8px;
+                display: block;
+            }
+
+            /* Mobile customization sections */
+            .customization-section {
+                margin-bottom: 20px;
+                width: 100%;
+            }
+
+            /* Mobile range sliders */
+            input[type="range"] {
+                width: 100%;
+                height: 40px;
+                -webkit-appearance: none;
+                appearance: none;
+            }
+
+            /* Mobile select dropdowns */
+            select {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+                background-repeat: no-repeat;
+                background-position: right 12px center;
+                background-size: 16px;
+                padding-right: 40px;
             }
         }
 
@@ -4586,7 +4668,8 @@
                             key: 'right',
                             className: 'flex items-center gap-4'
                         }, [
-                            React.createElement('div', {
+                            // Hide view toggle completely on mobile devices
+                            !isMobileDevice() && React.createElement('div', {
                                 key: 'view-toggle',
                                 className: 'view-toggle'
                             }, [
@@ -4595,8 +4678,6 @@
                                 ['mobile', '📱', t('mobile')]
                             ]
                             .filter(([mode]) => {
-                                // On mobile devices, only show mobile view option
-                                if (isMobileDevice()) return mode === 'mobile';
                                 // On tablet devices, show tablet and mobile options
                                 if (isTabletDevice()) return mode !== 'desktop';
                                 // On desktop, show all options
@@ -4605,7 +4686,7 @@
                             .map(([mode, icon, label]) => 
                                 React.createElement('button', {
                                     key: mode,
-                                    className: `view-toggle-btn ${viewMode === mode ? 'active' : ''} ${isMobileDevice() ? 'touch-friendly' : ''}`,
+                                    className: `view-toggle-btn ${viewMode === mode ? 'active' : ''}`,
                                     onClick: () => handleViewModeChange(mode),
                                     disabled: isViewSwitching,
                                     'aria-label': `${t('switchTo')} ${label}`,
@@ -4924,7 +5005,7 @@
                     // Preview Area
                     React.createElement('div', {
                         key: 'preview',
-                        className: 'preview-area flex-1 p-6 overflow-y-auto'
+                        className: `preview-area flex-1 ${isMobileDevice() ? '' : 'p-6'} overflow-y-auto`
                     }, [
                         React.createElement('div', {
                             key: 'preview-container',
