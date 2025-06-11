@@ -2941,10 +2941,10 @@
                 "elegant-script": "Elegant Script",
                 "image-grid": "Image Grid", 
                 "minimal-zen": "Minimal Zen",
-                "dark-neonDesc": "Futuristic dark theme with neon accents and cyber styling",
-                "elegant-scriptDesc": "Sophisticated French restaurant with gold accents and script fonts",
+                "dark-neonDesc": "Modern dark theme with neon accents and futuristic vibes",
+                "elegant-scriptDesc": "Sophisticated script fonts with gold accents and classic elegance",
                 "image-gridDesc": "Photo-focused layout with bold typography and vibrant colors",
-                "minimal-zenDesc": "Clean, spacious design with mindful simplicity",
+                "minimal-zenDesc": "Clean, spacious design with subtle elegance and mindful simplicity",
                 useTemplate: "Use This Template",
                 chooseTemplate: "Choose This Template",
                 templateSelected: "Template Selected!",
@@ -3792,7 +3792,7 @@
                                     React.createElement('div', {
                                         key: 'section',
                                         className: 'font-semibold text-gray-800 text-sm'
-                                    }, isRTL ? 'المقبلات' : 'Appetizers'),
+                                    }, isRTL ? 'المقبلات' : 'Antipasti'),
                                     React.createElement('div', {
                                         key: 'item1',
                                         className: 'flex justify-between items-center text-xs'
@@ -3821,11 +3821,11 @@
                                     React.createElement('h3', {
                                         key: 'name',
                                         className: 'text-xl font-bold mb-2'
-                                    }, t(template.name.toLowerCase())),
+                                    }, t(template.id)),
                                     React.createElement('p', {
                                         key: 'desc',
                                         className: 'text-gray-600 text-sm'
-                                    }, t(template.name.toLowerCase() + 'Desc'))
+                                    }, t(template.id + 'Desc'))
                                 ]),
                                 
                                 React.createElement('div', {
