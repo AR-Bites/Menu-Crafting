@@ -2640,73 +2640,145 @@
                 padding-bottom: env(safe-area-inset-bottom) !important;
             }
 
-            /* Mobile modal optimizations */
+            /* Mobile modal optimizations - native app style */
             .mobile-editor .modal-overlay {
                 align-items: flex-end !important;
                 justify-content: stretch !important;
                 padding: 0 !important;
+                backdrop-filter: blur(4px) !important;
+                background: rgba(0, 0, 0, 0.4) !important;
             }
 
             .mobile-editor .modal {
                 max-width: 100% !important;
                 width: 100% !important;
-                max-height: 75vh !important;
-                border-radius: 20px 20px 0 0 !important;
-                animation: modalSlideUp 0.3s ease-out !important;
+                max-height: 80vh !important;
+                border-radius: 24px 24px 0 0 !important;
+                animation: modalSlideUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
                 margin: 0 !important;
+                box-shadow: 0 -4px 32px rgba(0, 0, 0, 0.12) !important;
+                overflow: hidden !important;
+            }
+
+            /* Modal drag handle */
+            .mobile-editor .modal::before {
+                content: '' !important;
+                position: absolute !important;
+                top: 12px !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                width: 48px !important;
+                height: 4px !important;
+                background: #d1d5db !important;
+                border-radius: 2px !important;
+                z-index: 1 !important;
             }
 
             .mobile-editor .modal-header {
-                padding: 20px 20px 12px 20px !important;
-                border-bottom: 1px solid #e5e7eb !important;
+                padding: 32px 24px 16px 24px !important;
+                border-bottom: 1px solid #f3f4f6 !important;
+                background: #fafafa !important;
+                text-align: center !important;
             }
 
             .mobile-editor .modal-content {
-                padding: 20px !important;
+                padding: 24px !important;
                 font-size: 16px !important;
+                background: white !important;
+                overflow-y: auto !important;
+                max-height: 50vh !important;
             }
 
             .mobile-editor .modal-actions {
-                padding: 16px 20px 28px 20px !important;
-                gap: 12px !important;
+                padding: 20px 24px 32px 24px !important;
+                gap: 16px !important;
                 display: flex !important;
-                flex-direction: column !important;
+                flex-direction: column-reverse !important;
+                background: #fafafa !important;
+                border-top: 1px solid #f3f4f6 !important;
             }
 
             .mobile-editor .modal h3 {
-                font-size: 18px !important;
-                font-weight: 600 !important;
-                margin-bottom: 8px !important;
+                font-size: 20px !important;
+                font-weight: 700 !important;
+                margin-bottom: 4px !important;
+                color: #1f2937 !important;
+                line-height: 1.3 !important;
             }
 
             .mobile-editor .modal input,
             .mobile-editor .modal textarea,
             .mobile-editor .modal select {
-                min-height: 48px !important;
-                font-size: 16px !important;
-                padding: 14px !important;
-                border-radius: 10px !important;
+                min-height: 56px !important;
+                font-size: 17px !important;
+                padding: 16px 18px !important;
+                border-radius: 14px !important;
                 border: 2px solid #e5e7eb !important;
+                background: white !important;
+                transition: border-color 0.2s ease !important;
+                -webkit-appearance: none !important;
+                appearance: none !important;
+            }
+
+            .mobile-editor .modal input:focus,
+            .mobile-editor .modal textarea:focus,
+            .mobile-editor .modal select:focus {
+                border-color: #3b82f6 !important;
+                outline: none !important;
+                box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
             }
 
             .mobile-editor .modal .btn {
-                min-height: 48px !important;
-                font-size: 16px !important;
+                min-height: 56px !important;
+                font-size: 17px !important;
                 font-weight: 600 !important;
-                border-radius: 10px !important;
+                border-radius: 14px !important;
                 width: 100% !important;
+                border: none !important;
+                transition: all 0.2s ease !important;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+            }
+
+            .mobile-editor .modal .btn:active {
+                transform: scale(0.98) !important;
+            }
+
+            .mobile-editor .modal .btn-primary {
+                background: #3b82f6 !important;
+                color: white !important;
+            }
+
+            .mobile-editor .modal .btn-secondary {
+                background: #f3f4f6 !important;
+                color: #374151 !important;
+                box-shadow: none !important;
             }
 
             .mobile-editor .form-group {
-                margin-bottom: 16px !important;
+                margin-bottom: 24px !important;
+            }
+
+            .mobile-editor .form-group:last-child {
+                margin-bottom: 0 !important;
             }
 
             .mobile-editor .form-group label {
-                font-size: 15px !important;
+                font-size: 16px !important;
                 font-weight: 600 !important;
                 color: #374151 !important;
-                margin-bottom: 8px !important;
+                margin-bottom: 12px !important;
                 display: block !important;
+                line-height: 1.4 !important;
+            }
+
+            .mobile-editor .form-row {
+                display: flex !important;
+                gap: 16px !important;
+                flex-direction: column !important;
+            }
+
+            .mobile-editor .form-col {
+                flex: 1 !important;
             }
 
             @keyframes modalSlideUp {
@@ -5118,26 +5190,32 @@
                         key: 'sidebar',
                         className: `sidebar ${isMobileDevice() ? 'mobile-sidebar' : 'w-80 p-6 h-screen overflow-y-auto sticky top-16'} bg-white ${isMobileDevice() ? (isMobileSidebarOpen ? 'open' : '') : ''}`
                     }, [
-                        // Mobile sidebar header with language toggle
+                        // Mobile sidebar header
                         isMobileDevice() && React.createElement('div', {
                             key: 'mobile-header',
                             className: 'flex items-center justify-between mb-6 pb-4 border-b border-gray-200'
                         }, [
-                            React.createElement('div', {
-                                key: 'header-left',
-                                className: 'flex items-center gap-3'
-                            }, [
-                                React.createElement('h2', {
-                                    key: 'title',
-                                    className: 'text-lg font-semibold text-gray-800'
-                                }, isRTL ? 'أدوات التحرير' : 'Editing Tools'),
-                                React.createElement(LanguageToggle, { key: 'mobile-language-toggle' })
-                            ]),
+                            React.createElement('h2', {
+                                key: 'title',
+                                className: 'text-lg font-semibold text-gray-800'
+                            }, isRTL ? 'أدوات التحرير' : 'Editing Tools'),
                             React.createElement('button', {
                                 key: 'close',
                                 className: 'flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 text-gray-600',
                                 onClick: () => setIsMobileSidebarOpen(false)
                             }, '✕')
+                        ]),
+
+                        // Language toggle section for mobile
+                        isMobileDevice() && React.createElement('div', {
+                            key: 'mobile-language-section',
+                            className: 'mb-6 p-4 bg-gray-50 rounded-xl'
+                        }, [
+                            React.createElement('div', {
+                                key: 'language-label',
+                                className: 'text-sm font-medium text-gray-600 mb-3'
+                            }, isRTL ? 'اللغة' : 'Language'),
+                            React.createElement(LanguageToggle, { key: 'mobile-language-toggle' })
                         ]),
                         // Restaurant Info Section
                         React.createElement(CustomizationSection, {
