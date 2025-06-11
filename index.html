@@ -3088,10 +3088,10 @@
                 "elegant-script": "خط أنيق",
                 "image-grid": "شبكة صور",
                 "minimal-zen": "بساطة زين",
-                "dark-neonDesc": "تصميم مستقبلي داكن مع لمسات نيون وتصميم سايبر",
-                "elegant-scriptDesc": "مطعم فرنسي راقي مع لمسات ذهبية وخطوط أنيقة",
-                "image-gridDesc": "تخطيط يركز على الصور مع طباعة جريئة وألوان نابضة بالحياة",
-                "minimal-zenDesc": "تصميم نظيف وواسع مع بساطة واعية",
+                "dark-neonDesc": "موضوع عصري داكن مع لمسات نيون وطابع مستقبلي",
+                "elegant-scriptDesc": "خطوط راقية مع لمسات ذهبية وأناقة كلاسيكية",
+                "image-gridDesc": "تخطيط يركز على الصور مع خطوط جريئة وألوان نابضة",
+                "minimal-zenDesc": "تصميم نظيف وواسع مع بساطة مدروسة وأناقة هادئة",
                 useTemplate: "استخدم هذا القالب",
                 chooseTemplate: "اختر هذا القالب",
                 templateSelected: "تم اختيار القالب!",
@@ -3798,14 +3798,14 @@
                                         className: 'flex justify-between items-center text-xs'
                                     }, [
                                         React.createElement('span', { key: 'name' }, isRTL ? 'بروشيتا الطماطم' : 'Bruschetta al Pomodoro'),
-                                        React.createElement('span', { key: 'price' }, isRTL ? '8 دينار' : '8 JOD')
+                                        React.createElement('span', { key: 'price' }, isRTL ? '8 دينار' : '€8')
                                     ]),
                                     React.createElement('div', {
                                         key: 'item2',
                                         className: 'flex justify-between items-center text-xs'
                                     }, [
                                         React.createElement('span', { key: 'name' }, isRTL ? 'أنتيباستو مختلط' : 'Antipasto Misto'),
-                                        React.createElement('span', { key: 'price' }, isRTL ? '14 دينار' : '14 JOD')
+                                        React.createElement('span', { key: 'price' }, isRTL ? '14 دينار' : '€14')
                                     ])
                                 ])
                             ]),
@@ -3821,11 +3821,11 @@
                                     React.createElement('h3', {
                                         key: 'name',
                                         className: 'text-xl font-bold mb-2'
-                                    }, t(template.id)),
+                                    }, t(template.name.toLowerCase())),
                                     React.createElement('p', {
                                         key: 'desc',
                                         className: 'text-gray-600 text-sm'
-                                    }, t(template.id + 'Desc'))
+                                    }, t(template.name.toLowerCase() + 'Desc'))
                                 ]),
                                 
                                 React.createElement('div', {
