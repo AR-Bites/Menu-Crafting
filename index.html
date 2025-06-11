@@ -2252,9 +2252,14 @@
             /* Mobile header optimization */
             .bg-white.shadow-sm.border-b {
                 padding: 8px 16px !important;
-                position: sticky;
+                position: fixed !important;
                 top: 0;
+                left: 0;
+                right: 0;
+                width: 100vw;
                 z-index: 100;
+                background: white !important;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
             }
 
             .text-2xl {
@@ -2286,7 +2291,8 @@
                 flex-direction: column;
                 max-width: 100%;
                 margin: 0;
-                padding: 0;
+                padding: 60px 0 0 0 !important;
+                min-height: 100vh;
             }
 
             /* Full-screen mobile preview */
@@ -2295,7 +2301,9 @@
                 height: calc(100vh - 60px);
                 padding: 0;
                 margin: 0;
-                overflow: hidden;
+                overflow-y: auto;
+                overflow-x: hidden;
+                position: relative;
             }
 
             .preview-container {
@@ -2486,6 +2494,45 @@
 
             .menu-item .text-lg {
                 font-size: 1.25rem;
+            }
+
+            /* Mobile editor structure */
+            .mobile-editor {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .mobile-editor .bg-white.shadow-sm.border-b {
+                flex-shrink: 0;
+                height: 60px;
+                display: flex;
+                align-items: center;
+            }
+
+            .mobile-editor .flex.max-w-7xl.mx-auto.min-h-screen {
+                flex: 1;
+                overflow: hidden;
+                padding: 0 !important;
+                margin: 0 !important;
+                max-width: 100% !important;
+                min-height: auto !important;
+                height: 100%;
+            }
+
+            .mobile-editor .preview-area {
+                width: 100%;
+                height: 100%;
+                overflow-y: auto;
+                overflow-x: hidden;
+                position: relative;
+                padding: 0;
+                margin: 0;
             }
         }
 
@@ -2790,7 +2837,7 @@
                 
                 // File upload
                 chooseFile: "اختر ملف",
-                dragDropHint: "اسحب وأفلت الملفt�ت هنا أو انقر للتصفح",
+                dragDropHint: "اسحب وأفلت الملفات هنا أو انقر للتصفح",
                 supportedFormats: "المدعوم: JPG، PNG، WebP للصور | GLB للنماذج ثلاثية الأبعاد",
                 removeFile: "إزالة الملف",
                 
@@ -4702,7 +4749,7 @@
             }, [menu, sections, addToast]);
 
             return React.createElement('div', {
-                className: `min-h-screen bg-gray-50 ${isRTL ? 'rtl' : ''}`,
+                className: `${isMobileDevice() ? 'mobile-editor' : 'min-h-screen'} bg-gray-50 ${isRTL ? 'rtl' : ''}`,
                 dir: isRTL ? 'rtl' : 'ltr'
             }, [
                 // Header
