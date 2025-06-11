@@ -5206,17 +5206,7 @@
                             }, '✕')
                         ]),
 
-                        // Language toggle section for mobile
-                        isMobileDevice() && React.createElement('div', {
-                            key: 'mobile-language-section',
-                            className: 'mb-6 p-4 bg-gray-50 rounded-xl'
-                        }, [
-                            React.createElement('div', {
-                                key: 'language-label',
-                                className: 'text-sm font-medium text-gray-600 mb-3'
-                            }, isRTL ? 'اللغة' : 'Language'),
-                            React.createElement(LanguageToggle, { key: 'mobile-language-toggle' })
-                        ]),
+
                         // Restaurant Info Section
                         React.createElement(CustomizationSection, {
                             key: 'restaurant-info',
@@ -5473,6 +5463,23 @@
                                     className: 'text-sm'
                                 }, t('noSections'))
                             ]))
+                        ]),
+
+                        // Language toggle footer for mobile - separate section at bottom
+                        isMobileDevice() && React.createElement('div', {
+                            key: 'mobile-language-footer',
+                            className: 'mt-auto pt-6 border-t border-gray-200'
+                        }, [
+                            React.createElement('div', {
+                                key: 'language-section',
+                                className: 'flex items-center justify-between p-4 bg-gray-50 rounded-lg'
+                            }, [
+                                React.createElement('span', {
+                                    key: 'language-label',
+                                    className: 'text-sm font-medium text-gray-700'
+                                }, isRTL ? 'اللغة' : 'Language'),
+                                React.createElement(LanguageToggle, { key: 'mobile-language-toggle' })
+                            ])
                         ])
                     ]),
 
