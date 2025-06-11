@@ -5292,15 +5292,34 @@
                             // Settings icon for both mobile and desktop
                             React.createElement('button', {
                                 key: 'settings',
-                                className: 'p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200 flex items-center gap-2',
-                                onClick: () => {
+                                className: 'relative z-[9999] p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 flex items-center gap-2 cursor-pointer touch-action-manipulation border-2 border-blue-200 hover:border-blue-300',
+                                onClick: (e) => {
+                                    console.log('Settings button clicked!');
+                                    e.preventDefault();
+                                    e.stopPropagation();
                                     setShowSettingsModal(true);
                                 },
-                                type: 'button'
+                                onTouchStart: (e) => {
+                                    console.log('Settings button touched!');
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowSettingsModal(true);
+                                },
+                                type: 'button',
+                                style: {
+                                    pointerEvents: 'auto',
+                                    userSelect: 'none',
+                                    position: 'relative',
+                                    zIndex: 9999
+                                }
                             }, [
                                 React.createElement('span', { 
                                     key: 'icon',
-                                    className: 'text-xl'
+                                    className: 'text-2xl hover:rotate-45 transition-transform duration-300',
+                                    style: {
+                                        filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))',
+                                        pointerEvents: 'none'
+                                    }
                                 }, '⚙️'),
                                 !isMobileDevice() && React.createElement('span', { 
                                     key: 'text',
