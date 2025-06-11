@@ -1649,6 +1649,102 @@
             border-color: rgba(255, 255, 255, 0.5);
         }
 
+        /* Mobile-First Responsive Design */
+        @media (max-width: 768px) {
+            .template-card {
+                margin-bottom: 1rem;
+            }
+            
+            .hero-3d-logo {
+                width: 120px !important;
+                height: 120px !important;
+            }
+            
+            .glass-effect {
+                padding: 1rem !important;
+            }
+            
+            .modal-content {
+                padding: 20px !important;
+                margin: 10px !important;
+                width: calc(100% - 20px) !important;
+                max-height: calc(100vh - 40px) !important;
+            }
+            
+            .sidebar {
+                width: 100% !important;
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                height: 100vh !important;
+                z-index: 1000 !important;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .preview-container {
+                padding: 0.5rem !important;
+            }
+        }
+
+        /* Touch-friendly buttons */
+        @media (max-width: 768px) {
+            .btn {
+                min-height: 44px;
+                padding: 12px 20px;
+                font-size: 16px;
+            }
+            
+            .language-toggle button {
+                min-height: 44px;
+                padding: 10px 16px;
+            }
+            
+            /* Enhanced mobile template cards */
+            .template-card .h-64 {
+                height: 12rem !important;
+            }
+            
+            .template-card .p-4 {
+                padding: 1rem !important;
+            }
+            
+            /* Better mobile spacing */
+            .mb-16 {
+                margin-bottom: 3rem !important;
+            }
+            
+            .mb-12 {
+                margin-bottom: 2rem !important;
+            }
+            
+            /* Mobile-optimized text sizes */
+            .text-3xl {
+                font-size: 1.5rem !important;
+                line-height: 2rem !important;
+            }
+        }
+
+        /* Landscape mobile optimization */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .min-h-screen {
+                min-height: 100vh !important;
+            }
+            
+            .hero-logo-container {
+                margin-bottom: 1rem !important;
+            }
+            
+            .hero-3d-logo {
+                width: 80px !important;
+                height: 80px !important;
+            }
+        }
+
         /* Stunning Step Cards */
         .step-card {
             background: rgba(255, 255, 255, 0.1);
@@ -3602,7 +3698,7 @@
 
         // Enhanced Template Selection with better previews
         function TemplateSelection({ onSelectTemplate }) {
-            const { t, isRTL } = useLanguage();
+            const { t, isRTL, toggleLanguage } = useLanguage();
             const [selectedTemplate, setSelectedTemplate] = useState(null);
 
             const handleSelectTemplate = (template) => {
@@ -3613,20 +3709,37 @@
             };
 
             return React.createElement('div', {
-                className: `min-h-screen p-8 ${isRTL ? 'rtl' : ''}`,
+                className: `min-h-screen p-4 sm:p-8 ${isRTL ? 'rtl' : ''}`,
                 dir: isRTL ? 'rtl' : 'ltr'
             }, [
+                // Language toggle button
+                React.createElement('div', {
+                    key: 'language-toggle',
+                    className: 'fixed top-4 right-4 z-50'
+                }, React.createElement('button', {
+                    className: 'px-3 sm:px-4 py-2 bg-white hover:bg-gray-50 rounded-lg shadow-md border border-gray-200 transition-all duration-200 flex items-center gap-1 sm:gap-2 text-xs sm:text-sm font-medium min-h-[44px]',
+                    onClick: toggleLanguage
+                }, [
+                    React.createElement('span', {
+                        key: 'flag',
+                        className: 'text-sm sm:text-base'
+                    }, isRTL ? '🇺🇸' : '🇸🇦'),
+                    React.createElement('span', {
+                        key: 'text',
+                        className: 'hidden sm:inline'
+                    }, isRTL ? 'English' : 'العربية')
+                ])),
                 React.createElement('div', {
                     key: 'header',
                     className: 'text-center mb-16 animate-fade-in'
                 }, [
                     React.createElement('h1', {
                         key: 'title',
-                        className: 'text-6xl font-bold text-white mb-6 leading-tight'
+                        className: 'text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight'
                     }, t('title')),
                     React.createElement('p', {
                         key: 'subtitle',
-                        className: 'text-xl text-white opacity-90 max-w-2xl mx-auto leading-relaxed'
+                        className: 'text-lg sm:text-xl text-white opacity-90 max-w-2xl mx-auto leading-relaxed px-4'
                     }, t('subtitle')),
                     React.createElement('div', {
                         key: 'cta',
@@ -3652,7 +3765,7 @@
                     
                     React.createElement('div', {
                         key: 'grid',
-                        className: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'
+                        className: 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8'
                     }, templates.map((template, index) => 
                         React.createElement('div', {
                             key: template.id,
@@ -3670,7 +3783,7 @@
                                     key: 'mock-header',
                                     className: 'absolute top-0 left-0 right-0 h-16 flex items-center justify-center text-white font-bold text-lg',
                                     style: { fontFamily: template.preview.typography }
-                                }, 'Restaurant Name'),
+                                }, isRTL ? 'اسم المطعم' : 'Restaurant Name'),
                                 
                                 React.createElement('div', {
                                     key: 'mock-content',
@@ -3679,27 +3792,27 @@
                                     React.createElement('div', {
                                         key: 'section',
                                         className: 'font-semibold text-gray-800 text-sm'
-                                    }, 'Appetizers'),
+                                    }, isRTL ? 'المقبلات' : 'Appetizers'),
                                     React.createElement('div', {
                                         key: 'item1',
                                         className: 'flex justify-between items-center text-xs'
                                     }, [
-                                        React.createElement('span', { key: 'name' }, 'Caesar Salad'),
-                                        React.createElement('span', { key: 'price' }, '$12')
+                                        React.createElement('span', { key: 'name' }, isRTL ? 'سلطة سيزر' : 'Caesar Salad'),
+                                        React.createElement('span', { key: 'price' }, isRTL ? '12 ريال' : '$12')
                                     ]),
                                     React.createElement('div', {
                                         key: 'item2',
                                         className: 'flex justify-between items-center text-xs'
                                     }, [
-                                        React.createElement('span', { key: 'name' }, 'Soup of the Day'),
-                                        React.createElement('span', { key: 'price' }, '$8')
+                                        React.createElement('span', { key: 'name' }, isRTL ? 'شوربة اليوم' : 'Soup of the Day'),
+                                        React.createElement('span', { key: 'price' }, isRTL ? '8 ريال' : '$8')
                                     ])
                                 ])
                             ]),
                             
                             React.createElement('div', {
                                 key: 'content',
-                                className: 'p-6'
+                                className: 'p-4 sm:p-6'
                             }, [
                                 React.createElement('div', {
                                     key: 'header',
@@ -3728,14 +3841,18 @@
                                             className: 'w-3 h-3 rounded-full mr-2',
                                             style: { backgroundColor: template.preview.accentColor }
                                         }),
-                                        React.createElement('span', { key: 'label' }, 'Color Scheme')
+                                        React.createElement('span', { key: 'label' }, isRTL ? 'نظام الألوان' : 'Color Scheme')
                                     ]),
                                     React.createElement('div', {
                                         key: 'font',
                                         className: 'flex items-center text-sm text-gray-600'
                                     }, [
                                         React.createElement('span', { key: 'icon', className: 'mr-2' }, '✨'),
-                                        React.createElement('span', { key: 'label' }, template.preview.typography)
+                                        React.createElement('span', { key: 'label' }, isRTL ? 
+                                            (template.preview.typography === 'Inter' ? 'خط إنتر' : 
+                                             template.preview.typography === 'Serif' ? 'خط سيريف' : 
+                                             template.preview.typography === 'Sans' ? 'خط سان سيريف' : template.preview.typography) 
+                                            : template.preview.typography)
                                     ])
                                 ]),
                                 
@@ -3744,7 +3861,7 @@
                                     className: 'btn btn-primary w-full',
                                     onClick: () => handleSelectTemplate(template),
                                     disabled: selectedTemplate === template.id
-                                }, selectedTemplate === template.id ? 'Selected ✓' : t('useTemplate'))
+                                }, selectedTemplate === template.id ? (isRTL ? 'تم الاختيار ✓' : 'Selected ✓') : t('useTemplate'))
                             ])
                         ])
                     ))
@@ -5824,15 +5941,16 @@
                     key: 'language-toggle',
                     className: 'fixed top-4 right-4 z-50'
                 }, React.createElement('button', {
-                    className: 'px-4 py-2 bg-white hover:bg-gray-50 rounded-lg shadow-md border border-gray-200 transition-all duration-200 flex items-center gap-2 text-sm font-medium',
+                    className: 'px-3 sm:px-4 py-2 bg-white hover:bg-gray-50 rounded-lg shadow-md border border-gray-200 transition-all duration-200 flex items-center gap-1 sm:gap-2 text-xs sm:text-sm font-medium min-h-[44px]',
                     onClick: toggleLanguage
                 }, [
                     React.createElement('span', {
                         key: 'flag',
-                        className: 'text-base'
+                        className: 'text-sm sm:text-base'
                     }, isRTL ? '🇺🇸' : '🇸🇦'),
                     React.createElement('span', {
-                        key: 'text'
+                        key: 'text',
+                        className: 'hidden sm:inline'
                     }, isRTL ? 'English' : 'العربية')
                 ])),
                 React.createElement('div', {
@@ -5850,17 +5968,17 @@
                     
                     React.createElement('h1', {
                         key: 'title',
-                        className: 'text-6xl font-bold text-white mb-6 leading-tight'
+                        className: 'text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight px-4'
                     }, t('title')),
                     
                     React.createElement('p', {
                         key: 'subtitle',
-                        className: 'text-xl text-white opacity-90 mb-12 max-w-2xl mx-auto leading-relaxed'
+                        className: 'text-lg sm:text-xl text-white opacity-90 mb-12 max-w-2xl mx-auto leading-relaxed px-4'
                     }, t('subtitle')),
                     
                     React.createElement('div', {
                         key: 'features',
-                        className: 'grid grid-cols-1 md:grid-cols-3 gap-8 mb-12'
+                        className: 'grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-12 px-4'
                     }, [
                         ['🎨', t('beautifulTemplates'), t('beautifulTemplatesDesc')],
                         ['🌐', t('multilingualSupport'), t('multilingualSupportDesc')],
@@ -5888,7 +6006,7 @@
                     
                     React.createElement('button', {
                         key: 'cta',
-                        className: 'btn btn-primary text-xl px-12 py-6',
+                        className: 'btn btn-primary text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6',
                         onClick: onContinue
                     }, t('getStarted'))
                 ])
@@ -5917,20 +6035,21 @@
                     key: 'language-toggle',
                     className: 'fixed top-4 right-4 z-50'
                 }, React.createElement('button', {
-                    className: 'px-4 py-2 bg-white hover:bg-gray-50 rounded-lg shadow-md border border-gray-200 transition-all duration-200 flex items-center gap-2 text-sm font-medium',
+                    className: 'px-3 sm:px-4 py-2 bg-white hover:bg-gray-50 rounded-lg shadow-md border border-gray-200 transition-all duration-200 flex items-center gap-1 sm:gap-2 text-xs sm:text-sm font-medium min-h-[44px]',
                     onClick: toggleLanguage
                 }, [
                     React.createElement('span', {
                         key: 'flag',
-                        className: 'text-base'
+                        className: 'text-sm sm:text-base'
                     }, isRTL ? '🇺🇸' : '🇸🇦'),
                     React.createElement('span', {
-                        key: 'text'
+                        key: 'text',
+                        className: 'hidden sm:inline'
                     }, isRTL ? 'English' : 'العربية')
                 ])),
                 React.createElement('div', {
                     key: 'content',
-                    className: 'bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl animate-slide-up'
+                    className: 'bg-white rounded-2xl p-6 sm:p-8 max-w-md w-full mx-4 shadow-2xl animate-slide-up'
                 }, [
                     React.createElement('div', {
                         key: 'header',
