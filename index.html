@@ -2791,6 +2791,17 @@
                     opacity: 1;
                 }
             }
+
+            @keyframes modalFadeIn {
+                from {
+                    opacity: 0;
+                    transform: scale(0.9) translateY(-10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: scale(1) translateY(0);
+                }
+            }
         }
 
         /* Print Styles */
@@ -4429,63 +4440,67 @@
         function SettingsModal({ isOpen, onClose }) {
             const { t, isRTL, language, toggleLanguage } = useLanguage();
             
-            console.log('SettingsModal render:', { isOpen, language });
-            
             if (!isOpen) return null;
             
             return React.createElement('div', {
-                className: 'modal-overlay',
+                className: 'fixed inset-0 bg-black bg-opacity-50 z-[9999] flex items-center justify-center p-4',
                 onClick: onClose
             }, [
                 React.createElement('div', {
                     key: 'modal',
-                    className: 'modal',
-                    onClick: (e) => e.stopPropagation()
+                    className: 'bg-white rounded-2xl shadow-2xl max-w-md w-full mx-auto transform transition-all duration-300 scale-100',
+                    onClick: (e) => e.stopPropagation(),
+                    style: {
+                        animation: 'modalFadeIn 0.3s ease-out'
+                    }
                 }, [
                     React.createElement('div', {
                         key: 'header',
-                        className: 'modal-header text-center'
+                        className: 'p-6 pb-0 text-center'
                     }, [
                         React.createElement('div', {
-                            key: 'icon',
-                            className: 'text-3xl mb-2'
-                        }, '⚙️'),
+                            key: 'icon-container',
+                            className: 'w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg'
+                        }, [
+                            React.createElement('span', {
+                                key: 'icon',
+                                className: 'text-2xl text-white'
+                            }, '⚙️')
+                        ]),
                         React.createElement('h3', {
                             key: 'title',
-                            className: 'text-xl font-bold text-gray-900'
+                            className: 'text-2xl font-bold text-gray-900 mb-2'
                         }, isRTL ? 'إعدادات المحرر' : 'Editor Settings'),
                         React.createElement('p', {
                             key: 'subtitle',
-                            className: 'text-sm text-gray-600 mt-1'
+                            className: 'text-gray-600'
                         }, isRTL ? 'تخصيص تجربة التحرير' : 'Customize your editing experience')
                     ]),
                     
                     React.createElement('div', {
                         key: 'content',
-                        className: 'modal-content'
+                        className: 'px-6 py-4'
                     }, [
                         React.createElement('div', {
                             key: 'language-section',
-                            className: 'space-y-4'
+                            className: 'space-y-6'
                         }, [
                             React.createElement('div', {
                                 key: 'section-header',
-                                className: 'flex items-center gap-3 mb-6'
+                                className: 'text-center mb-6'
                             }, [
                                 React.createElement('div', {
                                     key: 'icon',
-                                    className: 'w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600'
+                                    className: 'w-12 h-12 mx-auto mb-3 bg-gradient-to-br from-green-400 to-blue-500 rounded-xl flex items-center justify-center shadow-md'
                                 }, '🌐'),
-                                React.createElement('div', { key: 'text' }, [
-                                    React.createElement('h4', {
-                                        key: 'title',
-                                        className: 'font-semibold text-gray-900'
-                                    }, isRTL ? 'اللغة' : 'Language'),
-                                    React.createElement('p', {
-                                        key: 'desc',
-                                        className: 'text-sm text-gray-600'
-                                    }, isRTL ? 'اختر لغة واجهة المحرر' : 'Choose your editor interface language')
-                                ])
+                                React.createElement('h4', {
+                                    key: 'title',
+                                    className: 'text-lg font-bold text-gray-900 mb-1'
+                                }, isRTL ? 'اللغة' : 'Language'),
+                                React.createElement('p', {
+                                    key: 'desc',
+                                    className: 'text-sm text-gray-600'
+                                }, isRTL ? 'اختر لغة واجهة المحرر' : 'Choose your editor interface language')
                             ]),
                             
                             React.createElement('div', {
@@ -4494,11 +4509,11 @@
                             }, [
                                 React.createElement('button', {
                                     key: 'english',
-                                    className: `group relative p-5 text-left border-2 rounded-xl transition-all duration-200 hover:shadow-md ${language === 'en' ? 'border-blue-500 bg-blue-50 shadow-sm' : 'border-gray-200 bg-white hover:border-gray-300'}`,
+                                    className: `group relative p-6 text-left border-2 rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl ${language === 'en' ? 'border-blue-500 bg-gradient-to-br from-blue-50 to-indigo-50 shadow-lg' : 'border-gray-200 bg-white hover:border-blue-300'}`,
                                     onClick: () => {
                                         if (language !== 'en') {
                                             toggleLanguage();
-                                            setTimeout(() => onClose(), 300);
+                                            setTimeout(() => onClose(), 400);
                                         }
                                     }
                                 }, [
@@ -4507,36 +4522,46 @@
                                         className: 'flex items-center gap-4'
                                     }, [
                                         React.createElement('div', {
-                                            key: 'flag',
-                                            className: 'text-2xl'
-                                        }, '🇺🇸'),
+                                            key: 'flag-container',
+                                            className: 'w-12 h-12 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center shadow-sm'
+                                        }, [
+                                            React.createElement('span', {
+                                                key: 'flag',
+                                                className: 'text-2xl'
+                                            }, '🇺🇸')
+                                        ]),
                                         React.createElement('div', {
                                             key: 'text',
                                             className: 'flex-1'
                                         }, [
                                             React.createElement('div', {
                                                 key: 'name',
-                                                className: 'font-semibold text-gray-900'
+                                                className: 'font-bold text-gray-900 text-lg'
                                             }, 'English'),
                                             React.createElement('div', {
                                                 key: 'native',
-                                                className: 'text-sm text-gray-600'
-                                            }, 'English')
+                                                className: 'text-sm text-gray-600 font-medium'
+                                            }, 'Default interface language')
                                         ]),
                                         language === 'en' && React.createElement('div', {
                                             key: 'check',
-                                            className: 'w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold'
-                                        }, '✓')
+                                            className: 'w-8 h-8 bg-gradient-to-br from-green-400 to-blue-500 text-white rounded-full flex items-center justify-center shadow-md'
+                                        }, [
+                                            React.createElement('span', {
+                                                key: 'checkmark',
+                                                className: 'text-lg font-bold'
+                                            }, '✓')
+                                        ])
                                     ])
                                 ]),
                                 
                                 React.createElement('button', {
                                     key: 'arabic',
-                                    className: `group relative p-5 text-left border-2 rounded-xl transition-all duration-200 hover:shadow-md ${language === 'ar' ? 'border-blue-500 bg-blue-50 shadow-sm' : 'border-gray-200 bg-white hover:border-gray-300'}`,
+                                    className: `group relative p-6 text-left border-2 rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl ${language === 'ar' ? 'border-blue-500 bg-gradient-to-br from-blue-50 to-indigo-50 shadow-lg' : 'border-gray-200 bg-white hover:border-blue-300'}`,
                                     onClick: () => {
                                         if (language !== 'ar') {
                                             toggleLanguage();
-                                            setTimeout(() => onClose(), 300);
+                                            setTimeout(() => onClose(), 400);
                                         }
                                     }
                                 }, [
@@ -4545,26 +4570,36 @@
                                         className: 'flex items-center gap-4'
                                     }, [
                                         React.createElement('div', {
-                                            key: 'flag',
-                                            className: 'text-2xl'
-                                        }, '🇸🇦'),
+                                            key: 'flag-container',
+                                            className: 'w-12 h-12 rounded-full bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center shadow-sm'
+                                        }, [
+                                            React.createElement('span', {
+                                                key: 'flag',
+                                                className: 'text-2xl'
+                                            }, '🇸🇦')
+                                        ]),
                                         React.createElement('div', {
                                             key: 'text',
                                             className: 'flex-1'
                                         }, [
                                             React.createElement('div', {
                                                 key: 'name',
-                                                className: 'font-semibold text-gray-900'
+                                                className: 'font-bold text-gray-900 text-lg'
                                             }, 'العربية'),
                                             React.createElement('div', {
                                                 key: 'native',
-                                                className: 'text-sm text-gray-600'
-                                            }, 'Arabic')
+                                                className: 'text-sm text-gray-600 font-medium'
+                                            }, 'Arabic interface language')
                                         ]),
                                         language === 'ar' && React.createElement('div', {
                                             key: 'check',
-                                            className: 'w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold'
-                                        }, '✓')
+                                            className: 'w-8 h-8 bg-gradient-to-br from-green-400 to-blue-500 text-white rounded-full flex items-center justify-center shadow-md'
+                                        }, [
+                                            React.createElement('span', {
+                                                key: 'checkmark',
+                                                className: 'text-lg font-bold'
+                                            }, '✓')
+                                        ])
                                     ])
                                 ])
                             ])
@@ -4573,17 +4608,17 @@
                     
                     React.createElement('div', {
                         key: 'actions',
-                        className: 'modal-actions'
+                        className: 'p-6 pt-4 border-t border-gray-100'
                     }, [
                         React.createElement('button', {
                             key: 'close',
-                            className: 'btn btn-primary shadow-lg',
+                            className: 'w-full py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-3',
                             onClick: onClose
                         }, [
                             React.createElement('span', { key: 'text' }, isRTL ? 'تم' : 'Done'),
                             React.createElement('span', {
                                 key: 'icon',
-                                className: 'ml-2 text-lg'
+                                className: 'text-xl'
                             }, '✨')
                         ])
                     ])
@@ -5259,7 +5294,6 @@
                                 key: 'settings',
                                 className: 'p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200 flex items-center gap-2',
                                 onClick: () => {
-                                    console.log('Settings clicked, current state:', showSettingsModal);
                                     setShowSettingsModal(true);
                                 },
                                 type: 'button'
