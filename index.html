@@ -4425,9 +4425,11 @@
             ]);
         }
 
-        // Settings Modal for mobile editing page
+        // Settings Modal for editing page
         function SettingsModal({ isOpen, onClose }) {
             const { t, isRTL, language, toggleLanguage } = useLanguage();
+            
+            console.log('SettingsModal render:', { isOpen, language });
             
             if (!isOpen) return null;
             
@@ -5252,14 +5254,24 @@
                                 ])
                             )),
                             
-                            // Settings button for both mobile and desktop
+                            // Settings icon for both mobile and desktop
                             React.createElement('button', {
                                 key: 'settings',
-                                className: 'btn btn-secondary flex items-center gap-2',
-                                onClick: () => setShowSettingsModal(true)
+                                className: 'p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200 flex items-center gap-2',
+                                onClick: () => {
+                                    console.log('Settings clicked, current state:', showSettingsModal);
+                                    setShowSettingsModal(true);
+                                },
+                                type: 'button'
                             }, [
-                                React.createElement('span', { key: 'icon' }, '⚙️'),
-                                !isMobileDevice() && React.createElement('span', { key: 'text' }, t('settings') || 'Settings')
+                                React.createElement('span', { 
+                                    key: 'icon',
+                                    className: 'text-xl'
+                                }, '⚙️'),
+                                !isMobileDevice() && React.createElement('span', { 
+                                    key: 'text',
+                                    className: 'text-gray-700 font-medium'
+                                }, 'Settings')
                             ]),
 
                             // Save button only on desktop
