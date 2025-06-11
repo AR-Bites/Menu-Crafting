@@ -4425,6 +4425,119 @@
             ]);
         }
 
+        // Settings Modal for mobile
+        function SettingsModal({ isOpen, onClose }) {
+            const { t, isRTL, language, toggleLanguage } = useLanguage();
+            
+            if (!isOpen) return null;
+            
+            return React.createElement('div', {
+                className: 'modal-overlay',
+                onClick: onClose
+            }, [
+                React.createElement('div', {
+                    key: 'modal',
+                    className: 'modal',
+                    onClick: (e) => e.stopPropagation()
+                }, [
+                    React.createElement('div', {
+                        key: 'header',
+                        className: 'modal-header'
+                    }, [
+                        React.createElement('h3', {
+                            key: 'title',
+                            className: 'text-xl font-semibold text-gray-800'
+                        }, isRTL ? 'الإعدادات' : 'Settings')
+                    ]),
+                    
+                    React.createElement('div', {
+                        key: 'content',
+                        className: 'modal-content'
+                    }, [
+                        React.createElement('div', {
+                            key: 'language-section',
+                            className: 'form-group'
+                        }, [
+                            React.createElement('label', {
+                                key: 'label',
+                                className: 'form-label text-base font-medium text-gray-700 mb-4'
+                            }, isRTL ? 'اللغة' : 'Language'),
+                            React.createElement('div', {
+                                key: 'language-options',
+                                className: 'space-y-3'
+                            }, [
+                                React.createElement('button', {
+                                    key: 'english',
+                                    className: `w-full p-4 text-left border-2 rounded-lg transition-all ${language === 'en' ? 'border-blue-500 bg-blue-50' : 'border-gray-200 bg-white'}`,
+                                    onClick: () => {
+                                        if (language !== 'en') toggleLanguage();
+                                    }
+                                }, [
+                                    React.createElement('div', {
+                                        key: 'content',
+                                        className: 'flex items-center justify-between'
+                                    }, [
+                                        React.createElement('div', { key: 'left' }, [
+                                            React.createElement('div', {
+                                                key: 'name',
+                                                className: 'font-medium text-gray-800'
+                                            }, 'English'),
+                                            React.createElement('div', {
+                                                key: 'native',
+                                                className: 'text-sm text-gray-600'
+                                            }, 'English')
+                                        ]),
+                                        language === 'en' && React.createElement('div', {
+                                            key: 'check',
+                                            className: 'text-blue-500 text-xl'
+                                        }, '✓')
+                                    ])
+                                ]),
+                                React.createElement('button', {
+                                    key: 'arabic',
+                                    className: `w-full p-4 text-left border-2 rounded-lg transition-all ${language === 'ar' ? 'border-blue-500 bg-blue-50' : 'border-gray-200 bg-white'}`,
+                                    onClick: () => {
+                                        if (language !== 'ar') toggleLanguage();
+                                    }
+                                }, [
+                                    React.createElement('div', {
+                                        key: 'content',
+                                        className: 'flex items-center justify-between'
+                                    }, [
+                                        React.createElement('div', { key: 'left' }, [
+                                            React.createElement('div', {
+                                                key: 'name',
+                                                className: 'font-medium text-gray-800'
+                                            }, 'العربية'),
+                                            React.createElement('div', {
+                                                key: 'native',
+                                                className: 'text-sm text-gray-600'
+                                            }, 'Arabic')
+                                        ]),
+                                        language === 'ar' && React.createElement('div', {
+                                            key: 'check',
+                                            className: 'text-blue-500 text-xl'
+                                        }, '✓')
+                                    ])
+                                ])
+                            ])
+                        ])
+                    ]),
+                    
+                    React.createElement('div', {
+                        key: 'actions',
+                        className: 'modal-actions'
+                    }, [
+                        React.createElement('button', {
+                            key: 'close',
+                            className: 'btn btn-primary',
+                            onClick: onClose
+                        }, isRTL ? 'تم' : 'Done')
+                    ])
+                ])
+            ]);
+        }
+
         // Enhanced Share Modal with QR code generation
         function ShareModal({ isOpen, onClose, menu }) {
             const { t, isRTL } = useLanguage();
@@ -4752,6 +4865,7 @@
             const [isSaving, setIsSaving] = useState(false);
             const [isViewSwitching, setIsViewSwitching] = useState(false);
             const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+            const [showSettingsModal, setShowSettingsModal] = useState(false);
             const [expandedSections, setExpandedSections] = useState({
                 info: true,
                 design: true,
@@ -5046,11 +5160,21 @@
                             className: 'flex items-center gap-2'
                         }, [
                             // Mobile quick actions - simplified header
-                            isMobileDevice() && React.createElement('button', {
-                                key: 'back-mobile',
-                                className: 'flex items-center justify-center w-9 h-9 rounded-lg bg-gray-100 text-gray-700 touch-action-manipulation',
-                                onClick: onBack
-                            }, '←'),
+                            isMobileDevice() && React.createElement('div', {
+                                key: 'mobile-header-actions',
+                                className: 'flex items-center gap-2'
+                            }, [
+                                React.createElement('button', {
+                                    key: 'settings',
+                                    className: 'flex items-center justify-center w-9 h-9 rounded-lg bg-gray-100 text-gray-600 touch-action-manipulation',
+                                    onClick: () => setShowSettingsModal(true)
+                                }, '⚙️'),
+                                React.createElement('button', {
+                                    key: 'back-mobile',
+                                    className: 'flex items-center justify-center w-9 h-9 rounded-lg bg-gray-100 text-gray-700 touch-action-manipulation',
+                                    onClick: onBack
+                                }, '←')
+                            ]),
                             // Hide view toggle completely on mobile devices
                             !isMobileDevice() && React.createElement('div', {
                                 key: 'view-toggle',
@@ -5465,22 +5589,7 @@
                             ]))
                         ]),
 
-                        // Language toggle footer for mobile - separate section at bottom
-                        isMobileDevice() && React.createElement('div', {
-                            key: 'mobile-language-footer',
-                            className: 'mt-auto pt-6 border-t border-gray-200'
-                        }, [
-                            React.createElement('div', {
-                                key: 'language-section',
-                                className: 'flex items-center justify-between p-4 bg-gray-50 rounded-lg'
-                            }, [
-                                React.createElement('span', {
-                                    key: 'language-label',
-                                    className: 'text-sm font-medium text-gray-700'
-                                }, isRTL ? 'اللغة' : 'Language'),
-                                React.createElement(LanguageToggle, { key: 'mobile-language-toggle' })
-                            ])
-                        ])
+
                     ]),
 
                     // Preview Area
@@ -5545,6 +5654,13 @@
                     key: 'mobile-warning',
                     isOpen: showMobileWarning,
                     onClose: handleMobileWarningClose
+                }),
+
+                // Settings Modal (Mobile)
+                React.createElement(SettingsModal, {
+                    key: 'settings-modal',
+                    isOpen: showSettingsModal,
+                    onClose: () => setShowSettingsModal(false)
                 })
             ]);
         }
