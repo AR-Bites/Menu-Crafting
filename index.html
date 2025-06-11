@@ -2528,77 +2528,285 @@
                 font-size: 1.25rem;
             }
 
-            /* Mobile-specific sidebar styling */
+            /* Mobile App Structure */
+            .mobile-app {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+            }
+
+            /* Mobile Header */
+            .mobile-header {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 60px;
+                background: white;
+                border-bottom: 1px solid #e5e7eb;
+                z-index: 50;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            }
+
+            .header-content {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: 100%;
+                padding: 0 16px;
+            }
+
+            .header-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 40px;
+                padding: 0 12px;
+                background: #f3f4f6;
+                border: none;
+                border-radius: 8px;
+                font-size: 14px;
+                font-weight: 500;
+                color: #374151;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+
+            .header-btn:hover {
+                background: #e5e7eb;
+            }
+
+            .menu-btn {
+                background: #3b82f6;
+                color: white;
+            }
+
+            .menu-btn:hover {
+                background: #2563eb;
+            }
+
+            .header-title {
+                font-size: 18px;
+                font-weight: 600;
+                color: #1f2937;
+                margin: 0;
+            }
+
+            /* Mobile Content */
+            .mobile-content {
+                flex: 1;
+                margin-top: 60px;
+                overflow-y: auto;
+                background: #f9fafb;
+            }
+
+            .preview-container {
+                padding: 20px;
+                min-height: calc(100vh - 60px);
+            }
+
+            /* Mobile Sidebar */
             .mobile-sidebar {
-                position: fixed !important;
-                top: 56px !important;
-                left: 0 !important;
-                width: 90vw !important;
-                height: calc(100vh - 56px) !important;
-                z-index: 60 !important;
-                transform: translateX(-100%) !important;
-                transition: transform 0.3s ease !important;
-                overflow-y: auto !important;
-                padding: 20px !important;
-                background: white !important;
-                box-shadow: 2px 0 20px rgba(0,0,0,0.15) !important;
-                border-right: 1px solid #e5e7eb !important;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 85vw;
+                height: 100vh;
+                background: white;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                z-index: 100;
+                overflow-y: auto;
+                box-shadow: 4px 0 20px rgba(0,0,0,0.15);
             }
 
             .mobile-sidebar.open {
-                transform: translateX(0) !important;
+                transform: translateX(0);
             }
 
-            /* Mobile editing improvements */
-            .mobile-editor .form-group {
-                margin-bottom: 20px !important;
+            .sidebar-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 20px 16px 16px;
+                border-bottom: 1px solid #e5e7eb;
+                background: #f8fafc;
             }
 
-            .mobile-editor .input-field {
-                min-height: 50px !important;
-                font-size: 16px !important;
-                padding: 15px !important;
-                border-radius: 10px !important;
+            .sidebar-title {
+                font-size: 18px;
+                font-weight: 600;
+                color: #1f2937;
+                margin: 0;
             }
 
-            .mobile-editor .btn {
-                min-height: 50px !important;
-                font-size: 16px !important;
-                padding: 15px 20px !important;
-                border-radius: 10px !important;
-                font-weight: 600 !important;
+            .close-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 32px;
+                height: 32px;
+                background: #e5e7eb;
+                border: none;
+                border-radius: 6px;
+                font-size: 16px;
+                color: #6b7280;
+                cursor: pointer;
+                transition: all 0.2s;
             }
 
-            .mobile-editor .customization-section {
-                margin-bottom: 30px !important;
-                padding: 20px !important;
-                border-radius: 12px !important;
-                background: #f8fafc !important;
-                border: 1px solid #e2e8f0 !important;
+            .close-btn:hover {
+                background: #d1d5db;
             }
 
-            /* Mobile FAB styling */
-            .mobile-editor .fixed.bottom-6.right-6 {
-                bottom: 80px !important;
-                right: 20px !important;
+            .sidebar-content {
+                padding: 20px 16px;
             }
 
-            /* Mobile section and item cards */
-            .mobile-editor .section-card {
-                padding: 20px !important;
-                margin-bottom: 15px !important;
-                border-radius: 12px !important;
-                background: white !important;
-                border: 2px solid #e2e8f0 !important;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
+            /* Edit Sections */
+            .edit-section {
+                margin-bottom: 32px;
+                padding-bottom: 24px;
+                border-bottom: 1px solid #f3f4f6;
             }
 
-            .mobile-editor .item-card {
-                padding: 15px !important;
-                margin-bottom: 10px !important;
-                border-radius: 10px !important;
-                background: #f8fafc !important;
-                border: 1px solid #e2e8f0 !important;
+            .edit-section:last-child {
+                border-bottom: none;
+            }
+
+            .section-title {
+                font-size: 16px;
+                font-weight: 600;
+                color: #1f2937;
+                margin: 0 0 16px 0;
+            }
+
+            /* Form Elements */
+            .mobile-input, .mobile-textarea {
+                width: 100%;
+                padding: 14px;
+                border: 1px solid #d1d5db;
+                border-radius: 8px;
+                font-size: 16px;
+                color: #1f2937;
+                background: white;
+                margin-bottom: 12px;
+                transition: border-color 0.2s;
+            }
+
+            .mobile-input:focus, .mobile-textarea:focus {
+                outline: none;
+                border-color: #3b82f6;
+                box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            }
+
+            .mobile-textarea {
+                min-height: 80px;
+                resize: vertical;
+            }
+
+            /* Action Buttons */
+            .action-buttons {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .action-btn {
+                width: 100%;
+                padding: 14px;
+                border: none;
+                border-radius: 8px;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+
+            .action-btn.primary {
+                background: #3b82f6;
+                color: white;
+            }
+
+            .action-btn.primary:hover {
+                background: #2563eb;
+            }
+
+            .action-btn.success {
+                background: #10b981;
+                color: white;
+            }
+
+            .action-btn.success:hover {
+                background: #059669;
+            }
+
+            /* Section Items */
+            .section-item {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 12px 0;
+                border-bottom: 1px solid #f3f4f6;
+            }
+
+            .section-item:last-child {
+                border-bottom: none;
+            }
+
+            .section-info {
+                flex: 1;
+            }
+
+            .section-name {
+                font-size: 14px;
+                font-weight: 500;
+                color: #1f2937;
+                margin: 0 0 4px 0;
+            }
+
+            .item-count {
+                font-size: 12px;
+                color: #6b7280;
+            }
+
+            .section-actions {
+                display: flex;
+                gap: 8px;
+            }
+
+            .mini-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 32px;
+                height: 32px;
+                background: #f3f4f6;
+                border: none;
+                border-radius: 6px;
+                font-size: 14px;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+
+            .mini-btn:hover {
+                background: #e5e7eb;
+            }
+
+            /* Mobile Overlay */
+            .mobile-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 90;
             }
         }
 
@@ -4814,8 +5022,238 @@
                 setShowShareModal(true);
             }, [menu, sections, addToast]);
 
+            // Mobile-first editor structure
+            if (isMobileDevice()) {
+                return React.createElement('div', {
+                    className: `mobile-app bg-gray-50 ${isRTL ? 'rtl' : ''}`,
+                    dir: isRTL ? 'rtl' : 'ltr'
+                }, [
+                    // Mobile Header
+                    React.createElement('div', {
+                        key: 'mobile-header',
+                        className: 'mobile-header'
+                    }, [
+                        React.createElement('div', {
+                            key: 'header-content',
+                            className: 'header-content'
+                        }, [
+                            React.createElement('button', {
+                                key: 'back-btn',
+                                className: 'header-btn back-btn',
+                                onClick: onBack
+                            }, '← Back'),
+                            React.createElement('h1', {
+                                key: 'title',
+                                className: 'header-title'
+                            }, isRTL ? 'محرر القائمة' : 'Menu Editor'),
+                            React.createElement('button', {
+                                key: 'menu-btn',
+                                className: 'header-btn menu-btn',
+                                onClick: () => setIsMobileSidebarOpen(!isMobileSidebarOpen)
+                            }, '☰')
+                        ])
+                    ]),
+
+                    // Mobile Content
+                    React.createElement('div', {
+                        key: 'mobile-content',
+                        className: 'mobile-content'
+                    }, [
+                        // Menu Preview
+                        React.createElement('div', {
+                            key: 'preview-container',
+                            className: 'preview-container'
+                        }, [
+                            React.createElement(MenuPreview, {
+                                key: 'preview',
+                                menu: { ...menu, sections },
+                                isDesktop: false
+                            })
+                        ])
+                    ]),
+
+                    // Mobile Sidebar
+                    React.createElement('div', {
+                        key: 'mobile-sidebar',
+                        className: `mobile-sidebar ${isMobileSidebarOpen ? 'open' : ''}`
+                    }, [
+                        React.createElement('div', {
+                            key: 'sidebar-header',
+                            className: 'sidebar-header'
+                        }, [
+                            React.createElement('h2', {
+                                key: 'sidebar-title',
+                                className: 'sidebar-title'
+                            }, isRTL ? 'أدوات التحرير' : 'Edit Menu'),
+                            React.createElement('button', {
+                                key: 'close-btn',
+                                className: 'close-btn',
+                                onClick: () => setIsMobileSidebarOpen(false)
+                            }, '✕')
+                        ]),
+                        React.createElement('div', {
+                            key: 'sidebar-content',
+                            className: 'sidebar-content'
+                        }, [
+                            // Restaurant Info
+                            React.createElement('div', {
+                                key: 'restaurant-section',
+                                className: 'edit-section'
+                            }, [
+                                React.createElement('h3', {
+                                    key: 'restaurant-title',
+                                    className: 'section-title'
+                                }, isRTL ? 'معلومات المطعم' : 'Restaurant Info'),
+                                React.createElement('input', {
+                                    key: 'restaurant-name',
+                                    type: 'text',
+                                    className: 'mobile-input',
+                                    placeholder: isRTL ? 'اسم المطعم' : 'Restaurant Name',
+                                    value: menu.restaurantName,
+                                    onChange: (e) => setMenu(prev => ({ ...prev, restaurantName: e.target.value }))
+                                }),
+                                React.createElement('textarea', {
+                                    key: 'restaurant-desc',
+                                    className: 'mobile-textarea',
+                                    placeholder: isRTL ? 'وصف المطعم' : 'Restaurant Description',
+                                    value: menu.description || '',
+                                    onChange: (e) => setMenu(prev => ({ ...prev, description: e.target.value }))
+                                })
+                            ]),
+
+                            // Quick Actions
+                            React.createElement('div', {
+                                key: 'actions-section',
+                                className: 'edit-section'
+                            }, [
+                                React.createElement('h3', {
+                                    key: 'actions-title',
+                                    className: 'section-title'
+                                }, isRTL ? 'إجراءات سريعة' : 'Quick Actions'),
+                                React.createElement('div', {
+                                    key: 'action-buttons',
+                                    className: 'action-buttons'
+                                }, [
+                                    React.createElement('button', {
+                                        key: 'add-section',
+                                        className: 'action-btn primary',
+                                        onClick: () => {
+                                            setEditingSection(null);
+                                            setShowSectionModal(true);
+                                            setIsMobileSidebarOpen(false);
+                                        }
+                                    }, isRTL ? '+ إضافة قسم' : '+ Add Section'),
+                                    React.createElement('button', {
+                                        key: 'publish',
+                                        className: 'action-btn success',
+                                        onClick: () => {
+                                            handlePublish();
+                                            setIsMobileSidebarOpen(false);
+                                        }
+                                    }, isRTL ? 'نشر القائمة' : 'Share Menu')
+                                ])
+                            ]),
+
+                            // Sections List
+                            sections.length > 0 && React.createElement('div', {
+                                key: 'sections-list',
+                                className: 'edit-section'
+                            }, [
+                                React.createElement('h3', {
+                                    key: 'sections-title',
+                                    className: 'section-title'
+                                }, isRTL ? 'أقسام القائمة' : 'Menu Sections'),
+                                ...sections.map(section => 
+                                    React.createElement('div', {
+                                        key: section.id,
+                                        className: 'section-item'
+                                    }, [
+                                        React.createElement('div', {
+                                            key: 'section-info',
+                                            className: 'section-info'
+                                        }, [
+                                            React.createElement('h4', {
+                                                key: 'section-name',
+                                                className: 'section-name'
+                                            }, section.name),
+                                            React.createElement('span', {
+                                                key: 'item-count',
+                                                className: 'item-count'
+                                            }, `${section.items.length} ${isRTL ? 'عنصر' : 'items'}`)
+                                        ]),
+                                        React.createElement('div', {
+                                            key: 'section-actions',
+                                            className: 'section-actions'
+                                        }, [
+                                            React.createElement('button', {
+                                                key: 'edit-section',
+                                                className: 'mini-btn',
+                                                onClick: () => {
+                                                    setEditingSection(section);
+                                                    setShowSectionModal(true);
+                                                    setIsMobileSidebarOpen(false);
+                                                }
+                                            }, '✏️'),
+                                            React.createElement('button', {
+                                                key: 'add-item',
+                                                className: 'mini-btn',
+                                                onClick: () => {
+                                                    setEditingItem(null);
+                                                    setCurrentSectionId(section.id);
+                                                    setShowItemModal(true);
+                                                    setIsMobileSidebarOpen(false);
+                                                }
+                                            }, '+')
+                                        ])
+                                    ])
+                                )
+                            ])
+                        ])
+                    ]),
+
+                    // Mobile Overlay
+                    isMobileSidebarOpen && React.createElement('div', {
+                        key: 'overlay',
+                        className: 'mobile-overlay',
+                        onClick: () => setIsMobileSidebarOpen(false)
+                    }),
+
+                    // Modals
+                    showSectionModal && React.createElement(SectionModal, {
+                        key: 'section-modal',
+                        isOpen: showSectionModal,
+                        onClose: () => {
+                            setShowSectionModal(false);
+                            setEditingSection(null);
+                        },
+                        section: editingSection,
+                        onSave: handleSaveSection
+                    }),
+
+                    showItemModal && React.createElement(ItemModal, {
+                        key: 'item-modal',
+                        isOpen: showItemModal,
+                        onClose: () => {
+                            setShowItemModal(false);
+                            setEditingItem(null);
+                            setCurrentSectionId(null);
+                        },
+                        item: editingItem,
+                        onSave: handleSaveItem
+                    }),
+
+                    showShareModal && React.createElement(ShareModal, {
+                        key: 'share-modal',
+                        isOpen: showShareModal,
+                        onClose: () => setShowShareModal(false),
+                        menu: { ...menu, sections }
+                    })
+                ]);
+            }
+
+            // Desktop editor (existing code)
             return React.createElement('div', {
-                className: `${isMobileDevice() ? 'mobile-editor' : 'min-h-screen'} bg-gray-50 ${isRTL ? 'rtl' : ''}`,
+                className: `min-h-screen bg-gray-50 ${isRTL ? 'rtl' : ''}`,
                 dir: isRTL ? 'rtl' : 'ltr'
             }, [
                 // Header
