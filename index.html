@@ -5304,17 +5304,22 @@
                             // Settings icon for both mobile and desktop
                             React.createElement('button', {
                                 key: 'settings',
-                                className: 'relative z-[9999] p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 flex items-center gap-2 cursor-pointer border-2 border-blue-200 hover:border-blue-300',
-                                onPointerDown: () => {
+                                className: 'relative z-[9999] p-4 m-1 bg-red-100 hover:bg-red-200 rounded-lg transition-all duration-200 flex items-center gap-2 cursor-pointer border-2 border-red-300 hover:border-red-400 min-w-[60px] min-h-[60px]',
+                                onClick: (e) => {
+                                    console.log('Settings clicked!');
                                     setShowSettingsModal(true);
                                 },
-                                onMouseDown: () => {
+                                onMouseDown: (e) => {
+                                    e.preventDefault();
+                                    console.log('Mouse down on settings');
                                     setShowSettingsModal(true);
                                 },
-                                onTouchStart: () => {
-                                    setShowSettingsModal(true);
-                                },
-                                type: 'button'
+                                type: 'button',
+                                style: {
+                                    position: 'relative',
+                                    zIndex: 9999,
+                                    pointerEvents: 'auto'
+                                }
                             }, [
                                 React.createElement('span', { 
                                     key: 'icon',
