@@ -5725,32 +5725,7 @@
             ]);
         }
 
-        // Enhanced Language Toggle Component
-        function LanguageToggle() {
-            const { language, toggleLanguage } = useLanguage();
-            const [isAnimating, setIsAnimating] = useState(false);
-            
-            const handleToggle = () => {
-                if (isAnimating) return;
-                
-                setIsAnimating(true);
-                
-                // Add language switch animation to body
-                document.body.classList.add('language-switch');
-                
-                setTimeout(() => {
-                    toggleLanguage();
-                    setIsAnimating(false);
-                    document.body.classList.remove('language-switch');
-                }, 200);
-            };
-            
-            return React.createElement('button', {
-                className: `language-toggle ${isAnimating ? 'language-switch' : ''}`,
-                onClick: handleToggle,
-                disabled: isAnimating
-            }, language === 'en' ? '🇸🇦 العربية' : '🇺🇸 English');
-        }
+        // Language Toggle Component (removed from editing page - only available in settings)
 
         // Toast Container
         function ToastContainer() {
