@@ -4439,6 +4439,20 @@
         // Settings Modal for editing page
         function SettingsModal({ isOpen, onClose }) {
             const { t, isRTL, language, toggleLanguage } = useLanguage();
+            const [tempLanguage, setTempLanguage] = React.useState(language);
+            
+            React.useEffect(() => {
+                if (isOpen) {
+                    setTempLanguage(language);
+                }
+            }, [isOpen, language]);
+            
+            const handleDone = () => {
+                if (tempLanguage !== language) {
+                    toggleLanguage();
+                }
+                onClose();
+            };
             
             if (!isOpen) return null;
             
@@ -4513,12 +4527,9 @@
                             }, [
                                 React.createElement('button', {
                                     key: 'english',
-                                    className: `group relative p-4 text-left border rounded-xl transition-all duration-200 ${language === 'en' ? 'border-blue-500 bg-blue-50 shadow-sm' : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'}`,
+                                    className: `group relative p-4 text-left border rounded-xl transition-all duration-200 ${tempLanguage === 'en' ? 'border-blue-500 bg-blue-50 shadow-sm' : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'}`,
                                     onClick: () => {
-                                        if (language !== 'en') {
-                                            toggleLanguage();
-                                            setTimeout(() => onClose(), 300);
-                                        }
+                                        setTempLanguage('en');
                                     }
                                 }, [
                                     React.createElement('div', {
@@ -4547,7 +4558,7 @@
                                                 className: 'text-xs text-gray-500'
                                             }, 'Default language')
                                         ]),
-                                        language === 'en' && React.createElement('div', {
+                                        tempLanguage === 'en' && React.createElement('div', {
                                             key: 'check',
                                             className: 'w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center'
                                         }, [
@@ -4561,12 +4572,9 @@
                                 
                                 React.createElement('button', {
                                     key: 'arabic',
-                                    className: `group relative p-4 text-left border rounded-xl transition-all duration-200 ${language === 'ar' ? 'border-blue-500 bg-blue-50 shadow-sm' : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'}`,
+                                    className: `group relative p-4 text-left border rounded-xl transition-all duration-200 ${tempLanguage === 'ar' ? 'border-blue-500 bg-blue-50 shadow-sm' : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'}`,
                                     onClick: () => {
-                                        if (language !== 'ar') {
-                                            toggleLanguage();
-                                            setTimeout(() => onClose(), 300);
-                                        }
+                                        setTempLanguage('ar');
                                     }
                                 }, [
                                     React.createElement('div', {
@@ -4595,7 +4603,7 @@
                                                 className: 'text-xs text-gray-500'
                                             }, 'Arabic language')
                                         ]),
-                                        language === 'ar' && React.createElement('div', {
+                                        tempLanguage === 'ar' && React.createElement('div', {
                                             key: 'check',
                                             className: 'w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center'
                                         }, [
@@ -4617,7 +4625,7 @@
                         React.createElement('button', {
                             key: 'close',
                             className: 'w-full py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors duration-200 flex items-center justify-center gap-2',
-                            onClick: onClose
+                            onClick: handleDone
                         }, [
                             React.createElement('span', { key: 'text' }, isRTL ? 'تم' : 'Done'),
                             React.createElement('span', {
@@ -5296,17 +5304,17 @@
                             // Settings icon for both mobile and desktop
                             React.createElement('button', {
                                 key: 'settings',
-                                className: 'relative z-[9999] p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 flex items-center gap-2 cursor-pointer touch-action-manipulation border-2 border-blue-200 hover:border-blue-300',
-                                onClick: () => {
+                                className: 'relative z-[9999] p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 flex items-center gap-2 cursor-pointer border-2 border-blue-200 hover:border-blue-300',
+                                onPointerDown: () => {
                                     setShowSettingsModal(true);
                                 },
-                                type: 'button',
-                                style: {
-                                    pointerEvents: 'auto',
-                                    userSelect: 'none',
-                                    position: 'relative',
-                                    zIndex: 9999
-                                }
+                                onMouseDown: () => {
+                                    setShowSettingsModal(true);
+                                },
+                                onTouchStart: () => {
+                                    setShowSettingsModal(true);
+                                },
+                                type: 'button'
                             }, [
                                 React.createElement('span', { 
                                     key: 'icon',
