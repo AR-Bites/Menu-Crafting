@@ -5022,56 +5022,134 @@
                 setShowShareModal(true);
             }, [menu, sections, addToast]);
 
-            // Mobile-first editor structure
-            if (isMobileDevice()) {
-                return React.createElement('div', {
-                    className: `mobile-app bg-gray-50 ${isRTL ? 'rtl' : ''}`,
-                    dir: isRTL ? 'rtl' : 'ltr'
+            return React.createElement('div', {
+                className: `${isMobileDevice() ? 'mobile-app' : 'min-h-screen'} bg-gray-50 ${isRTL ? 'rtl' : ''}`,
+                dir: isRTL ? 'rtl' : 'ltr'
+            }, [
+                // Header - Mobile optimized
+                isMobileDevice() ? React.createElement('div', {
+                    key: 'mobile-header',
+                    className: 'mobile-header'
                 }, [
-                    // Mobile Header
                     React.createElement('div', {
-                        key: 'mobile-header',
-                        className: 'mobile-header'
+                        key: 'header-content',
+                        className: 'header-content'
+                    }, [
+                        React.createElement('button', {
+                            key: 'back-btn',
+                            className: 'header-btn back-btn',
+                            onClick: onBack
+                        }, '← Back'),
+                        React.createElement('h1', {
+                            key: 'title',
+                            className: 'header-title'
+                        }, isRTL ? 'محرر القائمة' : 'Menu Editor'),
+                        React.createElement('button', {
+                            key: 'menu-btn',
+                            className: 'header-btn menu-btn',
+                            onClick: () => setIsMobileSidebarOpen(!isMobileSidebarOpen)
+                        }, '☰')
+                    ])
+                ]) : React.createElement('div', {
+                    key: 'header',
+                    className: 'bg-white shadow-sm border-b px-6 py-4 sticky top-0 z-40'
+                }, [
+                    React.createElement('div', {
+                        key: 'header-content',
+                        className: 'flex items-center justify-between max-w-7xl mx-auto'
                     }, [
                         React.createElement('div', {
-                            key: 'header-content',
-                            className: 'header-content'
+                            key: 'left',
+                            className: 'flex items-center gap-4'
                         }, [
                             React.createElement('button', {
-                                key: 'back-btn',
-                                className: 'header-btn back-btn',
+                                key: 'back',
+                                className: 'btn btn-secondary',
                                 onClick: onBack
-                            }, '← Back'),
+                            }, '← ' + (isRTL ? 'رجوع' : 'Back')),
                             React.createElement('h1', {
                                 key: 'title',
-                                className: 'header-title'
-                            }, isRTL ? 'محرر القائمة' : 'Menu Editor'),
-                            React.createElement('button', {
-                                key: 'menu-btn',
-                                className: 'header-btn menu-btn',
-                                onClick: () => setIsMobileSidebarOpen(!isMobileSidebarOpen)
-                            }, '☰')
-                        ])
-                    ]),
-
-                    // Mobile Content
-                    React.createElement('div', {
-                        key: 'mobile-content',
-                        className: 'mobile-content'
-                    }, [
-                        // Menu Preview
+                                className: 'text-2xl font-bold text-gray-800'
+                            }, t('menuEditor'))
+                        ]),
+                        
                         React.createElement('div', {
-                            key: 'preview-container',
-                            className: 'preview-container'
+                            key: 'right',
+                            className: 'flex items-center gap-4'
                         }, [
-                            React.createElement(MenuPreview, {
-                                key: 'preview',
-                                menu: { ...menu, sections },
-                                isDesktop: false
+                            React.createElement('div', {
+                                key: 'view-toggle',
+                                className: 'view-toggle'
+                            }, [
+                                ['desktop', '🖥️', t('desktop')],
+                                ['tablet', '📱', t('tablet')], 
+                                ['mobile', '📱', t('mobile')]
+                            ]
+                            .filter(([mode]) => {
+                                // On tablet devices, show tablet and mobile options
+                                if (isTabletDevice()) return mode !== 'desktop';
+                                // On desktop, show all options
+                                return true;
                             })
+                            .map(([mode, icon, label]) => 
+                                React.createElement('button', {
+                                    key: mode,
+                                    className: `view-toggle-btn ${viewMode === mode ? 'active' : ''}`,
+                                    onClick: () => handleViewModeChange(mode),
+                                    disabled: isViewSwitching,
+                                    'aria-label': `${t('switchTo')} ${label}`,
+                                    'data-mode': mode,
+                                    type: 'button'
+                                }, [
+                                    React.createElement('span', { 
+                                        key: 'icon', 
+                                        className: 'view-icon'
+                                    }, icon),
+                                    React.createElement('span', { 
+                                        key: 'label', 
+                                        className: 'view-label'
+                                    }, label)
+                                ])
+                            )),
+                            
+                            React.createElement('button', {
+                                key: 'save',
+                                className: 'btn btn-secondary',
+                                onClick: handleSave,
+                                disabled: isSaving
+                            }, isSaving ? [
+                                React.createElement('div', {
+                                    key: 'spinner',
+                                    className: 'loading-spinner mr-2'
+                                }),
+                                t('saving')
+                            ] : t('save')),
+                            
+                            React.createElement('button', {
+                                key: 'publish',
+                                className: 'btn btn-primary',
+                                onClick: handlePublish
+                            }, t('publish'))
                         ])
-                    ]),
+                    ])
+                ]),
 
+                // Main Content Area
+                isMobileDevice() ? React.createElement('div', {
+                    key: 'mobile-content',
+                    className: 'mobile-content'
+                }, [
+                    React.createElement('div', {
+                        key: 'preview-container',
+                        className: 'preview-container'
+                    }, [
+                        React.createElement(MenuPreview, {
+                            key: 'preview',
+                            menu: { ...menu, sections },
+                            isDesktop: false
+                        })
+                    ]),
+                    
                     // Mobile Sidebar
                     React.createElement('div', {
                         key: 'mobile-sidebar',
@@ -5216,184 +5294,8 @@
                         key: 'overlay',
                         className: 'mobile-overlay',
                         onClick: () => setIsMobileSidebarOpen(false)
-                    }),
-
-                    // Modals
-                    showSectionModal && React.createElement(SectionModal, {
-                        key: 'section-modal',
-                        isOpen: showSectionModal,
-                        onClose: () => {
-                            setShowSectionModal(false);
-                            setEditingSection(null);
-                        },
-                        section: editingSection,
-                        onSave: handleSaveSection
-                    }),
-
-                    showItemModal && React.createElement(ItemModal, {
-                        key: 'item-modal',
-                        isOpen: showItemModal,
-                        onClose: () => {
-                            setShowItemModal(false);
-                            setEditingItem(null);
-                            setCurrentSectionId(null);
-                        },
-                        item: editingItem,
-                        onSave: handleSaveItem
-                    }),
-
-                    showShareModal && React.createElement(ShareModal, {
-                        key: 'share-modal',
-                        isOpen: showShareModal,
-                        onClose: () => setShowShareModal(false),
-                        menu: { ...menu, sections }
                     })
-                ]);
-            }
-
-            // Desktop editor (existing code)
-            return React.createElement('div', {
-                className: `min-h-screen bg-gray-50 ${isRTL ? 'rtl' : ''}`,
-                dir: isRTL ? 'rtl' : 'ltr'
-            }, [
-                // Header
-                React.createElement('div', {
-                    key: 'header',
-                    className: `bg-white shadow-sm border-b ${isMobileDevice() ? 'px-4 py-3' : 'px-6 py-4'} sticky top-0 z-40`
-                }, [
-                    React.createElement('div', {
-                        key: 'header-content',
-                        className: 'flex items-center justify-between max-w-7xl mx-auto'
-                    }, [
-                        React.createElement('div', {
-                            key: 'left',
-                            className: 'flex items-center gap-2'
-                        }, [
-                            // Mobile hamburger menu button
-                            isMobileDevice() && React.createElement('button', {
-                                key: 'mobile-menu',
-                                className: 'flex items-center justify-center w-10 h-10 rounded-lg bg-blue-600 text-white shadow-lg',
-                                onClick: () => setIsMobileSidebarOpen(!isMobileSidebarOpen)
-                            }, isMobileSidebarOpen ? '✕' : '☰'),
-                            
-                            !isMobileDevice() && React.createElement('button', {
-                                key: 'back',
-                                className: 'btn btn-secondary',
-                                onClick: onBack
-                            }, '← ' + (isRTL ? 'رجوع' : 'Back')),
-                            
-                            React.createElement('h1', {
-                                key: 'title',
-                                className: `${isMobileDevice() ? 'text-lg' : 'text-2xl'} font-bold text-gray-800`
-                            }, isMobileDevice() ? (isRTL ? 'محرر القائمة' : 'Menu Editor') : t('menuEditor'))
-                        ]),
-                        
-                        React.createElement('div', {
-                            key: 'right',
-                            className: 'flex items-center gap-2'
-                        }, [
-                            // Mobile quick actions
-                            isMobileDevice() && React.createElement('div', {
-                                key: 'mobile-actions',
-                                className: 'flex items-center gap-2'
-                            }, [
-                                React.createElement('button', {
-                                    key: 'back-mobile',
-                                    className: 'flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 text-gray-700',
-                                    onClick: onBack
-                                }, '←'),
-                                React.createElement('button', {
-                                    key: 'publish-mobile',
-                                    className: 'flex items-center justify-center px-3 py-1 text-sm bg-green-600 text-white rounded-lg font-medium',
-                                    onClick: handlePublish
-                                }, isRTL ? 'نشر' : 'Share')
-                            ]),
-                            // Hide view toggle completely on mobile devices
-                            !isMobileDevice() && React.createElement('div', {
-                                key: 'view-toggle',
-                                className: 'view-toggle'
-                            }, [
-                                ['desktop', '🖥️', t('desktop')],
-                                ['tablet', '📱', t('tablet')], 
-                                ['mobile', '📱', t('mobile')]
-                            ]
-                            .filter(([mode]) => {
-                                // On tablet devices, show tablet and mobile options
-                                if (isTabletDevice()) return mode !== 'desktop';
-                                // On desktop, show all options
-                                return true;
-                            })
-                            .map(([mode, icon, label]) => 
-                                React.createElement('button', {
-                                    key: mode,
-                                    className: `view-toggle-btn ${viewMode === mode ? 'active' : ''}`,
-                                    onClick: () => handleViewModeChange(mode),
-                                    disabled: isViewSwitching,
-                                    'aria-label': `${t('switchTo')} ${label}`,
-                                    'data-mode': mode,
-                                    type: 'button'
-                                }, [
-                                    React.createElement('span', { 
-                                        key: 'icon', 
-                                        className: 'view-icon'
-                                    }, icon),
-                                    React.createElement('span', { 
-                                        key: 'label', 
-                                        className: 'view-label'
-                                    }, label)
-                                ])
-                            )),
-                            
-                            React.createElement('button', {
-                                key: 'save',
-                                className: 'btn btn-secondary',
-                                onClick: handleSave,
-                                disabled: isSaving
-                            }, isSaving ? [
-                                React.createElement('div', {
-                                    key: 'spinner',
-                                    className: 'loading-spinner mr-2'
-                                }),
-                                t('saving')
-                            ] : t('save')),
-                            
-                            React.createElement('button', {
-                                key: 'publish',
-                                className: 'btn btn-primary',
-                                onClick: handlePublish
-                            }, t('publish'))
-                        ])
-                    ])
-                ]),
-
-                // Mobile Sidebar Overlay
-                isMobileDevice() && isMobileSidebarOpen && React.createElement('div', {
-                    key: 'mobile-overlay',
-                    className: 'fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden',
-                    onClick: () => setIsMobileSidebarOpen(false)
-                }),
-
-                // Mobile Floating Action Button
-                isMobileDevice() && !isMobileSidebarOpen && React.createElement('div', {
-                    key: 'mobile-fab',
-                    className: 'fixed bottom-6 right-6 z-50'
-                }, [
-                    React.createElement('button', {
-                        key: 'add-section',
-                        className: 'flex items-center justify-center w-14 h-14 bg-blue-600 text-white rounded-full shadow-lg mb-3',
-                        onClick: () => {
-                            setEditingSection(null);
-                            setShowSectionModal(true);
-                        }
-                    }, '+'),
-                    React.createElement('div', {
-                        key: 'fab-label',
-                        className: 'text-xs text-center text-gray-600 font-medium'
-                    }, isRTL ? 'إضافة قسم' : 'Add Section')
-                ]),
-
-                // Main Content
-                React.createElement('div', {
+                ]) : React.createElement('div', {
                     key: 'main',
                     className: 'flex max-w-7xl mx-auto min-h-screen'
                 }, [
