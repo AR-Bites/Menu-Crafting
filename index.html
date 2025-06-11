@@ -5210,22 +5210,12 @@
                             key: 'right',
                             className: 'flex items-center gap-2'
                         }, [
-                            // Mobile quick actions - simplified header
-                            isMobileDevice() && React.createElement('div', {
-                                key: 'mobile-header-actions',
-                                className: 'flex items-center gap-2'
-                            }, [
-                                React.createElement('button', {
-                                    key: 'settings',
-                                    className: 'flex items-center justify-center w-9 h-9 rounded-lg bg-gray-100 text-gray-600 touch-action-manipulation',
-                                    onClick: () => setShowSettingsModal(true)
-                                }, '⚙️'),
-                                React.createElement('button', {
-                                    key: 'back-mobile',
-                                    className: 'flex items-center justify-center w-9 h-9 rounded-lg bg-gray-100 text-gray-700 touch-action-manipulation',
-                                    onClick: onBack
-                                }, '←')
-                            ]),
+                            // Mobile back button
+                            isMobileDevice() && React.createElement('button', {
+                                key: 'back-mobile',
+                                className: 'flex items-center justify-center w-9 h-9 rounded-lg bg-gray-100 text-gray-700 touch-action-manipulation',
+                                onClick: onBack
+                            }, '←'),
                             // Hide view toggle completely on mobile devices
                             !isMobileDevice() && React.createElement('div', {
                                 key: 'view-toggle',
@@ -5262,6 +5252,16 @@
                                 ])
                             )),
                             
+                            // Settings button for both mobile and desktop
+                            React.createElement('button', {
+                                key: 'settings',
+                                className: 'btn btn-secondary flex items-center gap-2',
+                                onClick: () => setShowSettingsModal(true)
+                            }, [
+                                React.createElement('span', { key: 'icon' }, '⚙️'),
+                                !isMobileDevice() && React.createElement('span', { key: 'text' }, t('settings') || 'Settings')
+                            ]),
+
                             // Save button only on desktop
                             !isMobileDevice() && React.createElement('button', {
                                 key: 'save',
@@ -5275,9 +5275,6 @@
                                 }),
                                 t('saving')
                             ] : t('save')),
-                            
-                            // Language toggle for desktop only
-                            !isMobileDevice() && React.createElement(LanguageToggle, { key: 'language-toggle' }),
                             
                             // Hide publish button on mobile - use bottom nav instead
                             !isMobileDevice() && React.createElement('button', {
