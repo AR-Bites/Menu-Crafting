@@ -6522,41 +6522,15 @@
                 }
             };
 
-            const contentElements = [
-                React.createElement(ToastContainer, { key: 'toasts' })
-            ];
-
-            // Add language toggle for all pages except editor
-            if (currentStep !== STEPS.EDITOR) {
-                contentElements.push(
-                    React.createElement('div', {
-                        key: 'language-toggle-container',
-                        className: 'fixed top-4 right-4 z-50'
-                    }, React.createElement('button', {
-                        className: 'px-4 py-2 bg-white hover:bg-gray-50 rounded-lg shadow-md border border-gray-200 transition-all duration-200 flex items-center gap-2 text-sm font-medium',
-                        onClick: toggleLanguage
-                    }, [
-                        React.createElement('span', {
-                            key: 'flag',
-                            className: 'text-base'
-                        }, language === 'en' ? '🇸🇦' : '🇺🇸'),
-                        React.createElement('span', {
-                            key: 'text'
-                        }, language === 'en' ? 'العربية' : 'English')
-                    ]))
-                );
-            }
-
-            contentElements.push(
+            return React.createElement('div', { 
+                className: `min-h-screen ${isTransitioning ? 'language-switch' : ''}` 
+            }, [
+                React.createElement(ToastContainer, { key: 'toasts' }),
                 React.createElement('div', { 
                     key: 'content',
                     className: currentStep !== STEPS.LANDING ? 'fade-in' : ''
                 }, renderCurrentStep())
-            );
-
-            return React.createElement('div', { 
-                className: `min-h-screen ${isTransitioning ? 'language-switch' : ''}` 
-            }, contentElements);
+            ]);
         }
 
         // Root App with Providers
