@@ -2639,6 +2639,86 @@
             .safe-area-pb {
                 padding-bottom: env(safe-area-inset-bottom) !important;
             }
+
+            /* Mobile modal optimizations */
+            .mobile-editor .modal-overlay {
+                align-items: flex-end !important;
+                justify-content: stretch !important;
+                padding: 0 !important;
+            }
+
+            .mobile-editor .modal {
+                max-width: 100% !important;
+                width: 100% !important;
+                max-height: 75vh !important;
+                border-radius: 20px 20px 0 0 !important;
+                animation: modalSlideUp 0.3s ease-out !important;
+                margin: 0 !important;
+            }
+
+            .mobile-editor .modal-header {
+                padding: 20px 20px 12px 20px !important;
+                border-bottom: 1px solid #e5e7eb !important;
+            }
+
+            .mobile-editor .modal-content {
+                padding: 20px !important;
+                font-size: 16px !important;
+            }
+
+            .mobile-editor .modal-actions {
+                padding: 16px 20px 28px 20px !important;
+                gap: 12px !important;
+                display: flex !important;
+                flex-direction: column !important;
+            }
+
+            .mobile-editor .modal h3 {
+                font-size: 18px !important;
+                font-weight: 600 !important;
+                margin-bottom: 8px !important;
+            }
+
+            .mobile-editor .modal input,
+            .mobile-editor .modal textarea,
+            .mobile-editor .modal select {
+                min-height: 48px !important;
+                font-size: 16px !important;
+                padding: 14px !important;
+                border-radius: 10px !important;
+                border: 2px solid #e5e7eb !important;
+            }
+
+            .mobile-editor .modal .btn {
+                min-height: 48px !important;
+                font-size: 16px !important;
+                font-weight: 600 !important;
+                border-radius: 10px !important;
+                width: 100% !important;
+            }
+
+            .mobile-editor .form-group {
+                margin-bottom: 16px !important;
+            }
+
+            .mobile-editor .form-group label {
+                font-size: 15px !important;
+                font-weight: 600 !important;
+                color: #374151 !important;
+                margin-bottom: 8px !important;
+                display: block !important;
+            }
+
+            @keyframes modalSlideUp {
+                from {
+                    transform: translateY(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
         }
 
         /* Print Styles */
@@ -2820,7 +2900,7 @@
             ar: {
                 // Main navigation
                 title: "منشئ قوائم المطاعم",
-                subtitle: "إنشاء قوائم رقمية جميلة ومتعددة الل �ات بسهولة السحب والإفلات",
+                subtitle: "إنشاء قوائم رقمية جميلة ومتعددة اللغات بسهولة السحب والإفلات",
                 selectTemplate: "اختر القالب المناسب",
                 getStarted: "ابدأ الآن",
                 
@@ -4935,7 +5015,8 @@
                                 ])
                             )),
                             
-                            React.createElement('button', {
+                            // Save button only on desktop
+                            !isMobileDevice() && React.createElement('button', {
                                 key: 'save',
                                 className: 'btn btn-secondary',
                                 onClick: handleSave,
@@ -4948,7 +5029,11 @@
                                 t('saving')
                             ] : t('save')),
                             
-                            React.createElement('button', {
+                            // Language toggle for desktop only
+                            !isMobileDevice() && React.createElement(LanguageToggle, { key: 'language-toggle' }),
+                            
+                            // Hide publish button on mobile - use bottom nav instead
+                            !isMobileDevice() && React.createElement('button', {
                                 key: 'publish',
                                 className: 'btn btn-primary',
                                 onClick: handlePublish
@@ -5033,15 +5118,21 @@
                         key: 'sidebar',
                         className: `sidebar ${isMobileDevice() ? 'mobile-sidebar' : 'w-80 p-6 h-screen overflow-y-auto sticky top-16'} bg-white ${isMobileDevice() ? (isMobileSidebarOpen ? 'open' : '') : ''}`
                     }, [
-                        // Mobile sidebar header
+                        // Mobile sidebar header with language toggle
                         isMobileDevice() && React.createElement('div', {
                             key: 'mobile-header',
                             className: 'flex items-center justify-between mb-6 pb-4 border-b border-gray-200'
                         }, [
-                            React.createElement('h2', {
-                                key: 'title',
-                                className: 'text-lg font-semibold text-gray-800'
-                            }, isRTL ? 'أدوات التحرير' : 'Editing Tools'),
+                            React.createElement('div', {
+                                key: 'header-left',
+                                className: 'flex items-center gap-3'
+                            }, [
+                                React.createElement('h2', {
+                                    key: 'title',
+                                    className: 'text-lg font-semibold text-gray-800'
+                                }, isRTL ? 'أدوات التحرير' : 'Editing Tools'),
+                                React.createElement(LanguageToggle, { key: 'mobile-language-toggle' })
+                            ]),
                             React.createElement('button', {
                                 key: 'close',
                                 className: 'flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 text-gray-600',
