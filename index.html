@@ -2954,6 +2954,14 @@
                 "minimal": "Minimal",
                 "clean": "Clean",
                 "serif": "Serif",
+                "inter": "Inter (Modern)",
+                "interFont": "Inter (Modern)",
+                "serifFont": "Playfair (Elegant)",
+                "sansFont": "System (Clean)",
+                "indigo": "Indigo",
+                "rose": "Rose", 
+                "amber": "Amber",
+                "emerald": "Emerald",
                 
                 useTemplate: "Use This Template",
                 chooseTemplate: "Choose This Template",
@@ -3110,6 +3118,14 @@
                 "minimal": "بسيط",
                 "clean": "نظيف",
                 "serif": "سيريف",
+                "inter": "إنتر (عصري)",
+                "interFont": "إنتر (عصري)",
+                "serifFont": "بلايفير (أنيق)",
+                "sansFont": "النظام (نظيف)",
+                "indigo": "نيلي",
+                "rose": "وردي", 
+                "amber": "عنبري",
+                "emerald": "زمردي",
                 
                 useTemplate: "استخدم هذا القالب",
                 chooseTemplate: "اختر هذا القالب",
@@ -5698,9 +5714,9 @@
                                         value: menu.fontFamily,
                                         onChange: (e) => setMenu(prev => ({...prev, fontFamily: e.target.value}))
                                     }, [
-                                        React.createElement('option', { key: 'inter', value: 'inter' }, 'Inter (Modern)'),
-                                        React.createElement('option', { key: 'serif', value: 'serif' }, 'Playfair (Elegant)'),
-                                        React.createElement('option', { key: 'sans', value: 'sans' }, 'System (Clean)')
+                                        React.createElement('option', { key: 'inter', value: 'inter' }, t('interFont')),
+                                        React.createElement('option', { key: 'serif', value: 'serif' }, t('serifFont')),
+                                        React.createElement('option', { key: 'sans', value: 'sans' }, t('sansFont'))
                                     ])
                                 ])
                             ])
@@ -6511,11 +6527,11 @@
                             React.createElement('h3', {
                                 key: 'name',
                                 className: 'font-bold text-gray-900 mb-1'
-                            }, template.name),
+                            }, t(template.id)),
                             React.createElement('p', {
                                 key: 'desc',
                                 className: 'text-sm text-gray-600 mb-3'
-                            }, template.description),
+                            }, t(template.id + 'Desc')),
                             React.createElement('div', {
                                 key: 'features',
                                 className: 'flex gap-2 flex-wrap'
@@ -6523,11 +6539,11 @@
                                 React.createElement('span', {
                                     key: 'font',
                                     className: 'px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full'
-                                }, template.fontFamily === 'serif' ? 'Serif' : template.fontFamily === 'inter' ? 'Modern' : 'Clean'),
+                                }, template.fontFamily === 'serif' ? t('serif') : template.fontFamily === 'inter' ? t('modern') : t('clean')),
                                 React.createElement('span', {
                                     key: 'color',
                                     className: 'px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full'
-                                }, template.colorScheme.charAt(0).toUpperCase() + template.colorScheme.slice(1))
+                                }, t(template.colorScheme))
                             ])
                         ])
                     ])
