@@ -2934,7 +2934,8 @@
                 // Main navigation
                 title: "Restaurant Menu Builder",
                 subtitle: "Create beautiful, multilingual digital menus with drag-and-drop ease",
-                selectTemplate: "Choose a template that perfectly matches your restaurant style",
+                selectTemplate: "Choose Your Template",
+                selectTemplateSubtitle: "Pick a design that matches your restaurant's style",
                 getStarted: "Get Started",
                 
                 // Templates
@@ -3098,7 +3099,8 @@
                 // Main navigation
                 title: "منشئ قوائم المطاعم",
                 subtitle: "إنشاء قوائم رقمية جميلة ومتعددة اللغات بسهولة السحب والإفلات",
-                selectTemplate: "اختر قالباً يناسب أسلوب مطعمك بشكل مثالي",
+                selectTemplate: "اختر قالبك",
+                selectTemplateSubtitle: "اختر تصميماً يناسب أسلوب مطعمك",
                 getStarted: "ابدأ الآن",
                 
                 // Templates
@@ -6465,6 +6467,7 @@
             const selectedTemplateData = templates.find(t => t.id === selectedTemplate);
 
             return React.createElement('div', {
+                key: `template-selection-${language}`,
                 className: `screen min-h-screen p-8 ${isRTL ? 'rtl' : ''}`,
                 dir: isRTL ? 'rtl' : 'ltr'
             }, [
@@ -6495,15 +6498,15 @@
                     React.createElement('p', {
                         key: 'subtitle',
                         className: 'text-xl text-white opacity-90 max-w-2xl mx-auto'
-                    }, 'Choose a template that perfectly matches your restaurant style')
+                    }, t('selectTemplateSubtitle'))
                 ]),
                 
                 React.createElement('div', {
-                    key: 'templates',
+                    key: `templates-${language}`,
                     className: 'max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16'
                 }, templates.map((template, index) => 
                     React.createElement('div', {
-                        key: template.id,
+                        key: `${template.id}-${language}`,
                         className: `bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer border-2 ${
                             selectedTemplate === template.id ? 'border-blue-500 ring-4 ring-blue-200' : 'border-transparent'
                         }`,
