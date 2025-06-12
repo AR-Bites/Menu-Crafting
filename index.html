@@ -6383,7 +6383,7 @@
 
         // Enhanced Template Selection with Live Previews
         function EnhancedTemplateSelection({ onSelectTemplate }) {
-            const { t, isRTL, toggleLanguage } = useLanguage();
+            const { t, isRTL, toggleLanguage, language } = useLanguage();
             const [selectedTemplate, setSelectedTemplate] = useState(null);
             const [isSelecting, setIsSelecting] = useState(false);
             const [showConfirmation, setShowConfirmation] = useState(false);
@@ -6391,54 +6391,8 @@
             const handleTemplateClick = (template) => {
                 if (isSelecting) return;
                 
-                // INSTANT visual feedback
                 setSelectedTemplate(template.id);
-                setShowConfirmation(true);
-                
-                // Apply template configuration to menu immediately
-                const templateConfig = {
-                    colorScheme: template.colorScheme,
-                    fontFamily: template.fontFamily,
-                    spacing: template.spacing,
-                    headerStyle: template.headerStyle,
-                    name: 'Sample Restaurant',
-                    tagline: 'Delicious cuisine awaits',
-                    sections: [
-                        {
-                            name: 'Appetizers',
-                            items: [
-                                { name: 'Caesar Salad', description: 'Fresh romaine, parmesan', price: '$12' },
-                                { name: 'Bruschetta', description: 'Tomato, basil, garlic', price: '$8' }
-                            ]
-                        }
-                    ]
-                };
-                
-                // Store template config for editor to use
-                window.selectedTemplateConfig = templateConfig;
-                
-                // Trigger custom event to notify editor of template selection
-                window.dispatchEvent(new CustomEvent('templateSelected', { 
-                    detail: templateConfig 
-                }));
-                
-                // Visual confirmation with smooth scroll
-                setTimeout(() => {
-                    const confirmationElement = document.getElementById('template-confirmation');
-                    if (confirmationElement) {
-                        confirmationElement.scrollIntoView({ 
-                            behavior: 'smooth',
-                            block: 'center'
-                        });
-                    }
-                }, 50);
-            };
-
-            const handleConfirmSelection = () => {
-                if (!selectedTemplate) return;
-                
                 setIsSelecting(true);
-                const template = templates.find(t => t.id === selectedTemplate);
                 
                 // Create menu with template configuration applied
                 const menuWithTemplate = {
@@ -6461,7 +6415,7 @@
                 
                 setTimeout(() => {
                     onSelectTemplate(menuWithTemplate);
-                }, 800);
+                }, 300);
             };
 
             const selectedTemplateData = templates.find(t => t.id === selectedTemplate);
