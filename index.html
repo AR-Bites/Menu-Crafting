@@ -2969,8 +2969,9 @@
                 templateSelected: "Template Selected!",
                 perfectChoice: "Perfect Choice!",
                 selectedTemplate: "You selected",
-                chooseDifferent: "Choose Different",
                 startBuilding: "Start Building",
+                chooseDifferent: "Choose Different",
+                loading: "Loading...",
                 
                 // Editor
                 menuEditor: "Menu Editor",
@@ -3134,8 +3135,9 @@
                 templateSelected: "تم اختيار القالب!",
                 perfectChoice: "اختيار مثالي!",
                 selectedTemplate: "لقد اخترت",
-                chooseDifferent: "اختر قالب مختلف",
                 startBuilding: "ابدأ البناء",
+                chooseDifferent: "اختر قالب مختلف",
+                loading: "جاري التحميل...",
                 
                 // Editor
                 menuEditor: "محرر القائمة",
@@ -6392,7 +6394,25 @@
                 if (isSelecting) return;
                 
                 setSelectedTemplate(template.id);
+                setShowConfirmation(true);
+                
+                // Scroll to confirmation section
+                setTimeout(() => {
+                    const confirmationElement = document.getElementById('template-confirmation');
+                    if (confirmationElement) {
+                        confirmationElement.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
+                    }
+                }, 100);
+            };
+
+            const handleConfirmSelection = () => {
+                if (!selectedTemplate) return;
+                
                 setIsSelecting(true);
+                const template = templates.find(t => t.id === selectedTemplate);
                 
                 // Create menu with template configuration applied
                 const menuWithTemplate = {
@@ -6415,7 +6435,7 @@
                 
                 setTimeout(() => {
                     onSelectTemplate(menuWithTemplate);
-                }, 300);
+                }, 800);
             };
 
             const selectedTemplateData = templates.find(t => t.id === selectedTemplate);
