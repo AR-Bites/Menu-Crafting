@@ -6003,6 +6003,8 @@
         // Landing Page Component - Clean Canva Style
         function LandingPage({ onContinue }) {
             const { t, isRTL, toggleLanguage } = useLanguage();
+            const [showAuth, setShowAuth] = useState(null);
+            const [currentSection, setCurrentSection] = useState('hero');
             
             const scrollToSection = (sectionId) => {
                 const element = document.getElementById(sectionId);
