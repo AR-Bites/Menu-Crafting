@@ -6276,9 +6276,8 @@
         };
 
         // Landing Page Component - Clean Canva Style
-        function LandingPage({ onContinue }) {
+        function LandingPage({ onContinue, onAuth }) {
             const { t, isRTL, toggleLanguage } = useLanguage();
-            const [showAuth, setShowAuth] = useState(null);
             const [currentSection, setCurrentSection] = useState('hero');
             
             const scrollToSection = (sectionId) => {
@@ -6289,7 +6288,7 @@
                 }
             };
 
-            const closeAuth = () => setShowAuth(null);
+
 
             return React.createElement('div', {
                 className: `min-h-screen bg-white ${isRTL ? 'rtl' : ''}`,
@@ -6355,12 +6354,12 @@
                     }, [
                         React.createElement('button', {
                             key: 'login-btn',
-                            onClick: () => setCurrentPage('auth'),
+                            onClick: onAuth,
                             className: 'px-4 py-2 text-blue-600 hover:text-blue-700 font-medium transition-colors'
                         }, t('logIn')),
                         React.createElement('button', {
                             key: 'signup-btn',
-                            onClick: () => setCurrentPage('auth'),
+                            onClick: onAuth,
                             className: 'px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium shadow-md'
                         }, t('signUp')),
                         React.createElement('button', {
@@ -7424,6 +7423,10 @@
                 transitionToStep(STEPS.TEMPLATE);
             };
 
+            const handleLandingAuth = () => {
+                transitionToStep(STEPS.AUTH);
+            };
+
             const handleTemplateAuth = () => {
                 transitionToStep(STEPS.AUTH);
             };
@@ -7505,7 +7508,8 @@
                 switch (currentStep) {
                     case STEPS.LANDING:
                         return React.createElement(LandingPage, {
-                            onContinue: handleLandingContinue
+                            onContinue: handleLandingContinue,
+                            onAuth: handleLandingAuth
                         });
                     case STEPS.TEMPLATE:
                         return React.createElement(EnhancedTemplateSelection, {
