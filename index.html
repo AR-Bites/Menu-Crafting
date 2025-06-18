@@ -3017,51 +3017,103 @@
 
             const signInWithGoogle = async () => {
                 try {
-                    if (window.firebaseSignInWithPopup && window.firebaseAuth && window.firebaseGoogleProvider) {
-                        await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseGoogleProvider);
+                    if (!window.firebaseAuth) {
+                        throw new Error('Firebase not initialized');
                     }
+                    if (!window.firebaseSignInWithPopup) {
+                        throw new Error('Firebase signInWithPopup not available');
+                    }
+                    if (!window.firebaseGoogleProvider) {
+                        throw new Error('Google provider not available');
+                    }
+                    
+                    console.log('Attempting Google sign-in...');
+                    const result = await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseGoogleProvider);
+                    console.log('Google sign-in successful:', result.user);
+                    return result.user;
                 } catch (error) {
                     console.error('Google sign-in failed:', error);
+                    if (error.code === 'auth/popup-closed-by-user') {
+                        throw new Error('Sign-in was cancelled');
+                    } else if (error.code === 'auth/popup-blocked') {
+                        throw new Error('Popup was blocked by browser');
+                    } else if (error.code === 'auth/unauthorized-domain') {
+                        throw new Error('This domain is not authorized for Firebase authentication');
+                    }
                     throw error;
                 }
             };
 
             const signUpWithEmail = async (email, password, displayName) => {
                 try {
-                    if (window.firebaseCreateUserWithEmailAndPassword && window.firebaseAuth) {
-                        const result = await window.firebaseCreateUserWithEmailAndPassword(
-                            window.firebaseAuth, 
-                            email, 
-                            password
-                        );
-                        
-                        // Update user profile with display name
-                        if (displayName && result.user && window.firebaseUpdateProfile) {
-                            await window.firebaseUpdateProfile(result.user, {
-                                displayName: displayName
-                            });
-                        }
-                        
-                        return result.user;
+                    if (!window.firebaseAuth) {
+                        throw new Error('Firebase not initialized');
                     }
+                    if (!window.firebaseCreateUserWithEmailAndPassword) {
+                        throw new Error('Firebase createUserWithEmailAndPassword not available');
+                    }
+                    
+                    console.log('Attempting email sign-up for:', email);
+                    const result = await window.firebaseCreateUserWithEmailAndPassword(
+                        window.firebaseAuth, 
+                        email, 
+                        password
+                    );
+                    
+                    console.log('Email sign-up successful:', result.user);
+                    
+                    // Update user profile with display name
+                    if (displayName && result.user && window.firebaseUpdateProfile) {
+                        await window.firebaseUpdateProfile(result.user, {
+                            displayName: displayName
+                        });
+                        console.log('Profile updated with display name:', displayName);
+                    }
+                    
+                    return result.user;
                 } catch (error) {
                     console.error('Email sign-up failed:', error);
+                    if (error.code === 'auth/email-already-in-use') {
+                        throw new Error('An account with this email already exists');
+                    } else if (error.code === 'auth/weak-password') {
+                        throw new Error('Password is too weak');
+                    } else if (error.code === 'auth/invalid-email') {
+                        throw new Error('Invalid email address');
+                    }
                     throw error;
                 }
             };
 
             const signInWithEmail = async (email, password) => {
                 try {
-                    if (window.firebaseSignInWithEmailAndPassword && window.firebaseAuth) {
-                        const result = await window.firebaseSignInWithEmailAndPassword(
-                            window.firebaseAuth, 
-                            email, 
-                            password
-                        );
-                        return result.user;
+                    if (!window.firebaseAuth) {
+                        throw new Error('Firebase not initialized');
                     }
+                    if (!window.firebaseSignInWithEmailAndPassword) {
+                        throw new Error('Firebase signInWithEmailAndPassword not available');
+                    }
+                    
+                    console.log('Attempting email sign-in for:', email);
+                    const result = await window.firebaseSignInWithEmailAndPassword(
+                        window.firebaseAuth, 
+                        email, 
+                        password
+                    );
+                    console.log('Email sign-in successful:', result.user);
+                    return result.user;
                 } catch (error) {
                     console.error('Email sign-in failed:', error);
+                    if (error.code === 'auth/user-not-found') {
+                        throw new Error('No account found with this email address');
+                    } else if (error.code === 'auth/wrong-password') {
+                        throw new Error('Incorrect password');
+                    } else if (error.code === 'auth/invalid-email') {
+                        throw new Error('Invalid email address');
+                    } else if (error.code === 'auth/user-disabled') {
+                        throw new Error('This account has been disabled');
+                    } else if (error.code === 'auth/too-many-requests') {
+                        throw new Error('Too many failed attempts. Please try again later');
+                    }
                     throw error;
                 }
             };
@@ -3380,7 +3432,7 @@
                 preview: "معاينة",
                 
                 // Forms
-                restaurantName: "اسم المطعم",
+                restaurantName: "اس � المطعم",
                 tagline: "شعار المطعم",
                 addSection: "إضافة قسم",
                 addItem: "إضافة عنصر قائمة",
@@ -3442,7 +3494,7 @@
                 
                 // Mobile warning
                 mobileWarningTitle: "تم اكتشاف جهاز محمول",
-                mobileWarningMessage: "أنت تستخ �م جهازاً محمولاً. لعرض تخطيطات الجهاز اللوحي أو سطح المكتب، يرجى استخدام شاشة أكبر.",
+                mobileWarningMessage: "أنت تستخدم جهازاً محمولاً. لعرض تخطيطات الجهاز اللوحي أو سطح المكتب، يرجى استخدام شاشة أكبر.",
                 understood: "فهمت",
                 
                 // Placeholders
@@ -6569,11 +6621,18 @@
             const handleGoogleLogin = async () => {
                 setIsLoggingIn(true);
                 try {
+                    console.log('Starting Google sign-in process...');
+                    console.log('Firebase available:', {
+                        auth: !!window.firebaseAuth,
+                        signIn: !!window.firebaseSignInWithPopup,
+                        provider: !!window.firebaseGoogleProvider
+                    });
+                    
                     await signInWithGoogle();
                     addToast('Successfully signed in with Google!', 'success');
                 } catch (error) {
-                    console.error('Google sign-in failed:', error);
-                    addToast('Google sign-in failed. Please try again.', 'error');
+                    console.error('Google sign-in error details:', error);
+                    addToast(error.message || 'Google sign-in failed. Please try again.', 'error');
                     setIsLoggingIn(false);
                 }
             };
@@ -6584,24 +6643,30 @@
                 
                 setIsLoggingIn(true);
                 try {
+                    console.log('Starting email authentication:', {
+                        mode: showEmailAuth,
+                        email: formData.email,
+                        hasPassword: !!formData.password,
+                        hasDisplayName: !!formData.displayName
+                    });
+                    
                     if (showEmailAuth === 'signup') {
-                        await signUpWithEmail(formData.email, formData.password, formData.displayName);
+                        const user = await signUpWithEmail(formData.email, formData.password, formData.displayName);
+                        console.log('Signup successful:', user);
                         addToast('Account created successfully!', 'success');
                     } else if (showEmailAuth === 'signin') {
-                        await signInWithEmail(formData.email, formData.password);
+                        const user = await signInWithEmail(formData.email, formData.password);
+                        console.log('Sign-in successful:', user);
                         addToast('Successfully signed in!', 'success');
                     } else if (showEmailAuth === 'reset') {
                         await resetPassword(formData.email);
+                        console.log('Password reset email sent');
                         addToast('Password reset email sent!', 'success');
                         setShowEmailAuth(null);
                     }
                 } catch (error) {
-                    console.error('Authentication failed:', error);
-                    const errorMessage = error.code === 'auth/user-not-found' ? 'No account found with this email' :
-                                       error.code === 'auth/wrong-password' ? 'Incorrect password' :
-                                       error.code === 'auth/email-already-in-use' ? 'Email already in use' :
-                                       'Authentication failed. Please try again.';
-                    addToast(errorMessage, 'error');
+                    console.error('Email authentication error details:', error);
+                    addToast(error.message || 'Authentication failed. Please try again.', 'error');
                 } finally {
                     setIsLoggingIn(false);
                 }
