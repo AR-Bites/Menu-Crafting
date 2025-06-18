@@ -2973,6 +2973,29 @@
                 chooseDifferent: "Choose Different",
                 loading: "Loading...",
                 
+                // Landing page - Canva style
+                whatWillYouCraft: "What will you craft today?",
+                craftDescription: "With Menu Craft, you can design, customize, and publish your interactive digital restaurant menu.",
+                startCrafting: "Start Crafting",
+                home: "Home",
+                templates: "Templates",
+                howItWorks: "How It Works",
+                contact: "Contact",
+                login: "Log In",
+                signUp: "Sign Up",
+                chooseYourStyle: "Choose Your Style",
+                templatesDescription: "Pick from professionally designed templates that match your restaurant's personality.",
+                loginToMenuCraft: "Log in to Menu Craft",
+                email: "Email",
+                password: "Password",
+                forgotPassword: "Forgot password?",
+                noAccount: "Don't have an account?",
+                createAccount: "Create your account",
+                name: "Name",
+                confirmPassword: "Confirm Password",
+                alreadyHaveAccount: "Already have an account?",
+                passwordMismatch: "Passwords do not match",
+                
                 // Editor
                 menuEditor: "Menu Editor",
                 restaurantInfo: "Restaurant Information",
@@ -3138,6 +3161,29 @@
                 startBuilding: "ابدأ البناء",
                 chooseDifferent: "اختر قالب مختلف",
                 loading: "جاري التحميل...",
+                
+                // Landing page - Canva style
+                whatWillYouCraft: "ماذا ستبدع اليوم؟",
+                craftDescription: "مع Menu Craft، يمكنك تصميم وتخصيص ونشر قائمة مطعمك الرقمية التفاعلية.",
+                startCrafting: "ابدأ الإبداع",
+                home: "الرئيسية",
+                templates: "القوالب",
+                howItWorks: "كيف يعمل",
+                contact: "اتصل بنا",
+                login: "تسجيل الدخول",
+                signUp: "إنشاء حساب",
+                chooseYourStyle: "اختر أسلوبك",
+                templatesDescription: "اختر من القوالب المصممة بشكل احترافي التي تناسب شخصية مطعمك.",
+                loginToMenuCraft: "تسجيل الدخول إلى Menu Craft",
+                email: "البريد الإلكتروني",
+                password: "كلمة المرور",
+                forgotPassword: "نسيت كلمة المرور؟",
+                noAccount: "ليس لديك حساب؟",
+                createAccount: "إنشاء حسابك",
+                name: "الاسم",
+                confirmPassword: "تأكيد كلمة المرور",
+                alreadyHaveAccount: "لديك حساب بالفعل؟",
+                passwordMismatch: "كلمات المرور غير متطابقة",
                 
                 // Editor
                 menuEditor: "محرر القائمة",
@@ -5966,85 +6012,397 @@
         // Landing Page Component
         function LandingPage({ onContinue }) {
             const { t, isRTL, toggleLanguage } = useLanguage();
+            const [showLoginModal, setShowLoginModal] = useState(false);
+            const [showSignupModal, setShowSignupModal] = useState(false);
+            const [loginData, setLoginData] = useState({ email: '', password: '' });
+            const [signupData, setSignupData] = useState({ name: '', email: '', password: '', confirmPassword: '' });
+            
+            const scrollToTemplates = () => {
+                const templatesSection = document.getElementById('templates-showcase');
+                if (templatesSection) {
+                    templatesSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            };
+
+            const handleLogin = (e) => {
+                e.preventDefault();
+                // Add Firebase authentication logic here
+                console.log('Login attempt:', loginData);
+                setShowLoginModal(false);
+                onContinue(); // Proceed to template selection
+            };
+
+            const handleSignup = (e) => {
+                e.preventDefault();
+                if (signupData.password !== signupData.confirmPassword) {
+                    alert(t('passwordMismatch'));
+                    return;
+                }
+                // Add Firebase authentication logic here
+                console.log('Signup attempt:', signupData);
+                setShowSignupModal(false);
+                onContinue(); // Proceed to template selection
+            };
             
             return React.createElement('div', {
-                className: `screen min-h-screen flex items-center justify-center p-8 ${isRTL ? 'rtl' : ''}`,
+                className: `min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 ${isRTL ? 'rtl' : ''}`,
                 dir: isRTL ? 'rtl' : 'ltr'
             }, [
-                // Language toggle button
-                React.createElement('div', {
-                    key: 'language-toggle',
-                    className: 'fixed top-4 right-4 z-50'
-                }, React.createElement('button', {
-                    className: 'px-3 sm:px-4 py-2 bg-white hover:bg-gray-50 rounded-lg shadow-md border border-gray-200 transition-all duration-200 flex items-center gap-1 sm:gap-2 text-xs sm:text-sm font-medium min-h-[44px]',
-                    onClick: toggleLanguage
+                // Navigation Header
+                React.createElement('nav', {
+                    key: 'navigation',
+                    className: 'fixed top-0 w-full bg-white/90 backdrop-blur-md border-b border-gray-200 z-50'
+                }, React.createElement('div', {
+                    className: 'max-w-7xl mx-auto px-6 py-4 flex justify-between items-center'
                 }, [
-                    React.createElement('span', {
-                        key: 'flag',
-                        className: 'text-sm sm:text-base'
-                    }, isRTL ? '🇺🇸' : '🇯🇴'),
-                    React.createElement('span', {
-                        key: 'text',
-                        className: 'hidden sm:inline'
-                    }, isRTL ? 'English' : 'العربية')
-                ])),
-                React.createElement('div', {
-                    key: 'content',
-                    className: 'text-center max-w-4xl mx-auto animate-fade-in'
-                }, [
+                    // Logo
                     React.createElement('div', {
-                        key: 'hero-logo',
-                        className: 'hero-logo-container mb-8'
-                    }, React.createElement('img', {
-                        src: 'Bubble3dARbites.png',
-                        alt: 'ARbites Logo',
-                        className: 'hero-3d-logo'
-                    })),
-                    
-                    React.createElement('h1', {
-                        key: 'title',
-                        className: 'text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight px-4'
-                    }, t('title')),
-                    
-                    React.createElement('p', {
-                        key: 'subtitle',
-                        className: 'text-lg sm:text-xl text-white opacity-90 mb-12 max-w-2xl mx-auto leading-relaxed px-4'
-                    }, t('subtitle')),
-                    
-                    React.createElement('div', {
-                        key: 'features',
-                        className: 'grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-12 px-4'
+                        key: 'logo',
+                        className: 'flex items-center gap-3'
                     }, [
-                        ['🎨', t('beautifulTemplates'), t('beautifulTemplatesDesc')],
-                        ['🌐', t('multilingualSupport'), t('multilingualSupportDesc')],
-                        ['📱', t('mobileFriendly'), t('mobileFriendlyDesc')]
-                    ].map(([icon, title, desc], index) => 
                         React.createElement('div', {
-                            key: index,
-                            className: 'glass-effect p-6 rounded-2xl animate-slide-up',
-                            style: { animationDelay: `${index * 200}ms` }
+                            key: 'logo-icon',
+                            className: 'w-10 h-10 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl flex items-center justify-center'
+                        }, React.createElement('span', {
+                            className: 'text-white font-bold text-lg'
+                        }, 'M')),
+                        React.createElement('span', {
+                            key: 'logo-text',
+                            className: 'text-xl font-bold text-gray-800'
+                        }, 'Menu Craft')
+                    ]),
+                    // Navigation Links
+                    React.createElement('div', {
+                        key: 'nav-links',
+                        className: 'hidden md:flex items-center gap-8'
+                    }, [
+                        React.createElement('a', {
+                            key: 'home',
+                            href: '#',
+                            className: 'text-gray-600 hover:text-purple-600 transition-colors'
+                        }, t('home')),
+                        React.createElement('a', {
+                            key: 'templates',
+                            href: '#templates-showcase',
+                            className: 'text-gray-600 hover:text-purple-600 transition-colors',
+                            onClick: (e) => {
+                                e.preventDefault();
+                                scrollToTemplates();
+                            }
+                        }, t('templates')),
+                        React.createElement('a', {
+                            key: 'how-it-works',
+                            href: '#',
+                            className: 'text-gray-600 hover:text-purple-600 transition-colors'
+                        }, t('howItWorks')),
+                        React.createElement('a', {
+                            key: 'contact',
+                            href: '#',
+                            className: 'text-gray-600 hover:text-purple-600 transition-colors'
+                        }, t('contact'))
+                    ]),
+                    // Auth Buttons & Language Toggle
+                    React.createElement('div', {
+                        key: 'auth-buttons',
+                        className: 'flex items-center gap-4'
+                    }, [
+                        React.createElement('button', {
+                            key: 'login-btn',
+                            className: 'text-gray-600 hover:text-purple-600 transition-colors',
+                            onClick: () => setShowLoginModal(true)
+                        }, t('login')),
+                        React.createElement('button', {
+                            key: 'signup-btn',
+                            className: 'bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors',
+                            onClick: () => setShowSignupModal(true)
+                        }, t('signUp')),
+                        React.createElement('button', {
+                            key: 'language-toggle',
+                            className: 'px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors flex items-center gap-2',
+                            onClick: toggleLanguage
                         }, [
-                            React.createElement('div', {
-                                key: 'icon',
-                                className: 'text-4xl mb-4'
-                            }, icon),
-                            React.createElement('h3', {
-                                key: 'title',
-                                className: 'text-xl font-bold text-white mb-2'
-                            }, title),
-                            React.createElement('p', {
-                                key: 'desc',
-                                className: 'text-white opacity-80'
-                            }, desc)
+                            React.createElement('span', {
+                                key: 'flag'
+                            }, isRTL ? '🇺🇸' : '🇯🇴'),
+                            React.createElement('span', {
+                                key: 'text',
+                                className: 'hidden sm:inline text-sm'
+                            }, isRTL ? 'English' : 'العربية')
                         ])
-                    )),
-                    
+                    ])
+                ])),
+
+                // Hero Section
+                React.createElement('section', {
+                    key: 'hero',
+                    className: 'pt-24 pb-16 px-6'
+                }, React.createElement('div', {
+                    className: 'max-w-6xl mx-auto text-center'
+                }, [
+                    React.createElement('h1', {
+                        key: 'hero-title',
+                        className: 'text-5xl md:text-7xl font-bold text-gray-800 mb-6 leading-tight'
+                    }, t('whatWillYouCraft')),
+                    React.createElement('p', {
+                        key: 'hero-subtitle',
+                        className: 'text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed'
+                    }, t('craftDescription')),
                     React.createElement('button', {
-                        key: 'cta',
-                        className: 'btn btn-primary text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6',
-                        onClick: onContinue
-                    }, t('getStarted'))
-                ])
+                        key: 'hero-cta',
+                        className: 'bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-2xl text-lg font-semibold hover:shadow-xl transform hover:scale-105 transition-all duration-300',
+                        onClick: scrollToTemplates
+                    }, t('startCrafting'))
+                ])),
+
+                // Templates Showcase
+                React.createElement('section', {
+                    key: 'templates-showcase',
+                    id: 'templates-showcase',
+                    className: 'py-20 px-6 bg-white'
+                }, React.createElement('div', {
+                    className: 'max-w-7xl mx-auto'
+                }, [
+                    React.createElement('div', {
+                        key: 'templates-header',
+                        className: 'text-center mb-16'
+                    }, [
+                        React.createElement('h2', {
+                            key: 'templates-title',
+                            className: 'text-4xl md:text-5xl font-bold text-gray-800 mb-6'
+                        }, t('chooseYourStyle')),
+                        React.createElement('p', {
+                            key: 'templates-subtitle',
+                            className: 'text-xl text-gray-600 max-w-3xl mx-auto'
+                        }, t('templatesDescription'))
+                    ]),
+                    React.createElement('div', {
+                        key: 'templates-grid',
+                        className: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'
+                    }, [
+                        // Template Preview Cards
+                        ...templates.slice(0, 6).map((template, index) =>
+                            React.createElement('div', {
+                                key: `template-${template.id}`,
+                                className: 'group cursor-pointer bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100',
+                                onClick: () => {
+                                    onContinue(); // Navigate to template selection page
+                                }
+                            }, [
+                                React.createElement('div', {
+                                    key: 'template-preview',
+                                    className: 'h-48 bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden'
+                                }, [
+                                    React.createElement('div', {
+                                        key: 'template-mockup',
+                                        className: `absolute inset-4 bg-white rounded-lg shadow-sm transform group-hover:scale-105 transition-transform duration-300`,
+                                        style: {
+                                            background: `linear-gradient(135deg, ${getColorScheme(template.colorScheme).primary}20, ${getColorScheme(template.colorScheme).accent}20)`
+                                        }
+                                    }, [
+                                        React.createElement('div', {
+                                            key: 'mockup-header',
+                                            className: 'h-3 bg-gradient-to-r rounded-t-lg',
+                                            style: {
+                                                background: `linear-gradient(90deg, ${getColorScheme(template.colorScheme).primary}, ${getColorScheme(template.colorScheme).accent})`
+                                            }
+                                        }),
+                                        React.createElement('div', {
+                                            key: 'mockup-content',
+                                            className: 'p-2 space-y-1'
+                                        }, [
+                                            React.createElement('div', {
+                                                key: 'line1',
+                                                className: 'h-1 bg-gray-300 rounded w-3/4'
+                                            }),
+                                            React.createElement('div', {
+                                                key: 'line2',
+                                                className: 'h-1 bg-gray-200 rounded w-1/2'
+                                            }),
+                                            React.createElement('div', {
+                                                key: 'line3',
+                                                className: 'h-1 bg-gray-200 rounded w-2/3'
+                                            })
+                                        ])
+                                    ])
+                                ]),
+                                React.createElement('div', {
+                                    key: 'template-info',
+                                    className: 'p-6'
+                                }, [
+                                    React.createElement('h3', {
+                                        key: 'template-name',
+                                        className: 'text-lg font-semibold text-gray-800 mb-2'
+                                    }, t(template.id)),
+                                    React.createElement('p', {
+                                        key: 'template-description',
+                                        className: 'text-gray-600 text-sm mb-4'
+                                    }, t(template.id + 'Desc')),
+                                    React.createElement('div', {
+                                        key: 'template-tags',
+                                        className: 'flex gap-2'
+                                    }, [
+                                        React.createElement('span', {
+                                            key: 'category-tag',
+                                            className: 'px-2 py-1 bg-purple-100 text-purple-600 text-xs rounded-full'
+                                        }, t(template.category)),
+                                        React.createElement('span', {
+                                            key: 'font-tag',
+                                            className: 'px-2 py-1 bg-blue-100 text-blue-600 text-xs rounded-full'
+                                        }, template.fontFamily === 'serif' ? t('serif') : template.fontFamily === 'inter' ? t('modern') : t('clean'))
+                                    ])
+                                ])
+                            ])
+                        )
+                    ])
+                ])),
+
+                // Login Modal
+                showLoginModal && React.createElement('div', {
+                    key: 'login-modal',
+                    className: 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4',
+                    onClick: (e) => {
+                        if (e.target === e.currentTarget) setShowLoginModal(false);
+                    }
+                }, React.createElement('div', {
+                    className: 'bg-white rounded-2xl p-8 w-full max-w-md'
+                }, [
+                    React.createElement('h2', {
+                        key: 'login-title',
+                        className: 'text-2xl font-bold text-gray-800 mb-6 text-center'
+                    }, t('loginToMenuCraft')),
+                    React.createElement('form', {
+                        key: 'login-form',
+                        onSubmit: handleLogin,
+                        className: 'space-y-4'
+                    }, [
+                        React.createElement('input', {
+                            key: 'email',
+                            type: 'email',
+                            placeholder: t('email'),
+                            className: 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent',
+                            value: loginData.email,
+                            onChange: (e) => setLoginData(prev => ({...prev, email: e.target.value})),
+                            required: true
+                        }),
+                        React.createElement('input', {
+                            key: 'password',
+                            type: 'password',
+                            placeholder: t('password'),
+                            className: 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent',
+                            value: loginData.password,
+                            onChange: (e) => setLoginData(prev => ({...prev, password: e.target.value})),
+                            required: true
+                        }),
+                        React.createElement('button', {
+                            key: 'login-submit',
+                            type: 'submit',
+                            className: 'w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition-colors font-semibold'
+                        }, t('login')),
+                        React.createElement('div', {
+                            key: 'login-links',
+                            className: 'text-center space-y-2'
+                        }, [
+                            React.createElement('a', {
+                                key: 'forgot-password',
+                                href: '#',
+                                className: 'text-purple-600 hover:underline text-sm'
+                            }, t('forgotPassword')),
+                            React.createElement('p', {
+                                key: 'signup-link',
+                                className: 'text-gray-600 text-sm'
+                            }, [
+                                t('noAccount') + ' ',
+                                React.createElement('button', {
+                                    key: 'signup-button',
+                                    type: 'button',
+                                    className: 'text-purple-600 hover:underline',
+                                    onClick: () => {
+                                        setShowLoginModal(false);
+                                        setShowSignupModal(true);
+                                    }
+                                }, t('signUp'))
+                            ])
+                        ])
+                    ])
+                ])),
+
+                // Signup Modal
+                showSignupModal && React.createElement('div', {
+                    key: 'signup-modal',
+                    className: 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4',
+                    onClick: (e) => {
+                        if (e.target === e.currentTarget) setShowSignupModal(false);
+                    }
+                }, React.createElement('div', {
+                    className: 'bg-white rounded-2xl p-8 w-full max-w-md'
+                }, [
+                    React.createElement('h2', {
+                        key: 'signup-title',
+                        className: 'text-2xl font-bold text-gray-800 mb-6 text-center'
+                    }, t('createAccount')),
+                    React.createElement('form', {
+                        key: 'signup-form',
+                        onSubmit: handleSignup,
+                        className: 'space-y-4'
+                    }, [
+                        React.createElement('input', {
+                            key: 'name',
+                            type: 'text',
+                            placeholder: t('name'),
+                            className: 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent',
+                            value: signupData.name,
+                            onChange: (e) => setSignupData(prev => ({...prev, name: e.target.value})),
+                            required: true
+                        }),
+                        React.createElement('input', {
+                            key: 'email',
+                            type: 'email',
+                            placeholder: t('email'),
+                            className: 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent',
+                            value: signupData.email,
+                            onChange: (e) => setSignupData(prev => ({...prev, email: e.target.value})),
+                            required: true
+                        }),
+                        React.createElement('input', {
+                            key: 'password',
+                            type: 'password',
+                            placeholder: t('password'),
+                            className: 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent',
+                            value: signupData.password,
+                            onChange: (e) => setSignupData(prev => ({...prev, password: e.target.value})),
+                            required: true
+                        }),
+                        React.createElement('input', {
+                            key: 'confirm-password',
+                            type: 'password',
+                            placeholder: t('confirmPassword'),
+                            className: 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent',
+                            value: signupData.confirmPassword,
+                            onChange: (e) => setSignupData(prev => ({...prev, confirmPassword: e.target.value})),
+                            required: true
+                        }),
+                        React.createElement('button', {
+                            key: 'signup-submit',
+                            type: 'submit',
+                            className: 'w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition-colors font-semibold'
+                        }, t('createAccount')),
+                        React.createElement('p', {
+                            key: 'login-link',
+                            className: 'text-center text-gray-600 text-sm'
+                        }, [
+                            t('alreadyHaveAccount') + ' ',
+                            React.createElement('button', {
+                                key: 'login-button',
+                                type: 'button',
+                                className: 'text-purple-600 hover:underline',
+                                onClick: () => {
+                                    setShowSignupModal(false);
+                                    setShowLoginModal(true);
+                                }
+                            }, t('login'))
+                        ])
+                    ])
+                ]))
             ]);
         }
 
