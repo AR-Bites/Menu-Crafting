@@ -2977,7 +2977,10 @@
                 // Wait for Firebase to be loaded
                 const checkFirebase = () => {
                     if (window.firebaseAuth && window.onAuthStateChanged) {
+                        console.log('Setting up Firebase auth listener...');
                         window.onAuthStateChanged(window.firebaseAuth, async (firebaseUser) => {
+                            console.log('Auth state changed:', firebaseUser ? 'User logged in' : 'User logged out');
+                            
                             if (firebaseUser) {
                                 try {
                                     // Send user data to backend
@@ -2998,10 +3001,15 @@
                                     
                                     if (response.ok) {
                                         const data = await response.json();
+                                        console.log('Backend login successful:', data.user);
                                         setUser(data.user);
+                                    } else {
+                                        console.error('Backend login failed:', response.status);
+                                        setUser(null);
                                     }
                                 } catch (error) {
                                     console.error('Login error:', error);
+                                    setUser(null);
                                 }
                             } else {
                                 setUser(null);
@@ -3053,16 +3061,14 @@
                         throw new Error('Firebase createUserWithEmailAndPassword not available');
                     }
                     
-                    console.log('Attempting email sign-up for:', email);
+                    console.log('Creating account for:', email);
                     const result = await window.firebaseCreateUserWithEmailAndPassword(
                         window.firebaseAuth, 
                         email, 
                         password
                     );
                     
-                    console.log('Email sign-up successful:', result.user);
-                    
-                    // Update user profile with display name
+                    // Update user profile with display name immediately
                     if (displayName && result.user && window.firebaseUpdateProfile) {
                         await window.firebaseUpdateProfile(result.user, {
                             displayName: displayName
@@ -3070,13 +3076,15 @@
                         console.log('Profile updated with display name:', displayName);
                     }
                     
+                    console.log('Account created successfully for:', email);
+                    // Firebase will automatically trigger onAuthStateChanged
                     return result.user;
                 } catch (error) {
-                    console.error('Email sign-up failed:', error);
+                    console.error('Account creation failed:', error);
                     if (error.code === 'auth/email-already-in-use') {
                         throw new Error('An account with this email already exists');
                     } else if (error.code === 'auth/weak-password') {
-                        throw new Error('Password is too weak');
+                        throw new Error('Password must be at least 6 characters');
                     } else if (error.code === 'auth/invalid-email') {
                         throw new Error('Invalid email address');
                     }
@@ -3093,16 +3101,17 @@
                         throw new Error('Firebase signInWithEmailAndPassword not available');
                     }
                     
-                    console.log('Attempting email sign-in for:', email);
+                    console.log('Signing in:', email);
                     const result = await window.firebaseSignInWithEmailAndPassword(
                         window.firebaseAuth, 
                         email, 
                         password
                     );
-                    console.log('Email sign-in successful:', result.user);
+                    console.log('Sign-in successful for:', email);
+                    // Firebase will automatically trigger onAuthStateChanged
                     return result.user;
                 } catch (error) {
-                    console.error('Email sign-in failed:', error);
+                    console.error('Sign-in failed:', error);
                     if (error.code === 'auth/user-not-found') {
                         throw new Error('No account found with this email address');
                     } else if (error.code === 'auth/wrong-password') {
@@ -3113,6 +3122,8 @@
                         throw new Error('This account has been disabled');
                     } else if (error.code === 'auth/too-many-requests') {
                         throw new Error('Too many failed attempts. Please try again later');
+                    } else if (error.code === 'auth/invalid-credential') {
+                        throw new Error('Invalid email or password');
                     }
                     throw error;
                 }
@@ -3432,7 +3443,7 @@
                 preview: "معاينة",
                 
                 // Forms
-                restaurantName: "اس � المطعم",
+                restaurantName: "اسم المطعم",
                 tagline: "شعار المطعم",
                 addSection: "إضافة قسم",
                 addItem: "إضافة عنصر قائمة",
@@ -6577,6 +6588,7 @@
             // Redirect if already authenticated
             useEffect(() => {
                 if (user && !loading) {
+                    console.log('User authenticated in AuthPage, calling onContinue');
                     onContinue();
                 }
             }, [user, loading, onContinue]);
@@ -6621,17 +6633,11 @@
             const handleGoogleLogin = async () => {
                 setIsLoggingIn(true);
                 try {
-                    console.log('Starting Google sign-in process...');
-                    console.log('Firebase available:', {
-                        auth: !!window.firebaseAuth,
-                        signIn: !!window.firebaseSignInWithPopup,
-                        provider: !!window.firebaseGoogleProvider
-                    });
-                    
                     await signInWithGoogle();
-                    addToast('Successfully signed in with Google!', 'success');
+                    addToast('Welcome! You are now logged in with Google.', 'success');
+                    // User will be automatically redirected via AuthProvider
                 } catch (error) {
-                    console.error('Google sign-in error details:', error);
+                    console.error('Google sign-in failed:', error);
                     addToast(error.message || 'Google sign-in failed. Please try again.', 'error');
                     setIsLoggingIn(false);
                 }
@@ -6651,21 +6657,20 @@
                     });
                     
                     if (showEmailAuth === 'signup') {
-                        const user = await signUpWithEmail(formData.email, formData.password, formData.displayName);
-                        console.log('Signup successful:', user);
-                        addToast('Account created successfully!', 'success');
-                        // Close the signup popup and reset form
+                        await signUpWithEmail(formData.email, formData.password, formData.displayName);
+                        addToast('Account created successfully! You are now logged in.', 'success');
+                        // Close popup and reset form
                         setShowEmailAuth(null);
                         setFormData({ email: '', password: '', displayName: '' });
-                        // The user should now be automatically logged in via onAuthStateChanged
+                        setIsLoggingIn(false);
+                        return; // Exit early to prevent the finally block from resetting loading state
                     } else if (showEmailAuth === 'signin') {
-                        const user = await signInWithEmail(formData.email, formData.password);
-                        console.log('Sign-in successful:', user);
-                        addToast('Successfully signed in!', 'success');
+                        await signInWithEmail(formData.email, formData.password);
+                        addToast('Welcome back! You are now logged in.', 'success');
+                        // The user will be automatically redirected via AuthProvider
                     } else if (showEmailAuth === 'reset') {
                         await resetPassword(formData.email);
-                        console.log('Password reset email sent');
-                        addToast('Password reset email sent!', 'success');
+                        addToast('Password reset email sent! Check your inbox.', 'success');
                         setShowEmailAuth(null);
                     }
                 } catch (error) {
@@ -7497,10 +7502,19 @@
 
         // Main App Component with guided flow
         function App() {
+            const { user, loading } = useContext(AuthContext);
             const [currentStep, setCurrentStep] = useState(STEPS.LANDING);
             const [selectedTemplate, setSelectedTemplate] = useState(null);
             const [completedSteps, setCompletedSteps] = useState(new Set());
             const [isTransitioning, setIsTransitioning] = useState(false);
+
+            // Auto-redirect authenticated users to editor if they have a template selected
+            useEffect(() => {
+                if (!loading && user && selectedTemplate && currentStep === STEPS.AUTH) {
+                    console.log('User authenticated, redirecting to editor...');
+                    transitionToStep(STEPS.EDITOR);
+                }
+            }, [user, loading, selectedTemplate, currentStep]);
 
             // Step transition with animation and browser history
             const transitionToStep = useCallback((nextStep, addToHistory = true) => {
@@ -7543,12 +7557,20 @@
             };
 
             const handleSelectTemplate = (template) => {
+                console.log('Template selected:', template);
                 if (template === 'AUTH_REQUIRED') {
                     // Premium template selected, go to auth page
                     transitionToStep(STEPS.AUTH);
                 } else {
                     setSelectedTemplate(template);
-                    transitionToStep(STEPS.AUTH);
+                    // Check if user is already authenticated
+                    if (user && !loading) {
+                        console.log('User already authenticated, going to editor');
+                        transitionToStep(STEPS.EDITOR);
+                    } else {
+                        console.log('User not authenticated, going to auth');
+                        transitionToStep(STEPS.AUTH);
+                    }
                 }
             };
 
