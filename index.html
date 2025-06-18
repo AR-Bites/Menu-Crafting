@@ -4256,7 +4256,7 @@
             }
         };
 
-        // Mobile Detection Hook
+        // Enhanced Mobile Detection and Forced Mobile Layout
         function useIsMobile() {
             const [isMobile, setIsMobile] = useState(false);
             
@@ -4265,12 +4265,164 @@
                     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
                     const mobileRegex = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i;
                     const screenWidth = window.innerWidth <= 768;
-                    setIsMobile(mobileRegex.test(userAgent.toLowerCase()) || screenWidth);
+                    const isMobileDevice = mobileRegex.test(userAgent.toLowerCase()) || screenWidth;
+                    
+                    setIsMobile(isMobileDevice);
+                    
+                    // Force mobile styles immediately
+                    if (isMobileDevice) {
+                        document.body.style.cssText = `
+                            margin: 0 !important;
+                            padding: 0 !important;
+                            width: 100vw !important;
+                            overflow-x: hidden !important;
+                            background: #f8fafc !important;
+                            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                            font-size: 16px !important;
+                            line-height: 1.5 !important;
+                        `;
+                        
+                        document.documentElement.style.cssText = `
+                            font-size: 16px !important;
+                            overflow-x: hidden !important;
+                            -webkit-text-size-adjust: 100% !important;
+                        `;
+                        
+                        // Apply mobile styles to all elements
+                        const style = document.createElement('style');
+                        style.id = 'mobile-override-styles';
+                        style.innerHTML = `
+                            .mobile-forced * {
+                                box-sizing: border-box !important;
+                                -webkit-tap-highlight-color: transparent !important;
+                            }
+                            
+                            .mobile-forced .btn,
+                            .mobile-forced button {
+                                min-height: 54px !important;
+                                width: 100% !important;
+                                font-size: 16px !important;
+                                font-weight: 600 !important;
+                                padding: 16px 20px !important;
+                                border-radius: 12px !important;
+                                margin-bottom: 12px !important;
+                                touch-action: manipulation !important;
+                                border: none !important;
+                                cursor: pointer !important;
+                                transition: transform 0.2s ease !important;
+                            }
+                            
+                            .mobile-forced button:active {
+                                transform: scale(0.95) !important;
+                            }
+                            
+                            .mobile-forced .container,
+                            .mobile-forced .max-w-7xl,
+                            .mobile-forced .max-w-6xl,
+                            .mobile-forced .max-w-4xl {
+                                max-width: 100% !important;
+                                padding: 16px !important;
+                                margin: 0 !important;
+                            }
+                            
+                            .mobile-forced .grid {
+                                display: flex !important;
+                                flex-direction: column !important;
+                                gap: 16px !important;
+                            }
+                            
+                            .mobile-forced .text-6xl { font-size: 2rem !important; }
+                            .mobile-forced .text-5xl { font-size: 1.75rem !important; }
+                            .mobile-forced .text-4xl { font-size: 1.5rem !important; }
+                            .mobile-forced .text-3xl { font-size: 1.25rem !important; }
+                            .mobile-forced .text-2xl { font-size: 1.125rem !important; }
+                            .mobile-forced .text-xl { font-size: 1rem !important; }
+                            
+                            .mobile-forced .p-8,
+                            .mobile-forced .p-6,
+                            .mobile-forced .p-4 {
+                                padding: 16px !important;
+                            }
+                            
+                            .mobile-forced .gap-8,
+                            .mobile-forced .gap-6,
+                            .mobile-forced .gap-4 {
+                                gap: 12px !important;
+                            }
+                            
+                            .mobile-forced .flex {
+                                flex-direction: column !important;
+                                gap: 12px !important;
+                            }
+                            
+                            .mobile-forced .items-center {
+                                align-items: stretch !important;
+                            }
+                            
+                            .mobile-forced .justify-between {
+                                justify-content: stretch !important;
+                            }
+                            
+                            .mobile-forced input,
+                            .mobile-forced textarea,
+                            .mobile-forced select {
+                                width: 100% !important;
+                                min-height: 54px !important;
+                                font-size: 16px !important;
+                                padding: 16px !important;
+                                border: 2px solid #e2e8f0 !important;
+                                border-radius: 12px !important;
+                                margin-bottom: 16px !important;
+                                background: white !important;
+                            }
+                            
+                            .mobile-forced .modal {
+                                align-items: flex-end !important;
+                                padding: 0 !important;
+                            }
+                            
+                            .mobile-forced .modal-content {
+                                width: 100% !important;
+                                max-width: 100% !important;
+                                margin: 0 !important;
+                                border-radius: 20px 20px 0 0 !important;
+                                padding: 24px !important;
+                                max-height: 85vh !important;
+                                overflow-y: auto !important;
+                            }
+                        `;
+                        
+                        // Remove existing mobile styles and add new ones
+                        const existingStyle = document.getElementById('mobile-override-styles');
+                        if (existingStyle) {
+                            existingStyle.remove();
+                        }
+                        document.head.appendChild(style);
+                        
+                        // Add mobile class to body
+                        document.body.classList.add('mobile-forced');
+                        document.documentElement.classList.add('mobile-forced');
+                    } else {
+                        // Remove mobile styles for desktop
+                        document.body.classList.remove('mobile-forced');
+                        document.documentElement.classList.remove('mobile-forced');
+                        const mobileStyle = document.getElementById('mobile-override-styles');
+                        if (mobileStyle) {
+                            mobileStyle.remove();
+                        }
+                    }
                 };
                 
                 checkMobile();
                 window.addEventListener('resize', checkMobile);
-                return () => window.removeEventListener('resize', checkMobile);
+                return () => {
+                    window.removeEventListener('resize', checkMobile);
+                    // Cleanup mobile styles
+                    const mobileStyle = document.getElementById('mobile-override-styles');
+                    if (mobileStyle) {
+                        mobileStyle.remove();
+                    }
+                };
             }, []);
             
             return isMobile;
@@ -7809,7 +7961,176 @@
             ]);
         }
 
-        // Enhanced Template Selection Component - Canva Style
+        // Mobile-First Template Selection Component
+        function MobileTemplateSelection({ onSelectTemplate, templates }) {
+            const { t, isRTL, toggleLanguage, language } = useLanguage();
+            const [selectedTemplate, setSelectedTemplate] = useState(null);
+            const [isSelecting, setIsSelecting] = useState(false);
+
+            const handleTemplateSelect = (templateId) => {
+                if (isSelecting) return;
+                setIsSelecting(true);
+                setTimeout(() => {
+                    onSelectTemplate(templateId);
+                }, 300);
+            };
+
+            return React.createElement('div', {
+                style: {
+                    minHeight: '100vh',
+                    background: '#f8fafc',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+                }
+            }, [
+                // Mobile Header
+                React.createElement('div', {
+                    key: 'header',
+                    style: {
+                        background: 'white',
+                        padding: '20px 16px',
+                        borderBottom: '1px solid #e2e8f0',
+                        position: 'sticky',
+                        top: 0,
+                        zIndex: 100,
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
+                    }
+                }, [
+                    React.createElement('div', {
+                        key: 'header-content',
+                        style: {
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center'
+                        }
+                    }, [
+                        React.createElement('h1', {
+                            key: 'title',
+                            style: {
+                                fontSize: '24px',
+                                fontWeight: '700',
+                                color: '#1e293b',
+                                margin: 0
+                            }
+                        }, t('selectTemplate')),
+                        React.createElement(LanguageToggle, { key: 'lang' })
+                    ])
+                ]),
+
+                // Mobile Template Grid
+                React.createElement('div', {
+                    key: 'template-grid',
+                    style: {
+                        flex: 1,
+                        padding: '16px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '16px'
+                    }
+                }, templates.map(template => 
+                    React.createElement('div', {
+                        key: template.id,
+                        onClick: () => handleTemplateSelect(template.id),
+                        style: {
+                            background: 'white',
+                            borderRadius: '16px',
+                            overflow: 'hidden',
+                            boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+                            cursor: 'pointer',
+                            transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                            border: selectedTemplate === template.id ? '3px solid #3b82f6' : '1px solid #f1f5f9'
+                        },
+                        onTouchStart: (e) => {
+                            e.currentTarget.style.transform = 'scale(0.98)';
+                        },
+                        onTouchEnd: (e) => {
+                            e.currentTarget.style.transform = 'scale(1)';
+                        }
+                    }, [
+                        // Template Preview
+                        React.createElement('div', {
+                            key: 'preview',
+                            style: {
+                                height: '200px',
+                                background: template.preview?.headerBg || '#667eea',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                position: 'relative'
+                            }
+                        }, [
+                            React.createElement('div', {
+                                key: 'preview-content',
+                                style: {
+                                    color: 'white',
+                                    textAlign: 'center',
+                                    padding: '20px'
+                                }
+                            }, [
+                                React.createElement('h3', {
+                                    key: 'name',
+                                    style: {
+                                        fontSize: '18px',
+                                        fontWeight: '700',
+                                        marginBottom: '8px'
+                                    }
+                                }, t(template.id)),
+                                React.createElement('p', {
+                                    key: 'desc',
+                                    style: {
+                                        fontSize: '14px',
+                                        opacity: 0.9
+                                    }
+                                }, t(template.id + 'Desc'))
+                            ])
+                        ]),
+
+                        // Template Info
+                        React.createElement('div', {
+                            key: 'info',
+                            style: {
+                                padding: '16px'
+                            }
+                        }, [
+                            React.createElement('div', {
+                                key: 'features',
+                                style: {
+                                    display: 'flex',
+                                    flexWrap: 'wrap',
+                                    gap: '8px'
+                                }
+                            }, [
+                                React.createElement('span', {
+                                    key: 'category',
+                                    style: {
+                                        background: '#f1f5f9',
+                                        color: '#475569',
+                                        padding: '6px 12px',
+                                        borderRadius: '6px',
+                                        fontSize: '12px',
+                                        fontWeight: '500'
+                                    }
+                                }, template.category),
+                                React.createElement('span', {
+                                    key: 'font',
+                                    style: {
+                                        background: '#f1f5f9',
+                                        color: '#475569',
+                                        padding: '6px 12px',
+                                        borderRadius: '6px',
+                                        fontSize: '12px',
+                                        fontWeight: '500'
+                                    }
+                                }, template.fontFamily)
+                            ])
+                        ])
+                    ])
+                ))
+            ]);
+        }
+
+        // Enhanced Template Selection Component - Mobile-First Redesign
         function EnhancedTemplateSelection({ onSelectTemplate }) {
             const { t, isRTL, toggleLanguage, language } = useLanguage();
             const { user, loading } = useAuth();
@@ -7819,20 +8140,13 @@
             const [categoryFilter, setCategoryFilter] = useState('all');
             const isMobile = useIsMobile();
 
-            // Apply mobile class to body when component mounts
-            useEffect(() => {
-                if (isMobile) {
-                    document.body.classList.add('mobile-device', 'mobile-optimized');
-                    document.documentElement.classList.add('mobile-optimized');
-                } else {
-                    document.body.classList.remove('mobile-device', 'mobile-optimized');
-                    document.documentElement.classList.remove('mobile-optimized');
-                }
-                return () => {
-                    document.body.classList.remove('mobile-device', 'mobile-optimized');
-                    document.documentElement.classList.remove('mobile-optimized');
-                };
-            }, [isMobile]);
+            // Force mobile interface if mobile device detected
+            if (isMobile) {
+                return React.createElement(MobileTemplateSelection, {
+                    onSelectTemplate,
+                    templates: templates
+                });
+            }
 
 
             const handleTemplateClick = (template) => {
@@ -8206,6 +8520,198 @@
                 )
             );
         }
+
+        // Mobile Detection and Override System
+        function initializeMobileOptimization() {
+            const isMobile = window.innerWidth <= 768 || /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase());
+            
+            if (isMobile) {
+                // Override all existing styles with mobile-first design
+                const mobileStyles = `
+                    html, body {
+                        margin: 0 !important;
+                        padding: 0 !important;
+                        width: 100vw !important;
+                        overflow-x: hidden !important;
+                        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                        font-size: 16px !important;
+                        line-height: 1.5 !important;
+                        background: #f8fafc !important;
+                    }
+                    
+                    * {
+                        box-sizing: border-box !important;
+                        -webkit-tap-highlight-color: transparent !important;
+                    }
+                    
+                    .btn, button {
+                        min-height: 54px !important;
+                        width: 100% !important;
+                        font-size: 16px !important;
+                        font-weight: 600 !important;
+                        padding: 16px 20px !important;
+                        border-radius: 12px !important;
+                        margin-bottom: 12px !important;
+                        border: none !important;
+                        cursor: pointer !important;
+                        transition: transform 0.2s ease !important;
+                        touch-action: manipulation !important;
+                    }
+                    
+                    .btn:active, button:active {
+                        transform: scale(0.95) !important;
+                    }
+                    
+                    .btn-primary {
+                        background: #3b82f6 !important;
+                        color: white !important;
+                        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3) !important;
+                    }
+                    
+                    .btn-secondary {
+                        background: #f8fafc !important;
+                        color: #475569 !important;
+                        border: 2px solid #e2e8f0 !important;
+                    }
+                    
+                    .container, .max-w-7xl, .max-w-6xl, .max-w-4xl {
+                        max-width: 100% !important;
+                        padding: 16px !important;
+                        margin: 0 !important;
+                    }
+                    
+                    .grid {
+                        display: flex !important;
+                        flex-direction: column !important;
+                        gap: 16px !important;
+                    }
+                    
+                    .flex {
+                        flex-direction: column !important;
+                        gap: 12px !important;
+                    }
+                    
+                    .text-6xl { font-size: 2rem !important; line-height: 1.2 !important; }
+                    .text-5xl { font-size: 1.75rem !important; line-height: 1.2 !important; }
+                    .text-4xl { font-size: 1.5rem !important; line-height: 1.3 !important; }
+                    .text-3xl { font-size: 1.25rem !important; line-height: 1.3 !important; }
+                    .text-2xl { font-size: 1.125rem !important; line-height: 1.4 !important; }
+                    .text-xl { font-size: 1rem !important; line-height: 1.4 !important; }
+                    
+                    .p-8, .p-6, .p-4 { padding: 16px !important; }
+                    .m-8, .m-6, .m-4 { margin: 8px !important; }
+                    .gap-8, .gap-6, .gap-4 { gap: 12px !important; }
+                    
+                    input, textarea, select {
+                        width: 100% !important;
+                        min-height: 54px !important;
+                        font-size: 16px !important;
+                        padding: 16px !important;
+                        border: 2px solid #e2e8f0 !important;
+                        border-radius: 12px !important;
+                        margin-bottom: 16px !important;
+                        background: white !important;
+                        -webkit-appearance: none !important;
+                        appearance: none !important;
+                    }
+                    
+                    input:focus, textarea:focus, select:focus {
+                        border-color: #3b82f6 !important;
+                        outline: none !important;
+                        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+                    }
+                    
+                    .modal {
+                        position: fixed !important;
+                        top: 0 !important;
+                        left: 0 !important;
+                        right: 0 !important;
+                        bottom: 0 !important;
+                        background: rgba(0, 0, 0, 0.6) !important;
+                        display: flex !important;
+                        align-items: flex-end !important;
+                        justify-content: center !important;
+                        z-index: 1000 !important;
+                        padding: 0 !important;
+                    }
+                    
+                    .modal-content {
+                        background: white !important;
+                        width: 100% !important;
+                        max-width: 100% !important;
+                        border-radius: 20px 20px 0 0 !important;
+                        padding: 24px !important;
+                        max-height: 85vh !important;
+                        overflow-y: auto !important;
+                        margin: 0 !important;
+                        box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.2) !important;
+                        animation: slideUp 0.3s ease-out !important;
+                    }
+                    
+                    @keyframes slideUp {
+                        from {
+                            transform: translateY(100%);
+                            opacity: 0;
+                        }
+                        to {
+                            transform: translateY(0);
+                            opacity: 1;
+                        }
+                    }
+                    
+                    .template-card-enhanced {
+                        background: white !important;
+                        border-radius: 16px !important;
+                        overflow: hidden !important;
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+                        margin-bottom: 16px !important;
+                        cursor: pointer !important;
+                        transition: transform 0.2s ease !important;
+                    }
+                    
+                    .template-card-enhanced:active {
+                        transform: scale(0.98) !important;
+                    }
+                    
+                    .realistic-preview {
+                        height: 200px !important;
+                        width: 100% !important;
+                    }
+                    
+                    .template-info {
+                        padding: 16px !important;
+                    }
+                    
+                    .language-toggle {
+                        position: fixed !important;
+                        top: 20px !important;
+                        right: 20px !important;
+                        z-index: 1000 !important;
+                    }
+                    
+                    .language-toggle button {
+                        min-height: 44px !important;
+                        padding: 8px 12px !important;
+                        font-size: 14px !important;
+                        border-radius: 8px !important;
+                        width: auto !important;
+                    }
+                `;
+                
+                // Inject mobile styles
+                const styleElement = document.createElement('style');
+                styleElement.id = 'mobile-forced-styles';
+                styleElement.innerHTML = mobileStyles;
+                document.head.appendChild(styleElement);
+                
+                // Add mobile class to body
+                document.body.classList.add('mobile-optimized');
+                document.documentElement.classList.add('mobile-optimized');
+            }
+        }
+
+        // Initialize mobile optimization before rendering
+        initializeMobileOptimization();
 
         // Initialize the app
         ReactDOM.render(React.createElement(RootApp), document.getElementById('root'));
