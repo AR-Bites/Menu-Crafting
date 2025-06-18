@@ -6507,11 +6507,20 @@
             ]);
         }
 
-        // Auth Page Component with Firebase Google Authentication
-        function AuthPage({ onContinue }) {
+        // Auth Page Component with Multiple Authentication Options
+        function AuthPage({ onContinue, onBack }) {
             const { t, isRTL, toggleLanguage } = useLanguage();
-            const { user, loading, login } = useAuth();
+            const { user, loading, signInWithGoogle, signUpWithEmail, signInWithEmail, resetPassword } = useAuth();
+            const { addToast } = useToast();
             const [isLoggingIn, setIsLoggingIn] = useState(false);
+            const [showEmailAuth, setShowEmailAuth] = useState(null);
+            const [formData, setFormData] = useState({
+                email: '',
+                password: '',
+                confirmPassword: '',
+                displayName: ''
+            });
+            const [errors, setErrors] = useState({});
             
             // Redirect if already authenticated
             useEffect(() => {
@@ -6520,12 +6529,80 @@
                 }
             }, [user, loading, onContinue]);
 
+            const validateForm = () => {
+                const newErrors = {};
+                
+                if (!formData.email.trim()) {
+                    newErrors.email = 'Email is required';
+                } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+                    newErrors.email = 'Email is invalid';
+                }
+                
+                if (showEmailAuth !== 'reset') {
+                    if (!formData.password.trim()) {
+                        newErrors.password = 'Password is required';
+                    } else if (formData.password.length < 6) {
+                        newErrors.password = 'Password must be at least 6 characters';
+                    }
+                    
+                    if (showEmailAuth === 'signup') {
+                        if (!formData.displayName.trim()) {
+                            newErrors.displayName = 'Name is required';
+                        }
+                        if (formData.password !== formData.confirmPassword) {
+                            newErrors.confirmPassword = 'Passwords do not match';
+                        }
+                    }
+                }
+                
+                setErrors(newErrors);
+                return Object.keys(newErrors).length === 0;
+            };
+
+            const updateFormData = (field, value) => {
+                setFormData(prev => ({ ...prev, [field]: value }));
+                if (errors[field]) {
+                    setErrors(prev => ({ ...prev, [field]: null }));
+                }
+            };
+
             const handleGoogleLogin = async () => {
                 setIsLoggingIn(true);
                 try {
-                    await login();
+                    await signInWithGoogle();
+                    addToast('Successfully signed in with Google!', 'success');
                 } catch (error) {
-                    console.error('Login failed:', error);
+                    console.error('Google sign-in failed:', error);
+                    addToast('Google sign-in failed. Please try again.', 'error');
+                    setIsLoggingIn(false);
+                }
+            };
+
+            const handleEmailAuth = async (e) => {
+                e.preventDefault();
+                if (!validateForm()) return;
+                
+                setIsLoggingIn(true);
+                try {
+                    if (showEmailAuth === 'signup') {
+                        await signUpWithEmail(formData.email, formData.password, formData.displayName);
+                        addToast('Account created successfully!', 'success');
+                    } else if (showEmailAuth === 'signin') {
+                        await signInWithEmail(formData.email, formData.password);
+                        addToast('Successfully signed in!', 'success');
+                    } else if (showEmailAuth === 'reset') {
+                        await resetPassword(formData.email);
+                        addToast('Password reset email sent!', 'success');
+                        setShowEmailAuth(null);
+                    }
+                } catch (error) {
+                    console.error('Authentication failed:', error);
+                    const errorMessage = error.code === 'auth/user-not-found' ? 'No account found with this email' :
+                                       error.code === 'auth/wrong-password' ? 'Incorrect password' :
+                                       error.code === 'auth/email-already-in-use' ? 'Email already in use' :
+                                       'Authentication failed. Please try again.';
+                    addToast(errorMessage, 'error');
+                } finally {
                     setIsLoggingIn(false);
                 }
             };
@@ -7340,7 +7417,7 @@
                             key: 'sign-in',
                             onClick: () => {
                                 setShowAuthWarning(false);
-                                onSelectTemplate(null); // Go to auth page
+                                onSelectTemplate('AUTH_REQUIRED'); // Go to auth page
                             },
                             className: 'flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors'
                         }, t('signInNow'))
@@ -7397,8 +7474,13 @@
             };
 
             const handleSelectTemplate = (template) => {
-                setSelectedTemplate(template);
-                transitionToStep(STEPS.AUTH);
+                if (template === 'AUTH_REQUIRED') {
+                    // Premium template selected, go to auth page
+                    transitionToStep(STEPS.AUTH);
+                } else {
+                    setSelectedTemplate(template);
+                    transitionToStep(STEPS.AUTH);
+                }
             };
 
             const handleBackToTemplates = () => {
@@ -7464,7 +7546,8 @@
                         });
                     case STEPS.AUTH:
                         return React.createElement(AuthPage, {
-                            onContinue: handleAuthContinue
+                            onContinue: handleAuthContinue,
+                            onBack: handleBackToTemplates
                         });
                     case STEPS.EDITOR:
                         return React.createElement(MenuEditor, {
