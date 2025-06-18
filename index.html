@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Restaurant Menu Builder - Create Beautiful Digital Menus</title>
     <!-- Force cache refresh -->
     <meta name="description" content="Create stunning restaurant menus with drag-and-drop interface, 3D models, multilingual support, and QR code generation. Perfect for modern restaurants.">
@@ -1690,45 +1690,402 @@
             border-color: rgba(255, 255, 255, 0.5);
         }
 
-        /* Mobile-First Responsive Design */
+        /* COMPLETE MOBILE-FIRST REDESIGN */
         @media (max-width: 768px) {
-            .template-card {
-                margin-bottom: 1rem;
+            /* Base mobile reset */
+            * {
+                -webkit-tap-highlight-color: transparent !important;
+                touch-action: manipulation !important;
+                box-sizing: border-box !important;
+            }
+            
+            html, body {
+                font-size: 16px !important;
+                overflow-x: hidden !important;
+                -webkit-text-size-adjust: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100vw !important;
+                height: 100vh !important;
+            }
+            
+            /* Mobile container optimization */
+            .container {
+                padding: 1rem !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+            
+            /* Landing page mobile */
+            .hero-landing-redesigned {
+                padding: 2rem 1rem !important;
+                min-height: 100vh !important;
+                justify-content: center !important;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem !important;
+                line-height: 1.2 !important;
+                margin-bottom: 1rem !important;
+                text-align: center !important;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.125rem !important;
+                line-height: 1.4 !important;
+                margin-bottom: 2rem !important;
+                text-align: center !important;
+                padding: 0 1rem !important;
             }
             
             .hero-3d-logo {
-                width: 120px !important;
-                height: 120px !important;
+                width: 160px !important;
+                height: 160px !important;
+                margin-bottom: 2rem !important;
             }
             
-            .glass-effect {
+            /* Touch-optimized buttons */
+            .btn {
+                min-height: 56px !important;
+                padding: 16px 24px !important;
+                font-size: 18px !important;
+                font-weight: 600 !important;
+                border-radius: 16px !important;
+                width: 100% !important;
+                max-width: 320px !important;
+                margin: 0.5rem auto !important;
+                display: block !important;
+                touch-action: manipulation !important;
+                transition: all 0.2s ease !important;
+                cursor: pointer !important;
+            }
+            
+            .btn:active {
+                transform: scale(0.95) !important;
+            }
+            
+            /* Template grid mobile */
+            .template-grid {
+                grid-template-columns: 1fr !important;
+                gap: 2rem !important;
                 padding: 1rem !important;
+                margin: 0 !important;
+            }
+            
+            .template-card-enhanced {
+                width: 100% !important;
+                margin-bottom: 2rem !important;
+                border-radius: 20px !important;
+                overflow: hidden !important;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.12) !important;
+                background: white !important;
+            }
+            
+            .realistic-preview {
+                height: 300px !important;
+                width: 100% !important;
+                border-radius: 20px 20px 0 0 !important;
+            }
+            
+            .template-info {
+                padding: 1.5rem !important;
+                background: white !important;
+            }
+            
+            .template-info h3 {
+                font-size: 1.375rem !important;
+                margin-bottom: 0.75rem !important;
+                font-weight: 700 !important;
+                color: #1f2937 !important;
+            }
+            
+            .template-info p {
+                font-size: 1rem !important;
+                line-height: 1.6 !important;
+                margin-bottom: 1rem !important;
+                color: #6b7280 !important;
+            }
+            
+            /* Language toggle mobile */
+            .language-toggle {
+                position: fixed !important;
+                top: 1rem !important;
+                right: 1rem !important;
+                z-index: 1000 !important;
+            }
+            
+            .language-toggle button {
+                min-height: 48px !important;
+                min-width: 48px !important;
+                padding: 12px 16px !important;
+                font-size: 16px !important;
+                border-radius: 12px !important;
+                box-shadow: 0 4px 16px rgba(0,0,0,0.1) !important;
+                background: rgba(255,255,255,0.9) !important;
+                backdrop-filter: blur(10px) !important;
+            }
+            
+            /* Device toggle mobile */
+            .device-toggle {
+                flex-direction: row !important;
+                gap: 0.5rem !important;
+                margin: 1.5rem 0 !important;
+                width: 100% !important;
+                justify-content: center !important;
+            }
+            
+            .device-toggle button {
+                min-height: 48px !important;
+                padding: 12px 20px !important;
+                font-size: 14px !important;
+                font-weight: 600 !important;
+                border-radius: 12px !important;
+                flex: 1 !important;
+                max-width: 120px !important;
+            }
+            
+            /* Template confirmation mobile */
+            .template-confirmation {
+                position: fixed !important;
+                bottom: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                background: white !important;
+                border-radius: 24px 24px 0 0 !important;
+                padding: 2rem 1.5rem !important;
+                padding-bottom: calc(2rem + env(safe-area-inset-bottom)) !important;
+                box-shadow: 0 -8px 32px rgba(0,0,0,0.2) !important;
+                animation: slideUpMobile 0.4s ease-out !important;
+                z-index: 2000 !important;
+            }
+            
+            .template-confirmation::before {
+                content: '' !important;
+                position: absolute !important;
+                top: 12px !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                width: 40px !important;
+                height: 4px !important;
+                background: #d1d5db !important;
+                border-radius: 2px !important;
+            }
+            
+            .template-confirmation h2 {
+                font-size: 1.75rem !important;
+                text-align: center !important;
+                margin-bottom: 1rem !important;
+                color: #1f2937 !important;
+            }
+            
+            .template-confirmation p {
+                font-size: 1.125rem !important;
+                text-align: center !important;
+                margin-bottom: 2rem !important;
+                color: #6b7280 !important;
+            }
+            
+            .template-confirmation .flex {
+                flex-direction: column !important;
+                gap: 1rem !important;
+            }
+            
+            /* Modal mobile optimization */
+            .modal {
+                align-items: flex-end !important;
+                padding: 0 !important;
+                backdrop-filter: blur(4px) !important;
             }
             
             .modal-content {
-                padding: 20px !important;
-                margin: 10px !important;
-                width: calc(100% - 20px) !important;
-                max-height: calc(100vh - 40px) !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                border-radius: 24px 24px 0 0 !important;
+                max-height: 85vh !important;
+                overflow-y: auto !important;
+                padding: 1.5rem !important;
+                padding-bottom: calc(1.5rem + env(safe-area-inset-bottom)) !important;
+                animation: slideUpMobile 0.3s ease-out !important;
+                box-shadow: 0 -8px 32px rgba(0,0,0,0.2) !important;
             }
             
+            .modal-content::before {
+                content: '' !important;
+                position: absolute !important;
+                top: 12px !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                width: 40px !important;
+                height: 4px !important;
+                background: #d1d5db !important;
+                border-radius: 2px !important;
+            }
+            
+            /* Sidebar mobile */
             .sidebar {
-                width: 100% !important;
                 position: fixed !important;
                 top: 0 !important;
                 left: 0 !important;
+                width: 100% !important;
                 height: 100vh !important;
-                z-index: 1000 !important;
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
+                z-index: 3000 !important;
+                background: white !important;
+                transform: translateX(-100%) !important;
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                overflow-y: auto !important;
+                padding: 1rem !important;
+                padding-top: calc(1rem + env(safe-area-inset-top)) !important;
             }
             
             .sidebar.open {
-                transform: translateX(0);
+                transform: translateX(0) !important;
             }
             
+            .sidebar-header {
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                margin-bottom: 2rem !important;
+                padding-bottom: 1rem !important;
+                border-bottom: 1px solid #e5e7eb !important;
+            }
+            
+            .sidebar-close {
+                min-height: 44px !important;
+                min-width: 44px !important;
+                padding: 10px !important;
+                border-radius: 12px !important;
+                background: #f3f4f6 !important;
+                border: none !important;
+                cursor: pointer !important;
+            }
+            
+            /* Form inputs mobile */
+            .input-field {
+                min-height: 52px !important;
+                padding: 16px 20px !important;
+                font-size: 16px !important;
+                border-radius: 12px !important;
+                width: 100% !important;
+                margin-bottom: 1rem !important;
+                border: 2px solid #e5e7eb !important;
+                background: white !important;
+            }
+            
+            .input-field:focus {
+                border-color: #3b82f6 !important;
+                outline: none !important;
+                box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+            }
+            
+            /* Category filter mobile */
+            .category-filter {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                gap: 0.75rem !important;
+                margin-bottom: 2rem !important;
+                padding: 0 1rem !important;
+                justify-content: center !important;
+            }
+            
+            .category-filter button {
+                min-height: 40px !important;
+                padding: 10px 18px !important;
+                font-size: 14px !important;
+                border-radius: 20px !important;
+                border: 2px solid #e5e7eb !important;
+                background: white !important;
+                color: #6b7280 !important;
+                font-weight: 500 !important;
+                transition: all 0.2s ease !important;
+            }
+            
+            .category-filter button.active {
+                background: #3b82f6 !important;
+                color: white !important;
+                border-color: #3b82f6 !important;
+            }
+            
+            /* Mobile typography */
+            .text-4xl {
+                font-size: 2.25rem !important;
+                line-height: 2.5rem !important;
+            }
+            
+            .text-3xl {
+                font-size: 1.875rem !important;
+                line-height: 2.25rem !important;
+            }
+            
+            .text-2xl {
+                font-size: 1.5rem !important;
+                line-height: 2rem !important;
+            }
+            
+            .text-xl {
+                font-size: 1.25rem !important;
+                line-height: 1.75rem !important;
+            }
+            
+            /* Safe area handling */
+            .safe-area-top {
+                padding-top: env(safe-area-inset-top) !important;
+            }
+            
+            .safe-area-bottom {
+                padding-bottom: env(safe-area-inset-bottom) !important;
+            }
+            
+            /* Touch feedback */
+            .template-card-enhanced:active,
+            .btn:active,
+            button:active {
+                transform: scale(0.96) !important;
+                transition: transform 0.1s ease !important;
+            }
+            
+            /* Preview container mobile */
             .preview-container {
-                padding: 0.5rem !important;
+                padding: 1rem !important;
+                border-radius: 16px !important;
+                margin: 1rem 0 !important;
+                background: white !important;
+                box-shadow: 0 4px 16px rgba(0,0,0,0.08) !important;
+            }
+            
+            /* Feature cards mobile */
+            .feature-showcase-card {
+                padding: 2rem 1.5rem !important;
+                margin-bottom: 1.5rem !important;
+                border-radius: 20px !important;
+            }
+            
+            .feature-icon-showcase {
+                font-size: 3rem !important;
+                margin-bottom: 1rem !important;
+            }
+            
+            .feature-title-showcase {
+                font-size: 1.25rem !important;
+                margin-bottom: 0.75rem !important;
+            }
+            
+            .feature-desc-showcase {
+                font-size: 1rem !important;
+                line-height: 1.5 !important;
+            }
+        }
+        
+        /* Mobile slide up animation */
+        @keyframes slideUpMobile {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
             }
         }
 
@@ -2369,369 +2726,24 @@
             font-size: 16px;
         }
 
-        /* MOBILE FIRST RESPONSIVE DESIGN */
         @media (max-width: 768px) {
             /* Complete mobile reset */
             html, body {
-                font-size: 16px !important;
-                overflow-x: hidden !important;
-                -webkit-text-size-adjust: 100% !important;
-                -ms-text-size-adjust: 100% !important;
-                touch-action: manipulation !important;
-                height: 100vh !important;
-                width: 100vw !important;
-                margin: 0 !important;
-                padding: 0 !important;
+                font-size: 16px;
+                overflow-x: hidden;
+                -webkit-text-size-adjust: 100%;
+                -ms-text-size-adjust: 100%;
+                touch-action: manipulation;
+                height: 100vh;
+                width: 100vw;
+                margin: 0;
+                padding: 0;
             }
 
             * {
-                -webkit-tap-highlight-color: transparent !important;
-                box-sizing: border-box !important;
+                -webkit-tap-highlight-color: transparent;
+                box-sizing: border-box;
             }
-
-            /* Mobile container base */
-            .container {
-                padding: 12px !important;
-                max-width: 100% !important;
-                margin: 0 !important;
-            }
-
-            /* Mobile grid system override */
-            .grid-cols-1 { grid-template-columns: 1fr !important; }
-            .grid-cols-2 { grid-template-columns: 1fr !important; }
-            .grid-cols-3 { grid-template-columns: 1fr !important; }
-            .grid-cols-4 { grid-template-columns: 1fr !important; }
-            
-            /* Mobile spacing */
-            .gap-6 { gap: 1rem !important; }
-            .gap-8 { gap: 1.5rem !important; }
-            .p-6 { padding: 1rem !important; }
-            .p-8 { padding: 1.25rem !important; }
-            .m-6 { margin: 1rem !important; }
-            .m-8 { margin: 1.25rem !important; }
-
-            /* Mobile text sizes */
-            .text-4xl { font-size: 1.875rem !important; line-height: 2.25rem !important; }
-            .text-5xl { font-size: 2.25rem !important; line-height: 2.5rem !important; }
-            .text-6xl { font-size: 2.5rem !important; line-height: 1 !important; }
-
-            /* Mobile landing page optimization */
-            .hero-landing-redesigned {
-                padding: 1rem !important;
-                min-height: 100vh !important;
-                display: flex !important;
-                flex-direction: column !important;
-                justify-content: center !important;
-                align-items: center !important;
-            }
-
-            .hero-content-redesigned {
-                text-align: center !important;
-                padding: 0 1rem !important;
-                max-width: 100% !important;
-            }
-
-            .hero-title-redesigned {
-                font-size: 2rem !important;
-                line-height: 1.2 !important;
-                margin-bottom: 1rem !important;
-            }
-
-            .hero-subtitle-redesigned {
-                font-size: 1.125rem !important;
-                line-height: 1.5 !important;
-                margin-bottom: 2rem !important;
-            }
-
-            /* Mobile template grid */
-            .template-grid {
-                grid-template-columns: 1fr !important;
-                gap: 1rem !important;
-                padding: 1rem !important;
-            }
-
-            .template-card-enhanced {
-                margin-bottom: 1.5rem !important;
-                border-radius: 12px !important;
-                overflow: hidden !important;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
-            }
-
-            .realistic-preview {
-                height: 200px !important;
-                width: 100% !important;
-            }
-
-            /* Mobile template info */
-            .template-info {
-                padding: 1rem !important;
-            }
-
-            .template-info h3 {
-                font-size: 1.25rem !important;
-                margin-bottom: 0.5rem !important;
-            }
-
-            .template-info p {
-                font-size: 0.875rem !important;
-                line-height: 1.4 !important;
-                margin-bottom: 1rem !important;
-            }
-
-            /* Mobile button optimizations */
-            .btn {
-                min-height: 48px !important;
-                padding: 12px 24px !important;
-                font-size: 16px !important;
-                font-weight: 600 !important;
-                border-radius: 8px !important;
-                width: 100% !important;
-                margin-bottom: 0.5rem !important;
-                touch-action: manipulation !important;
-            }
-
-            .btn:active {
-                transform: scale(0.95) !important;
-                transition: transform 0.1s ease !important;
-            }
-
-            /* Mobile language toggle */
-            .language-toggle {
-                position: fixed !important;
-                top: 1rem !important;
-                right: 1rem !important;
-                z-index: 1000 !important;
-            }
-
-            .language-toggle button {
-                min-height: 44px !important;
-                padding: 8px 12px !important;
-                font-size: 14px !important;
-                border-radius: 6px !important;
-            }
-
-            /* Mobile modal optimizations */
-            .modal {
-                padding: 0 !important;
-                align-items: flex-end !important;
-            }
-
-            .modal-content {
-                width: 100% !important;
-                max-width: 100% !important;
-                margin: 0 !important;
-                border-radius: 16px 16px 0 0 !important;
-                max-height: 80vh !important;
-                overflow-y: auto !important;
-                padding: 1.5rem !important;
-            }
-
-            /* Mobile form optimizations */
-            .input-field {
-                min-height: 48px !important;
-                padding: 12px 16px !important;
-                font-size: 16px !important;
-                border-radius: 8px !important;
-                width: 100% !important;
-                margin-bottom: 1rem !important;
-            }
-
-            /* Mobile navigation */
-            .flex.items-center.justify-between {
-                flex-direction: column !important;
-                gap: 1rem !important;
-                align-items: stretch !important;
-            }
-
-            .flex.gap-4 {
-                flex-direction: column !important;
-                gap: 0.75rem !important;
-            }
-
-            /* Mobile template confirmation */
-            .template-confirmation {
-                padding: 2rem 1rem !important;
-                text-align: center !important;
-            }
-
-            .template-confirmation h2 {
-                font-size: 1.75rem !important;
-                margin-bottom: 1rem !important;
-            }
-
-            .template-confirmation p {
-                font-size: 1rem !important;
-                margin-bottom: 2rem !important;
-            }
-
-            /* Mobile editor complete overhaul */
-            .editor-container {
-                display: flex !important;
-                flex-direction: column !important;
-                height: 100vh !important;
-                overflow: hidden !important;
-            }
-
-            .editor-header {
-                flex-shrink: 0 !important;
-                padding: 1rem !important;
-                background: white !important;
-                border-bottom: 1px solid #e5e7eb !important;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
-            }
-
-            .editor-content {
-                flex: 1 !important;
-                overflow-y: auto !important;
-                padding: 1rem !important;
-                background: #f9fafb !important;
-            }
-
-            /* Mobile sections and items */
-            .section-card {
-                background: white !important;
-                border-radius: 12px !important;
-                padding: 1rem !important;
-                margin-bottom: 1rem !important;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.06) !important;
-                border: none !important;
-            }
-
-            .item-card {
-                background: #f8fafc !important;
-                border-radius: 8px !important;
-                padding: 0.75rem !important;
-                margin-bottom: 0.5rem !important;
-                border: 1px solid #e2e8f0 !important;
-            }
-
-            .section-title {
-                font-size: 1.25rem !important;
-                font-weight: 700 !important;
-                margin-bottom: 0.5rem !important;
-                color: #1f2937 !important;
-            }
-
-            .item-title {
-                font-size: 1rem !important;
-                font-weight: 600 !important;
-                color: #374151 !important;
-                margin-bottom: 0.25rem !important;
-            }
-
-            .item-price {
-                font-size: 1rem !important;
-                font-weight: 700 !important;
-                color: #059669 !important;
-            }
-
-            /* Mobile device preview optimization */
-            .preview-container {
-                position: relative !important;
-                width: 100% !important;
-                max-width: 100% !important;
-                margin: 0 !important;
-                padding: 1rem !important;
-                background: white !important;
-                border-radius: 8px !important;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
-            }
-
-            .preview-content {
-                width: 100% !important;
-                height: auto !important;
-                min-height: 400px !important;
-                overflow-y: auto !important;
-                border-radius: 8px !important;
-                border: 1px solid #e5e7eb !important;
-            }
-
-            /* Mobile action buttons */
-            .action-button {
-                width: 100% !important;
-                min-height: 48px !important;
-                margin-bottom: 0.75rem !important;
-                font-size: 16px !important;
-                font-weight: 600 !important;
-                border-radius: 8px !important;
-                padding: 12px 20px !important;
-            }
-
-            .fab-button {
-                position: fixed !important;
-                bottom: 20px !important;
-                right: 20px !important;
-                width: 56px !important;
-                height: 56px !important;
-                border-radius: 50% !important;
-                background: #3b82f6 !important;
-                color: white !important;
-                border: none !important;
-                box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4) !important;
-                font-size: 24px !important;
-                z-index: 1000 !important;
-            }
-
-            /* Mobile touch interactions */
-            .btn:active, .action-button:active, .fab-button:active {
-                transform: scale(0.95) !important;
-                transition: transform 0.1s ease !important;
-            }
-
-            /* Mobile viewport optimization */
-            .min-h-screen {
-                min-height: 100vh !important;
-                min-height: -webkit-fill-available !important;
-            }
-
-            /* Mobile safe area padding */
-            .safe-area-inset {
-                padding-bottom: env(safe-area-inset-bottom, 20px) !important;
-                padding-left: env(safe-area-inset-left, 0) !important;
-                padding-right: env(safe-area-inset-right, 0) !important;
-            }
-
-            /* Mobile scrolling optimization */
-            .scroll-container {
-                -webkit-overflow-scrolling: touch !important;
-                overflow-scrolling: touch !important;
-            }
-
-            /* Mobile authentication forms */
-            .auth-container {
-                padding: 1rem !important;
-                width: 100% !important;
-                max-width: 100% !important;
-                margin: 0 !important;
-            }
-
-            .auth-form {
-                background: white !important;
-                border-radius: 12px !important;
-                padding: 1.5rem !important;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
-                width: 100% !important;
-            }
-
-            .auth-input {
-                width: 100% !important;
-                min-height: 48px !important;
-                padding: 12px 16px !important;
-                font-size: 16px !important;
-                border: 2px solid #e5e7eb !important;
-                border-radius: 8px !important;
-                margin-bottom: 1rem !important;
-            }
-
-            .auth-button {
-                width: 100% !important;
-                min-height: 48px !important;
-                font-size: 16px !important;
-                font-weight: 600 !important;
-                border-radius: 8px !important;
-                margin-bottom: 0.75rem !important;
-            }
-        }
 
             /* Mobile editor complete restructure */
             .mobile-editor {
@@ -3281,347 +3293,6 @@
                     opacity: 1;
                     transform: scale(1) translateY(0);
                 }
-            }
-        }
-
-        /* FORCE MOBILE-FIRST DESIGN EVERYWHERE */
-        body.mobile-optimized * {
-            box-sizing: border-box !important;
-            -webkit-tap-highlight-color: transparent !important;
-        }
-
-        body.mobile-optimized {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-            font-size: 16px !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            overflow-x: hidden !important;
-            background: #f8fafc !important;
-        }
-
-        /* COMPLETE MOBILE REDESIGN - NATIVE APP EXPERIENCE */
-        @media screen and (max-width: 768px) {
-            * {
-                box-sizing: border-box !important;
-                -webkit-tap-highlight-color: transparent !important;
-            }
-
-            html {
-                font-size: 16px !important;
-                -webkit-text-size-adjust: 100% !important;
-                -ms-text-size-adjust: 100% !important;
-                overflow-x: hidden !important;
-            }
-
-            body {
-                margin: 0 !important;
-                padding: 0 !important;
-                width: 100vw !important;
-                min-height: 100vh !important;
-                overflow-x: hidden !important;
-                background: #f8fafc !important;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-                touch-action: manipulation !important;
-            }
-
-            /* MOBILE LANDING PAGE */
-            .hero-landing-redesigned {
-                min-height: 100vh !important;
-                padding: 1rem !important;
-                display: flex !important;
-                flex-direction: column !important;
-                justify-content: center !important;
-                align-items: center !important;
-                text-align: center !important;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-            }
-
-            .hero-content-redesigned {
-                width: 100% !important;
-                max-width: 100% !important;
-                padding: 0 !important;
-            }
-
-            .hero-title-redesigned {
-                font-size: 2rem !important;
-                line-height: 1.2 !important;
-                font-weight: 800 !important;
-                color: white !important;
-                margin-bottom: 1rem !important;
-                text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
-            }
-
-            .hero-subtitle-redesigned {
-                font-size: 1.125rem !important;
-                line-height: 1.5 !important;
-                color: rgba(255,255,255,0.9) !important;
-                margin-bottom: 2rem !important;
-                font-weight: 400 !important;
-            }
-
-            .cta-button-redesigned {
-                width: 100% !important;
-                max-width: 280px !important;
-                min-height: 56px !important;
-                font-size: 18px !important;
-                font-weight: 700 !important;
-                padding: 16px 24px !important;
-                border-radius: 12px !important;
-                background: white !important;
-                color: #667eea !important;
-                border: none !important;
-                box-shadow: 0 8px 24px rgba(0,0,0,0.2) !important;
-                cursor: pointer !important;
-                transition: all 0.2s ease !important;
-                margin: 0 auto !important;
-                display: block !important;
-            }
-
-            .cta-button-redesigned:active {
-                transform: scale(0.95) !important;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
-            }
-
-            /* MOBILE TEMPLATE SELECTION */
-            .template-selection-container {
-                min-height: 100vh !important;
-                background: #f8fafc !important;
-                padding: 0 !important;
-            }
-
-            .template-header {
-                position: sticky !important;
-                top: 0 !important;
-                z-index: 100 !important;
-                background: white !important;
-                padding: 1rem !important;
-                border-bottom: 1px solid #e2e8f0 !important;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
-            }
-
-            .template-header h1 {
-                font-size: 1.5rem !important;
-                font-weight: 700 !important;
-                color: #1e293b !important;
-                margin: 0 !important;
-                text-align: center !important;
-            }
-
-            .template-grid-mobile {
-                padding: 1rem !important;
-                display: flex !important;
-                flex-direction: column !important;
-                gap: 1rem !important;
-            }
-
-            .template-card-mobile {
-                background: white !important;
-                border-radius: 16px !important;
-                overflow: hidden !important;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
-                border: 2px solid transparent !important;
-                transition: all 0.3s ease !important;
-                cursor: pointer !important;
-                margin-bottom: 0 !important;
-            }
-
-            .template-card-mobile:active {
-                transform: scale(0.98) !important;
-                box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
-            }
-
-            .template-preview-mobile {
-                height: 180px !important;
-                width: 100% !important;
-                background-size: cover !important;
-                background-position: center !important;
-                background-repeat: no-repeat !important;
-                position: relative !important;
-            }
-
-            .template-info-mobile {
-                padding: 1rem !important;
-            }
-
-            .template-title-mobile {
-                font-size: 1.125rem !important;
-                font-weight: 700 !important;
-                color: #1e293b !important;
-                margin-bottom: 0.5rem !important;
-                line-height: 1.3 !important;
-            }
-
-            .template-description-mobile {
-                font-size: 0.875rem !important;
-                color: #64748b !important;
-                line-height: 1.4 !important;
-                margin-bottom: 1rem !important;
-            }
-
-            .template-features-mobile {
-                display: flex !important;
-                flex-wrap: wrap !important;
-                gap: 0.5rem !important;
-            }
-
-            .feature-tag-mobile {
-                background: #f1f5f9 !important;
-                color: #475569 !important;
-                padding: 4px 8px !important;
-                border-radius: 6px !important;
-                font-size: 0.75rem !important;
-                font-weight: 500 !important;
-            }
-
-            /* MOBILE BUTTONS */
-            .btn, button, .action-button {
-                min-height: 52px !important;
-                width: 100% !important;
-                font-size: 16px !important;
-                font-weight: 600 !important;
-                padding: 16px 20px !important;
-                border-radius: 12px !important;
-                border: none !important;
-                cursor: pointer !important;
-                transition: all 0.2s ease !important;
-                margin-bottom: 0.75rem !important;
-                touch-action: manipulation !important;
-                -webkit-appearance: none !important;
-                appearance: none !important;
-            }
-
-            .btn:active, button:active {
-                transform: scale(0.95) !important;
-            }
-
-            .btn-primary {
-                background: #3b82f6 !important;
-                color: white !important;
-                box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3) !important;
-            }
-
-            .btn-secondary {
-                background: #f8fafc !important;
-                color: #475569 !important;
-                border: 2px solid #e2e8f0 !important;
-            }
-
-            /* MOBILE FORMS */
-            .input-field, input, textarea, select {
-                width: 100% !important;
-                min-height: 52px !important;
-                font-size: 16px !important;
-                padding: 16px !important;
-                border: 2px solid #e2e8f0 !important;
-                border-radius: 12px !important;
-                background: white !important;
-                margin-bottom: 1rem !important;
-                transition: border-color 0.2s ease !important;
-                -webkit-appearance: none !important;
-                appearance: none !important;
-            }
-
-            .input-field:focus, input:focus, textarea:focus {
-                border-color: #3b82f6 !important;
-                outline: none !important;
-                box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
-            }
-
-            /* MOBILE MODALS */
-            .modal {
-                position: fixed !important;
-                top: 0 !important;
-                left: 0 !important;
-                right: 0 !important;
-                bottom: 0 !important;
-                background: rgba(0, 0, 0, 0.6) !important;
-                display: flex !important;
-                align-items: flex-end !important;
-                justify-content: center !important;
-                z-index: 1000 !important;
-                padding: 0 !important;
-            }
-
-            .modal-content {
-                background: white !important;
-                width: 100% !important;
-                max-width: 100% !important;
-                border-radius: 20px 20px 0 0 !important;
-                padding: 1.5rem !important;
-                max-height: 85vh !important;
-                overflow-y: auto !important;
-                margin: 0 !important;
-                box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.2) !important;
-                animation: slideUpMobile 0.3s ease-out !important;
-            }
-
-            @keyframes slideUpMobile {
-                from {
-                    transform: translateY(100%);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateY(0);
-                    opacity: 1;
-                }
-            }
-
-            /* MOBILE SAFE AREAS */
-            .safe-area-bottom {
-                padding-bottom: calc(env(safe-area-inset-bottom) + 20px) !important;
-            }
-
-            .safe-area-top {
-                padding-top: calc(env(safe-area-inset-top) + 10px) !important;
-            }
-
-            /* MOBILE SCROLLING */
-            .scroll-container {
-                -webkit-overflow-scrolling: touch !important;
-                overflow-scrolling: touch !important;
-            }
-
-            /* MOBILE TYPOGRAPHY */
-            .text-6xl { font-size: 2.25rem !important; line-height: 1.2 !important; }
-            .text-5xl { font-size: 1.875rem !important; line-height: 1.2 !important; }
-            .text-4xl { font-size: 1.5rem !important; line-height: 1.3 !important; }
-            .text-3xl { font-size: 1.25rem !important; line-height: 1.3 !important; }
-            .text-2xl { font-size: 1.125rem !important; line-height: 1.4 !important; }
-            .text-xl { font-size: 1rem !important; line-height: 1.4 !important; }
-
-            /* MOBILE SPACING OVERRIDES */
-            .p-8, .p-6, .p-4 { padding: 1rem !important; }
-            .m-8, .m-6, .m-4 { margin: 0.5rem !important; }
-            .gap-8, .gap-6, .gap-4 { gap: 0.75rem !important; }
-
-            /* MOBILE GRID FIXES */
-            .grid, .grid-cols-1, .grid-cols-2, .grid-cols-3, .grid-cols-4 {
-                display: flex !important;
-                flex-direction: column !important;
-                gap: 1rem !important;
-            }
-
-            /* HIDE DESKTOP ELEMENTS */
-            .hidden-mobile {
-                display: none !important;
-            }
-
-            /* MOBILE NAVIGATION */
-            .flex {
-                flex-direction: column !important;
-                gap: 0.75rem !important;
-            }
-
-            .flex.flex-row-mobile {
-                flex-direction: row !important;
-            }
-
-            .items-center {
-                align-items: stretch !important;
-            }
-
-            .justify-between {
-                justify-content: stretch !important;
             }
         }
 
@@ -4255,178 +3926,6 @@
                 menuSaved: "تم حفظ القائمة بنجاح!",
             }
         };
-
-        // Enhanced Mobile Detection and Forced Mobile Layout
-        function useIsMobile() {
-            const [isMobile, setIsMobile] = useState(false);
-            
-            useEffect(() => {
-                const checkMobile = () => {
-                    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-                    const mobileRegex = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i;
-                    const screenWidth = window.innerWidth <= 768;
-                    const isMobileDevice = mobileRegex.test(userAgent.toLowerCase()) || screenWidth;
-                    
-                    setIsMobile(isMobileDevice);
-                    
-                    // Force mobile styles immediately
-                    if (isMobileDevice) {
-                        document.body.style.cssText = `
-                            margin: 0 !important;
-                            padding: 0 !important;
-                            width: 100vw !important;
-                            overflow-x: hidden !important;
-                            background: #f8fafc !important;
-                            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-                            font-size: 16px !important;
-                            line-height: 1.5 !important;
-                        `;
-                        
-                        document.documentElement.style.cssText = `
-                            font-size: 16px !important;
-                            overflow-x: hidden !important;
-                            -webkit-text-size-adjust: 100% !important;
-                        `;
-                        
-                        // Apply mobile styles to all elements
-                        const style = document.createElement('style');
-                        style.id = 'mobile-override-styles';
-                        style.innerHTML = `
-                            .mobile-forced * {
-                                box-sizing: border-box !important;
-                                -webkit-tap-highlight-color: transparent !important;
-                            }
-                            
-                            .mobile-forced .btn,
-                            .mobile-forced button {
-                                min-height: 54px !important;
-                                width: 100% !important;
-                                font-size: 16px !important;
-                                font-weight: 600 !important;
-                                padding: 16px 20px !important;
-                                border-radius: 12px !important;
-                                margin-bottom: 12px !important;
-                                touch-action: manipulation !important;
-                                border: none !important;
-                                cursor: pointer !important;
-                                transition: transform 0.2s ease !important;
-                            }
-                            
-                            .mobile-forced button:active {
-                                transform: scale(0.95) !important;
-                            }
-                            
-                            .mobile-forced .container,
-                            .mobile-forced .max-w-7xl,
-                            .mobile-forced .max-w-6xl,
-                            .mobile-forced .max-w-4xl {
-                                max-width: 100% !important;
-                                padding: 16px !important;
-                                margin: 0 !important;
-                            }
-                            
-                            .mobile-forced .grid {
-                                display: flex !important;
-                                flex-direction: column !important;
-                                gap: 16px !important;
-                            }
-                            
-                            .mobile-forced .text-6xl { font-size: 2rem !important; }
-                            .mobile-forced .text-5xl { font-size: 1.75rem !important; }
-                            .mobile-forced .text-4xl { font-size: 1.5rem !important; }
-                            .mobile-forced .text-3xl { font-size: 1.25rem !important; }
-                            .mobile-forced .text-2xl { font-size: 1.125rem !important; }
-                            .mobile-forced .text-xl { font-size: 1rem !important; }
-                            
-                            .mobile-forced .p-8,
-                            .mobile-forced .p-6,
-                            .mobile-forced .p-4 {
-                                padding: 16px !important;
-                            }
-                            
-                            .mobile-forced .gap-8,
-                            .mobile-forced .gap-6,
-                            .mobile-forced .gap-4 {
-                                gap: 12px !important;
-                            }
-                            
-                            .mobile-forced .flex {
-                                flex-direction: column !important;
-                                gap: 12px !important;
-                            }
-                            
-                            .mobile-forced .items-center {
-                                align-items: stretch !important;
-                            }
-                            
-                            .mobile-forced .justify-between {
-                                justify-content: stretch !important;
-                            }
-                            
-                            .mobile-forced input,
-                            .mobile-forced textarea,
-                            .mobile-forced select {
-                                width: 100% !important;
-                                min-height: 54px !important;
-                                font-size: 16px !important;
-                                padding: 16px !important;
-                                border: 2px solid #e2e8f0 !important;
-                                border-radius: 12px !important;
-                                margin-bottom: 16px !important;
-                                background: white !important;
-                            }
-                            
-                            .mobile-forced .modal {
-                                align-items: flex-end !important;
-                                padding: 0 !important;
-                            }
-                            
-                            .mobile-forced .modal-content {
-                                width: 100% !important;
-                                max-width: 100% !important;
-                                margin: 0 !important;
-                                border-radius: 20px 20px 0 0 !important;
-                                padding: 24px !important;
-                                max-height: 85vh !important;
-                                overflow-y: auto !important;
-                            }
-                        `;
-                        
-                        // Remove existing mobile styles and add new ones
-                        const existingStyle = document.getElementById('mobile-override-styles');
-                        if (existingStyle) {
-                            existingStyle.remove();
-                        }
-                        document.head.appendChild(style);
-                        
-                        // Add mobile class to body
-                        document.body.classList.add('mobile-forced');
-                        document.documentElement.classList.add('mobile-forced');
-                    } else {
-                        // Remove mobile styles for desktop
-                        document.body.classList.remove('mobile-forced');
-                        document.documentElement.classList.remove('mobile-forced');
-                        const mobileStyle = document.getElementById('mobile-override-styles');
-                        if (mobileStyle) {
-                            mobileStyle.remove();
-                        }
-                    }
-                };
-                
-                checkMobile();
-                window.addEventListener('resize', checkMobile);
-                return () => {
-                    window.removeEventListener('resize', checkMobile);
-                    // Cleanup mobile styles
-                    const mobileStyle = document.getElementById('mobile-override-styles');
-                    if (mobileStyle) {
-                        mobileStyle.remove();
-                    }
-                };
-            }, []);
-            
-            return isMobile;
-        }
 
         // Language Context
         const LanguageContext = React.createContext();
@@ -7961,176 +7460,7 @@
             ]);
         }
 
-        // Mobile-First Template Selection Component
-        function MobileTemplateSelection({ onSelectTemplate, templates }) {
-            const { t, isRTL, toggleLanguage, language } = useLanguage();
-            const [selectedTemplate, setSelectedTemplate] = useState(null);
-            const [isSelecting, setIsSelecting] = useState(false);
-
-            const handleTemplateSelect = (templateId) => {
-                if (isSelecting) return;
-                setIsSelecting(true);
-                setTimeout(() => {
-                    onSelectTemplate(templateId);
-                }, 300);
-            };
-
-            return React.createElement('div', {
-                style: {
-                    minHeight: '100vh',
-                    background: '#f8fafc',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
-                }
-            }, [
-                // Mobile Header
-                React.createElement('div', {
-                    key: 'header',
-                    style: {
-                        background: 'white',
-                        padding: '20px 16px',
-                        borderBottom: '1px solid #e2e8f0',
-                        position: 'sticky',
-                        top: 0,
-                        zIndex: 100,
-                        boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
-                    }
-                }, [
-                    React.createElement('div', {
-                        key: 'header-content',
-                        style: {
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center'
-                        }
-                    }, [
-                        React.createElement('h1', {
-                            key: 'title',
-                            style: {
-                                fontSize: '24px',
-                                fontWeight: '700',
-                                color: '#1e293b',
-                                margin: 0
-                            }
-                        }, t('selectTemplate')),
-                        React.createElement(LanguageToggle, { key: 'lang' })
-                    ])
-                ]),
-
-                // Mobile Template Grid
-                React.createElement('div', {
-                    key: 'template-grid',
-                    style: {
-                        flex: 1,
-                        padding: '16px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '16px'
-                    }
-                }, templates.map(template => 
-                    React.createElement('div', {
-                        key: template.id,
-                        onClick: () => handleTemplateSelect(template.id),
-                        style: {
-                            background: 'white',
-                            borderRadius: '16px',
-                            overflow: 'hidden',
-                            boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-                            cursor: 'pointer',
-                            transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                            border: selectedTemplate === template.id ? '3px solid #3b82f6' : '1px solid #f1f5f9'
-                        },
-                        onTouchStart: (e) => {
-                            e.currentTarget.style.transform = 'scale(0.98)';
-                        },
-                        onTouchEnd: (e) => {
-                            e.currentTarget.style.transform = 'scale(1)';
-                        }
-                    }, [
-                        // Template Preview
-                        React.createElement('div', {
-                            key: 'preview',
-                            style: {
-                                height: '200px',
-                                background: template.preview?.headerBg || '#667eea',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                position: 'relative'
-                            }
-                        }, [
-                            React.createElement('div', {
-                                key: 'preview-content',
-                                style: {
-                                    color: 'white',
-                                    textAlign: 'center',
-                                    padding: '20px'
-                                }
-                            }, [
-                                React.createElement('h3', {
-                                    key: 'name',
-                                    style: {
-                                        fontSize: '18px',
-                                        fontWeight: '700',
-                                        marginBottom: '8px'
-                                    }
-                                }, t(template.id)),
-                                React.createElement('p', {
-                                    key: 'desc',
-                                    style: {
-                                        fontSize: '14px',
-                                        opacity: 0.9
-                                    }
-                                }, t(template.id + 'Desc'))
-                            ])
-                        ]),
-
-                        // Template Info
-                        React.createElement('div', {
-                            key: 'info',
-                            style: {
-                                padding: '16px'
-                            }
-                        }, [
-                            React.createElement('div', {
-                                key: 'features',
-                                style: {
-                                    display: 'flex',
-                                    flexWrap: 'wrap',
-                                    gap: '8px'
-                                }
-                            }, [
-                                React.createElement('span', {
-                                    key: 'category',
-                                    style: {
-                                        background: '#f1f5f9',
-                                        color: '#475569',
-                                        padding: '6px 12px',
-                                        borderRadius: '6px',
-                                        fontSize: '12px',
-                                        fontWeight: '500'
-                                    }
-                                }, template.category),
-                                React.createElement('span', {
-                                    key: 'font',
-                                    style: {
-                                        background: '#f1f5f9',
-                                        color: '#475569',
-                                        padding: '6px 12px',
-                                        borderRadius: '6px',
-                                        fontSize: '12px',
-                                        fontWeight: '500'
-                                    }
-                                }, template.fontFamily)
-                            ])
-                        ])
-                    ])
-                ))
-            ]);
-        }
-
-        // Enhanced Template Selection Component - Mobile-First Redesign
+        // Enhanced Template Selection Component - Mobile-First Design
         function EnhancedTemplateSelection({ onSelectTemplate }) {
             const { t, isRTL, toggleLanguage, language } = useLanguage();
             const { user, loading } = useAuth();
@@ -8138,35 +7468,48 @@
             const [isSelecting, setIsSelecting] = useState(false);
             const [showConfirmation, setShowConfirmation] = useState(false);
             const [categoryFilter, setCategoryFilter] = useState('all');
-            const isMobile = useIsMobile();
+            const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
-            // Force mobile interface if mobile device detected
-            if (isMobile) {
-                return React.createElement(MobileTemplateSelection, {
-                    onSelectTemplate,
-                    templates: templates
-                });
-            }
+            // Mobile detection and responsive handling
+            useEffect(() => {
+                const handleResize = () => {
+                    setIsMobile(window.innerWidth <= 768);
+                };
+                
+                window.addEventListener('resize', handleResize);
+                return () => window.removeEventListener('resize', handleResize);
+            }, []);
 
 
             const handleTemplateClick = (template) => {
                 if (isSelecting) return;
                 
-
+                // Mobile haptic feedback if available
+                if (navigator.vibrate && isMobile) {
+                    navigator.vibrate(50);
+                }
                 
                 setSelectedTemplate(template.id);
                 setShowConfirmation(true);
                 
-                // Scroll to confirmation section
-                setTimeout(() => {
-                    const confirmationElement = document.getElementById('template-confirmation');
-                    if (confirmationElement) {
-                        confirmationElement.scrollIntoView({ 
-                            behavior: 'smooth',
-                            block: 'center'
-                        });
-                    }
-                }, 100);
+                // Mobile-optimized scroll behavior
+                if (isMobile) {
+                    // Prevent body scroll when modal is open
+                    document.body.style.overflow = 'hidden';
+                    // Smooth scroll to top for mobile
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    // Desktop scroll to confirmation
+                    setTimeout(() => {
+                        const confirmationElement = document.getElementById('template-confirmation');
+                        if (confirmationElement) {
+                            confirmationElement.scrollIntoView({ 
+                                behavior: 'smooth',
+                                block: 'center'
+                            });
+                        }
+                    }, 100);
+                }
             };
 
             const handleConfirmSelection = () => {
@@ -8322,6 +7665,10 @@
                                 key: 'back',
                                 className: 'btn btn-secondary',
                                 onClick: () => {
+                                    // Restore body scroll on mobile
+                                    if (isMobile) {
+                                        document.body.style.overflow = 'auto';
+                                    }
                                     setSelectedTemplate(null);
                                     setShowConfirmation(false);
                                 }
@@ -8521,158 +7868,8 @@
             );
         }
 
-        // Complete Mobile App Replacement
-        function initializeMobileApp() {
-            const isMobile = window.innerWidth <= 768 || /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase());
-            
-            if (isMobile) {
-                // Create mobile interface using DOM methods instead of innerHTML
-                document.body.innerHTML = '';
-                
-                // Create main container
-                const mobileApp = document.createElement('div');
-                mobileApp.id = 'mobile-app';
-                mobileApp.style.cssText = 'margin:0;padding:0;min-height:100vh;width:100vw;overflow-x:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;color:white;position:relative';
-                
-                // Create language toggle
-                const langContainer = document.createElement('div');
-                langContainer.style.cssText = 'position:absolute;top:20px;right:20px;z-index:1000';
-                const langBtn = document.createElement('button');
-                langBtn.onclick = function() { toggleLanguage(); };
-                langBtn.style.cssText = 'background:rgba(255,255,255,0.2);color:white;border:2px solid rgba(255,255,255,0.3);padding:8px 16px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s ease;min-height:44px;min-width:60px';
-                langBtn.innerHTML = '<span id="lang-text">EN</span>';
-                langContainer.appendChild(langBtn);
-                
-                // Create main content
-                const mainContent = document.createElement('div');
-                mainContent.style.cssText = 'max-width:350px;width:calc(100% - 40px);padding:20px';
-                
-                // Logo
-                const logo = document.createElement('div');
-                logo.style.cssText = 'font-size:80px;margin-bottom:30px;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.3))';
-                logo.innerHTML = '🍽️';
-                
-                // Title
-                const title = document.createElement('h1');
-                title.id = 'main-title';
-                title.style.cssText = 'font-size:32px;font-weight:800;margin:0 0 16px 0;line-height:1.2;text-shadow:0 2px 8px rgba(0,0,0,0.3)';
-                title.textContent = 'Menu Craft';
-                
-                // Subtitle
-                const subtitle = document.createElement('p');
-                subtitle.id = 'main-subtitle';
-                subtitle.style.cssText = 'font-size:18px;margin:0 0 40px 0;line-height:1.5;opacity:0.95;font-weight:400';
-                subtitle.textContent = 'Create stunning restaurant menus in minutes';
-                
-                // CTA Button
-                const ctaBtn = document.createElement('button');
-                ctaBtn.id = 'start-btn';
-                ctaBtn.onclick = function() { startApp(); };
-                ctaBtn.style.cssText = 'width:100%;min-height:60px;font-size:18px;font-weight:700;padding:18px 24px;border-radius:16px;background:white;color:#667eea;border:none;box-shadow:0 8px 32px rgba(0,0,0,0.2);cursor:pointer;transition:all 0.3s ease;margin-bottom:40px';
-                ctaBtn.textContent = 'Get Started';
-                
-                // Features
-                const features = document.createElement('div');
-                features.style.cssText = 'display:flex;flex-direction:column;gap:20px;align-items:center';
-                
-                const feature1 = document.createElement('div');
-                feature1.style.cssText = 'display:flex;align-items:center;gap:12px;font-size:16px;font-weight:500';
-                feature1.innerHTML = '<span style="font-size:24px">🎨</span><span id="feature-1">Beautiful Templates</span>';
-                
-                const feature2 = document.createElement('div');
-                feature2.style.cssText = 'display:flex;align-items:center;gap:12px;font-size:16px;font-weight:500';
-                feature2.innerHTML = '<span style="font-size:24px">🌍</span><span id="feature-2">Arabic & English</span>';
-                
-                const feature3 = document.createElement('div');
-                feature3.style.cssText = 'display:flex;align-items:center;gap:12px;font-size:16px;font-weight:500';
-                feature3.innerHTML = '<span style="font-size:24px">📱</span><span id="feature-3">Mobile Optimized</span>';
-                
-                features.appendChild(feature1);
-                features.appendChild(feature2);
-                features.appendChild(feature3);
-                
-                // Assemble main content
-                mainContent.appendChild(logo);
-                mainContent.appendChild(title);
-                mainContent.appendChild(subtitle);
-                mainContent.appendChild(ctaBtn);
-                mainContent.appendChild(features);
-                
-                // Template selection screen
-                const templateScreen = document.createElement('div');
-                templateScreen.id = 'template-screen';
-                templateScreen.style.cssText = 'display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#f8fafc;z-index:2000;overflow-y:auto';
-                
-                // Assemble mobile app
-                mobileApp.appendChild(langContainer);
-                mobileApp.appendChild(mainContent);
-                mobileApp.appendChild(templateScreen);
-                
-                // Add to body
-                document.body.appendChild(mobileApp);
-                
-                // Add JavaScript functions
-                window.currentLanguage = 'en';
-                
-                window.translations = {
-                    en: {
-                        mainTitle: 'Menu Craft',
-                        mainSubtitle: 'Create stunning restaurant menus in minutes',
-                        getStarted: 'Get Started',
-                        feature1: 'Beautiful Templates',
-                        feature2: 'Arabic & English',
-                        feature3: 'Mobile Optimized'
-                    },
-                    ar: {
-                        mainTitle: 'صانع القوائم',
-                        mainSubtitle: 'اصنع قوائم طعام رائعة في دقائق',
-                        getStarted: 'ابدأ الآن',
-                        feature1: 'قوالب جميلة',
-                        feature2: 'عربي وإنجليزي',
-                        feature3: 'محسن للجوال'
-                    }
-                };
-                
-                window.updateTexts = function() {
-                    const t = window.translations[window.currentLanguage];
-                    document.getElementById('main-title').textContent = t.mainTitle;
-                    document.getElementById('main-subtitle').textContent = t.mainSubtitle;
-                    document.getElementById('start-btn').textContent = t.getStarted;
-                    document.getElementById('feature-1').textContent = t.feature1;
-                    document.getElementById('feature-2').textContent = t.feature2;
-                    document.getElementById('feature-3').textContent = t.feature3;
-                    document.getElementById('lang-text').textContent = window.currentLanguage === 'en' ? 'AR' : 'EN';
-                    
-                    if (window.currentLanguage === 'ar') {
-                        document.body.dir = 'rtl';
-                    } else {
-                        document.body.dir = 'ltr';
-                    }
-                };
-                
-                window.toggleLanguage = function() {
-                    window.currentLanguage = window.currentLanguage === 'en' ? 'ar' : 'en';
-                    window.updateTexts();
-                };
-                
-                window.startApp = function() {
-                    alert('Mobile interface working perfectly! Template selection will load here.');
-                };
-                
-                // Initialize
-                window.updateTexts();
-                
-                return;
-            }
-        }
-
-        // Initialize mobile or desktop interface
-        initializeMobileApp();
-
-        // Load React app for desktop only
-        if (window.innerWidth > 768 && !/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase())) {
-            ReactDOM.render(React.createElement(RootApp), document.getElementById('root'));
-        }
+        // Initialize the app
+        ReactDOM.render(React.createElement(RootApp), document.getElementById('root'));
     </script>
 </body>
 </html>
