@@ -3432,7 +3432,7 @@
                 preview: "معاينة",
                 
                 // Forms
-                restaurantName: "اس � المطعم",
+                restaurantName: "اس]� المطعم",
                 tagline: "شعار المطعم",
                 addSection: "إضافة قسم",
                 addItem: "إضافة عنصر قائمة",
@@ -6654,6 +6654,8 @@
                         const user = await signUpWithEmail(formData.email, formData.password, formData.displayName);
                         console.log('Signup successful:', user);
                         addToast('Account created successfully!', 'success');
+                        setShowEmailAuth(null); // Close the signup modal
+                        setFormData({ email: '', password: '', confirmPassword: '', displayName: '' }); // Clear form
                     } else if (showEmailAuth === 'signin') {
                         const user = await signInWithEmail(formData.email, formData.password);
                         console.log('Sign-in successful:', user);
