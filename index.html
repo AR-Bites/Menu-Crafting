@@ -10,8 +10,8 @@
     <!-- External Dependencies -->
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
@@ -900,7 +900,7 @@
             border-radius: 12px;
             padding: 16px 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            z-index: 1001;
+            z-index: 9999;
             animation: slideInRight 0.3s ease;
         }
         
@@ -2956,14 +2956,6 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        // Wait for all dependencies to load
-        window.addEventListener('load', function() {
-            console.log('Window loaded, checking dependencies...');
-            console.log('React:', typeof React);
-            console.log('ReactDOM:', typeof ReactDOM);
-            console.log('Firebase Auth:', typeof window.firebaseAuth);
-        });
-
         const { useState, useEffect, useRef, useCallback, useMemo } = React;
 
         // Mobile detection utilities
@@ -3440,7 +3432,7 @@
                 preview: "معاينة",
                 
                 // Forms
-                restaurantName: "اسم المطعم",
+                restaurantName: "اس � المطعم",
                 tagline: "شعار المطعم",
                 addSection: "إضافة قسم",
                 addItem: "إضافة عنصر قائمة",
@@ -3691,23 +3683,6 @@
                     }
                 }, '×')
             ]);
-        }
-
-        // Toast Container Component with proper z-index
-        function ToastContainer() {
-            const { toasts, removeToast } = useToast();
-            
-            return React.createElement('div', {
-                className: 'fixed top-20 right-4 z-[99999] space-y-2 pointer-events-none'
-            }, toasts.map(toast => 
-                React.createElement('div', {
-                    key: toast.id,
-                    className: 'pointer-events-auto'
-                }, React.createElement(Toast, {
-                    toast: toast,
-                    onRemove: removeToast
-                }))
-            ));
         }
 
         // Visually Unique Templates with Live Previews
@@ -6679,8 +6654,10 @@
                         const user = await signUpWithEmail(formData.email, formData.password, formData.displayName);
                         console.log('Signup successful:', user);
                         addToast('Account created successfully!', 'success');
-                        setShowEmailAuth(null); // Close the signup modal
-                        setFormData({ email: '', password: '', confirmPassword: '', displayName: '' }); // Clear form
+                        // Close the signup popup and reset form
+                        setShowEmailAuth(null);
+                        setFormData({ email: '', password: '', displayName: '' });
+                        // The user should now be automatically logged in via onAuthStateChanged
                     } else if (showEmailAuth === 'signin') {
                         const user = await signInWithEmail(formData.email, formData.password);
                         console.log('Sign-in successful:', user);
@@ -7675,29 +7652,8 @@
             );
         }
 
-        // Initialize the app when DOM is ready
-        function initializeApp() {
-            try {
-                console.log('Initializing React app...');
-                const rootElement = document.getElementById('root');
-                if (!rootElement) {
-                    console.error('Root element not found');
-                    return;
-                }
-                console.log('Root element found, rendering app...');
-                ReactDOM.render(React.createElement(RootApp), rootElement);
-                console.log('App rendered successfully');
-            } catch (error) {
-                console.error('Error initializing app:', error);
-                document.getElementById('root').innerHTML = '<div style="padding: 20px; color: red;">Error loading app: ' + error.message + '</div>';
-            }
-        }
-
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializeApp);
-        } else {
-            initializeApp();
-        }
+        // Initialize the app
+        ReactDOM.render(React.createElement(RootApp), document.getElementById('root'));
     </script>
 </body>
 </html>
