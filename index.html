@@ -2956,32 +2956,39 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect, useRef, useCallback, useMemo, useContext, createContext } = React;
-        
-        // Use React.createElement consistently throughout the app
-        const createElement = React.createElement;
+        try {
+            console.log('Starting React application...');
+            console.log('React available:', typeof React);
+            console.log('ReactDOM available:', typeof ReactDOM);
+            
+            const { useState, useEffect, useRef, useCallback, useMemo, useContext, createContext } = React;
+            
+            // Use React.createElement consistently throughout the app
+            const createElement = React.createElement;
+            
+            console.log('React hooks destructured successfully');
 
-        // Mobile detection utilities
-        const isMobileDevice = () => window.innerWidth < 768;
-        const isTabletDevice = () => window.innerWidth >= 768 && window.innerWidth < 1024;
-        const isDesktopDevice = () => window.innerWidth >= 1024;
+            // Mobile detection utilities
+            const isMobileDevice = () => window.innerWidth < 768;
+            const isTabletDevice = () => window.innerWidth >= 768 && window.innerWidth < 1024;
+            const isDesktopDevice = () => window.innerWidth >= 1024;
 
-        // Mobile warning storage key
-        const MOBILE_WARNING_SHOWN_KEY = 'mobileWarningShown';
+            // Mobile warning storage key
+            const MOBILE_WARNING_SHOWN_KEY = 'mobileWarningShown';
 
-        // Authentication Context
-        const AuthContext = createContext();
+            // Authentication Context
+            const AuthContext = createContext();
 
-        function AuthProvider({ children }) {
-            const [user, setUser] = useState(null);
-            const [loading, setLoading] = useState(true);
+            function AuthProvider({ children }) {
+                const [user, setUser] = useState(null);
+                const [loading, setLoading] = useState(true);
 
-            useEffect(() => {
-                // Wait for Firebase to be loaded
-                const checkFirebase = () => {
-                    if (window.firebaseAuth && window.onAuthStateChanged) {
-                        console.log('Setting up Firebase auth listener...');
-                        window.onAuthStateChanged(window.firebaseAuth, async (firebaseUser) => {
+                useEffect(() => {
+                    // Wait for Firebase to be loaded
+                    const checkFirebase = () => {
+                        if (window.firebaseAuth && window.onAuthStateChanged) {
+                            console.log('Setting up Firebase auth listener...');
+                            window.onAuthStateChanged(window.firebaseAuth, async (firebaseUser) => {
                             console.log('Auth state changed:', firebaseUser ? 'User logged in' : 'User logged out');
                             
                             if (firebaseUser) {
@@ -7743,8 +7750,26 @@
         }
 
         // Initialize the app
+        console.log('Creating React root...');
         const root = ReactDOM.createRoot(document.getElementById('root'));
+        console.log('Root created, rendering RootApp...');
         root.render(React.createElement(RootApp));
+        console.log('App rendered successfully!');
+        
+        } catch (error) {
+            console.error('Error in React application:', error);
+            console.error('Error stack:', error.stack);
+            document.getElementById('root').innerHTML = `
+                <div style="padding: 20px; background: #fee; border: 2px solid #f00; margin: 20px; border-radius: 8px;">
+                    <h2 style="color: #d00; margin: 0 0 10px 0;">React Application Error</h2>
+                    <p style="margin: 0; font-family: monospace; color: #800;">${error.message}</p>
+                    <details style="margin-top: 10px;">
+                        <summary style="cursor: pointer; color: #600;">Error Details</summary>
+                        <pre style="background: #f9f9f9; padding: 10px; margin-top: 10px; border-radius: 4px; overflow: auto; font-size: 12px;">${error.stack}</pre>
+                    </details>
+                </div>
+            `;
+        }
     </script>
 </body>
 </html>
