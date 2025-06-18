@@ -3335,8 +3335,7 @@
                 signingIn: "Signing in...",
                 signInRequired: "Sign in to access premium templates and save your menus",
                 loading: "Loading...",
-                premiumTemplate: "Premium Template",
-                premiumTemplateMessage: "This is a premium template. Sign in to unlock all features and save your work.",
+
                 cancel: "Cancel",
                 signInNow: "Sign In Now",
                 signInWithEmail: "Sign In with Email",
@@ -3532,8 +3531,7 @@
                 signingIn: "جاري تسجيل الدخول...",
                 signInRequired: "سجل دخولك للوصول إلى القوالب المميزة وحفظ قوائمك",
                 loading: "جاري التحميل...",
-                premiumTemplate: "قالب مميز",
-                premiumTemplateMessage: "هذا قالب مميز. سجل دخولك لفتح جميع الميزات وحفظ عملك.",
+
                 cancel: "إلغاء",
                 signInNow: "تسجيل الدخول الآن",
                 signInWithEmail: "تسجيل الدخول بالبريد الإلكتروني",
@@ -3708,7 +3706,7 @@
                 headerStyle: 'gradient',
                 spacing: 3,
                 category: 'modern',
-                premium: false,
+
                 preview: {
                     theme: 'dark',
                     headerBg: '#0f0f23',
@@ -3746,7 +3744,6 @@
                 headerStyle: 'image',
                 spacing: 4,
                 category: 'elegant',
-                premium: true,
                 preview: {
                     theme: 'light',
                     headerBg: '#f7f1e3',
@@ -3784,7 +3781,6 @@
                 headerStyle: 'image',
                 spacing: 2,
                 category: 'visual',
-                premium: true,
                 preview: {
                     theme: 'vibrant',
                     headerBg: '#ff6b35',
@@ -3822,7 +3818,6 @@
                 headerStyle: 'solid',
                 spacing: 5,
                 category: 'minimal',
-                premium: true,
                 preview: {
                     theme: 'minimal',
                     headerBg: '#ffffff',
@@ -7116,16 +7111,12 @@
             const [isSelecting, setIsSelecting] = useState(false);
             const [showConfirmation, setShowConfirmation] = useState(false);
             const [categoryFilter, setCategoryFilter] = useState('all');
-            const [showAuthWarning, setShowAuthWarning] = useState(false);
+
 
             const handleTemplateClick = (template) => {
                 if (isSelecting) return;
                 
-                // Check if user is authenticated for premium templates
-                if (!user && template.premium) {
-                    setShowAuthWarning(true);
-                    return;
-                }
+
                 
                 setSelectedTemplate(template.id);
                 setShowConfirmation(true);
@@ -7242,18 +7233,7 @@
                                 React.createElement('h3', {
                                     key: 'name',
                                     className: 'font-bold text-gray-900'
-                                }, t(template.id)),
-                                template.premium && React.createElement('div', {
-                                    key: 'premium',
-                                    className: 'flex items-center gap-1 px-2 py-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs rounded-full font-medium'
-                                }, [
-                                    React.createElement('span', {
-                                        key: 'crown'
-                                    }, '👑'),
-                                    React.createElement('span', {
-                                        key: 'text'
-                                    }, 'PREMIUM')
-                                ])
+                                }, t(template.id))
                             ]),
                             React.createElement('p', {
                                 key: 'desc',
@@ -7319,53 +7299,7 @@
                         ])
                     ])
                 ]),
-                
-                // Authentication Warning Modal for Premium Templates
-                showAuthWarning && React.createElement('div', {
-                    key: 'auth-warning',
-                    className: 'fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50',
-                    onClick: () => setShowAuthWarning(false)
-                }, React.createElement('div', {
-                    className: 'bg-white rounded-2xl p-8 m-4 max-w-md w-full shadow-2xl',
-                    onClick: (e) => e.stopPropagation()
-                }, [
-                    React.createElement('div', {
-                        key: 'header',
-                        className: 'text-center mb-6'
-                    }, [
-                        React.createElement('div', {
-                            key: 'icon',
-                            className: 'text-6xl mb-4'
-                        }, '👑'),
-                        React.createElement('h2', {
-                            key: 'title',
-                            className: 'text-2xl font-bold text-gray-900 mb-2'
-                        }, t('premiumTemplate')),
-                        React.createElement('p', {
-                            key: 'desc',
-                            className: 'text-gray-600'
-                        }, t('premiumTemplateMessage'))
-                    ]),
-                    
-                    React.createElement('div', {
-                        key: 'actions',
-                        className: 'flex gap-3'
-                    }, [
-                        React.createElement('button', {
-                            key: 'cancel',
-                            onClick: () => setShowAuthWarning(false),
-                            className: 'flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors'
-                        }, t('cancel')),
-                        React.createElement('button', {
-                            key: 'sign-in',
-                            onClick: () => {
-                                setShowAuthWarning(false);
-                                onSelectTemplate(1); // Select first template instead of requiring auth
-                            },
-                            className: 'flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors'
-                        }, 'Continue')
-                    ])
-                ]))
+
             ]);
         }
 
