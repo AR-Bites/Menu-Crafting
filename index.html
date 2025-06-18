@@ -6564,10 +6564,8 @@
                     await signInWithGoogle();
                     addToast('Welcome! You are now logged in with Google.', 'success');
                     setIsLoggingIn(false);
-                    // Redirect to editor after successful Google signin
-                    setTimeout(() => {
-                        onContinue();
-                    }, 1000);
+                    // Immediate redirect to editor
+                    onContinue();
                 } catch (error) {
                     console.error('Google sign-in failed:', error);
                     addToast(error.message || 'Google sign-in failed. Please try again.', 'error');
@@ -6588,19 +6586,15 @@
                         console.log('Signup successful, user:', user);
                         addToast('Account created successfully! You are now logged in.', 'success');
                         setIsLoggingIn(false);
-                        // Redirect to editor after successful signup
-                        setTimeout(() => {
-                            onContinue();
-                        }, 1000);
+                        // Immediate redirect to editor
+                        onContinue();
                     } else if (authMode === 'signin') {
                         const user = await signInWithEmail(formData.email, formData.password);
                         console.log('Sign-in successful, user:', user);
                         addToast('Welcome back! You are now logged in.', 'success');
                         setIsLoggingIn(false);
-                        // Redirect to editor after successful signin
-                        setTimeout(() => {
-                            onContinue();
-                        }, 1000);
+                        // Immediate redirect to editor
+                        onContinue();
                     } else if (authMode === 'reset') {
                         await resetPassword(formData.email);
                         addToast('Password reset email sent! Check your inbox.', 'success');
@@ -7366,10 +7360,10 @@
                             key: 'sign-in',
                             onClick: () => {
                                 setShowAuthWarning(false);
-                                onSelectTemplate('AUTH_REQUIRED'); // Go to auth page
+                                onSelectTemplate(1); // Select first template instead of requiring auth
                             },
                             className: 'flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors'
-                        }, t('signInNow'))
+                        }, 'Continue')
                     ])
                 ]))
             ]);
@@ -7383,13 +7377,17 @@
             const [completedSteps, setCompletedSteps] = useState(new Set());
             const [isTransitioning, setIsTransitioning] = useState(false);
 
-            // Auto-redirect authenticated users to editor if they have a template selected
+            // Auto-redirect authenticated users to editor with default template
             useEffect(() => {
-                if (!loading && user && selectedTemplate && currentStep === STEPS.AUTH) {
+                if (!loading && user && currentStep === STEPS.AUTH) {
                     console.log('User authenticated, redirecting to editor...');
+                    // Set default template if none selected
+                    if (!selectedTemplate) {
+                        setSelectedTemplate(1); // Default to first template
+                    }
                     transitionToStep(STEPS.EDITOR);
                 }
-            }, [user, loading, selectedTemplate, currentStep]);
+            }, [user, loading, currentStep]);
 
             // Step transition with animation and browser history
             const transitionToStep = useCallback((nextStep, addToHistory = true) => {
@@ -7432,24 +7430,23 @@
             };
 
             const handleAuthContinue = () => {
+                // Set default template if none selected
+                if (!selectedTemplate) {
+                    setSelectedTemplate(1);
+                }
                 transitionToStep(STEPS.EDITOR);
             };
 
             const handleSelectTemplate = (template) => {
                 console.log('Template selected:', template);
-                if (template === 'AUTH_REQUIRED') {
-                    // Premium template selected, go to auth page
-                    transitionToStep(STEPS.AUTH);
+                setSelectedTemplate(template);
+                // All templates are free - go directly to editor if authenticated
+                if (user && !loading) {
+                    console.log('User already authenticated, going to editor');
+                    transitionToStep(STEPS.EDITOR);
                 } else {
-                    setSelectedTemplate(template);
-                    // Check if user is already authenticated
-                    if (user && !loading) {
-                        console.log('User already authenticated, going to editor');
-                        transitionToStep(STEPS.EDITOR);
-                    } else {
-                        console.log('User not authenticated, going to auth');
-                        transitionToStep(STEPS.AUTH);
-                    }
+                    console.log('User not authenticated, going to auth');
+                    transitionToStep(STEPS.AUTH);
                 }
             };
 
