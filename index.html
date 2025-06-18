@@ -20,7 +20,17 @@
     <!-- Firebase v9 SDK -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
-        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js';
+        import { 
+            getAuth, 
+            signInWithPopup, 
+            GoogleAuthProvider, 
+            signOut, 
+            onAuthStateChanged,
+            createUserWithEmailAndPassword,
+            signInWithEmailAndPassword,
+            sendPasswordResetEmail,
+            updateProfile
+        } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js';
         
         const firebaseConfig = {
             apiKey: "AIzaSyBF9ivzAugtsPc30IAm19991j3ioaoStlo",
@@ -34,14 +44,20 @@
         
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const provider = new GoogleAuthProvider();
+        const googleProvider = new GoogleAuthProvider();
+        googleProvider.addScope('email');
+        googleProvider.addScope('profile');
         
         // Make Firebase available globally
         window.firebaseAuth = auth;
-        window.firebaseProvider = provider;
+        window.firebaseGoogleProvider = googleProvider;
         window.firebaseSignInWithPopup = signInWithPopup;
         window.firebaseSignOut = signOut;
         window.onAuthStateChanged = onAuthStateChanged;
+        window.firebaseCreateUserWithEmailAndPassword = createUserWithEmailAndPassword;
+        window.firebaseSignInWithEmailAndPassword = signInWithEmailAndPassword;
+        window.firebaseSendPasswordResetEmail = sendPasswordResetEmail;
+        window.firebaseUpdateProfile = updateProfile;
     </script>
     
     <style>
@@ -2999,13 +3015,64 @@
                 checkFirebase();
             }, []);
 
-            const login = async () => {
+            const signInWithGoogle = async () => {
                 try {
-                    if (window.firebaseSignInWithPopup && window.firebaseAuth && window.firebaseProvider) {
-                        await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseProvider);
+                    if (window.firebaseSignInWithPopup && window.firebaseAuth && window.firebaseGoogleProvider) {
+                        await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseGoogleProvider);
                     }
                 } catch (error) {
-                    console.error('Login failed:', error);
+                    console.error('Google sign-in failed:', error);
+                    throw error;
+                }
+            };
+
+            const signUpWithEmail = async (email, password, displayName) => {
+                try {
+                    if (window.firebaseCreateUserWithEmailAndPassword && window.firebaseAuth) {
+                        const result = await window.firebaseCreateUserWithEmailAndPassword(
+                            window.firebaseAuth, 
+                            email, 
+                            password
+                        );
+                        
+                        // Update user profile with display name
+                        if (displayName && result.user && window.firebaseUpdateProfile) {
+                            await window.firebaseUpdateProfile(result.user, {
+                                displayName: displayName
+                            });
+                        }
+                        
+                        return result.user;
+                    }
+                } catch (error) {
+                    console.error('Email sign-up failed:', error);
+                    throw error;
+                }
+            };
+
+            const signInWithEmail = async (email, password) => {
+                try {
+                    if (window.firebaseSignInWithEmailAndPassword && window.firebaseAuth) {
+                        const result = await window.firebaseSignInWithEmailAndPassword(
+                            window.firebaseAuth, 
+                            email, 
+                            password
+                        );
+                        return result.user;
+                    }
+                } catch (error) {
+                    console.error('Email sign-in failed:', error);
+                    throw error;
+                }
+            };
+
+            const resetPassword = async (email) => {
+                try {
+                    if (window.firebaseSendPasswordResetEmail && window.firebaseAuth) {
+                        await window.firebaseSendPasswordResetEmail(window.firebaseAuth, email);
+                    }
+                } catch (error) {
+                    console.error('Password reset failed:', error);
                     throw error;
                 }
             };
@@ -3022,7 +3089,15 @@
             };
 
             return React.createElement(AuthContext.Provider, {
-                value: { user, loading, login, logout }
+                value: { 
+                    user, 
+                    loading, 
+                    signInWithGoogle, 
+                    signUpWithEmail, 
+                    signInWithEmail, 
+                    resetPassword, 
+                    logout 
+                }
             }, children);
         }
 
@@ -3199,6 +3274,8 @@
                 premiumTemplateMessage: "This is a premium template. Sign in to unlock all features and save your work.",
                 cancel: "Cancel",
                 signInNow: "Sign In Now",
+                signInWithEmail: "Sign In with Email",
+                createAccount: "Create Account",
                 yourName: "Your Name",
                 enterName: "Enter your name",
                 continueToTemplates: "Continue to Templates",
@@ -3365,7 +3442,7 @@
                 
                 // Mobile warning
                 mobileWarningTitle: "تم اكتشاف جهاز محمول",
-                mobileWarningMessage: "أنت تستخدم جهازاً محمولاً. لعرض تخطيطات الجهاز اللوحي أو سطح المكتب، يرجى استخدام شاشة أكبر.",
+                mobileWarningMessage: "أنت تستخ �م جهازاً محمولاً. لعرض تخطيطات الجهاز اللوحي أو سطح المكتب، يرجى استخدام شاشة أكبر.",
                 understood: "فهمت",
                 
                 // Placeholders
@@ -3394,6 +3471,8 @@
                 premiumTemplateMessage: "هذا قالب مميز. سجل دخولك لفتح جميع الميزات وحفظ عملك.",
                 cancel: "إلغاء",
                 signInNow: "تسجيل الدخول الآن",
+                signInWithEmail: "تسجيل الدخول بالبريد الإلكتروني",
+                createAccount: "إنشاء حساب",
                 yourName: "اسمك",
                 enterName: "أدخل اسمك",
                 continueToTemplates: "المتابعة إلى القوالب",
@@ -3415,7 +3494,7 @@
                 sectionDescAr: "وصف القسم (عربي)",
                 
                 // Validation
-                nameRequired: "الا �م مطلوب",
+                nameRequired: "الاسم مطلوب",
                 priceRequired: "السعر مطلوب",
                 invalidPrice: "يرجى إدخال سعر صحيح",
                 
@@ -6552,12 +6631,213 @@
                             }, isLoggingIn ? t('signingIn') : t('continueWithGoogle'))
                         ]),
                         
+                        // Email/Password Sign In Button
+                        React.createElement('button', {
+                            key: 'email-login',
+                            onClick: () => setShowEmailAuth('signin'),
+                            className: 'w-full flex items-center justify-center gap-3 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all duration-300 font-medium'
+                        }, [
+                            React.createElement('svg', {
+                                key: 'email-icon',
+                                className: 'w-5 h-5',
+                                fill: 'currentColor',
+                                viewBox: '0 0 20 20'
+                            }, React.createElement('path', {
+                                d: 'M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z'
+                            })),
+                            React.createElement('span', {
+                                key: 'text'
+                            }, t('signInWithEmail'))
+                        ]),
+                        
+                        // Sign Up Button
+                        React.createElement('button', {
+                            key: 'email-signup',
+                            onClick: () => setShowEmailAuth('signup'),
+                            className: 'w-full flex items-center justify-center gap-3 px-6 py-3 bg-white border-2 border-blue-600 text-blue-600 rounded-xl hover:bg-blue-50 transition-all duration-300 font-medium'
+                        }, [
+                            React.createElement('svg', {
+                                key: 'signup-icon',
+                                className: 'w-5 h-5',
+                                fill: 'currentColor',
+                                viewBox: '0 0 20 20'
+                            }, React.createElement('path', {
+                                d: 'M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z'
+                            })),
+                            React.createElement('span', {
+                                key: 'text'
+                            }, t('createAccount'))
+                        ]),
+                        
                         React.createElement('p', {
                             key: 'info',
                             className: 'text-sm text-gray-500 text-center mt-4'
                         }, t('signInRequired'))
+                    ]),
+                    
+                    React.createElement('div', {
+                        key: 'back-section',
+                        className: 'mt-8 pt-6 border-t border-gray-200'
+                    }, React.createElement('button', {
+                        key: 'back-btn',
+                        onClick: onBack,
+                        className: 'w-full text-gray-600 py-2 hover:text-gray-800 transition-colors flex items-center justify-center gap-2'
+                    }, [
+                        React.createElement('svg', {
+                            key: 'back-icon',
+                            className: 'w-4 h-4',
+                            fill: 'currentColor',
+                            viewBox: '0 0 20 20'
+                        }, React.createElement('path', {
+                            fillRule: 'evenodd',
+                            d: 'M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z',
+                            clipRule: 'evenodd'
+                        })),
+                        React.createElement('span', {
+                            key: 'text'
+                        }, t('back'))
+                    ]))
+                ]),
+                
+                // Email Authentication Modal
+                showEmailAuth && React.createElement('div', {
+                    key: 'email-auth-modal',
+                    className: 'fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50',
+                    onClick: () => setShowEmailAuth(null)
+                }, React.createElement('div', {
+                    className: 'bg-white rounded-2xl p-8 m-4 max-w-md w-full shadow-2xl',
+                    onClick: (e) => e.stopPropagation()
+                }, [
+                    React.createElement('div', {
+                        key: 'modal-header',
+                        className: 'text-center mb-6'
+                    }, [
+                        React.createElement('h2', {
+                            key: 'modal-title',
+                            className: 'text-2xl font-bold text-gray-900 mb-2'
+                        }, showEmailAuth === 'signup' ? t('signUp') : 
+                            showEmailAuth === 'reset' ? 'Reset Password' : t('logIn')),
+                        React.createElement('button', {
+                            key: 'close-btn',
+                            onClick: () => setShowEmailAuth(null),
+                            className: 'absolute top-4 right-4 text-gray-400 hover:text-gray-600'
+                        }, '✕')
+                    ]),
+                    
+                    React.createElement('form', {
+                        key: 'email-form',
+                        onSubmit: handleEmailAuth,
+                        className: 'space-y-4'
+                    }, [
+                        // Name field (signup only)
+                        showEmailAuth === 'signup' && React.createElement('div', {
+                            key: 'name-field'
+                        }, [
+                            React.createElement('input', {
+                                key: 'name-input',
+                                type: 'text',
+                                placeholder: t('enterName'),
+                                value: formData.displayName,
+                                onChange: (e) => updateFormData('displayName', e.target.value),
+                                className: `w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                                    errors.displayName ? 'border-red-500' : 'border-gray-300'
+                                }`
+                            }),
+                            errors.displayName && React.createElement('p', {
+                                key: 'name-error',
+                                className: 'text-red-500 text-sm mt-1'
+                            }, errors.displayName)
+                        ]),
+
+                        // Email field
+                        React.createElement('div', {
+                            key: 'email-field'
+                        }, [
+                            React.createElement('input', {
+                                key: 'email-input',
+                                type: 'email',
+                                placeholder: 'Email',
+                                value: formData.email,
+                                onChange: (e) => updateFormData('email', e.target.value),
+                                className: `w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                                    errors.email ? 'border-red-500' : 'border-gray-300'
+                                }`
+                            }),
+                            errors.email && React.createElement('p', {
+                                key: 'email-error',
+                                className: 'text-red-500 text-sm mt-1'
+                            }, errors.email)
+                        ]),
+
+                        // Password field (not for reset)
+                        showEmailAuth !== 'reset' && React.createElement('div', {
+                            key: 'password-field'
+                        }, [
+                            React.createElement('input', {
+                                key: 'password-input',
+                                type: 'password',
+                                placeholder: 'Password',
+                                value: formData.password,
+                                onChange: (e) => updateFormData('password', e.target.value),
+                                className: `w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                                    errors.password ? 'border-red-500' : 'border-gray-300'
+                                }`
+                            }),
+                            errors.password && React.createElement('p', {
+                                key: 'password-error',
+                                className: 'text-red-500 text-sm mt-1'
+                            }, errors.password)
+                        ]),
+
+                        // Confirm Password field (signup only)
+                        showEmailAuth === 'signup' && React.createElement('div', {
+                            key: 'confirm-password-field'
+                        }, [
+                            React.createElement('input', {
+                                key: 'confirm-password-input',
+                                type: 'password',
+                                placeholder: 'Confirm Password',
+                                value: formData.confirmPassword,
+                                onChange: (e) => updateFormData('confirmPassword', e.target.value),
+                                className: `w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                                    errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
+                                }`
+                            }),
+                            errors.confirmPassword && React.createElement('p', {
+                                key: 'confirm-password-error',
+                                className: 'text-red-500 text-sm mt-1'
+                            }, errors.confirmPassword)
+                        ]),
+
+                        // Submit button
+                        React.createElement('button', {
+                            key: 'submit-btn',
+                            type: 'submit',
+                            disabled: isLoggingIn,
+                            className: 'w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium shadow-md disabled:opacity-50'
+                        }, isLoggingIn ? t('loading') : 
+                            showEmailAuth === 'signup' ? t('signUp') : 
+                            showEmailAuth === 'reset' ? 'Send Reset Email' : t('logIn'))
+                    ]),
+
+                    // Auth Links
+                    React.createElement('div', {
+                        key: 'auth-links',
+                        className: 'text-center space-y-2 mt-4'
+                    }, [
+                        showEmailAuth === 'signin' && React.createElement('button', {
+                            key: 'forgot-password',
+                            onClick: () => setShowEmailAuth('reset'),
+                            className: 'text-blue-600 hover:text-blue-700 text-sm'
+                        }, 'Forgot Password?'),
+                        
+                        showEmailAuth === 'reset' && React.createElement('button', {
+                            key: 'back-to-signin',
+                            onClick: () => setShowEmailAuth('signin'),
+                            className: 'text-blue-600 hover:text-blue-700 text-sm'
+                        }, 'Back to Sign In')
                     ])
-                ])
+                ]))
             ]);
         }
 
