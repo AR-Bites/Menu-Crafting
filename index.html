@@ -2928,6 +2928,45 @@
         // Mobile warning storage key
         const MOBILE_WARNING_SHOWN_KEY = 'mobileWarningShown';
 
+        // Color scheme utility function
+        const getColorScheme = (scheme) => {
+            const schemes = {
+                indigo: { 
+                    primary: '#6366f1', 
+                    secondary: '#a5b4fc', 
+                    background: '#f8fafc', 
+                    surface: '#ffffff',
+                    text: '#1e293b',
+                    accent: '#4f46e5'
+                },
+                emerald: { 
+                    primary: '#10b981', 
+                    secondary: '#6ee7b7', 
+                    background: '#ecfdf5', 
+                    surface: '#ffffff',
+                    text: '#064e3b',
+                    accent: '#059669'
+                },
+                amber: { 
+                    primary: '#f59e0b', 
+                    secondary: '#fbbf24', 
+                    background: '#fffbeb', 
+                    surface: '#ffffff',
+                    text: '#92400e',
+                    accent: '#d97706'
+                },
+                rose: { 
+                    primary: '#e11d48', 
+                    secondary: '#fb7185', 
+                    background: '#fdf2f8', 
+                    surface: '#ffffff',
+                    text: '#881337',
+                    accent: '#be185d'
+                }
+            };
+            return schemes[scheme] || schemes.indigo;
+        };
+
         // Comprehensive translations with more content
         const translations = {
             en: {
@@ -3233,7 +3272,7 @@
                 
                 // Preview modes
                 desktop: "سطح المكتب",
-                mobile: "الها?�ف",
+                mobile: "الهاتف",
                 tablet: "اللوحي",
                 desktopView: "عرض سطح المكتب",
                 mobileView: "عرض الهاتف المحمول",
@@ -3433,6 +3472,51 @@
                         onRemove(toast.id);
                     }
                 }, '×')
+            ]);
+        }
+
+        // Toast Container Component
+        function ToastContainer() {
+            const { toasts, removeToast } = useToast();
+            
+            return React.createElement('div', {
+                className: 'fixed top-4 right-4 z-50 space-y-2'
+            }, toasts.map(toast => 
+                React.createElement(Toast, {
+                    key: toast.id,
+                    toast: toast,
+                    onRemove: removeToast
+                })
+            ));
+        }
+
+        // Simple Menu Editor Component
+        function MenuEditor({ template, onBack }) {
+            const { t } = useLanguage();
+            
+            return React.createElement('div', {
+                className: 'min-h-screen bg-gray-100 p-8'
+            }, [
+                React.createElement('div', {
+                    key: 'header',
+                    className: 'max-w-6xl mx-auto mb-8'
+                }, [
+                    React.createElement('button', {
+                        key: 'back',
+                        className: 'mb-4 px-4 py-2 bg-white rounded-lg shadow hover:shadow-md transition-shadow',
+                        onClick: onBack
+                    }, '← Back to Templates'),
+                    React.createElement('h1', {
+                        key: 'title',
+                        className: 'text-3xl font-bold text-gray-800'
+                    }, t('menuEditor'))
+                ]),
+                React.createElement('div', {
+                    key: 'content',
+                    className: 'max-w-6xl mx-auto bg-white rounded-xl shadow-lg p-8'
+                }, React.createElement('p', {
+                    className: 'text-gray-600'
+                }, 'Menu editor will be implemented here...'))
             ]);
         }
 
@@ -7076,7 +7160,12 @@
         }
 
         // Initialize the app
-        ReactDOM.render(React.createElement(RootApp), document.getElementById('root'));
+        try {
+            ReactDOM.render(React.createElement(RootApp), document.getElementById('root'));
+        } catch (error) {
+            console.error('React render error:', error);
+            document.getElementById('root').innerHTML = '<div style="padding: 20px; color: white;">Error loading application: ' + error.message + '</div>';
+        }
     </script>
 </body>
 </html>
