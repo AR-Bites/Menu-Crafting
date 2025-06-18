@@ -7159,13 +7159,38 @@
             );
         }
 
-        // Initialize the app
-        try {
-            ReactDOM.render(React.createElement(RootApp), document.getElementById('root'));
-        } catch (error) {
-            console.error('React render error:', error);
-            document.getElementById('root').innerHTML = '<div style="padding: 20px; color: white;">Error loading application: ' + error.message + '</div>';
+        // Debug function to test basic rendering
+        function TestApp() {
+            return React.createElement('div', {
+                style: { padding: '20px', color: 'white', background: 'rgba(0,0,0,0.8)', margin: '20px', borderRadius: '10px' }
+            }, 'React is working! Loading full app...');
         }
+
+        // Initialize the app with debug fallback
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, initializing React...');
+            
+            // Test basic React rendering first
+            try {
+                ReactDOM.render(React.createElement(TestApp), document.getElementById('root'));
+                console.log('Basic React test successful');
+                
+                // Wait a moment then load full app
+                setTimeout(() => {
+                    try {
+                        ReactDOM.render(React.createElement(RootApp), document.getElementById('root'));
+                        console.log('Full app loaded successfully');
+                    } catch (error) {
+                        console.error('Full app render error:', error);
+                        document.getElementById('root').innerHTML = '<div style="padding: 20px; color: white; background: rgba(255,0,0,0.8); margin: 20px; border-radius: 10px;">Full app error: ' + error.message + '<br><br>Stack: ' + error.stack + '</div>';
+                    }
+                }, 100);
+                
+            } catch (error) {
+                console.error('Basic React render error:', error);
+                document.getElementById('root').innerHTML = '<div style="padding: 20px; color: white; background: rgba(255,0,0,0.8); margin: 20px; border-radius: 10px;">Basic React error: ' + error.message + '</div>';
+            }
+        });
     </script>
 </body>
 </html>
