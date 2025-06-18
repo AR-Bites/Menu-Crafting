@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Restaurant Menu Builder - Create Beautiful Digital Menus</title>
     <!-- Force cache refresh -->
     <meta name="description" content="Create stunning restaurant menus with drag-and-drop interface, 3D models, multilingual support, and QR code generation. Perfect for modern restaurants.">
@@ -2369,24 +2369,369 @@
             font-size: 16px;
         }
 
+        /* MOBILE FIRST RESPONSIVE DESIGN */
         @media (max-width: 768px) {
             /* Complete mobile reset */
             html, body {
-                font-size: 16px;
-                overflow-x: hidden;
-                -webkit-text-size-adjust: 100%;
-                -ms-text-size-adjust: 100%;
-                touch-action: manipulation;
-                height: 100vh;
-                width: 100vw;
-                margin: 0;
-                padding: 0;
+                font-size: 16px !important;
+                overflow-x: hidden !important;
+                -webkit-text-size-adjust: 100% !important;
+                -ms-text-size-adjust: 100% !important;
+                touch-action: manipulation !important;
+                height: 100vh !important;
+                width: 100vw !important;
+                margin: 0 !important;
+                padding: 0 !important;
             }
 
             * {
-                -webkit-tap-highlight-color: transparent;
-                box-sizing: border-box;
+                -webkit-tap-highlight-color: transparent !important;
+                box-sizing: border-box !important;
             }
+
+            /* Mobile container base */
+            .container {
+                padding: 12px !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+            }
+
+            /* Mobile grid system override */
+            .grid-cols-1 { grid-template-columns: 1fr !important; }
+            .grid-cols-2 { grid-template-columns: 1fr !important; }
+            .grid-cols-3 { grid-template-columns: 1fr !important; }
+            .grid-cols-4 { grid-template-columns: 1fr !important; }
+            
+            /* Mobile spacing */
+            .gap-6 { gap: 1rem !important; }
+            .gap-8 { gap: 1.5rem !important; }
+            .p-6 { padding: 1rem !important; }
+            .p-8 { padding: 1.25rem !important; }
+            .m-6 { margin: 1rem !important; }
+            .m-8 { margin: 1.25rem !important; }
+
+            /* Mobile text sizes */
+            .text-4xl { font-size: 1.875rem !important; line-height: 2.25rem !important; }
+            .text-5xl { font-size: 2.25rem !important; line-height: 2.5rem !important; }
+            .text-6xl { font-size: 2.5rem !important; line-height: 1 !important; }
+
+            /* Mobile landing page optimization */
+            .hero-landing-redesigned {
+                padding: 1rem !important;
+                min-height: 100vh !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: center !important;
+                align-items: center !important;
+            }
+
+            .hero-content-redesigned {
+                text-align: center !important;
+                padding: 0 1rem !important;
+                max-width: 100% !important;
+            }
+
+            .hero-title-redesigned {
+                font-size: 2rem !important;
+                line-height: 1.2 !important;
+                margin-bottom: 1rem !important;
+            }
+
+            .hero-subtitle-redesigned {
+                font-size: 1.125rem !important;
+                line-height: 1.5 !important;
+                margin-bottom: 2rem !important;
+            }
+
+            /* Mobile template grid */
+            .template-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+                padding: 1rem !important;
+            }
+
+            .template-card-enhanced {
+                margin-bottom: 1.5rem !important;
+                border-radius: 12px !important;
+                overflow: hidden !important;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+            }
+
+            .realistic-preview {
+                height: 200px !important;
+                width: 100% !important;
+            }
+
+            /* Mobile template info */
+            .template-info {
+                padding: 1rem !important;
+            }
+
+            .template-info h3 {
+                font-size: 1.25rem !important;
+                margin-bottom: 0.5rem !important;
+            }
+
+            .template-info p {
+                font-size: 0.875rem !important;
+                line-height: 1.4 !important;
+                margin-bottom: 1rem !important;
+            }
+
+            /* Mobile button optimizations */
+            .btn {
+                min-height: 48px !important;
+                padding: 12px 24px !important;
+                font-size: 16px !important;
+                font-weight: 600 !important;
+                border-radius: 8px !important;
+                width: 100% !important;
+                margin-bottom: 0.5rem !important;
+                touch-action: manipulation !important;
+            }
+
+            .btn:active {
+                transform: scale(0.95) !important;
+                transition: transform 0.1s ease !important;
+            }
+
+            /* Mobile language toggle */
+            .language-toggle {
+                position: fixed !important;
+                top: 1rem !important;
+                right: 1rem !important;
+                z-index: 1000 !important;
+            }
+
+            .language-toggle button {
+                min-height: 44px !important;
+                padding: 8px 12px !important;
+                font-size: 14px !important;
+                border-radius: 6px !important;
+            }
+
+            /* Mobile modal optimizations */
+            .modal {
+                padding: 0 !important;
+                align-items: flex-end !important;
+            }
+
+            .modal-content {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                border-radius: 16px 16px 0 0 !important;
+                max-height: 80vh !important;
+                overflow-y: auto !important;
+                padding: 1.5rem !important;
+            }
+
+            /* Mobile form optimizations */
+            .input-field {
+                min-height: 48px !important;
+                padding: 12px 16px !important;
+                font-size: 16px !important;
+                border-radius: 8px !important;
+                width: 100% !important;
+                margin-bottom: 1rem !important;
+            }
+
+            /* Mobile navigation */
+            .flex.items-center.justify-between {
+                flex-direction: column !important;
+                gap: 1rem !important;
+                align-items: stretch !important;
+            }
+
+            .flex.gap-4 {
+                flex-direction: column !important;
+                gap: 0.75rem !important;
+            }
+
+            /* Mobile template confirmation */
+            .template-confirmation {
+                padding: 2rem 1rem !important;
+                text-align: center !important;
+            }
+
+            .template-confirmation h2 {
+                font-size: 1.75rem !important;
+                margin-bottom: 1rem !important;
+            }
+
+            .template-confirmation p {
+                font-size: 1rem !important;
+                margin-bottom: 2rem !important;
+            }
+
+            /* Mobile editor complete overhaul */
+            .editor-container {
+                display: flex !important;
+                flex-direction: column !important;
+                height: 100vh !important;
+                overflow: hidden !important;
+            }
+
+            .editor-header {
+                flex-shrink: 0 !important;
+                padding: 1rem !important;
+                background: white !important;
+                border-bottom: 1px solid #e5e7eb !important;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+            }
+
+            .editor-content {
+                flex: 1 !important;
+                overflow-y: auto !important;
+                padding: 1rem !important;
+                background: #f9fafb !important;
+            }
+
+            /* Mobile sections and items */
+            .section-card {
+                background: white !important;
+                border-radius: 12px !important;
+                padding: 1rem !important;
+                margin-bottom: 1rem !important;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.06) !important;
+                border: none !important;
+            }
+
+            .item-card {
+                background: #f8fafc !important;
+                border-radius: 8px !important;
+                padding: 0.75rem !important;
+                margin-bottom: 0.5rem !important;
+                border: 1px solid #e2e8f0 !important;
+            }
+
+            .section-title {
+                font-size: 1.25rem !important;
+                font-weight: 700 !important;
+                margin-bottom: 0.5rem !important;
+                color: #1f2937 !important;
+            }
+
+            .item-title {
+                font-size: 1rem !important;
+                font-weight: 600 !important;
+                color: #374151 !important;
+                margin-bottom: 0.25rem !important;
+            }
+
+            .item-price {
+                font-size: 1rem !important;
+                font-weight: 700 !important;
+                color: #059669 !important;
+            }
+
+            /* Mobile device preview optimization */
+            .preview-container {
+                position: relative !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 1rem !important;
+                background: white !important;
+                border-radius: 8px !important;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+            }
+
+            .preview-content {
+                width: 100% !important;
+                height: auto !important;
+                min-height: 400px !important;
+                overflow-y: auto !important;
+                border-radius: 8px !important;
+                border: 1px solid #e5e7eb !important;
+            }
+
+            /* Mobile action buttons */
+            .action-button {
+                width: 100% !important;
+                min-height: 48px !important;
+                margin-bottom: 0.75rem !important;
+                font-size: 16px !important;
+                font-weight: 600 !important;
+                border-radius: 8px !important;
+                padding: 12px 20px !important;
+            }
+
+            .fab-button {
+                position: fixed !important;
+                bottom: 20px !important;
+                right: 20px !important;
+                width: 56px !important;
+                height: 56px !important;
+                border-radius: 50% !important;
+                background: #3b82f6 !important;
+                color: white !important;
+                border: none !important;
+                box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4) !important;
+                font-size: 24px !important;
+                z-index: 1000 !important;
+            }
+
+            /* Mobile touch interactions */
+            .btn:active, .action-button:active, .fab-button:active {
+                transform: scale(0.95) !important;
+                transition: transform 0.1s ease !important;
+            }
+
+            /* Mobile viewport optimization */
+            .min-h-screen {
+                min-height: 100vh !important;
+                min-height: -webkit-fill-available !important;
+            }
+
+            /* Mobile safe area padding */
+            .safe-area-inset {
+                padding-bottom: env(safe-area-inset-bottom, 20px) !important;
+                padding-left: env(safe-area-inset-left, 0) !important;
+                padding-right: env(safe-area-inset-right, 0) !important;
+            }
+
+            /* Mobile scrolling optimization */
+            .scroll-container {
+                -webkit-overflow-scrolling: touch !important;
+                overflow-scrolling: touch !important;
+            }
+
+            /* Mobile authentication forms */
+            .auth-container {
+                padding: 1rem !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+            }
+
+            .auth-form {
+                background: white !important;
+                border-radius: 12px !important;
+                padding: 1.5rem !important;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+                width: 100% !important;
+            }
+
+            .auth-input {
+                width: 100% !important;
+                min-height: 48px !important;
+                padding: 12px 16px !important;
+                font-size: 16px !important;
+                border: 2px solid #e5e7eb !important;
+                border-radius: 8px !important;
+                margin-bottom: 1rem !important;
+            }
+
+            .auth-button {
+                width: 100% !important;
+                min-height: 48px !important;
+                font-size: 16px !important;
+                font-weight: 600 !important;
+                border-radius: 8px !important;
+                margin-bottom: 0.75rem !important;
+            }
+        }
 
             /* Mobile editor complete restructure */
             .mobile-editor {
@@ -2936,6 +3281,120 @@
                     opacity: 1;
                     transform: scale(1) translateY(0);
                 }
+            }
+        }
+
+        /* Mobile-First Critical Responsive Design */
+        @media (max-width: 768px) {
+            /* Force mobile layout */
+            * {
+                box-sizing: border-box !important;
+            }
+
+            html, body {
+                width: 100vw !important;
+                overflow-x: hidden !important;
+                touch-action: manipulation !important;
+                -webkit-text-size-adjust: 100% !important;
+            }
+
+            /* Mobile container fixes */
+            .container, .max-w-7xl, .max-w-6xl, .max-w-4xl {
+                max-width: 100% !important;
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+                margin: 0 !important;
+            }
+
+            /* Mobile grid system */
+            .grid {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+            }
+
+            /* Mobile buttons */
+            .btn, button {
+                min-height: 48px !important;
+                width: 100% !important;
+                font-size: 16px !important;
+                padding: 12px 20px !important;
+                margin-bottom: 0.5rem !important;
+                border-radius: 8px !important;
+                touch-action: manipulation !important;
+            }
+
+            /* Mobile text sizes */
+            .text-6xl { font-size: 2.5rem !important; }
+            .text-5xl { font-size: 2rem !important; }
+            .text-4xl { font-size: 1.75rem !important; }
+            .text-3xl { font-size: 1.5rem !important; }
+            .text-2xl { font-size: 1.25rem !important; }
+            .text-xl { font-size: 1.125rem !important; }
+
+            /* Mobile spacing */
+            .p-8 { padding: 1rem !important; }
+            .p-6 { padding: 0.75rem !important; }
+            .m-8 { margin: 1rem !important; }
+            .m-6 { margin: 0.75rem !important; }
+            .gap-8 { gap: 1rem !important; }
+            .gap-6 { gap: 0.75rem !important; }
+
+            /* Mobile template grid */
+            .template-grid {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 1rem !important;
+                padding: 1rem !important;
+            }
+
+            /* Mobile template cards */
+            .template-card-enhanced {
+                width: 100% !important;
+                margin-bottom: 1rem !important;
+                border-radius: 12px !important;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+            }
+
+            /* Mobile modals */
+            .modal {
+                align-items: flex-end !important;
+                padding: 0 !important;
+            }
+
+            .modal-content {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                border-radius: 16px 16px 0 0 !important;
+                max-height: 80vh !important;
+                overflow-y: auto !important;
+                padding: 1.5rem !important;
+            }
+
+            /* Mobile forms */
+            .input-field, input, textarea, select {
+                width: 100% !important;
+                min-height: 48px !important;
+                font-size: 16px !important;
+                padding: 12px 16px !important;
+                border-radius: 8px !important;
+                margin-bottom: 1rem !important;
+            }
+
+            /* Mobile navigation */
+            .flex {
+                flex-direction: column !important;
+                gap: 0.75rem !important;
+            }
+
+            .flex.items-center.justify-between {
+                flex-direction: column !important;
+                align-items: stretch !important;
+            }
+
+            /* Mobile safe area */
+            .safe-area {
+                padding-bottom: env(safe-area-inset-bottom, 20px) !important;
             }
         }
 
@@ -3569,6 +4028,26 @@
                 menuSaved: "تم حفظ القائمة بنجاح!",
             }
         };
+
+        // Mobile Detection Hook
+        function useIsMobile() {
+            const [isMobile, setIsMobile] = useState(false);
+            
+            useEffect(() => {
+                const checkMobile = () => {
+                    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+                    const mobileRegex = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i;
+                    const screenWidth = window.innerWidth <= 768;
+                    setIsMobile(mobileRegex.test(userAgent.toLowerCase()) || screenWidth);
+                };
+                
+                checkMobile();
+                window.addEventListener('resize', checkMobile);
+                return () => window.removeEventListener('resize', checkMobile);
+            }, []);
+            
+            return isMobile;
+        }
 
         // Language Context
         const LanguageContext = React.createContext();
@@ -7111,6 +7590,17 @@
             const [isSelecting, setIsSelecting] = useState(false);
             const [showConfirmation, setShowConfirmation] = useState(false);
             const [categoryFilter, setCategoryFilter] = useState('all');
+            const isMobile = useIsMobile();
+
+            // Apply mobile class to body when component mounts
+            useEffect(() => {
+                if (isMobile) {
+                    document.body.classList.add('mobile-device');
+                } else {
+                    document.body.classList.remove('mobile-device');
+                }
+                return () => document.body.classList.remove('mobile-device');
+            }, [isMobile]);
 
 
             const handleTemplateClick = (template) => {
