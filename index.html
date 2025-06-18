@@ -28,7 +28,7 @@
         
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 25%, #8b5cf6 75%, #ec4899 100%);
+            background: #ffffff;
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
@@ -41,10 +41,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(59, 130, 246, 0.2) 0%, transparent 50%);
+            background: transparent;
             pointer-events: none;
             z-index: 0;
         }
@@ -152,7 +149,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            background: rgba(255,255,255,0.3);
             transition: left 0.6s ease;
         }
 
@@ -203,7 +200,7 @@
             right: 0;
             bottom: 0;
             border-radius: inherit;
-            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            background: rgba(255,255,255,0.1);
             opacity: 0;
             transform: translateX(-100%);
             transition: all 0.6s ease;
@@ -337,7 +334,7 @@
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #667eea;
             color: white;
             box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
@@ -362,7 +359,7 @@
         }
         
         .btn-danger {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            background: #ef4444;
             color: white;
         }
         
@@ -417,28 +414,28 @@
         .color-scheme-indigo { 
             --primary: #667eea; 
             --secondary: #764ba2; 
-            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient: #667eea;
         }
         .color-scheme-emerald { 
             --primary: #10b981; 
             --secondary: #059669; 
-            --gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --gradient: #10b981;
         }
         .color-scheme-amber { 
             --primary: #f59e0b; 
             --secondary: #d97706; 
-            --gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            --gradient: #f59e0b;
         }
         .color-scheme-rose { 
             --primary: #f43f5e; 
             --secondary: #e11d48; 
-            --gradient: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+            --gradient: #f43f5e;
         }
         
         model-viewer {
             width: 100%;
             height: 250px;
-            background: linear-gradient(45deg, #f3f4f6, #e5e7eb);
+            background: #f3f4f6;
             border-radius: 12px;
             border: 2px solid #e5e7eb;
         }
@@ -482,7 +479,7 @@
         
         .section-header {
             padding: 16px 20px;
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            background: #f8fafc;
             border-bottom: 1px solid #e5e7eb;
             cursor: pointer;
             display: flex;
@@ -500,7 +497,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            background: rgba(102, 126, 234, 0.1);
             transition: left 0.5s ease;
         }
         
@@ -509,7 +506,7 @@
         }
         
         .section-header:hover {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #667eea;
             color: white;
         }
         
@@ -954,7 +951,7 @@
             transform: translateY(-20px) scale(1.05) !important;
             box-shadow: 0 0 0 6px #3b82f6, 0 40px 80px rgba(59, 130, 246, 0.5) !important;
             border: 4px solid #3b82f6 !important;
-            background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%) !important;
+            background: #ffffff !important;
             animation: selectedPulse 2s ease-in-out infinite;
         }
 
@@ -963,7 +960,7 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            background: #3b82f6;
             color: white;
             padding: 8px 16px;
             border-radius: 20px;
@@ -1065,7 +1062,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(0,0,0,0.5));
+            background: rgba(0,0,0,0.7);
             backdrop-filter: blur(8px);
             opacity: 0;
             transition: all 0.3s ease;
@@ -1349,7 +1346,7 @@
         }
 
         .section-header:hover {
-            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            background: #f1f5f9;
         }
 
         .section-title {
@@ -1476,7 +1473,7 @@
 
         /* ENHANCED DEVICE PREVIEW TOGGLE - ALWAYS VISIBLE LABELS + SMOOTH TRANSITIONS */
         .view-toggle {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+            background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(20px);
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 24px;
@@ -1497,7 +1494,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            background: rgba(255, 255, 255, 0.1);
             animation: shimmer 3s ease-in-out infinite;
             pointer-events: none;
         }
@@ -1553,7 +1550,7 @@
 
         /* ENHANCED HOVER EFFECTS */
         .view-toggle-btn:hover {
-            background: linear-gradient(135deg, #ffffff, #f8fafc);
+            background: #ffffff;
             color: #1a1a1a;
             transform: translateY(-3px) scale(1.02);
             box-shadow: 
@@ -1574,7 +1571,7 @@
 
         /* ENHANCED ACTIVE STATE WITH DISTINCT GLOW */
         .view-toggle-btn.active {
-            background: linear-gradient(135deg, #ffffff, #f8fafc) !important;
+            background: #ffffff !important;
             color: #1e293b !important;
             box-shadow: 
                 0 15px 40px rgba(0, 0, 0, 0.3),
@@ -1791,7 +1788,7 @@
 
         /* Enhanced CTA Button */
         .cta-button-enhanced {
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            background: #ffffff;
             color: #1e293b;
             padding: 20px 48px;
             border-radius: 50px;
@@ -1816,7 +1813,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            background: rgba(255,255,255,0.3);
             transition: left 0.6s ease;
         }
 
@@ -1827,7 +1824,7 @@
         .cta-button-enhanced:hover {
             transform: translateY(-3px) scale(1.05);
             box-shadow: 0 25px 60px rgba(0,0,0,0.25);
-            background: linear-gradient(135deg, #f1f5f9 0%, #ffffff 100%);
+            background: #f1f5f9;
         }
 
         .cta-text {
@@ -1922,7 +1919,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            background: rgba(255,255,255,0.4);
             transition: left 0.6s ease;
         }
 
@@ -2015,7 +2012,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #667eea;
             overflow: hidden;
         }
 
@@ -2026,9 +2023,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: 
-                radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+            background: rgba(255, 255, 255, 0.1);
             animation: backgroundPulse 6s ease-in-out infinite;
         }
 
@@ -2108,7 +2103,7 @@
         }
 
         .hero-cta-redesigned {
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            background: #ffffff;
             color: #1e293b;
             padding: 1.25rem 2.5rem;
             border-radius: 50px;
@@ -3444,7 +3439,7 @@
                 category: 'modern',
                 preview: {
                     theme: 'dark',
-                    headerBg: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)',
+                    headerBg: '#0f0f23',
                     accentColor: '#00f5ff',
                     secondaryColor: '#ff00aa',
                     typography: 'Inter',
@@ -3481,7 +3476,7 @@
                 category: 'elegant',
                 preview: {
                     theme: 'light',
-                    headerBg: 'linear-gradient(135deg, #f7f1e3 0%, #f5e6d3 50%, #e8d5b7 100%)',
+                    headerBg: '#f7f1e3',
                     accentColor: '#d4af37',
                     secondaryColor: '#8b4513',
                     typography: 'Playfair Display',
@@ -3518,7 +3513,7 @@
                 category: 'visual',
                 preview: {
                     theme: 'vibrant',
-                    headerBg: 'linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ffd23f 100%)',
+                    headerBg: '#ff6b35',
                     accentColor: '#ff6b35',
                     secondaryColor: '#2c3e50',
                     typography: 'Montserrat',
@@ -3555,7 +3550,7 @@
                 category: 'minimal',
                 preview: {
                     theme: 'minimal',
-                    headerBg: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #e9ecef 100%)',
+                    headerBg: '#ffffff',
                     accentColor: '#2d3748',
                     secondaryColor: '#718096',
                     typography: 'Inter',
@@ -4526,7 +4521,7 @@
                         }, [
                             React.createElement('div', {
                                 key: 'header',
-                                className: `p-4 text-white bg-gradient-to-r ${colorGradient}`
+                                className: `p-4 text-white bg-blue-600`
                             }, [
                                 React.createElement('h1', {
                                     key: 'name',
@@ -4575,7 +4570,7 @@
             }, [
                 React.createElement('div', {
                     key: 'header',
-                    className: `p-8 text-white bg-gradient-to-r ${colorGradient}`
+                    className: `p-8 text-white bg-blue-600`
                 }, [
                     React.createElement('h1', {
                         key: 'name',
@@ -4668,7 +4663,7 @@
                     }, [
                         React.createElement('div', {
                             key: 'icon-container',
-                            className: 'w-14 h-14 mx-auto mb-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-md'
+                            className: 'w-14 h-14 mx-auto mb-3 bg-blue-500 rounded-2xl flex items-center justify-center shadow-md'
                         }, [
                             React.createElement('span', {
                                 key: 'icon',
@@ -4699,7 +4694,7 @@
                             }, [
                                 React.createElement('div', {
                                     key: 'icon',
-                                    className: 'w-10 h-10 bg-gradient-to-br from-indigo-100 to-blue-100 rounded-lg flex items-center justify-center'
+                                    className: 'w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center'
                                 }, '🌐'),
                                 React.createElement('div', {
                                     key: 'text'
@@ -5038,7 +5033,7 @@
                             React.createElement('p', {
                                 key: 'pdf-description',
                                 className: 'text-gray-600 text-sm'
-                            }, isRTL ? 'احصل على نسخة PDF من قائمتك للطباعة أو الg�شاركة' : 'Get a PDF version of your menu for printing or sharing'),
+                            }, isRTL ? 'احصل على نسخة PDF من قائمتك للطباعة أو المشاركة' : 'Get a PDF version of your menu for printing or sharing'),
                             
                             React.createElement('button', {
                                 key: 'pdf-download',
@@ -6020,13 +6015,13 @@
             const closeAuth = () => setShowAuth(null);
 
             return React.createElement('div', {
-                className: `min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 ${isRTL ? 'rtl' : ''}`,
+                className: `min-h-screen bg-white ${isRTL ? 'rtl' : ''}`,
                 dir: isRTL ? 'rtl' : 'ltr'
             }, [
                 // Navigation Header
                 React.createElement('nav', {
                     key: 'navigation',
-                    className: 'fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm'
+                    className: 'fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200'
                 }, React.createElement('div', {
                     className: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'
                 }, React.createElement('div', {
@@ -6130,7 +6125,7 @@
                     React.createElement('button', {
                         key: 'start-crafting-btn',
                         onClick: () => scrollToSection('templates'),
-                        className: 'px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-lg font-semibold rounded-xl hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl'
+                        className: 'px-8 py-4 bg-blue-600 text-white text-lg font-semibold rounded-xl hover:bg-blue-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl'
                     }, t('startCrafting'))
                 ]))),
 
@@ -6164,12 +6159,12 @@
                         // Template 1
                         React.createElement('div', {
                             key: 'template-1',
-                            className: 'group bg-gradient-to-br from-purple-100 to-blue-100 rounded-2xl p-6 hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 cursor-pointer border border-purple-200',
+                            className: 'group bg-purple-100 rounded-2xl p-6 hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 cursor-pointer border border-purple-200',
                             onClick: () => onContinue()
                         }, [
                             React.createElement('div', {
                                 key: 'template-preview',
-                                className: 'h-48 bg-gradient-to-br from-purple-600 to-blue-600 rounded-xl mb-4 flex items-center justify-center text-white text-2xl font-bold'
+                                className: 'h-48 bg-purple-600 rounded-xl mb-4 flex items-center justify-center text-white text-2xl font-bold'
                             }, '🌟'),
                             React.createElement('h3', {
                                 key: 'template-name',
@@ -6184,12 +6179,12 @@
                         // Template 2
                         React.createElement('div', {
                             key: 'template-2',
-                            className: 'group bg-gradient-to-br from-rose-100 to-pink-100 rounded-2xl p-6 hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 cursor-pointer border border-rose-200',
+                            className: 'group bg-rose-100 rounded-2xl p-6 hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 cursor-pointer border border-rose-200',
                             onClick: () => onContinue()
                         }, [
                             React.createElement('div', {
                                 key: 'template-preview',
-                                className: 'h-48 bg-gradient-to-br from-rose-600 to-pink-600 rounded-xl mb-4 flex items-center justify-center text-white text-2xl font-bold'
+                                className: 'h-48 bg-rose-600 rounded-xl mb-4 flex items-center justify-center text-white text-2xl font-bold'
                             }, '✨'),
                             React.createElement('h3', {
                                 key: 'template-name',
@@ -6204,12 +6199,12 @@
                         // Template 3
                         React.createElement('div', {
                             key: 'template-3',
-                            className: 'group bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl p-6 hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 cursor-pointer border border-green-200',
+                            className: 'group bg-green-100 rounded-2xl p-6 hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 cursor-pointer border border-green-200',
                             onClick: () => onContinue()
                         }, [
                             React.createElement('div', {
                                 key: 'template-preview',
-                                className: 'h-48 bg-gradient-to-br from-green-600 to-emerald-600 rounded-xl mb-4 flex items-center justify-center text-white text-2xl font-bold'
+                                className: 'h-48 bg-green-600 rounded-xl mb-4 flex items-center justify-center text-white text-2xl font-bold'
                             }, '🎨'),
                             React.createElement('h3', {
                                 key: 'template-name',
@@ -6282,7 +6277,7 @@
                                 e.preventDefault();
                                 onContinue();
                             },
-                            className: 'w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors'
+                            className: 'w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors'
                         }, showAuth === 'login' ? t('logIn') : t('signUp')),
                         React.createElement('p', {
                             key: 'auth-switch',
@@ -6472,10 +6467,10 @@
                     key: 'header',
                     style: {
                         background: headerStyle === 'gradient' 
-                            ? `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`
+                            ? colors.primary
                             : headerStyle === 'solid' 
                                 ? colors.primary
-                                : `linear-gradient(135deg, ${colors.primary}, ${colors.accent})`,
+                                : colors.primary,
                         padding: paddingValue,
                         textAlign: 'center',
                         height: spacing === 5 ? '100px' : spacing === 4 ? '90px' : '80px',
