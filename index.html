@@ -6637,7 +6637,11 @@
                 try {
                     await signInWithGoogle();
                     addToast('Welcome! You are now logged in with Google.', 'success');
-                    // User will be automatically redirected via AuthProvider
+                    setIsLoggingIn(false);
+                    // Redirect to editor after successful Google signin
+                    setTimeout(() => {
+                        onContinue();
+                    }, 1000);
                 } catch (error) {
                     console.error('Google sign-in failed:', error);
                     addToast(error.message || 'Google sign-in failed. Please try again.', 'error');
@@ -6657,12 +6661,20 @@
                         const user = await signUpWithEmail(formData.email, formData.password, formData.displayName);
                         console.log('Signup successful, user:', user);
                         addToast('Account created successfully! You are now logged in.', 'success');
-                        // Don't set loading to false here, let the auth state change handle it
+                        setIsLoggingIn(false);
+                        // Redirect to editor after successful signup
+                        setTimeout(() => {
+                            onContinue();
+                        }, 1000);
                     } else if (authMode === 'signin') {
                         const user = await signInWithEmail(formData.email, formData.password);
                         console.log('Sign-in successful, user:', user);
                         addToast('Welcome back! You are now logged in.', 'success');
-                        // Don't set loading to false here, let the auth state change handle it
+                        setIsLoggingIn(false);
+                        // Redirect to editor after successful signin
+                        setTimeout(() => {
+                            onContinue();
+                        }, 1000);
                     } else if (authMode === 'reset') {
                         await resetPassword(formData.email);
                         addToast('Password reset email sent! Check your inbox.', 'success');
@@ -6736,7 +6748,7 @@
                 // Main authentication card
                 React.createElement('div', {
                     key: 'auth-card',
-                    className: 'bg-white/10 backdrop-blur-lg rounded-3xl p-8 max-w-md w-full shadow-2xl border border-white/20 relative z-10'
+                    className: 'bg-white/95 backdrop-blur-lg rounded-3xl p-8 max-w-md w-full shadow-2xl border border-white/30 relative z-10'
                 }, [
                     // Header section
                     React.createElement('div', {
@@ -6751,11 +6763,11 @@
                         }, '🍽️')),
                         React.createElement('h1', {
                             key: 'title',
-                            className: 'text-3xl font-bold text-white mb-2'
+                            className: 'text-3xl font-bold text-gray-800 mb-2'
                         }, 'Welcome Back'),
                         React.createElement('p', {
                             key: 'subtitle',
-                            className: 'text-white/80 text-lg'
+                            className: 'text-gray-600 text-lg'
                         }, 'Sign in to continue building your menu')
                     ]),
                     
@@ -6764,7 +6776,7 @@
                         key: 'google-btn',
                         onClick: handleGoogleLogin,
                         disabled: isLoggingIn,
-                        className: 'w-full flex items-center justify-center gap-3 px-6 py-4 bg-white hover:bg-gray-50 text-gray-800 font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 mb-6'
+                        className: 'w-full flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 mb-6 disabled:opacity-50'
                     }, [
                         React.createElement('svg', {
                             key: 'google-icon',
@@ -6804,32 +6816,32 @@
                     }, [
                         React.createElement('div', {
                             key: 'line1',
-                            className: 'flex-1 h-px bg-white/20'
+                            className: 'flex-1 h-px bg-gray-300'
                         }),
                         React.createElement('span', {
                             key: 'text',
-                            className: 'px-4 text-white/60 text-sm'
+                            className: 'px-4 text-gray-500 text-sm'
                         }, 'or'),
                         React.createElement('div', {
                             key: 'line2',
-                            className: 'flex-1 h-px bg-white/20'
+                            className: 'flex-1 h-px bg-gray-300'
                         })
                     ]),
                         
                     // Auth mode tabs
                     React.createElement('div', {
                         key: 'auth-tabs',
-                        className: 'flex bg-white/10 rounded-2xl p-1 mb-6'
+                        className: 'flex bg-gray-100 rounded-2xl p-1 mb-6'
                     }, [
                         React.createElement('button', {
                             key: 'signin-tab',
                             onClick: () => setAuthMode('signin'),
-                            className: `flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all ${authMode === 'signin' ? 'bg-white text-gray-800 shadow-lg' : 'text-white/70 hover:text-white'}`
+                            className: `flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all ${authMode === 'signin' ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg' : 'text-gray-600 hover:text-gray-800'}`
                         }, 'Sign In'),
                         React.createElement('button', {
                             key: 'signup-tab',
                             onClick: () => setAuthMode('signup'),
-                            className: `flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all ${authMode === 'signup' ? 'bg-white text-gray-800 shadow-lg' : 'text-white/70 hover:text-white'}`
+                            className: `flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all ${authMode === 'signup' ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg' : 'text-gray-600 hover:text-gray-800'}`
                         }, 'Sign Up')
                     ]),
 
@@ -6846,7 +6858,7 @@
                             placeholder: 'Full Name',
                             value: formData.displayName,
                             onChange: (e) => updateFormData('displayName', e.target.value),
-                            className: 'w-full px-4 py-4 bg-white/10 border border-white/20 rounded-2xl focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all text-white placeholder-white/60',
+                            className: 'w-full px-4 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-gray-800 placeholder-gray-500',
                             required: true
                         }) : null,
 
@@ -6857,7 +6869,7 @@
                             placeholder: 'Email Address',
                             value: formData.email,
                             onChange: (e) => updateFormData('email', e.target.value),
-                            className: 'w-full px-4 py-4 bg-white/10 border border-white/20 rounded-2xl focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all text-white placeholder-white/60',
+                            className: 'w-full px-4 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-gray-800 placeholder-gray-500',
                             required: true
                         }),
 
@@ -6868,7 +6880,7 @@
                             placeholder: 'Password',
                             value: formData.password,
                             onChange: (e) => updateFormData('password', e.target.value),
-                            className: 'w-full px-4 py-4 bg-white/10 border border-white/20 rounded-2xl focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all text-white placeholder-white/60',
+                            className: 'w-full px-4 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-gray-800 placeholder-gray-500',
                             required: true
                         }) : null,
 
@@ -6879,7 +6891,7 @@
                             placeholder: 'Confirm Password',
                             value: formData.confirmPassword,
                             onChange: (e) => updateFormData('confirmPassword', e.target.value),
-                            className: 'w-full px-4 py-4 bg-white/10 border border-white/20 rounded-2xl focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all text-white placeholder-white/60',
+                            className: 'w-full px-4 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-gray-800 placeholder-gray-500',
                             required: true
                         }) : null,
 
@@ -6902,7 +6914,7 @@
                         }, React.createElement('button', {
                             type: 'button',
                             onClick: () => setAuthMode('reset'),
-                            className: 'text-white/80 hover:text-white underline text-sm'
+                            className: 'text-blue-600 hover:text-blue-700 underline text-sm'
                         }, 'Forgot your password?')) : null,
 
                         authMode === 'reset' ? React.createElement('div', {
@@ -6911,7 +6923,7 @@
                         }, React.createElement('button', {
                             type: 'button',
                             onClick: () => setAuthMode('signin'),
-                            className: 'text-white/80 hover:text-white underline text-sm'
+                            className: 'text-blue-600 hover:text-blue-700 underline text-sm'
                         }, 'Back to Sign In')) : null
                     ]),
 
@@ -6921,7 +6933,7 @@
                         className: 'mt-8 text-center'
                     }, React.createElement('button', {
                         onClick: onBack,
-                        className: 'text-white/60 hover:text-white/80 underline text-sm'
+                        className: 'text-gray-500 hover:text-gray-700 underline text-sm'
                     }, 'Back to Templates'))
                 ])
             ]);
