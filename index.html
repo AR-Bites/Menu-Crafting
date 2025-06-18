@@ -8526,389 +8526,150 @@
             const isMobile = window.innerWidth <= 768 || /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase());
             
             if (isMobile) {
-                // Replace entire body with mobile-first design
-                document.body.innerHTML = `
-                    <div id="mobile-app" style="
-                        margin: 0;
-                        padding: 0;
-                        min-height: 100vh;
-                        width: 100vw;
-                        overflow-x: hidden;
-                        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: center;
-                        align-items: center;
-                        text-align: center;
-                        color: white;
-                        position: relative;
-                    ">
-                        <!-- Language Toggle -->
-                        <div style="
-                            position: absolute;
-                            top: 20px;
-                            right: 20px;
-                            z-index: 1000;
-                        ">
-                            <button onclick="toggleLanguage()" style="
-                                background: rgba(255,255,255,0.2);
-                                color: white;
-                                border: 2px solid rgba(255,255,255,0.3);
-                                padding: 8px 16px;
-                                border-radius: 20px;
-                                font-size: 14px;
-                                font-weight: 600;
-                                cursor: pointer;
-                                backdrop-filter: blur(10px);
-                                -webkit-backdrop-filter: blur(10px);
-                                transition: all 0.2s ease;
-                                min-height: 44px;
-                                min-width: 60px;
-                            " onmousedown="this.style.transform='scale(0.95)'" onmouseup="this.style.transform='scale(1)'">
-                                <span id="lang-text">EN</span>
-                            </button>
-                        </div>
-
-                        <!-- Main Content -->
-                        <div style="
-                            max-width: 350px;
-                            width: calc(100% - 40px);
-                            padding: 20px;
-                        ">
-                            <!-- Logo -->
-                            <div style="
-                                font-size: 80px;
-                                margin-bottom: 30px;
-                                filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
-                                animation: float 3s ease-in-out infinite;
-                            ">🍽️</div>
-
-                            <!-- Title -->
-                            <h1 style="
-                                font-size: 32px;
-                                font-weight: 800;
-                                margin: 0 0 16px 0;
-                                line-height: 1.2;
-                                text-shadow: 0 2px 8px rgba(0,0,0,0.3);
-                            " id="main-title">Menu Craft</h1>
-
-                            <!-- Subtitle -->
-                            <p style="
-                                font-size: 18px;
-                                margin: 0 0 40px 0;
-                                line-height: 1.5;
-                                opacity: 0.95;
-                                font-weight: 400;
-                            " id="main-subtitle">Create stunning restaurant menus in minutes</p>
-
-                            <!-- CTA Button -->
-                            <button onclick="startApp()" style="
-                                width: 100%;
-                                min-height: 60px;
-                                font-size: 18px;
-                                font-weight: 700;
-                                padding: 18px 24px;
-                                border-radius: 16px;
-                                background: white;
-                                color: #667eea;
-                                border: none;
-                                box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-                                cursor: pointer;
-                                transition: all 0.3s ease;
-                                margin-bottom: 40px;
-                                backdrop-filter: blur(10px);
-                                -webkit-backdrop-filter: blur(10px);
-                            " id="start-btn" onmousedown="this.style.transform='scale(0.96)'; this.style.boxShadow='0 4px 16px rgba(0,0,0,0.3)'" onmouseup="this.style.transform='scale(1)'; this.style.boxShadow='0 8px 32px rgba(0,0,0,0.2)'">
-                                Get Started
-                            </button>
-
-                            <!-- Features -->
-                            <div style="
-                                display: flex;
-                                flex-direction: column;
-                                gap: 20px;
-                                align-items: center;
-                            ">
-                                <div style="display: flex; align-items: center; gap: 12px; font-size: 16px; font-weight: 500;">
-                                    <span style="font-size: 24px;">🎨</span>
-                                    <span id="feature-1">Beautiful Templates</span>
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 12px; font-size: 16px; font-weight: 500;">
-                                    <span style="font-size: 24px;">🌍</span>
-                                    <span id="feature-2">Arabic & English</span>
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 12px; font-size: 16px; font-weight: 500;">
-                                    <span style="font-size: 24px;">📱</span>
-                                    <span id="feature-3">Mobile Optimized</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Template Selection Screen (Hidden Initially) -->
-                        <div id="template-screen" style="
-                            display: none;
-                            position: fixed;
-                            top: 0;
-                            left: 0;
-                            right: 0;
-                            bottom: 0;
-                            background: #f8fafc;
-                            z-index: 2000;
-                            overflow-y: auto;
-                        ">
-                            <!-- Header -->
-                            <div style="
-                                background: white;
-                                padding: 20px;
-                                border-bottom: 1px solid #e2e8f0;
-                                position: sticky;
-                                top: 0;
-                                z-index: 100;
-                                box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-                            ">
-                                <div style="
-                                    display: flex;
-                                    justify-content: space-between;
-                                    align-items: center;
-                                ">
-                                    <h2 style="
-                                        font-size: 24px;
-                                        font-weight: 700;
-                                        color: #1e293b;
-                                        margin: 0;
-                                    " id="template-title">Choose Template</h2>
-                                    <button onclick="toggleLanguage()" style="
-                                        background: #f1f5f9;
-                                        color: #475569;
-                                        border: none;
-                                        padding: 8px 16px;
-                                        border-radius: 8px;
-                                        font-size: 14px;
-                                        font-weight: 600;
-                                        cursor: pointer;
-                                        min-height: 44px;
-                                    ">
-                                        <span id="lang-text-2">EN</span>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Templates Grid -->
-                            <div style="
-                                padding: 20px;
-                                display: flex;
-                                flex-direction: column;
-                                gap: 20px;
-                            ">
-                                <!-- Modern Template -->
-                                <div onclick="selectTemplate('modern')" style="
-                                    background: white;
-                                    border-radius: 16px;
-                                    overflow: hidden;
-                                    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-                                    cursor: pointer;
-                                    transition: transform 0.2s ease;
-                                " onmousedown="this.style.transform='scale(0.98)'" onmouseup="this.style.transform='scale(1)'">
-                                    <div style="
-                                        height: 200px;
-                                        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                                        display: flex;
-                                        align-items: center;
-                                        justify-content: center;
-                                        color: white;
-                                        font-size: 18px;
-                                        font-weight: 700;
-                                    ">Modern Restaurant</div>
-                                    <div style="padding: 20px;">
-                                        <h3 style="margin: 0 0 8px 0; font-size: 18px; font-weight: 700; color: #1e293b;" id="modern-name">Modern Template</h3>
-                                        <p style="margin: 0 0 12px 0; color: #64748b; font-size: 14px; line-height: 1.4;" id="modern-desc">Clean and contemporary design</p>
-                                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                                            <span style="background: #f1f5f9; color: #475569; padding: 6px 12px; border-radius: 6px; font-size: 12px;">Modern</span>
-                                            <span style="background: #f1f5f9; color: #475569; padding: 6px 12px; border-radius: 6px; font-size: 12px;">Clean</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Elegant Template -->
-                                <div onclick="selectTemplate('elegant')" style="
-                                    background: white;
-                                    border-radius: 16px;
-                                    overflow: hidden;
-                                    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-                                    cursor: pointer;
-                                    transition: transform 0.2s ease;
-                                " onmousedown="this.style.transform='scale(0.98)'" onmouseup="this.style.transform='scale(1)'">
-                                    <div style="
-                                        height: 200px;
-                                        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-                                        display: flex;
-                                        align-items: center;
-                                        justify-content: center;
-                                        color: white;
-                                        font-size: 18px;
-                                        font-weight: 700;
-                                    ">Elegant Dining</div>
-                                    <div style="padding: 20px;">
-                                        <h3 style="margin: 0 0 8px 0; font-size: 18px; font-weight: 700; color: #1e293b;" id="elegant-name">Elegant Template</h3>
-                                        <p style="margin: 0 0 12px 0; color: #64748b; font-size: 14px; line-height: 1.4;" id="elegant-desc">Sophisticated and refined style</p>
-                                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                                            <span style="background: #f1f5f9; color: #475569; padding: 6px 12px; border-radius: 6px; font-size: 12px;">Elegant</span>
-                                            <span style="background: #f1f5f9; color: #475569; padding: 6px 12px; border-radius: 6px; font-size: 12px;">Luxury</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Casual Template -->
-                                <div onclick="selectTemplate('casual')" style="
-                                    background: white;
-                                    border-radius: 16px;
-                                    overflow: hidden;
-                                    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-                                    cursor: pointer;
-                                    transition: transform 0.2s ease;
-                                " onmousedown="this.style.transform='scale(0.98)'" onmouseup="this.style.transform='scale(1)'">
-                                    <div style="
-                                        height: 200px;
-                                        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-                                        display: flex;
-                                        align-items: center;
-                                        justify-content: center;
-                                        color: white;
-                                        font-size: 18px;
-                                        font-weight: 700;
-                                    ">Casual Cafe</div>
-                                    <div style="padding: 20px;">
-                                        <h3 style="margin: 0 0 8px 0; font-size: 18px; font-weight: 700; color: #1e293b;" id="casual-name">Casual Template</h3>
-                                        <p style="margin: 0 0 12px 0; color: #64748b; font-size: 14px; line-height: 1.4;" id="casual-desc">Friendly and approachable design</p>
-                                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                                            <span style="background: #f1f5f9; color: #475569; padding: 6px 12px; border-radius: 6px; font-size: 12px;">Casual</span>
-                                            <span style="background: #f1f5f9; color: #475569; padding: 6px 12px; border-radius: 6px; font-size: 12px;">Friendly</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <style>
-                        html, body {
-                            margin: 0 !important;
-                            padding: 0 !important;
-                            width: 100vw !important;
-                            overflow-x: hidden !important;
-                            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-                            font-size: 16px !important;
-                            background: #f8fafc !important;
-                        }
-
-                        @keyframes float {
-                            0%, 100% { transform: translateY(0px); }
-                            50% { transform: translateY(-10px); }
-                        }
-
-                        * {
-                            -webkit-tap-highlight-color: transparent !important;
-                            box-sizing: border-box !important;
-                        }
-
-                        button:active {
-                            transform: scale(0.95) !important;
-                        }
-                    </style>
-
-                    <script>
-                        let currentLanguage = 'en';
-                        
-                        const translations = {
-                            en: {
-                                mainTitle: 'Menu Craft',
-                                mainSubtitle: 'Create stunning restaurant menus in minutes',
-                                getStarted: 'Get Started',
-                                feature1: 'Beautiful Templates',
-                                feature2: 'Arabic & English',
-                                feature3: 'Mobile Optimized',
-                                templateTitle: 'Choose Template',
-                                modernName: 'Modern Template',
-                                modernDesc: 'Clean and contemporary design',
-                                elegantName: 'Elegant Template',
-                                elegantDesc: 'Sophisticated and refined style',
-                                casualName: 'Casual Template',
-                                casualDesc: 'Friendly and approachable design'
-                            },
-                            ar: {
-                                mainTitle: 'صانع القوائم',
-                                mainSubtitle: 'اصنع قوائم طعام رائعة في دقائق',
-                                getStarted: 'ابدأ الآن',
-                                feature1: 'قوالب جميلة',
-                                feature2: 'عربي وإنجليزي',
-                                feature3: 'محسن للجوال',
-                                templateTitle: 'اختر القالب',
-                                modernName: 'قالب حديث',
-                                modernDesc: 'تصميم نظيف وعصري',
-                                elegantName: 'قالب أنيق',
-                                elegantDesc: 'أسلوب راقي ومتطور',
-                                casualName: 'قالب عادي',
-                                casualDesc: 'تصميم ودود ومقارب'
-                            }
-                        };
-
-                        function updateTexts() {
-                            const t = translations[currentLanguage];
-                            document.getElementById('main-title').textContent = t.mainTitle;
-                            document.getElementById('main-subtitle').textContent = t.mainSubtitle;
-                            document.getElementById('start-btn').textContent = t.getStarted;
-                            document.getElementById('feature-1').textContent = t.feature1;
-                            document.getElementById('feature-2').textContent = t.feature2;
-                            document.getElementById('feature-3').textContent = t.feature3;
-                            document.getElementById('template-title').textContent = t.templateTitle;
-                            document.getElementById('modern-name').textContent = t.modernName;
-                            document.getElementById('modern-desc').textContent = t.modernDesc;
-                            document.getElementById('elegant-name').textContent = t.elegantName;
-                            document.getElementById('elegant-desc').textContent = t.elegantDesc;
-                            document.getElementById('casual-name').textContent = t.casualName;
-                            document.getElementById('casual-desc').textContent = t.casualDesc;
-                            
-                            document.getElementById('lang-text').textContent = currentLanguage === 'en' ? 'AR' : 'EN';
-                            document.getElementById('lang-text-2').textContent = currentLanguage === 'en' ? 'AR' : 'EN';
-                            
-                            // RTL support
-                            if (currentLanguage === 'ar') {
-                                document.body.dir = 'rtl';
-                                document.body.style.fontFamily = 'system-ui, -apple-system, sans-serif';
-                            } else {
-                                document.body.dir = 'ltr';
-                                document.body.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
-                            }
-                        }
-
-                        function toggleLanguage() {
-                            currentLanguage = currentLanguage === 'en' ? 'ar' : 'en';
-                            updateTexts();
-                        }
-
-                        function startApp() {
-                            document.getElementById('template-screen').style.display = 'block';
-                            document.getElementById('template-screen').style.animation = 'slideInUp 0.3s ease-out';
-                        }
-
-                        function selectTemplate(templateId) {
-                            alert('Template selected: ' + templateId + '\\nMobile interface working perfectly!\\nFull editor will load here.');
-                        }
-
-                        // Initialize
-                        updateTexts();
-                    </script>
-                `;
+                // Create mobile interface using DOM methods instead of innerHTML
+                document.body.innerHTML = '';
                 
-                return; // Don't load React app for mobile
+                // Create main container
+                const mobileApp = document.createElement('div');
+                mobileApp.id = 'mobile-app';
+                mobileApp.style.cssText = 'margin:0;padding:0;min-height:100vh;width:100vw;overflow-x:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;color:white;position:relative';
+                
+                // Create language toggle
+                const langContainer = document.createElement('div');
+                langContainer.style.cssText = 'position:absolute;top:20px;right:20px;z-index:1000';
+                const langBtn = document.createElement('button');
+                langBtn.onclick = function() { toggleLanguage(); };
+                langBtn.style.cssText = 'background:rgba(255,255,255,0.2);color:white;border:2px solid rgba(255,255,255,0.3);padding:8px 16px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s ease;min-height:44px;min-width:60px';
+                langBtn.innerHTML = '<span id="lang-text">EN</span>';
+                langContainer.appendChild(langBtn);
+                
+                // Create main content
+                const mainContent = document.createElement('div');
+                mainContent.style.cssText = 'max-width:350px;width:calc(100% - 40px);padding:20px';
+                
+                // Logo
+                const logo = document.createElement('div');
+                logo.style.cssText = 'font-size:80px;margin-bottom:30px;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.3))';
+                logo.innerHTML = '🍽️';
+                
+                // Title
+                const title = document.createElement('h1');
+                title.id = 'main-title';
+                title.style.cssText = 'font-size:32px;font-weight:800;margin:0 0 16px 0;line-height:1.2;text-shadow:0 2px 8px rgba(0,0,0,0.3)';
+                title.textContent = 'Menu Craft';
+                
+                // Subtitle
+                const subtitle = document.createElement('p');
+                subtitle.id = 'main-subtitle';
+                subtitle.style.cssText = 'font-size:18px;margin:0 0 40px 0;line-height:1.5;opacity:0.95;font-weight:400';
+                subtitle.textContent = 'Create stunning restaurant menus in minutes';
+                
+                // CTA Button
+                const ctaBtn = document.createElement('button');
+                ctaBtn.id = 'start-btn';
+                ctaBtn.onclick = function() { startApp(); };
+                ctaBtn.style.cssText = 'width:100%;min-height:60px;font-size:18px;font-weight:700;padding:18px 24px;border-radius:16px;background:white;color:#667eea;border:none;box-shadow:0 8px 32px rgba(0,0,0,0.2);cursor:pointer;transition:all 0.3s ease;margin-bottom:40px';
+                ctaBtn.textContent = 'Get Started';
+                
+                // Features
+                const features = document.createElement('div');
+                features.style.cssText = 'display:flex;flex-direction:column;gap:20px;align-items:center';
+                
+                const feature1 = document.createElement('div');
+                feature1.style.cssText = 'display:flex;align-items:center;gap:12px;font-size:16px;font-weight:500';
+                feature1.innerHTML = '<span style="font-size:24px">🎨</span><span id="feature-1">Beautiful Templates</span>';
+                
+                const feature2 = document.createElement('div');
+                feature2.style.cssText = 'display:flex;align-items:center;gap:12px;font-size:16px;font-weight:500';
+                feature2.innerHTML = '<span style="font-size:24px">🌍</span><span id="feature-2">Arabic & English</span>';
+                
+                const feature3 = document.createElement('div');
+                feature3.style.cssText = 'display:flex;align-items:center;gap:12px;font-size:16px;font-weight:500';
+                feature3.innerHTML = '<span style="font-size:24px">📱</span><span id="feature-3">Mobile Optimized</span>';
+                
+                features.appendChild(feature1);
+                features.appendChild(feature2);
+                features.appendChild(feature3);
+                
+                // Assemble main content
+                mainContent.appendChild(logo);
+                mainContent.appendChild(title);
+                mainContent.appendChild(subtitle);
+                mainContent.appendChild(ctaBtn);
+                mainContent.appendChild(features);
+                
+                // Template selection screen
+                const templateScreen = document.createElement('div');
+                templateScreen.id = 'template-screen';
+                templateScreen.style.cssText = 'display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#f8fafc;z-index:2000;overflow-y:auto';
+                
+                // Assemble mobile app
+                mobileApp.appendChild(langContainer);
+                mobileApp.appendChild(mainContent);
+                mobileApp.appendChild(templateScreen);
+                
+                // Add to body
+                document.body.appendChild(mobileApp);
+                
+                // Add JavaScript functions
+                window.currentLanguage = 'en';
+                
+                window.translations = {
+                    en: {
+                        mainTitle: 'Menu Craft',
+                        mainSubtitle: 'Create stunning restaurant menus in minutes',
+                        getStarted: 'Get Started',
+                        feature1: 'Beautiful Templates',
+                        feature2: 'Arabic & English',
+                        feature3: 'Mobile Optimized'
+                    },
+                    ar: {
+                        mainTitle: 'صانع القوائم',
+                        mainSubtitle: 'اصنع قوائم طعام رائعة في دقائق',
+                        getStarted: 'ابدأ الآن',
+                        feature1: 'قوالب جميلة',
+                        feature2: 'عربي وإنجليزي',
+                        feature3: 'محسن للجوال'
+                    }
+                };
+                
+                window.updateTexts = function() {
+                    const t = window.translations[window.currentLanguage];
+                    document.getElementById('main-title').textContent = t.mainTitle;
+                    document.getElementById('main-subtitle').textContent = t.mainSubtitle;
+                    document.getElementById('start-btn').textContent = t.getStarted;
+                    document.getElementById('feature-1').textContent = t.feature1;
+                    document.getElementById('feature-2').textContent = t.feature2;
+                    document.getElementById('feature-3').textContent = t.feature3;
+                    document.getElementById('lang-text').textContent = window.currentLanguage === 'en' ? 'AR' : 'EN';
+                    
+                    if (window.currentLanguage === 'ar') {
+                        document.body.dir = 'rtl';
+                    } else {
+                        document.body.dir = 'ltr';
+                    }
+                };
+                
+                window.toggleLanguage = function() {
+                    window.currentLanguage = window.currentLanguage === 'en' ? 'ar' : 'en';
+                    window.updateTexts();
+                };
+                
+                window.startApp = function() {
+                    alert('Mobile interface working perfectly! Template selection will load here.');
+                };
+                
+                // Initialize
+                window.updateTexts();
+                
+                return;
             }
         }
 
-        // Check if mobile and replace interface
+        // Initialize mobile or desktop interface
         initializeMobileApp();
 
-        // Only load React app if not mobile
+        // Load React app for desktop only
         if (window.innerWidth > 768 && !/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase())) {
             ReactDOM.render(React.createElement(RootApp), document.getElementById('root'));
         }
