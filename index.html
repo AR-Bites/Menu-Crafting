@@ -2991,6 +2991,8 @@
                 "elegantTemplateDesc": "Sophisticated design for upscale dining establishments",
                 "creativetTemplate": "Creative & Bold",
                 "creativeTemplateDesc": "Eye-catching designs for unique restaurant concepts",
+                "viewTemplates": "View Templates",
+                "exploreAllTemplates": "Explore All Templates",
                 
                 // Editor
                 menuEditor: "Menu Editor",
@@ -3176,6 +3178,8 @@
                 "elegantTemplateDesc": "تصميم راقي لمطاعم الدرجة الأولى",
                 "creativetTemplate": "إبداعي وجريء",
                 "creativeTemplateDesc": "تصاميم لافتة للنظر لمفاهيم المطاعم المميزة",
+                "viewTemplates": "عرض القوالب",
+                "exploreAllTemplates": "استكشف جميع القوالب",
                 
                 // Editor
                 menuEditor: "محرر القائمة",
@@ -5034,7 +5038,7 @@
                             React.createElement('p', {
                                 key: 'pdf-description',
                                 className: 'text-gray-600 text-sm'
-                            }, isRTL ? 'احصل على نسخة PDF من قائمتك للطباعة أو المشاركة' : 'Get a PDF version of your menu for printing or sharing'),
+                            }, isRTL ? 'احصل على نسخة PDF من قائمتك للطباعة أو الg�شاركة' : 'Get a PDF version of your menu for printing or sharing'),
                             
                             React.createElement('button', {
                                 key: 'pdf-download',
@@ -5994,18 +5998,16 @@
         // Step management with guided flow
         const STEPS = {
             LANDING: 'landing',
-            AUTH: 'auth', 
             TEMPLATE: 'template',
+            AUTH: 'auth',
             EDITOR: 'editor',
             PREVIEW: 'preview',
             SHARE: 'share'
         };
 
-        // Landing Page Component
+        // Landing Page Component - Clean Canva Style
         function LandingPage({ onContinue }) {
             const { t, isRTL, toggleLanguage } = useLanguage();
-            const [showAuth, setShowAuth] = useState(null); // 'login' or 'signup'
-            const [currentSection, setCurrentSection] = useState('hero');
             
             const scrollToSection = (sectionId) => {
                 const element = document.getElementById(sectionId);
@@ -6633,12 +6635,13 @@
             ]);
         }
 
-        // Enhanced Template Selection with Live Previews
+        // Enhanced Template Selection Component - Canva Style
         function EnhancedTemplateSelection({ onSelectTemplate }) {
             const { t, isRTL, toggleLanguage, language } = useLanguage();
             const [selectedTemplate, setSelectedTemplate] = useState(null);
             const [isSelecting, setIsSelecting] = useState(false);
             const [showConfirmation, setShowConfirmation] = useState(false);
+            const [categoryFilter, setCategoryFilter] = useState('all');
 
             const handleTemplateClick = (template) => {
                 if (isSelecting) return;
@@ -6858,16 +6861,20 @@
 
             // Step handlers
             const handleLandingContinue = () => {
+                transitionToStep(STEPS.TEMPLATE);
+            };
+
+            const handleTemplateAuth = () => {
                 transitionToStep(STEPS.AUTH);
             };
 
             const handleAuthContinue = () => {
-                transitionToStep(STEPS.TEMPLATE);
+                transitionToStep(STEPS.EDITOR);
             };
 
             const handleSelectTemplate = (template) => {
                 setSelectedTemplate(template);
-                transitionToStep(STEPS.EDITOR);
+                transitionToStep(STEPS.AUTH);
             };
 
             const handleBackToTemplates = () => {
@@ -6898,8 +6905,8 @@
                 const initialUrl = window.location.hash.slice(1) || 'home';
                 const stepFromUrl = {
                     'home': STEPS.LANDING,
-                    'auth': STEPS.AUTH,
                     'templates': STEPS.TEMPLATE,
+                    'auth': STEPS.AUTH,
                     'editor': STEPS.EDITOR
                 }[initialUrl] || STEPS.LANDING;
                 
@@ -6912,9 +6919,9 @@
                 };
             }, [transitionToStep, currentStep]);
 
-            // Prevent skipping steps
+            // Prevent skipping steps - updated order
             const canAccessStep = (step) => {
-                const stepOrder = [STEPS.LANDING, STEPS.AUTH, STEPS.TEMPLATE, STEPS.EDITOR];
+                const stepOrder = [STEPS.LANDING, STEPS.TEMPLATE, STEPS.AUTH, STEPS.EDITOR];
                 const stepIndex = stepOrder.indexOf(step);
                 const currentIndex = stepOrder.indexOf(currentStep);
                 
@@ -6927,13 +6934,13 @@
                         return React.createElement(LandingPage, {
                             onContinue: handleLandingContinue
                         });
-                    case STEPS.AUTH:
-                        return React.createElement(AuthPage, {
-                            onContinue: handleAuthContinue
-                        });
                     case STEPS.TEMPLATE:
                         return React.createElement(EnhancedTemplateSelection, {
                             onSelectTemplate: handleSelectTemplate
+                        });
+                    case STEPS.AUTH:
+                        return React.createElement(AuthPage, {
+                            onContinue: handleAuthContinue
                         });
                     case STEPS.EDITOR:
                         return React.createElement(MenuEditor, {
