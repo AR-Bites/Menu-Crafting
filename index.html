@@ -1690,23 +1690,37 @@
             border-color: rgba(255, 255, 255, 0.5);
         }
 
-        /* COMPLETE MOBILE-FIRST REDESIGN */
+        /* COMPREHENSIVE MOBILE OPTIMIZATION */
         @media (max-width: 768px) {
-            /* Base mobile reset */
+            /* Base mobile reset with viewport fixes */
             * {
                 -webkit-tap-highlight-color: transparent !important;
                 touch-action: manipulation !important;
                 box-sizing: border-box !important;
             }
             
-            html, body {
+            html {
                 font-size: 16px !important;
-                overflow-x: hidden !important;
                 -webkit-text-size-adjust: 100% !important;
+                height: 100% !important;
+                overflow-x: hidden !important;
+            }
+            
+            body {
                 margin: 0 !important;
                 padding: 0 !important;
+                width: 100% !important;
+                min-height: 100vh !important;
+                overflow-x: hidden !important;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+            }
+            
+            /* Viewport meta fixes */
+            .screen {
                 width: 100vw !important;
-                height: 100vh !important;
+                min-height: 100vh !important;
+                overflow-x: hidden !important;
+                padding: 1rem !important;
             }
             
             /* Mobile container optimization */
@@ -1716,32 +1730,68 @@
                 max-width: 100% !important;
             }
             
-            /* Landing page mobile */
+            /* Landing page mobile - Optimized spacing */
             .hero-landing-redesigned {
-                padding: 2rem 1rem !important;
+                padding: 1rem !important;
                 min-height: 100vh !important;
                 justify-content: center !important;
+                display: flex !important;
+                flex-direction: column !important;
             }
             
             .hero-title {
-                font-size: 2.5rem !important;
-                line-height: 1.2 !important;
-                margin-bottom: 1rem !important;
+                font-size: 2rem !important;
+                line-height: 1.1 !important;
+                margin-bottom: 0.75rem !important;
                 text-align: center !important;
+                padding: 0 0.5rem !important;
             }
             
             .hero-subtitle {
-                font-size: 1.125rem !important;
-                line-height: 1.4 !important;
-                margin-bottom: 2rem !important;
+                font-size: 1rem !important;
+                line-height: 1.3 !important;
+                margin-bottom: 1.5rem !important;
                 text-align: center !important;
                 padding: 0 1rem !important;
+                max-width: 90% !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
             }
             
             .hero-3d-logo {
-                width: 160px !important;
-                height: 160px !important;
+                width: 120px !important;
+                height: 120px !important;
+                margin-bottom: 1.5rem !important;
+            }
+            
+            /* Header mobile optimization */
+            .text-5xl {
+                font-size: 2rem !important;
+                line-height: 2.25rem !important;
+            }
+            
+            .text-4xl {
+                font-size: 1.75rem !important;
+                line-height: 2rem !important;
+            }
+            
+            /* Template selection header mobile */
+            .screen .text-center.mb-16 {
                 margin-bottom: 2rem !important;
+                padding: 0 0.5rem !important;
+            }
+            
+            .screen .text-center.mb-16 h1 {
+                font-size: 1.875rem !important;
+                line-height: 2.25rem !important;
+                margin-bottom: 1rem !important;
+            }
+            
+            .screen .text-center.mb-16 p {
+                font-size: 1rem !important;
+                line-height: 1.4 !important;
+                margin-bottom: 1.5rem !important;
+                padding: 0 0.5rem !important;
             }
             
             /* Touch-optimized buttons */
@@ -1764,46 +1814,70 @@
                 transform: scale(0.95) !important;
             }
             
-            /* Template grid mobile */
+            /* Template grid mobile - Optimized layout */
             .template-grid {
+                display: grid !important;
                 grid-template-columns: 1fr !important;
-                gap: 2rem !important;
-                padding: 1rem !important;
+                gap: 1.5rem !important;
+                padding: 0.5rem !important;
                 margin: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
             }
             
             .template-card-enhanced {
                 width: 100% !important;
-                margin-bottom: 2rem !important;
-                border-radius: 20px !important;
+                max-width: 100% !important;
+                margin: 0 0 1rem 0 !important;
+                border-radius: 16px !important;
                 overflow: hidden !important;
-                box-shadow: 0 8px 32px rgba(0,0,0,0.12) !important;
+                box-shadow: 0 4px 16px rgba(0,0,0,0.1) !important;
                 background: white !important;
+                transform: none !important;
+                transition: transform 0.2s ease !important;
+            }
+            
+            .template-card-enhanced:active {
+                transform: scale(0.98) !important;
             }
             
             .realistic-preview {
-                height: 300px !important;
+                height: 240px !important;
                 width: 100% !important;
-                border-radius: 20px 20px 0 0 !important;
+                border-radius: 16px 16px 0 0 !important;
+                object-fit: cover !important;
             }
             
             .template-info {
-                padding: 1.5rem !important;
+                padding: 1rem !important;
                 background: white !important;
             }
             
             .template-info h3 {
-                font-size: 1.375rem !important;
-                margin-bottom: 0.75rem !important;
-                font-weight: 700 !important;
+                font-size: 1.125rem !important;
+                margin-bottom: 0.5rem !important;
+                font-weight: 600 !important;
                 color: #1f2937 !important;
+                line-height: 1.3 !important;
             }
             
             .template-info p {
-                font-size: 1rem !important;
-                line-height: 1.6 !important;
-                margin-bottom: 1rem !important;
+                font-size: 0.875rem !important;
+                line-height: 1.4 !important;
+                margin-bottom: 0.75rem !important;
                 color: #6b7280 !important;
+            }
+            
+            /* Template features mobile */
+            .flex.gap-2.flex-wrap {
+                gap: 0.5rem !important;
+                margin-bottom: 0.5rem !important;
+            }
+            
+            .flex.gap-2.flex-wrap span {
+                font-size: 0.75rem !important;
+                padding: 0.25rem 0.5rem !important;
+                border-radius: 6px !important;
             }
             
             /* Language toggle mobile */
@@ -1979,32 +2053,61 @@
                 box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
             }
             
-            /* Category filter mobile */
+            /* Category filter mobile - Compact design */
             .category-filter {
                 display: flex !important;
                 flex-wrap: wrap !important;
-                gap: 0.75rem !important;
-                margin-bottom: 2rem !important;
-                padding: 0 1rem !important;
+                gap: 0.5rem !important;
+                margin-bottom: 1.5rem !important;
+                padding: 0 0.5rem !important;
                 justify-content: center !important;
+                max-width: 100% !important;
             }
             
             .category-filter button {
-                min-height: 40px !important;
-                padding: 10px 18px !important;
-                font-size: 14px !important;
-                border-radius: 20px !important;
-                border: 2px solid #e5e7eb !important;
+                min-height: 36px !important;
+                padding: 8px 14px !important;
+                font-size: 13px !important;
+                border-radius: 18px !important;
+                border: 1px solid #e5e7eb !important;
                 background: white !important;
                 color: #6b7280 !important;
                 font-weight: 500 !important;
                 transition: all 0.2s ease !important;
+                flex-shrink: 0 !important;
             }
             
             .category-filter button.active {
                 background: #3b82f6 !important;
                 color: white !important;
                 border-color: #3b82f6 !important;
+            }
+            
+            /* Navigation buttons mobile */
+            .fixed.top-4.right-4 {
+                top: 0.75rem !important;
+                right: 0.75rem !important;
+            }
+            
+            .fixed.top-4.right-4 button {
+                font-size: 14px !important;
+                padding: 8px 12px !important;
+                min-height: 40px !important;
+            }
+            
+            /* Back button mobile */
+            .mb-6 button {
+                font-size: 14px !important;
+                padding: 10px 16px !important;
+                min-height: 44px !important;
+            }
+            
+            /* Skip button mobile */
+            .inline-flex.items-center.gap-2 {
+                font-size: 14px !important;
+                padding: 12px 20px !important;
+                min-height: 44px !important;
+                margin-top: 1rem !important;
             }
             
             /* Mobile typography */
@@ -7633,39 +7736,7 @@
                             animationDelay: `${index * 100}ms`,
                             transform: selectedTemplate === template.id ? 'translateY(-4px)' : 'translateY(0)'
                         },
-                        onClick: () => {
-                            // Direct selection on mobile for better UX
-                            if (window.innerWidth <= 768) {
-                                const selectedTemplateObj = template;
-                                const menuWithTemplate = {
-                                    name: 'My Restaurant',
-                                    tagline: 'Delicious cuisine awaits',
-                                    colorScheme: selectedTemplateObj.colorScheme,
-                                    fontFamily: selectedTemplateObj.fontFamily,
-                                    spacing: selectedTemplateObj.spacing,
-                                    headerStyle: selectedTemplateObj.headerStyle,
-                                    sections: [{
-                                        id: 1,
-                                        name: 'Appetizers',
-                                        nameAr: 'المقبلات',
-                                        items: []
-                                    }]
-                                };
-                                
-                                // Show quick confirmation toast
-                                const toast = document.createElement('div');
-                                toast.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg z-50 shadow-lg';
-                                toast.textContent = 'Template selected! Starting editor...';
-                                document.body.appendChild(toast);
-                                
-                                setTimeout(() => {
-                                    document.body.removeChild(toast);
-                                    onSelectTemplate(menuWithTemplate);
-                                }, 1000);
-                            } else {
-                                handleTemplateClick(template);
-                            }
-                        }
+                        onClick: () => handleTemplateClick(template)
                     }, [
                         // Realistic template preview that matches editing experience
                         React.createElement(RealisticTemplatePreview, {
@@ -7712,45 +7783,67 @@
                 showConfirmation && selectedTemplateData && React.createElement('div', {
                     key: 'confirmation',
                     id: 'template-confirmation',
-                    className: 'confirmation-section max-w-2xl mx-auto text-center'
+                    className: 'fixed inset-0 z-50 flex items-end md:items-center justify-center bg-black bg-opacity-50',
+                    onClick: (e) => {
+                        if (e.target === e.currentTarget) {
+                            document.body.style.overflow = 'auto';
+                            setSelectedTemplate(null);
+                            setShowConfirmation(false);
+                        }
+                    }
                 }, [
                     React.createElement('div', {
-                        key: 'content',
-                        className: 'confirmation-content'
+                        key: 'modal',
+                        className: 'w-full max-w-lg mx-4 mb-0 md:mb-4 bg-white rounded-t-3xl md:rounded-3xl p-6 md:p-8 shadow-2xl transform transition-all duration-300',
+                        onClick: (e) => e.stopPropagation(),
+                        style: {
+                            animation: 'slideUpMobile 0.3s ease-out',
+                            paddingBottom: 'calc(1.5rem + env(safe-area-inset-bottom))'
+                        }
                     }, [
+                        // Mobile drag handle
                         React.createElement('div', {
-                            key: 'icon',
-                            className: 'confirmation-icon mb-6'
-                        }, '✨'),
-                        React.createElement('h2', {
-                            key: 'title',
-                            className: 'text-3xl font-bold text-black mb-4'
-                        }, t('perfectChoice')),
-                        React.createElement('p', {
-                            key: 'desc',
-                            className: 'text-xl text-black mb-8'
-                        }, `${t('selectedTemplate')} "${t(selectedTemplateData.id)}" ${t('useTemplate').toLowerCase()}`),
+                            key: 'handle',
+                            className: 'w-12 h-1 bg-gray-300 rounded-full mx-auto mb-6 md:hidden'
+                        }),
                         React.createElement('div', {
-                            key: 'actions',
-                            className: 'flex flex-col gap-3'
+                            key: 'content',
+                            className: 'text-center'
                         }, [
-                            React.createElement('button', {
-                                key: 'confirm',
-                                className: 'w-full mb-3 py-4 px-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all active:scale-95 disabled:opacity-50',
-                                onClick: handleConfirmSelection,
-                                disabled: isSelecting,
-                                style: { minHeight: '56px' }
-                            }, isSelecting ? 'Creating Menu...' : 'Start Building →'),
-                            React.createElement('button', {
-                                key: 'back',
-                                className: 'w-full py-3 px-6 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-xl transition-all active:scale-95',
-                                onClick: () => {
-                                    document.body.style.overflow = 'auto';
-                                    setSelectedTemplate(null);
-                                    setShowConfirmation(false);
-                                },
-                                style: { minHeight: '48px' }
-                            }, 'Choose Different Template')
+                            React.createElement('div', {
+                                key: 'icon',
+                                className: 'text-6xl mb-4'
+                            }, '✨'),
+                            React.createElement('h2', {
+                                key: 'title',
+                                className: 'text-2xl md:text-3xl font-bold text-gray-900 mb-3'
+                            }, 'Perfect Choice!'),
+                            React.createElement('p', {
+                                key: 'desc',
+                                className: 'text-lg text-gray-600 mb-6'
+                            }, `You selected "${t(selectedTemplateData.id)}" template`),
+                            React.createElement('div', {
+                                key: 'actions',
+                                className: 'space-y-3'
+                            }, [
+                                React.createElement('button', {
+                                    key: 'confirm',
+                                    className: 'w-full py-4 px-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed',
+                                    onClick: handleConfirmSelection,
+                                    disabled: isSelecting,
+                                    style: { minHeight: '56px' }
+                                }, isSelecting ? 'Creating Menu...' : 'Start Building →'),
+                                React.createElement('button', {
+                                    key: 'back',
+                                    className: 'w-full py-3 px-6 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-xl transition-all active:scale-95',
+                                    onClick: () => {
+                                        document.body.style.overflow = 'auto';
+                                        setSelectedTemplate(null);
+                                        setShowConfirmation(false);
+                                    },
+                                    style: { minHeight: '48px' }
+                                }, 'Choose Different Template')
+                            ])
                         ])
                     ])
                 ]),
